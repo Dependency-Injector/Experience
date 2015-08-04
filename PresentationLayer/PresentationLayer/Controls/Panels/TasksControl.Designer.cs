@@ -54,10 +54,8 @@ namespace PresentationLayer.Controls.Panels
             this.taskEditor1.Priority = 0;
             this.taskEditor1.Size = new System.Drawing.Size(250, 300);
             this.taskEditor1.StartDate = null;
-            this.taskEditor1.Status = null;
             this.taskEditor1.TabIndex = 1;
             this.taskEditor1.TaskName = "";
-            this.taskEditor1.Tasks = null;
             this.taskEditor1.UseCustomBackColor = true;
             this.taskEditor1.UseSelectable = true;
             // 

@@ -1,5 +1,12 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using MetroFramework.Controls;
 using PresentationLayer.Views;
 
@@ -14,8 +21,8 @@ namespace PresentationLayer.Controls.Editors
 
         public string TaskName
         {
-            get { return taskNameTextBox.Text; }
-            set { taskNameTextBox.Text = value; }
+            get { return nameTextBox.Text; }
+            set { nameTextBox.Text = value; }
         }
 
         public int Priority
@@ -24,9 +31,9 @@ namespace PresentationLayer.Controls.Editors
             {
                 if (lowPriorityRadioButton.Checked)
                     return 1;
-                else if (mediumPriorityButton.Checked)
+                else if (mediumPriorityRadioButton.Checked)
                     return 2;
-                else if (highPriorityButton.Checked)
+                else if (highPriorityRadioButton.Checked)
                     return 3;
                 else
                     return 0;
@@ -40,15 +47,30 @@ namespace PresentationLayer.Controls.Editors
                         lowPriorityRadioButton.Checked = true;
                         break;
                     case 2:
-                        mediumPriorityButton.Checked = true;
+                        mediumPriorityRadioButton.Checked = true;
                         break;
                     case 3:
-                        highPriorityButton.Checked = true;
+                        highPriorityRadioButton.Checked = true;
                         break;
                 }
             }
         }
 
+        public DateTime? StartDate
+        {
+            get
+            {
+                return DateTime.Now;
+            }
+            set
+            {
+                if (value.HasValue)
+                    dueDateTime.Value = value.Value;
+                else
+                    dueDateTime.Value = DateTime.Now.AddDays(7);
+
+            }
+        }
         public DateTime? DueDate
         {
             get { return dueDateTime.Value; }
@@ -64,12 +86,13 @@ namespace PresentationLayer.Controls.Editors
         public bool IsFinished { get; set; }
         public DateTime? FinishDate { get; set; }
         public bool IsDirty { get; set; }
+
         public event EventHandler<EventArgs> SaveTask;
         public event EventHandler<EventArgs> NewTask;
         public event EventHandler<EventArgs> RemoveTask;
         public event EventHandler<int> SelectTask;
 
-        private void descriptionTextBox_Click(object sender, EventArgs e)
+        private void metroRadioButton2_CheckedChanged(object sender, EventArgs e)
         {
 
         }
@@ -80,10 +103,9 @@ namespace PresentationLayer.Controls.Editors
                 SaveTask(this, e);
         }
 
-        private void cancelChanges_Click(object sender, EventArgs e)
+        private void cancelChangesButton_Click(object sender, EventArgs e)
         {
-            if (cancelChanges != null)
-                cancelChanges(this, e);
+
         }
 
         private void TaskEditor_Load(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
@@ -8,19 +9,19 @@ using PresentationLayer.Views;
 
 namespace PresentationLayer.Presenters
 {
-    public class TaskPresenter
+    public class TasksPresenter
     {
         #region Private fields
 
-        private readonly ITaskEditorLayer view;
-        private TasksRepository repository;
+        private readonly ITasksLayer view;
+        private readonly TasksRepository repository;
         private List<Task> tasks;
         private int selectedTaskIndex;
         private bool isNew = true;
 
         #endregion
 
-        public TaskPresenter(ITaskEditorLayer view)
+        public TasksPresenter(ITasksLayer view)
         {
             this.view = view;
             repository = new TasksRepository();
@@ -97,77 +98,16 @@ namespace PresentationLayer.Presenters
             selectedTaskIndex = tasks.Count - 1;
             SetStatus("New task created");
         }
-
-        private void Save(object sender, EventArgs e)
-        {
-            var task = isNew ? new Task() : GetSelectedTask();
-
-            task.Name = view.TaskName;
-            task.Priority = view.Priority;
-            //task.StartDate = view.StartDate;
-            task.DueDate = view.DueDate;
-            task.IsFinished = view.IsFinished;
-
-            if (isNew)
-            {
-                task.CreationDate = DateTime.Now;
-                repository.Add(task);
-            }
-            else
-            {
-                repository.Update(task);
-            }
-
-            isNew = false;
-            view.IsDirty = false;
-            SetStatus("Task saved");
-            ObtainTasksList();
-            RefreshTasksGridview();
-            SelectTask(task);
-        }
-
-        private void Remove(object sender, EventArgs e)
-        {
-            if (isNew)
-            {
-                MessageBox.Show("This task is not saved yet, so it can't be deleted");
-            }
-            else
-            {
-                Task task = GetSelectedTask();
-                repository.Delete(task);
-
-                tasks = repository.GetAll().ToList();
-                selectedTaskIndex = tasks.Count - 1;
-
-                if (selectedTaskIndex > 0)
-                {
-                    DisplayTaskInfo(tasks[selectedTaskIndex]);
-                    isNew = false;
-                }
-                else
-                {
-                    New(sender, e);
-                    isNew = true;
-                }
-
-                RefreshTasksGridview();
-                DisplayTaskInfo(task);
-            }
-
-        }
-
+        
         #endregion
 
         #region Helper methods
 
         private void AttachEvents()
         {
-            view.SaveTask += Save;
             view.NewTask += New;
-            //view.PreviousTask += ShowPrevious;
-            //view.NextTask += ShowNext;
-            view.RemoveTask += Remove;
+            view.PreviousTask += ShowPrevious;
+            view.NextTask += ShowNext;
             view.SelectTask += SelectTask;
         }
 
@@ -188,16 +128,16 @@ namespace PresentationLayer.Presenters
 
         private void DisplayBlankTask()
         {
-            view.TaskName = "[Name something to be done]";
+           /* view.TaskName = "[Name something to be done]";
             view.Priority = 1;
             //view.StartDate = DateTime.Now;
             view.DueDate = DateTime.Now.AddDays(7);
             view.IsFinished = false;
-            view.FinishDate = null;
+            view.FinishDate = null;*/
         }
 
         private void DisplayTaskInfo(Task task)
-        {
+        {/*
             view.TaskName = task.Name;
             view.Priority = task.Priority;
             //view.StartDate = task.StartDate;
@@ -205,7 +145,7 @@ namespace PresentationLayer.Presenters
             view.IsFinished = task.IsFinished;
             view.FinishDate = task.FinishedDate;
             isNew = false;
-        }
+        */}
 
         private Task GetTaskAtIndex(int index)
         {

@@ -7,12 +7,14 @@ namespace PresentationLayer.Controls
     public partial class MainForm : MetroForm
     {
         TaskPresenter taskPresenter;
+        private TasksPresenter tasksPresenter;
 
         public MainForm()
         {
             InitializeComponent();
           
             taskPresenter = new TaskPresenter(this.tasksPanel);
+            tasksPresenter = new TasksPresenter(this.tasksControl1);
         }
 
         private void addActivityButton_Click(object sender, EventArgs e)
