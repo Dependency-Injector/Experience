@@ -45,20 +45,8 @@ namespace PresentationLayer.Controls.Panels
             this.startAndDueDate = new MetroFramework.Controls.MetroLabel();
             this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
-            this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
-            this.nameTextBox = new MetroFramework.Controls.MetroTextBox();
-            this.saveButton = new MetroFramework.Controls.MetroButton();
-            this.cancelButton = new MetroFramework.Controls.MetroButton();
-            this.dueDateTime = new MetroFramework.Controls.MetroDateTime();
-            this.descriptionTextBox = new MetroFramework.Controls.MetroTextBox();
-            this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
-            this.lowPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.mediumPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.highPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
             this.metroPanel1.SuspendLayout();
             this.taskViewPanel.SuspendLayout();
-            this.taskEditPanel.SuspendLayout();
-            this.metroPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroPanel1
@@ -69,7 +57,7 @@ namespace PresentationLayer.Controls.Panels
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(141, 336);
+            this.metroPanel1.Location = new System.Drawing.Point(264, 495);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(250, 30);
             this.metroPanel1.TabIndex = 3;
@@ -121,7 +109,7 @@ namespace PresentationLayer.Controls.Panels
             this.taskViewPanel.HorizontalScrollbarSize = 10;
             this.taskViewPanel.Location = new System.Drawing.Point(21, 20);
             this.taskViewPanel.Name = "taskViewPanel";
-            this.taskViewPanel.Size = new System.Drawing.Size(251, 298);
+            this.taskViewPanel.Size = new System.Drawing.Size(409, 360);
             this.taskViewPanel.TabIndex = 4;
             this.taskViewPanel.VerticalScrollbarBarColor = true;
             this.taskViewPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -131,9 +119,9 @@ namespace PresentationLayer.Controls.Panels
             // editButton
             // 
             this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editButton.Location = new System.Drawing.Point(170, 11);
+            this.editButton.Location = new System.Drawing.Point(213, 11);
             this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(78, 26);
+            this.editButton.Size = new System.Drawing.Size(34, 26);
             this.editButton.TabIndex = 9;
             this.editButton.Text = "Edit";
             this.editButton.UseSelectable = true;
@@ -142,9 +130,9 @@ namespace PresentationLayer.Controls.Panels
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.finishedButton.Location = new System.Drawing.Point(170, 217);
+            this.finishedButton.Location = new System.Drawing.Point(172, 279);
             this.finishedButton.Name = "finishedButton";
-            this.finishedButton.Size = new System.Drawing.Size(78, 26);
+            this.finishedButton.Size = new System.Drawing.Size(75, 26);
             this.finishedButton.TabIndex = 10;
             this.finishedButton.Text = "Finished!";
             this.finishedButton.UseSelectable = true;
@@ -152,12 +140,14 @@ namespace PresentationLayer.Controls.Panels
             // 
             // priorityLabel
             // 
+            this.priorityLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.priorityLabel.AutoSize = true;
             this.priorityLabel.Location = new System.Drawing.Point(3, 52);
             this.priorityLabel.Name = "priorityLabel";
             this.priorityLabel.Size = new System.Drawing.Size(51, 19);
             this.priorityLabel.TabIndex = 8;
             this.priorityLabel.Text = "Priority";
+            this.priorityLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // nameLabel
             // 
@@ -197,152 +187,24 @@ namespace PresentationLayer.Controls.Panels
             this.workUnitsPanel.HorizontalScrollbarSize = 10;
             this.workUnitsPanel.Location = new System.Drawing.Point(3, 93);
             this.workUnitsPanel.Name = "workUnitsPanel";
-            this.workUnitsPanel.Size = new System.Drawing.Size(243, 118);
+            this.workUnitsPanel.Size = new System.Drawing.Size(242, 180);
             this.workUnitsPanel.TabIndex = 7;
             this.workUnitsPanel.VerticalScrollbarBarColor = true;
             this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.workUnitsPanel.VerticalScrollbarSize = 10;
             // 
-            // taskEditPanel
-            // 
-            this.taskEditPanel.Controls.Add(this.metroPanel2);
-            this.taskEditPanel.Controls.Add(this.descriptionTextBox);
-            this.taskEditPanel.Controls.Add(this.dueDateTime);
-            this.taskEditPanel.Controls.Add(this.cancelButton);
-            this.taskEditPanel.Controls.Add(this.saveButton);
-            this.taskEditPanel.Controls.Add(this.nameTextBox);
-            this.taskEditPanel.HorizontalScrollbarBarColor = true;
-            this.taskEditPanel.HorizontalScrollbarHighlightOnWheel = false;
-            this.taskEditPanel.HorizontalScrollbarSize = 10;
-            this.taskEditPanel.Location = new System.Drawing.Point(278, 20);
-            this.taskEditPanel.Name = "taskEditPanel";
-            this.taskEditPanel.Size = new System.Drawing.Size(213, 298);
-            this.taskEditPanel.TabIndex = 5;
-            this.taskEditPanel.VerticalScrollbarBarColor = true;
-            this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
-            this.taskEditPanel.VerticalScrollbarSize = 10;
-            // 
-            // nameTextBox
-            // 
-            this.nameTextBox.Lines = new string[] {
-        "Name"};
-            this.nameTextBox.Location = new System.Drawing.Point(19, 8);
-            this.nameTextBox.MaxLength = 32767;
-            this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.PasswordChar = '\0';
-            this.nameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.nameTextBox.SelectedText = "";
-            this.nameTextBox.Size = new System.Drawing.Size(174, 23);
-            this.nameTextBox.TabIndex = 11;
-            this.nameTextBox.Text = "Name";
-            this.nameTextBox.UseSelectable = true;
-            // 
-            // saveButton
-            // 
-            this.saveButton.Location = new System.Drawing.Point(119, 260);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 26);
-            this.saveButton.TabIndex = 12;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseSelectable = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.Location = new System.Drawing.Point(38, 260);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 26);
-            this.cancelButton.TabIndex = 13;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseSelectable = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            // 
-            // dueDateTime
-            // 
-            this.dueDateTime.Location = new System.Drawing.Point(19, 38);
-            this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
-            this.dueDateTime.Name = "dueDateTime";
-            this.dueDateTime.Size = new System.Drawing.Size(174, 29);
-            this.dueDateTime.TabIndex = 14;
-            // 
-            // descriptionTextBox
-            // 
-            this.descriptionTextBox.Lines = new string[] {
-        "Description"};
-            this.descriptionTextBox.Location = new System.Drawing.Point(19, 173);
-            this.descriptionTextBox.MaxLength = 32767;
-            this.descriptionTextBox.Multiline = true;
-            this.descriptionTextBox.Name = "descriptionTextBox";
-            this.descriptionTextBox.PasswordChar = '\0';
-            this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.descriptionTextBox.SelectedText = "";
-            this.descriptionTextBox.Size = new System.Drawing.Size(174, 81);
-            this.descriptionTextBox.TabIndex = 15;
-            this.descriptionTextBox.Text = "Description";
-            this.descriptionTextBox.UseSelectable = true;
-            // 
-            // metroPanel2
-            // 
-            this.metroPanel2.Controls.Add(this.highPriorityRadioButton);
-            this.metroPanel2.Controls.Add(this.mediumPriorityRadioButton);
-            this.metroPanel2.Controls.Add(this.lowPriorityRadioButton);
-            this.metroPanel2.HorizontalScrollbarBarColor = true;
-            this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(19, 74);
-            this.metroPanel2.Name = "metroPanel2";
-            this.metroPanel2.Size = new System.Drawing.Size(174, 93);
-            this.metroPanel2.TabIndex = 16;
-            this.metroPanel2.VerticalScrollbarBarColor = true;
-            this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.VerticalScrollbarSize = 10;
-            // 
-            // lowPriorityRadioButton
-            // 
-            this.lowPriorityRadioButton.AutoSize = true;
-            this.lowPriorityRadioButton.Location = new System.Drawing.Point(4, 4);
-            this.lowPriorityRadioButton.Name = "lowPriorityRadioButton";
-            this.lowPriorityRadioButton.Size = new System.Drawing.Size(45, 15);
-            this.lowPriorityRadioButton.TabIndex = 2;
-            this.lowPriorityRadioButton.Text = "Low";
-            this.lowPriorityRadioButton.UseSelectable = true;
-            // 
-            // mediumPriorityRadioButton
-            // 
-            this.mediumPriorityRadioButton.AutoSize = true;
-            this.mediumPriorityRadioButton.Location = new System.Drawing.Point(3, 25);
-            this.mediumPriorityRadioButton.Name = "mediumPriorityRadioButton";
-            this.mediumPriorityRadioButton.Size = new System.Drawing.Size(68, 15);
-            this.mediumPriorityRadioButton.TabIndex = 2;
-            this.mediumPriorityRadioButton.Text = "Medium";
-            this.mediumPriorityRadioButton.UseSelectable = true;
-            // 
-            // highPriorityRadioButton
-            // 
-            this.highPriorityRadioButton.AutoSize = true;
-            this.highPriorityRadioButton.Location = new System.Drawing.Point(4, 46);
-            this.highPriorityRadioButton.Name = "highPriorityRadioButton";
-            this.highPriorityRadioButton.Size = new System.Drawing.Size(49, 15);
-            this.highPriorityRadioButton.TabIndex = 2;
-            this.highPriorityRadioButton.Text = "High";
-            this.highPriorityRadioButton.UseSelectable = true;
-            // 
             // TasksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.taskEditPanel);
             this.Controls.Add(this.taskViewPanel);
             this.Controls.Add(this.metroPanel1);
             this.Name = "TasksControl";
-            this.Size = new System.Drawing.Size(500, 376);
+            this.Size = new System.Drawing.Size(820, 616);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.metroPanel1.ResumeLayout(false);
             this.taskViewPanel.ResumeLayout(false);
             this.taskViewPanel.PerformLayout();
-            this.taskEditPanel.ResumeLayout(false);
-            this.metroPanel2.ResumeLayout(false);
-            this.metroPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -360,15 +222,5 @@ namespace PresentationLayer.Controls.Panels
         private MetroLabel startAndDueDate;
         private MetroLabel descriptionLabel;
         private MetroPanel workUnitsPanel;
-        private MetroPanel taskEditPanel;
-        private MetroButton cancelButton;
-        private MetroButton saveButton;
-        private MetroTextBox nameTextBox;
-        private MetroTextBox descriptionTextBox;
-        private MetroDateTime dueDateTime;
-        private MetroPanel metroPanel2;
-        private MetroRadioButton highPriorityRadioButton;
-        private MetroRadioButton mediumPriorityRadioButton;
-        private MetroRadioButton lowPriorityRadioButton;
     }
 }

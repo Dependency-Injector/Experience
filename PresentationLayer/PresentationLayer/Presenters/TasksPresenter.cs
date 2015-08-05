@@ -19,7 +19,7 @@ namespace PresentationLayer.Presenters
     {
         #region Private fields
 
-        private readonly ITasksView tasksView;
+        private readonly ITasksLayer tasksView;
         private readonly ITaskViewerLayer taskViewer;
 
         private DisplayMode displayMode;
@@ -31,7 +31,7 @@ namespace PresentationLayer.Presenters
 
         #endregion
 
-        public TasksPresenter(ITasksView tasksView, ITaskViewerLayer taskViewer)
+        public TasksPresenter(ITasksLayer tasksView, ITaskViewerLayer taskViewer)
         {
             this.tasksView = tasksView;
             this.taskViewer = taskViewer;
