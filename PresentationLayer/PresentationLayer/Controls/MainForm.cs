@@ -13,8 +13,8 @@ namespace PresentationLayer.Controls
         {
             InitializeComponent();
           
-            taskPresenter = new TaskPresenter(this.tasksPanel);
-            tasksPresenter = new TasksPresenter(this.tasksControl1);
+            //taskPresenter = new TaskPresenter(this.tasksPanel);
+            tasksPresenter = new TasksPresenter(this.tasksControll, this.tasksControll.Viewer);
         }
 
         private void addActivityButton_Click(object sender, EventArgs e)

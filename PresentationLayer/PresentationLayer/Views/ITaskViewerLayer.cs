@@ -4,13 +4,14 @@ namespace PresentationLayer.Views
 {
     public interface ITaskViewerLayer
     {
-        String TaskName { get; set; }
-        int Priority { get; set; }
-        DateTime? StartDate { get; set; }
-        DateTime? DueDate { get; set; }
-        bool IsFinished { get; set; }
-        DateTime? FinishDate { get; set; }
+        String TaskName { set; }
+        String TaskDescription { set; }
+        int Priority { set; }
+        DateTime? DueDate { set; }
+        bool IsFinished { set; }
+        DateTime? FinishDate { set; }
 
-        event EventHandler<EventArgs> FinishTask;
+        event EventHandler<EventArgs> EditTask;
+        event EventHandler<int> FinishTask;
     }
 }

@@ -33,45 +33,14 @@ namespace PresentationLayer.Controls.Panels
         /// </summary>
         private void InitializeComponent()
         {
-            this.taskEditor1 = new PresentationLayer.Controls.Editors.TaskEditor();
-            this.taskViewer1 = new PresentationLayer.Controls.Viewers.TaskViewer();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-            this.previousTaskButton = new MetroFramework.Controls.MetroButton();
-            this.nextTaskButton = new MetroFramework.Controls.MetroButton();
             this.newTaskButton = new MetroFramework.Controls.MetroButton();
+            this.nextTaskButton = new MetroFramework.Controls.MetroButton();
+            this.previousTaskButton = new MetroFramework.Controls.MetroButton();
+            this.taskViewer = new PresentationLayer.Controls.Viewers.TaskViewer();
+            this.taskEditor = new PresentationLayer.Controls.Editors.TaskEditor();
             this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // taskEditor1
-            // 
-            this.taskEditor1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.taskEditor1.DueDate = new System.DateTime(2015, 8, 11, 22, 48, 26, 284);
-            this.taskEditor1.FinishDate = null;
-            this.taskEditor1.IsDirty = false;
-            this.taskEditor1.IsFinished = false;
-            this.taskEditor1.Location = new System.Drawing.Point(259, 3);
-            this.taskEditor1.Name = "taskEditor1";
-            this.taskEditor1.Priority = 0;
-            this.taskEditor1.Size = new System.Drawing.Size(250, 300);
-            this.taskEditor1.StartDate = null;
-            this.taskEditor1.TabIndex = 1;
-            this.taskEditor1.TaskName = "";
-            this.taskEditor1.UseCustomBackColor = true;
-            this.taskEditor1.UseSelectable = true;
-            // 
-            // taskViewer1
-            // 
-            this.taskViewer1.DueDate = null;
-            this.taskViewer1.FinishDate = null;
-            this.taskViewer1.IsFinished = false;
-            this.taskViewer1.Location = new System.Drawing.Point(3, 3);
-            this.taskViewer1.Name = "taskViewer1";
-            this.taskViewer1.Priority = 0;
-            this.taskViewer1.Size = new System.Drawing.Size(250, 300);
-            this.taskViewer1.StartDate = null;
-            this.taskViewer1.TabIndex = 0;
-            this.taskViewer1.TaskName = null;
-            this.taskViewer1.UseSelectable = true;
             // 
             // metroPanel1
             // 
@@ -89,15 +58,15 @@ namespace PresentationLayer.Controls.Panels
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
             // 
-            // previousTaskButton
+            // newTaskButton
             // 
-            this.previousTaskButton.Location = new System.Drawing.Point(91, 3);
-            this.previousTaskButton.Name = "previousTaskButton";
-            this.previousTaskButton.Size = new System.Drawing.Size(75, 23);
-            this.previousTaskButton.TabIndex = 2;
-            this.previousTaskButton.Text = "<-";
-            this.previousTaskButton.UseSelectable = true;
-            this.previousTaskButton.Click += new System.EventHandler(this.previousTaskButton_Click);
+            this.newTaskButton.Location = new System.Drawing.Point(3, 3);
+            this.newTaskButton.Name = "newTaskButton";
+            this.newTaskButton.Size = new System.Drawing.Size(82, 23);
+            this.newTaskButton.TabIndex = 2;
+            this.newTaskButton.Text = "New task";
+            this.newTaskButton.UseSelectable = true;
+            this.newTaskButton.Click += new System.EventHandler(this.newTaskButton_Click);
             // 
             // nextTaskButton
             // 
@@ -109,23 +78,52 @@ namespace PresentationLayer.Controls.Panels
             this.nextTaskButton.UseSelectable = true;
             this.nextTaskButton.Click += new System.EventHandler(this.nextTaskButton_Click);
             // 
-            // newTaskButton
+            // previousTaskButton
             // 
-            this.newTaskButton.Location = new System.Drawing.Point(3, 3);
-            this.newTaskButton.Name = "newTaskButton";
-            this.newTaskButton.Size = new System.Drawing.Size(82, 23);
-            this.newTaskButton.TabIndex = 2;
-            this.newTaskButton.Text = "New task";
-            this.newTaskButton.UseSelectable = true;
-            this.newTaskButton.Click += new System.EventHandler(this.newTaskButton_Click);
+            this.previousTaskButton.Location = new System.Drawing.Point(91, 3);
+            this.previousTaskButton.Name = "previousTaskButton";
+            this.previousTaskButton.Size = new System.Drawing.Size(75, 23);
+            this.previousTaskButton.TabIndex = 2;
+            this.previousTaskButton.Text = "<-";
+            this.previousTaskButton.UseSelectable = true;
+            this.previousTaskButton.Click += new System.EventHandler(this.previousTaskButton_Click);
+            // 
+            // taskViewer
+            // 
+            //this.taskViewer.DueDate = null;
+            //this.taskViewer.FinishDate = null;
+            //this.taskViewer.IsFinished = false;
+            this.taskViewer.Location = new System.Drawing.Point(3, 3);
+            this.taskViewer.Name = "taskViewer";
+            //this.taskViewer.Priority = 0;
+            this.taskViewer.Size = new System.Drawing.Size(250, 300);
+            //this.taskViewer.StartDate = null;
+            this.taskViewer.TabIndex = 0;
+            //this.taskViewer.TaskName = null;
+            this.taskViewer.UseSelectable = true;
+            // 
+            // taskEditor
+            // 
+            this.taskEditor.DueDate = new System.DateTime(2015, 8, 5, 0, 48, 48, 237);
+            this.taskEditor.FinishDate = null;
+            this.taskEditor.IsDirty = false;
+            this.taskEditor.IsFinished = false;
+            this.taskEditor.Location = new System.Drawing.Point(264, 3);
+            this.taskEditor.Name = "taskEditor";
+            this.taskEditor.Priority = 0;
+            this.taskEditor.Size = new System.Drawing.Size(250, 300);
+            this.taskEditor.StartDate = new System.DateTime(2015, 8, 5, 1, 5, 7, 202);
+            this.taskEditor.TabIndex = 4;
+            this.taskEditor.TaskName = "Name";
+            this.taskEditor.UseSelectable = true;
             // 
             // TasksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.taskEditor);
             this.Controls.Add(this.metroPanel1);
-            this.Controls.Add(this.taskEditor1);
-            this.Controls.Add(this.taskViewer1);
+            this.Controls.Add(this.taskViewer);
             this.Name = "TasksControl";
             this.Size = new System.Drawing.Size(514, 363);
             this.Load += new System.EventHandler(this.TasksControl_Load);
@@ -136,11 +134,11 @@ namespace PresentationLayer.Controls.Panels
 
         #endregion
 
-        private TaskViewer taskViewer1;
-        private TaskEditor taskEditor1;
+        private TaskViewer taskViewer;
         private MetroPanel metroPanel1;
         private MetroButton newTaskButton;
         private MetroButton nextTaskButton;
         private MetroButton previousTaskButton;
+        private TaskEditor taskEditor;
     }
 }

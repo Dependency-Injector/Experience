@@ -92,6 +92,7 @@ namespace PresentationLayer.Controls.Editors
         public event EventHandler<EventArgs> RemoveTask;
         public event EventHandler<int> SelectTask;
 
+        
         private void metroRadioButton2_CheckedChanged(object sender, EventArgs e)
         {
 

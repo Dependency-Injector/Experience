@@ -9,11 +9,21 @@ using PresentationLayer.Views;
 
 namespace PresentationLayer.Presenters
 {
+    public enum DisplayMode
+    {
+        View,
+        Edit    
+    }
+
     public class TasksPresenter
     {
         #region Private fields
 
-        private readonly ITasksLayer view;
+        private readonly ITasksLayer tasksView;
+        private readonly ITaskViewerLayer taskViewer;
+
+        private DisplayMode displayMode;
+
         private readonly TasksRepository repository;
         private List<Task> tasks;
         private int selectedTaskIndex;
@@ -21,13 +31,14 @@ namespace PresentationLayer.Presenters
 
         #endregion
 
-        public TasksPresenter(ITasksLayer view)
+        public TasksPresenter(ITasksLayer tasksView, ITaskViewerLayer taskViewer)
         {
-            this.view = view;
+            this.tasksView = tasksView;
+            this.taskViewer = taskViewer;
+
             repository = new TasksRepository();
 
             Initialize();
-
         }
 
         #region Events
@@ -38,6 +49,7 @@ namespace PresentationLayer.Presenters
             {
                 AttachEvents();
                 ObtainTasksList();
+                SetDisplayMode(DisplayMode.View);
 
                 if (tasks != null && tasks.Count > 0)
                 {
@@ -60,13 +72,23 @@ namespace PresentationLayer.Presenters
             }
         }
 
+        private void SetDisplayMode(DisplayMode displayMode)
+        {
+            this.displayMode = displayMode;
+
+            if (this.displayMode == DisplayMode.View)
+            {
+                
+            }
+        }
+
         private void ShowPrevious(object sender, EventArgs e)
         {
             if (selectedTaskIndex > 0)
             {
                 selectedTaskIndex--;
                 DisplayTaskInfo(GetTaskAtIndex(selectedTaskIndex));
-                view.IsDirty = false;
+                tasksView.IsDirty = false;
                 SetStatus("Task: {0}", selectedTaskIndex + 1);
             }
             else
@@ -81,7 +103,7 @@ namespace PresentationLayer.Presenters
             {
                 selectedTaskIndex++;
                 DisplayTaskInfo(GetTaskAtIndex(selectedTaskIndex));
-                view.IsDirty = false;
+                tasksView.IsDirty = false;
                 SetStatus("Task: {0}", selectedTaskIndex + 1);
             }
             else
@@ -94,7 +116,7 @@ namespace PresentationLayer.Presenters
         {
             DisplayBlankTask();
             isNew = true;
-            view.IsDirty = false;
+            tasksView.IsDirty = false;
             selectedTaskIndex = tasks.Count - 1;
             SetStatus("New task created");
         }
@@ -105,10 +127,19 @@ namespace PresentationLayer.Presenters
 
         private void AttachEvents()
         {
-            view.NewTask += New;
-            view.PreviousTask += ShowPrevious;
-            view.NextTask += ShowNext;
-            view.SelectTask += SelectTask;
+            tasksView.NewTask += New;
+            tasksView.PreviousTask += ShowPrevious;
+            tasksView.NextTask += ShowNext;
+            tasksView.SelectTask += SelectTask;
+
+            taskViewer.EditTask += EditTask;
+            taskViewer.FinishTask += FinishTask;
+        }
+
+        private void EditTask(object sender, EventArgs e)
+        {
+            //taskViewer.Hide();
+            
         }
 
         private void ObtainTasksList()
@@ -123,29 +154,30 @@ namespace PresentationLayer.Presenters
 
         private void DisplayTasksList(List<Task> tasksList)
         {
+            tasksView.Tasks = SortTasks(tasksList);
             //view.Tasks = SortTasks(tasksList);
         }
 
         private void DisplayBlankTask()
         {
-           /* view.TaskName = "[Name something to be done]";
-            view.Priority = 1;
+            taskViewer.TaskName = "[Name something to be done]";
+            taskViewer.Priority = 1;
             //view.StartDate = DateTime.Now;
-            view.DueDate = DateTime.Now.AddDays(7);
-            view.IsFinished = false;
-            view.FinishDate = null;*/
+            taskViewer.DueDate = DateTime.Now.AddDays(7);
+            taskViewer.IsFinished = false;
+            taskViewer.FinishDate = null;
         }
 
         private void DisplayTaskInfo(Task task)
-        {/*
-            view.TaskName = task.Name;
-            view.Priority = task.Priority;
+        {
+            taskViewer.TaskName = task.Name;
+            taskViewer.Priority = task.Priority;
             //view.StartDate = task.StartDate;
-            view.DueDate = task.DueDate;
-            view.IsFinished = task.IsFinished;
-            view.FinishDate = task.FinishedDate;
+            taskViewer.DueDate = task.DueDate;
+            taskViewer.IsFinished = task.IsFinished;
+            taskViewer.FinishDate = task.FinishedDate;
             isNew = false;
-        */}
+        }
 
         private Task GetTaskAtIndex(int index)
         {
@@ -168,9 +200,19 @@ namespace PresentationLayer.Presenters
             DisplayTaskInfo(selectedTask);
         }
 
+        private void FinishTask(object sender, int id)
+        {
+            
+        }
+
         private void SelectTask(Task task)
         {
             SelectTask(this, task.Id);
+        }
+
+        private void FinishTask(Task task)
+        {
+            FinishTask(this, task.Id);
         }
 
         private List<Task> SortTasks(List<Task> tasksUnsorted)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using MetroFramework.Controls;
+using PresentationLayer.Controls.Editors;
+using PresentationLayer.Controls.Viewers;
 using PresentationLayer.Views;
 
 namespace PresentationLayer.Controls.Panels
@@ -10,6 +12,16 @@ namespace PresentationLayer.Controls.Panels
         public TasksControl()
         {
             InitializeComponent();
+        }
+
+        public TaskViewer Viewer
+        {
+            get { return taskViewer; }
+        }
+
+        public TaskEditor Editor
+        {
+            get { return taskEditor; }
         }
 
         private void TasksControl_Load(object sender, EventArgs e)

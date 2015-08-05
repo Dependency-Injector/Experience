@@ -37,6 +37,7 @@ namespace PresentationLayer.Controls.Viewers
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.priorityLabel = new MetroFramework.Controls.MetroLabel();
             this.finishedButton = new MetroFramework.Controls.MetroButton();
+            this.editButton = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -61,7 +62,7 @@ namespace PresentationLayer.Controls.Viewers
             // descriptionLabel
             // 
             this.descriptionLabel.AutoSize = true;
-            this.descriptionLabel.Location = new System.Drawing.Point(3, 44);
+            this.descriptionLabel.Location = new System.Drawing.Point(3, 63);
             this.descriptionLabel.Name = "descriptionLabel";
             this.descriptionLabel.Size = new System.Drawing.Size(74, 19);
             this.descriptionLabel.TabIndex = 0;
@@ -75,9 +76,9 @@ namespace PresentationLayer.Controls.Viewers
             this.workUnitsPanel.HorizontalScrollbarBarColor = true;
             this.workUnitsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.workUnitsPanel.HorizontalScrollbarSize = 10;
-            this.workUnitsPanel.Location = new System.Drawing.Point(3, 66);
+            this.workUnitsPanel.Location = new System.Drawing.Point(3, 85);
             this.workUnitsPanel.Name = "workUnitsPanel";
-            this.workUnitsPanel.Size = new System.Drawing.Size(242, 199);
+            this.workUnitsPanel.Size = new System.Drawing.Size(242, 180);
             this.workUnitsPanel.TabIndex = 1;
             this.workUnitsPanel.VerticalScrollbarBarColor = true;
             this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -87,7 +88,7 @@ namespace PresentationLayer.Controls.Viewers
             // 
             this.priorityLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.priorityLabel.AutoSize = true;
-            this.priorityLabel.Location = new System.Drawing.Point(194, 0);
+            this.priorityLabel.Location = new System.Drawing.Point(3, 44);
             this.priorityLabel.Name = "priorityLabel";
             this.priorityLabel.Size = new System.Drawing.Size(51, 19);
             this.priorityLabel.TabIndex = 2;
@@ -105,10 +106,22 @@ namespace PresentationLayer.Controls.Viewers
             this.finishedButton.UseSelectable = true;
             this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
             // 
+            // editButton
+            // 
+            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editButton.Location = new System.Drawing.Point(213, 3);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(34, 26);
+            this.editButton.TabIndex = 3;
+            this.editButton.Text = "Edit";
+            this.editButton.UseSelectable = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
             // TaskViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.finishedButton);
             this.Controls.Add(this.priorityLabel);
             this.Controls.Add(this.nameLabel);
@@ -130,5 +143,6 @@ namespace PresentationLayer.Controls.Viewers
         private MetroPanel workUnitsPanel;
         private MetroLabel priorityLabel;
         private MetroButton finishedButton;
+        private MetroButton editButton;
     }
 }

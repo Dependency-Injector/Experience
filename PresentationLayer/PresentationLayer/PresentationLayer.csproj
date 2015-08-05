@@ -105,6 +105,7 @@
     <Compile Include="Views\ITasksLayer.cs" />
     <Compile Include="Views\ITaskViewerLayer.cs" />
     <Compile Include="Views\ITaskEditorLayer.cs" />
+    <Compile Include="Views\IToggleableLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ActivitiesPanel.resx">
