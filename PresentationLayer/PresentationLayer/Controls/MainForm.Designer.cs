@@ -143,7 +143,7 @@ namespace PresentationLayer.Controls
             this.tasksControll.Location = new System.Drawing.Point(0, 0);
             this.tasksControll.Name = "tasksControll";
             this.tasksControll.Size = new System.Drawing.Size(871, 570);
-            this.tasksControll.Status = null;
+            //this.tasksControll.Status = null;
             this.tasksControll.TabIndex = 2;
             this.tasksControll.Tasks = null;
             this.tasksControll.UseSelectable = true;
@@ -165,7 +165,7 @@ namespace PresentationLayer.Controls
             this.tasksControl1.Location = new System.Drawing.Point(0, 0);
             this.tasksControl1.Name = "tasksControl1";
             this.tasksControl1.Size = new System.Drawing.Size(871, 570);
-            this.tasksControl1.Status = null;
+            //this.tasksControl1.Status = null;
             this.tasksControl1.TabIndex = 2;
             this.tasksControl1.Tasks = null;
             this.tasksControl1.UseSelectable = true;

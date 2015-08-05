@@ -37,6 +37,7 @@ namespace PresentationLayer.Presenters
             {
                 AttachEvents();
                 ObtainTasksList();
+                tasks = SortTasksByDateAndPriority(tasks);
 
                 if (tasks != null && tasks.Count > 0)
                 {
@@ -106,7 +107,6 @@ namespace PresentationLayer.Presenters
             task.Description = view.TaskDescription;
             task.Priority = view.Priority;
             task.DueDate = view.DueDate;
-            task.IsFinished = view.IsFinished;
 
             if (isNew)
             {
@@ -135,6 +135,11 @@ namespace PresentationLayer.Presenters
             else
             {
                 Task task = GetSelectedTask();
+                if (task == null)
+                {
+                    MessageBox.Show("No task to remove");
+                }
+
                 repository.Delete(task);
 
                 tasks = repository.GetAll().ToList();
@@ -157,16 +162,13 @@ namespace PresentationLayer.Presenters
 
         }
 
-        private void Finish(object sender, int id)
+        private void Finish(object sender, EventArgs e)
         {
-
-            var indexOfTask = tasks.FindIndex(t => t.Id == id);
-            var selectedTask = GetTaskAtIndex(indexOfTask);
-            selectedTask.IsFinished = true;
-            selectedTask.FinishedDate = DateTime.Now;
-            repository.Update(selectedTask);
-            selectedTaskIndex = indexOfTask;
-            DisplayTaskInfo(selectedTask);
+            var taskToFinish = GetSelectedTask();
+            taskToFinish.IsFinished = true;
+            taskToFinish.FinishedDate = DateTime.Now;
+            repository.Update(taskToFinish);
+            DisplayTaskInfo(taskToFinish);
         }
         #endregion
 
@@ -190,12 +192,12 @@ namespace PresentationLayer.Presenters
 
         private void RefreshTasksGridview()
         {
-            //view.Tasks = tasks;
+            view.Tasks = tasks;
         }
 
         private void DisplayTasksList(List<Task> tasksList)
         {
-            //view.Tasks = SortTasks(tasksList);
+            view.Tasks = SortTasksByDateAndPriority(tasksList);
         }
 
         private void DisplayBlankTask()
@@ -245,9 +247,9 @@ namespace PresentationLayer.Presenters
             SelectTask(this, task.Id);
         }
 
-        private List<Task> SortTasks(List<Task> tasksUnsorted)
+        private List<Task> SortTasksByDateAndPriority(List<Task> tasksUnsorted)
         {
-            return tasksUnsorted.OrderBy(t => t.DueDate).ToList();
+            return tasksUnsorted.OrderBy(t => t.DueDate).OrderByDescending(t => t.Priority).ToList();
         }
 
         private void SetStatus(String message, params object[] parameters)

@@ -41,7 +41,7 @@
             this.tasksControl1.Name = "tasksControl1";
             this.tasksControl1.Priority = 0;
             this.tasksControl1.Size = new System.Drawing.Size(561, 551);
-            this.tasksControl1.Status = null;
+            //this.tasksControl1.Status = null;
             this.tasksControl1.TabIndex = 0;
             this.tasksControl1.TaskName = "qwwe";
             this.tasksControl1.Tasks = null;
