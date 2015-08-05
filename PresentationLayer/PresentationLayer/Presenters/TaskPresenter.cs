@@ -12,15 +12,16 @@ namespace PresentationLayer.Presenters
     {
         #region Private fields
 
-        private readonly ITasksLayer view;
+        private readonly ITasksView view;
         private TasksRepository repository;
         private List<Task> tasks;
         private int selectedTaskIndex;
         private bool isNew = true;
+        private DisplayMode displayMode;
 
         #endregion
 
-        public TaskPresenter(ITasksLayer view)
+        public TaskPresenter(ITasksView view)
         {
             this.view = view;
             repository = new TasksRepository();
@@ -157,6 +158,18 @@ namespace PresentationLayer.Presenters
 
         }
 
+
+        private void EditTask(object sender, EventArgs e)
+        {
+            //SetDisplayMode(DisplayMode.Edit);
+        }
+        
+
+        private void FinishTask(object sender, int e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Helper methods
@@ -165,10 +178,12 @@ namespace PresentationLayer.Presenters
         {
             view.SaveTask += Save;
             view.NewTask += New;
-            //view.PreviousTask += ShowPrevious;
-            //view.NextTask += ShowNext;
+            view.PreviousTask += ShowPrevious;
+            view.NextTask += ShowNext;
             view.RemoveTask += Remove;
             view.SelectTask += SelectTask;
+            view.EditTask += EditTask;
+            view.FinishTask += FinishTask;
         }
 
         private void ObtainTasksList()
@@ -178,19 +193,18 @@ namespace PresentationLayer.Presenters
 
         private void RefreshTasksGridview()
         {
-            //view.Tasks = tasks;
+            view.Tasks = tasks;
         }
 
         private void DisplayTasksList(List<Task> tasksList)
         {
-            //view.Tasks = SortTasks(tasksList);
+            view.Tasks = SortTasks(tasksList);
         }
 
         private void DisplayBlankTask()
         {
             view.TaskName = "[Name something to be done]";
             view.Priority = 1;
-            //view.StartDate = DateTime.Now;
             view.DueDate = DateTime.Now.AddDays(7);
             view.IsFinished = false;
             view.FinishDate = null;
@@ -199,8 +213,8 @@ namespace PresentationLayer.Presenters
         private void DisplayTaskInfo(Task task)
         {
             view.TaskName = task.Name;
+            view.TaskDescription = task.Description;
             view.Priority = task.Priority;
-            //view.StartDate = task.StartDate;
             view.DueDate = task.DueDate;
             view.IsFinished = task.IsFinished;
             view.FinishDate = task.FinishedDate;
@@ -240,7 +254,7 @@ namespace PresentationLayer.Presenters
 
         private void SetStatus(String message, params object[] parameters)
         {
-            //view.Status = String.Format(message, parameters);
+            view.Status = String.Format(message, parameters);
         }
 
         #endregion
