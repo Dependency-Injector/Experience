@@ -50,7 +50,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -108,7 +107,7 @@
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\IActivityLayer.cs" />
-    <Compile Include="Views\ITasksLayer.cs" />
+    <Compile Include="Views\ITasksView.cs" />
     <Compile Include="Views\ITaskViewerLayer.cs" />
     <Compile Include="Views\ITaskEditorLayer.cs" />
     <Compile Include="Views\IToggleableLayer.cs" />

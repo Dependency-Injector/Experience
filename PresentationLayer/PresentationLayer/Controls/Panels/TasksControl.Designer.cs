@@ -50,24 +50,24 @@ namespace PresentationLayer.Controls.Panels
             this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
+            this.removeButton = new MetroFramework.Controls.MetroButton();
             this.cancelButton = new MetroFramework.Controls.MetroButton();
             this.saveButton = new MetroFramework.Controls.MetroButton();
             this.descriptionTextBox = new MetroFramework.Controls.MetroTextBox();
             this.priorityPanel = new MetroFramework.Controls.MetroPanel();
+            this.highPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
+            this.mediumPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
+            this.lowPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
             this.dueDateTime = new MetroFramework.Controls.MetroDateTime();
             this.nameTextBox = new MetroFramework.Controls.MetroTextBox();
-            this.lowPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.mediumPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.highPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.removeButton = new MetroFramework.Controls.MetroButton();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
             this.tasksListGrid = new MetroFramework.Controls.MetroGrid();
-            this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dueDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isFinishedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.priorityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.metroPanel1.SuspendLayout();
             this.taskViewPanel.SuspendLayout();
             this.taskEditPanel.SuspendLayout();
@@ -239,6 +239,16 @@ namespace PresentationLayer.Controls.Panels
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.VerticalScrollbarSize = 10;
             // 
+            // removeButton
+            // 
+            this.removeButton.Location = new System.Drawing.Point(4, 279);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(72, 23);
+            this.removeButton.TabIndex = 13;
+            this.removeButton.Text = "Remove";
+            this.removeButton.UseSelectable = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
             // cancelButton
             // 
             this.cancelButton.Location = new System.Drawing.Point(82, 279);
@@ -291,6 +301,36 @@ namespace PresentationLayer.Controls.Panels
             this.priorityPanel.VerticalScrollbarHighlightOnWheel = false;
             this.priorityPanel.VerticalScrollbarSize = 10;
             // 
+            // highPriorityRadioButton
+            // 
+            this.highPriorityRadioButton.AutoSize = true;
+            this.highPriorityRadioButton.Location = new System.Drawing.Point(4, 46);
+            this.highPriorityRadioButton.Name = "highPriorityRadioButton";
+            this.highPriorityRadioButton.Size = new System.Drawing.Size(49, 15);
+            this.highPriorityRadioButton.TabIndex = 2;
+            this.highPriorityRadioButton.Text = "High";
+            this.highPriorityRadioButton.UseSelectable = true;
+            // 
+            // mediumPriorityRadioButton
+            // 
+            this.mediumPriorityRadioButton.AutoSize = true;
+            this.mediumPriorityRadioButton.Location = new System.Drawing.Point(4, 25);
+            this.mediumPriorityRadioButton.Name = "mediumPriorityRadioButton";
+            this.mediumPriorityRadioButton.Size = new System.Drawing.Size(68, 15);
+            this.mediumPriorityRadioButton.TabIndex = 2;
+            this.mediumPriorityRadioButton.Text = "Medium";
+            this.mediumPriorityRadioButton.UseSelectable = true;
+            // 
+            // lowPriorityRadioButton
+            // 
+            this.lowPriorityRadioButton.AutoSize = true;
+            this.lowPriorityRadioButton.Location = new System.Drawing.Point(4, 4);
+            this.lowPriorityRadioButton.Name = "lowPriorityRadioButton";
+            this.lowPriorityRadioButton.Size = new System.Drawing.Size(45, 15);
+            this.lowPriorityRadioButton.TabIndex = 2;
+            this.lowPriorityRadioButton.Text = "Low";
+            this.lowPriorityRadioButton.UseSelectable = true;
+            // 
             // dueDateTime
             // 
             this.dueDateTime.Location = new System.Drawing.Point(3, 40);
@@ -313,46 +353,6 @@ namespace PresentationLayer.Controls.Panels
             this.nameTextBox.TabIndex = 14;
             this.nameTextBox.Text = "Name";
             this.nameTextBox.UseSelectable = true;
-            // 
-            // lowPriorityRadioButton
-            // 
-            this.lowPriorityRadioButton.AutoSize = true;
-            this.lowPriorityRadioButton.Location = new System.Drawing.Point(4, 4);
-            this.lowPriorityRadioButton.Name = "lowPriorityRadioButton";
-            this.lowPriorityRadioButton.Size = new System.Drawing.Size(45, 15);
-            this.lowPriorityRadioButton.TabIndex = 2;
-            this.lowPriorityRadioButton.Text = "Low";
-            this.lowPriorityRadioButton.UseSelectable = true;
-            // 
-            // mediumPriorityRadioButton
-            // 
-            this.mediumPriorityRadioButton.AutoSize = true;
-            this.mediumPriorityRadioButton.Location = new System.Drawing.Point(4, 25);
-            this.mediumPriorityRadioButton.Name = "mediumPriorityRadioButton";
-            this.mediumPriorityRadioButton.Size = new System.Drawing.Size(68, 15);
-            this.mediumPriorityRadioButton.TabIndex = 2;
-            this.mediumPriorityRadioButton.Text = "Medium";
-            this.mediumPriorityRadioButton.UseSelectable = true;
-            // 
-            // highPriorityRadioButton
-            // 
-            this.highPriorityRadioButton.AutoSize = true;
-            this.highPriorityRadioButton.Location = new System.Drawing.Point(4, 46);
-            this.highPriorityRadioButton.Name = "highPriorityRadioButton";
-            this.highPriorityRadioButton.Size = new System.Drawing.Size(49, 15);
-            this.highPriorityRadioButton.TabIndex = 2;
-            this.highPriorityRadioButton.Text = "High";
-            this.highPriorityRadioButton.UseSelectable = true;
-            // 
-            // removeButton
-            // 
-            this.removeButton.Location = new System.Drawing.Point(4, 279);
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(72, 23);
-            this.removeButton.TabIndex = 13;
-            this.removeButton.Text = "Remove";
-            this.removeButton.UseSelectable = true;
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // metroPanel2
             // 
@@ -423,10 +423,6 @@ namespace PresentationLayer.Controls.Panels
             this.tasksListGrid.TabIndex = 2;
             this.tasksListGrid.SelectionChanged += new System.EventHandler(this.tasksListGrid_SelectionChanged);
             // 
-            // taskBindingSource
-            // 
-            this.taskBindingSource.DataSource = typeof(DataAccessLayer.Model.Task);
-            // 
             // idDataGridViewTextBoxColumn
             // 
             this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -463,6 +459,10 @@ namespace PresentationLayer.Controls.Panels
             this.priorityDataGridViewTextBoxColumn.Name = "priorityDataGridViewTextBoxColumn";
             this.priorityDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // taskBindingSource
+            // 
+            this.taskBindingSource.DataSource = typeof(DataAccessLayer.Model.Task);
+            // 
             // TasksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -472,7 +472,7 @@ namespace PresentationLayer.Controls.Panels
             this.Controls.Add(this.taskViewPanel);
             this.Controls.Add(this.metroPanel1);
             this.Name = "TasksControl";
-            this.Size = new System.Drawing.Size(706, 653);
+            this.Size = new System.Drawing.Size(534, 653);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.metroPanel1.ResumeLayout(false);
             this.taskViewPanel.ResumeLayout(false);
