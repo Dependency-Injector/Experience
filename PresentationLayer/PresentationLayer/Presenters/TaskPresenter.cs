@@ -103,8 +103,8 @@ namespace PresentationLayer.Presenters
             var task = isNew ? new Task() : GetSelectedTask();
 
             task.Name = view.TaskName;
+            task.Description = view.TaskDescription;
             task.Priority = view.Priority;
-            //task.StartDate = view.StartDate;
             task.DueDate = view.DueDate;
             task.IsFinished = view.IsFinished;
 
@@ -157,17 +157,29 @@ namespace PresentationLayer.Presenters
 
         }
 
+        private void Finish(object sender, int id)
+        {
+
+            var indexOfTask = tasks.FindIndex(t => t.Id == id);
+            var selectedTask = GetTaskAtIndex(indexOfTask);
+            selectedTask.IsFinished = true;
+            selectedTask.FinishedDate = DateTime.Now;
+            repository.Update(selectedTask);
+            selectedTaskIndex = indexOfTask;
+            DisplayTaskInfo(selectedTask);
+        }
         #endregion
 
         #region Helper methods
 
         private void AttachEvents()
         {
-            view.SaveTask += Save;
             view.NewTask += New;
-            //view.PreviousTask += ShowPrevious;
-            //view.NextTask += ShowNext;
+            view.SaveTask += Save;
             view.RemoveTask += Remove;
+            view.FinishTask += Finish;
+            view.PreviousTask += ShowPrevious;
+            view.NextTask += ShowNext;
             view.SelectTask += SelectTask;
         }
 
@@ -190,7 +202,7 @@ namespace PresentationLayer.Presenters
         {
             view.TaskName = "[Name something to be done]";
             view.Priority = 1;
-            //view.StartDate = DateTime.Now;
+            view.TaskDescription = "[Describe your task]";
             view.DueDate = DateTime.Now.AddDays(7);
             view.IsFinished = false;
             view.FinishDate = null;
@@ -199,8 +211,8 @@ namespace PresentationLayer.Presenters
         private void DisplayTaskInfo(Task task)
         {
             view.TaskName = task.Name;
+            view.TaskDescription = task.Description;
             view.Priority = task.Priority;
-            //view.StartDate = task.StartDate;
             view.DueDate = task.DueDate;
             view.IsFinished = task.IsFinished;
             view.FinishDate = task.FinishedDate;

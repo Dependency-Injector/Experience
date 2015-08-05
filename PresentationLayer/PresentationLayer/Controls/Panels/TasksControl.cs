@@ -3,6 +3,7 @@ using System.Collections;
 using MetroFramework.Controls;
 using PresentationLayer.Controls.Editors;
 using PresentationLayer.Controls.Viewers;
+using PresentationLayer.Presenters;
 using PresentationLayer.Views;
 
 namespace PresentationLayer.Controls.Panels
@@ -16,20 +17,41 @@ namespace PresentationLayer.Controls.Panels
 
         private void TasksControl_Load(object sender, EventArgs e)
         {
-
+            SetDisplayMode(DisplayMode.View);
         }
 
-        public string TaskName {
-            get { return nameLabel.Text; }
-            set { nameLabel.Text = value; } }
-
+        public string TaskName
+        {
+            get { return nameTextBox.Text; }
+            set
+            {
+                nameLabel.Text = value;
+                nameTextBox.Text = value;
+            }
+        }
         public string TaskDescription
         {
-            get { return descriptionLabel.Text; }
-            set { descriptionLabel.Text = value; }
+            get { return descriptionTextBox.Text; }
+            set
+            {
+                descriptionLabel.Text = value;
+                descriptionTextBox.Text = value;
+            }
         }
         public int Priority { get; set; }
-        public DateTime? DueDate { get; set; }
+        public DateTime? DueDate
+        {
+            get { return dueDateTime.Value; }
+            set
+            {
+                if (value.HasValue)
+                {
+                    startAndDueDate.Text = value.Value.ToShortDateString();
+                    dueDateTime.Value = value.Value;
+                }
+            }
+        }
+
         public bool IsFinished { get; set; }
         public DateTime? FinishDate { get; set; }
 
@@ -67,11 +89,8 @@ namespace PresentationLayer.Controls.Panels
         {
             if (EditTask != null)
                 EditTask(this, e);
-        }
 
-        private void taskViewPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-        {
-
+            SetDisplayMode(DisplayMode.Edit);
         }
 
         private void finishedButton_Click(object sender, EventArgs e)
@@ -80,6 +99,32 @@ namespace PresentationLayer.Controls.Panels
                 FinishTask(this, 0);
         }
 
-        
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (SaveTask != null)
+                SaveTask(this, e);
+
+            SetDisplayMode(DisplayMode.View);
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.View);
+        }
+
+
+        private void SetDisplayMode(DisplayMode displayMode)
+        {
+            if (displayMode == DisplayMode.Edit)
+            {
+                taskViewPanel.Hide();
+                taskEditPanel.Show();
+            }
+            else if (displayMode == DisplayMode.View)
+            {
+                taskEditPanel.Hide();
+                taskViewPanel.Show();
+            }
+        }
     }
 }
