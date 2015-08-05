@@ -37,9 +37,16 @@ namespace PresentationLayer.Controls.Panels
             this.newTaskButton = new MetroFramework.Controls.MetroButton();
             this.nextTaskButton = new MetroFramework.Controls.MetroButton();
             this.previousTaskButton = new MetroFramework.Controls.MetroButton();
-            this.taskViewer = new PresentationLayer.Controls.Viewers.TaskViewer();
-            this.taskEditor = new PresentationLayer.Controls.Editors.TaskEditor();
+            this.taskViewPanel = new MetroFramework.Controls.MetroPanel();
+            this.editButton = new MetroFramework.Controls.MetroButton();
+            this.finishedButton = new MetroFramework.Controls.MetroButton();
+            this.priorityLabel = new MetroFramework.Controls.MetroLabel();
+            this.nameLabel = new MetroFramework.Controls.MetroLabel();
+            this.startAndDueDate = new MetroFramework.Controls.MetroLabel();
+            this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
+            this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.metroPanel1.SuspendLayout();
+            this.taskViewPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroPanel1
@@ -50,7 +57,7 @@ namespace PresentationLayer.Controls.Panels
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(141, 329);
+            this.metroPanel1.Location = new System.Drawing.Point(264, 495);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(250, 30);
             this.metroPanel1.TabIndex = 3;
@@ -88,57 +95,132 @@ namespace PresentationLayer.Controls.Panels
             this.previousTaskButton.UseSelectable = true;
             this.previousTaskButton.Click += new System.EventHandler(this.previousTaskButton_Click);
             // 
-            // taskViewer
+            // taskViewPanel
             // 
-            //this.taskViewer.DueDate = null;
-            //this.taskViewer.FinishDate = null;
-            //this.taskViewer.IsFinished = false;
-            this.taskViewer.Location = new System.Drawing.Point(3, 3);
-            this.taskViewer.Name = "taskViewer";
-            //this.taskViewer.Priority = 0;
-            this.taskViewer.Size = new System.Drawing.Size(250, 300);
-            //this.taskViewer.StartDate = null;
-            this.taskViewer.TabIndex = 0;
-            //this.taskViewer.TaskName = null;
-            this.taskViewer.UseSelectable = true;
+            this.taskViewPanel.Controls.Add(this.editButton);
+            this.taskViewPanel.Controls.Add(this.finishedButton);
+            this.taskViewPanel.Controls.Add(this.priorityLabel);
+            this.taskViewPanel.Controls.Add(this.nameLabel);
+            this.taskViewPanel.Controls.Add(this.startAndDueDate);
+            this.taskViewPanel.Controls.Add(this.descriptionLabel);
+            this.taskViewPanel.Controls.Add(this.workUnitsPanel);
+            this.taskViewPanel.HorizontalScrollbarBarColor = true;
+            this.taskViewPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.taskViewPanel.HorizontalScrollbarSize = 10;
+            this.taskViewPanel.Location = new System.Drawing.Point(21, 20);
+            this.taskViewPanel.Name = "taskViewPanel";
+            this.taskViewPanel.Size = new System.Drawing.Size(409, 360);
+            this.taskViewPanel.TabIndex = 4;
+            this.taskViewPanel.VerticalScrollbarBarColor = true;
+            this.taskViewPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.taskViewPanel.VerticalScrollbarSize = 10;
+            this.taskViewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.taskViewPanel_Paint);
             // 
-            // taskEditor
+            // editButton
             // 
-            this.taskEditor.DueDate = new System.DateTime(2015, 8, 5, 0, 48, 48, 237);
-            this.taskEditor.FinishDate = null;
-            this.taskEditor.IsDirty = false;
-            this.taskEditor.IsFinished = false;
-            this.taskEditor.Location = new System.Drawing.Point(264, 3);
-            this.taskEditor.Name = "taskEditor";
-            this.taskEditor.Priority = 0;
-            this.taskEditor.Size = new System.Drawing.Size(250, 300);
-            this.taskEditor.StartDate = new System.DateTime(2015, 8, 5, 1, 5, 7, 202);
-            this.taskEditor.TabIndex = 4;
-            this.taskEditor.TaskName = "Name";
-            this.taskEditor.UseSelectable = true;
+            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editButton.Location = new System.Drawing.Point(213, 11);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(34, 26);
+            this.editButton.TabIndex = 9;
+            this.editButton.Text = "Edit";
+            this.editButton.UseSelectable = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
+            // finishedButton
+            // 
+            this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.finishedButton.Location = new System.Drawing.Point(172, 279);
+            this.finishedButton.Name = "finishedButton";
+            this.finishedButton.Size = new System.Drawing.Size(75, 26);
+            this.finishedButton.TabIndex = 10;
+            this.finishedButton.Text = "Finished!";
+            this.finishedButton.UseSelectable = true;
+            this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
+            // 
+            // priorityLabel
+            // 
+            this.priorityLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.priorityLabel.AutoSize = true;
+            this.priorityLabel.Location = new System.Drawing.Point(3, 52);
+            this.priorityLabel.Name = "priorityLabel";
+            this.priorityLabel.Size = new System.Drawing.Size(51, 19);
+            this.priorityLabel.TabIndex = 8;
+            this.priorityLabel.Text = "Priority";
+            this.priorityLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.AutoSize = true;
+            this.nameLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.nameLabel.Location = new System.Drawing.Point(3, 8);
+            this.nameLabel.Name = "nameLabel";
+            this.nameLabel.Size = new System.Drawing.Size(58, 25);
+            this.nameLabel.TabIndex = 4;
+            this.nameLabel.Text = "Name";
+            // 
+            // startAndDueDate
+            // 
+            this.startAndDueDate.AutoSize = true;
+            this.startAndDueDate.Location = new System.Drawing.Point(3, 33);
+            this.startAndDueDate.Name = "startAndDueDate";
+            this.startAndDueDate.Size = new System.Drawing.Size(132, 19);
+            this.startAndDueDate.TabIndex = 5;
+            this.startAndDueDate.Text = "Start date - due date";
+            // 
+            // descriptionLabel
+            // 
+            this.descriptionLabel.AutoSize = true;
+            this.descriptionLabel.Location = new System.Drawing.Point(3, 71);
+            this.descriptionLabel.Name = "descriptionLabel";
+            this.descriptionLabel.Size = new System.Drawing.Size(74, 19);
+            this.descriptionLabel.TabIndex = 6;
+            this.descriptionLabel.Text = "Description";
+            // 
+            // workUnitsPanel
+            // 
+            this.workUnitsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.workUnitsPanel.HorizontalScrollbarBarColor = true;
+            this.workUnitsPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.workUnitsPanel.HorizontalScrollbarSize = 10;
+            this.workUnitsPanel.Location = new System.Drawing.Point(3, 93);
+            this.workUnitsPanel.Name = "workUnitsPanel";
+            this.workUnitsPanel.Size = new System.Drawing.Size(242, 180);
+            this.workUnitsPanel.TabIndex = 7;
+            this.workUnitsPanel.VerticalScrollbarBarColor = true;
+            this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.workUnitsPanel.VerticalScrollbarSize = 10;
             // 
             // TasksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.taskEditor);
+            this.Controls.Add(this.taskViewPanel);
             this.Controls.Add(this.metroPanel1);
-            this.Controls.Add(this.taskViewer);
             this.Name = "TasksControl";
-            this.Size = new System.Drawing.Size(514, 363);
+            this.Size = new System.Drawing.Size(820, 616);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.metroPanel1.ResumeLayout(false);
+            this.taskViewPanel.ResumeLayout(false);
+            this.taskViewPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private TaskViewer taskViewer;
         private MetroPanel metroPanel1;
         private MetroButton newTaskButton;
         private MetroButton nextTaskButton;
         private MetroButton previousTaskButton;
-        private TaskEditor taskEditor;
+        private MetroPanel taskViewPanel;
+        private MetroButton editButton;
+        private MetroButton finishedButton;
+        private MetroLabel priorityLabel;
+        private MetroLabel nameLabel;
+        private MetroLabel startAndDueDate;
+        private MetroLabel descriptionLabel;
+        private MetroPanel workUnitsPanel;
     }
 }

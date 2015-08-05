@@ -101,6 +101,12 @@
     <Compile Include="Presenters\TaskPresenter.cs" />
     <Compile Include="Presenters\TasksPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\IActivityLayer.cs" />
     <Compile Include="Views\ITasksLayer.cs" />
     <Compile Include="Views\ITaskViewerLayer.cs" />
@@ -125,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Viewers\TaskViewer.resx">
       <DependentUpon>TaskViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
