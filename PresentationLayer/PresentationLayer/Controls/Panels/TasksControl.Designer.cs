@@ -47,6 +47,7 @@ namespace PresentationLayer.Controls.Panels
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
             this.nameTextBox = new MetroFramework.Controls.MetroTextBox();
+<<<<<<< HEAD
             this.saveButton = new MetroFramework.Controls.MetroButton();
             this.cancelButton = new MetroFramework.Controls.MetroButton();
             this.dueDateTime = new MetroFramework.Controls.MetroDateTime();
@@ -59,6 +60,16 @@ namespace PresentationLayer.Controls.Panels
             this.taskViewPanel.SuspendLayout();
             this.taskEditPanel.SuspendLayout();
             this.metroPanel2.SuspendLayout();
+=======
+            this.dueDateTime = new MetroFramework.Controls.MetroDateTime();
+            this.priorityPanel = new MetroFramework.Controls.MetroPanel();
+            this.descriptionTextBox = new MetroFramework.Controls.MetroTextBox();
+            this.saveButton = new MetroFramework.Controls.MetroButton();
+            this.cancelButton = new MetroFramework.Controls.MetroButton();
+            this.metroPanel1.SuspendLayout();
+            this.taskViewPanel.SuspendLayout();
+            this.taskEditPanel.SuspendLayout();
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.SuspendLayout();
             // 
             // metroPanel1
@@ -69,7 +80,11 @@ namespace PresentationLayer.Controls.Panels
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
+<<<<<<< HEAD
             this.metroPanel1.Location = new System.Drawing.Point(141, 336);
+=======
+            this.metroPanel1.Location = new System.Drawing.Point(158, 401);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(250, 30);
             this.metroPanel1.TabIndex = 3;
@@ -121,19 +136,28 @@ namespace PresentationLayer.Controls.Panels
             this.taskViewPanel.HorizontalScrollbarSize = 10;
             this.taskViewPanel.Location = new System.Drawing.Point(21, 20);
             this.taskViewPanel.Name = "taskViewPanel";
+<<<<<<< HEAD
             this.taskViewPanel.Size = new System.Drawing.Size(251, 298);
+=======
+            this.taskViewPanel.Size = new System.Drawing.Size(240, 360);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.taskViewPanel.TabIndex = 4;
             this.taskViewPanel.VerticalScrollbarBarColor = true;
             this.taskViewPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskViewPanel.VerticalScrollbarSize = 10;
-            this.taskViewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.taskViewPanel_Paint);
             // 
             // editButton
             // 
             this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+<<<<<<< HEAD
             this.editButton.Location = new System.Drawing.Point(170, 11);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(78, 26);
+=======
+            this.editButton.Location = new System.Drawing.Point(153, 11);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(84, 26);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.editButton.TabIndex = 9;
             this.editButton.Text = "Edit";
             this.editButton.UseSelectable = true;
@@ -142,9 +166,15 @@ namespace PresentationLayer.Controls.Panels
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+<<<<<<< HEAD
             this.finishedButton.Location = new System.Drawing.Point(170, 217);
             this.finishedButton.Name = "finishedButton";
             this.finishedButton.Size = new System.Drawing.Size(78, 26);
+=======
+            this.finishedButton.Location = new System.Drawing.Point(153, 279);
+            this.finishedButton.Name = "finishedButton";
+            this.finishedButton.Size = new System.Drawing.Size(84, 26);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.finishedButton.TabIndex = 10;
             this.finishedButton.Text = "Finished!";
             this.finishedButton.UseSelectable = true;
@@ -197,7 +227,11 @@ namespace PresentationLayer.Controls.Panels
             this.workUnitsPanel.HorizontalScrollbarSize = 10;
             this.workUnitsPanel.Location = new System.Drawing.Point(3, 93);
             this.workUnitsPanel.Name = "workUnitsPanel";
+<<<<<<< HEAD
             this.workUnitsPanel.Size = new System.Drawing.Size(243, 118);
+=======
+            this.workUnitsPanel.Size = new System.Drawing.Size(232, 180);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.workUnitsPanel.TabIndex = 7;
             this.workUnitsPanel.VerticalScrollbarBarColor = true;
             this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -205,18 +239,32 @@ namespace PresentationLayer.Controls.Panels
             // 
             // taskEditPanel
             // 
+<<<<<<< HEAD
             this.taskEditPanel.Controls.Add(this.metroPanel2);
             this.taskEditPanel.Controls.Add(this.descriptionTextBox);
             this.taskEditPanel.Controls.Add(this.dueDateTime);
             this.taskEditPanel.Controls.Add(this.cancelButton);
             this.taskEditPanel.Controls.Add(this.saveButton);
+=======
+            this.taskEditPanel.Controls.Add(this.cancelButton);
+            this.taskEditPanel.Controls.Add(this.saveButton);
+            this.taskEditPanel.Controls.Add(this.descriptionTextBox);
+            this.taskEditPanel.Controls.Add(this.priorityPanel);
+            this.taskEditPanel.Controls.Add(this.dueDateTime);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.taskEditPanel.Controls.Add(this.nameTextBox);
             this.taskEditPanel.HorizontalScrollbarBarColor = true;
             this.taskEditPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.HorizontalScrollbarSize = 10;
+<<<<<<< HEAD
             this.taskEditPanel.Location = new System.Drawing.Point(278, 20);
             this.taskEditPanel.Name = "taskEditPanel";
             this.taskEditPanel.Size = new System.Drawing.Size(213, 298);
+=======
+            this.taskEditPanel.Location = new System.Drawing.Point(274, 20);
+            this.taskEditPanel.Name = "taskEditPanel";
+            this.taskEditPanel.Size = new System.Drawing.Size(240, 360);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.taskEditPanel.TabIndex = 5;
             this.taskEditPanel.VerticalScrollbarBarColor = true;
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -226,12 +274,17 @@ namespace PresentationLayer.Controls.Panels
             // 
             this.nameTextBox.Lines = new string[] {
         "Name"};
+<<<<<<< HEAD
             this.nameTextBox.Location = new System.Drawing.Point(19, 8);
+=======
+            this.nameTextBox.Location = new System.Drawing.Point(3, 11);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.nameTextBox.MaxLength = 32767;
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.PasswordChar = '\0';
             this.nameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.nameTextBox.SelectedText = "";
+<<<<<<< HEAD
             this.nameTextBox.Size = new System.Drawing.Size(174, 23);
             this.nameTextBox.TabIndex = 11;
             this.nameTextBox.Text = "Name";
@@ -264,18 +317,50 @@ namespace PresentationLayer.Controls.Panels
             this.dueDateTime.Name = "dueDateTime";
             this.dueDateTime.Size = new System.Drawing.Size(174, 29);
             this.dueDateTime.TabIndex = 14;
+=======
+            this.nameTextBox.Size = new System.Drawing.Size(201, 23);
+            this.nameTextBox.TabIndex = 9;
+            this.nameTextBox.Text = "Name";
+            this.nameTextBox.UseSelectable = true;
+            // 
+            // dueDateTime
+            // 
+            this.dueDateTime.Location = new System.Drawing.Point(3, 40);
+            this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dueDateTime.Name = "dueDateTime";
+            this.dueDateTime.Size = new System.Drawing.Size(200, 29);
+            this.dueDateTime.TabIndex = 10;
+            // 
+            // priorityPanel
+            // 
+            this.priorityPanel.HorizontalScrollbarBarColor = true;
+            this.priorityPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.priorityPanel.HorizontalScrollbarSize = 10;
+            this.priorityPanel.Location = new System.Drawing.Point(4, 76);
+            this.priorityPanel.Name = "priorityPanel";
+            this.priorityPanel.Size = new System.Drawing.Size(200, 100);
+            this.priorityPanel.TabIndex = 11;
+            this.priorityPanel.VerticalScrollbarBarColor = true;
+            this.priorityPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.priorityPanel.VerticalScrollbarSize = 10;
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             // 
             // descriptionTextBox
             // 
             this.descriptionTextBox.Lines = new string[] {
         "Description"};
+<<<<<<< HEAD
             this.descriptionTextBox.Location = new System.Drawing.Point(19, 173);
+=======
+            this.descriptionTextBox.Location = new System.Drawing.Point(4, 183);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.descriptionTextBox.MaxLength = 32767;
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.PasswordChar = '\0';
             this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.descriptionTextBox.SelectedText = "";
+<<<<<<< HEAD
             this.descriptionTextBox.Size = new System.Drawing.Size(174, 81);
             this.descriptionTextBox.TabIndex = 15;
             this.descriptionTextBox.Text = "Description";
@@ -326,6 +411,32 @@ namespace PresentationLayer.Controls.Panels
             this.highPriorityRadioButton.TabIndex = 2;
             this.highPriorityRadioButton.Text = "High";
             this.highPriorityRadioButton.UseSelectable = true;
+=======
+            this.descriptionTextBox.Size = new System.Drawing.Size(199, 90);
+            this.descriptionTextBox.TabIndex = 12;
+            this.descriptionTextBox.Text = "Description";
+            this.descriptionTextBox.UseSelectable = true;
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(128, 279);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 13;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseSelectable = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(47, 279);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 13;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseSelectable = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             // 
             // TasksControl
             // 
@@ -335,14 +446,21 @@ namespace PresentationLayer.Controls.Panels
             this.Controls.Add(this.taskViewPanel);
             this.Controls.Add(this.metroPanel1);
             this.Name = "TasksControl";
+<<<<<<< HEAD
             this.Size = new System.Drawing.Size(500, 376);
+=======
+            this.Size = new System.Drawing.Size(522, 443);
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.metroPanel1.ResumeLayout(false);
             this.taskViewPanel.ResumeLayout(false);
             this.taskViewPanel.PerformLayout();
             this.taskEditPanel.ResumeLayout(false);
+<<<<<<< HEAD
             this.metroPanel2.ResumeLayout(false);
             this.metroPanel2.PerformLayout();
+=======
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             this.ResumeLayout(false);
 
         }
@@ -363,6 +481,7 @@ namespace PresentationLayer.Controls.Panels
         private MetroPanel taskEditPanel;
         private MetroButton cancelButton;
         private MetroButton saveButton;
+<<<<<<< HEAD
         private MetroTextBox nameTextBox;
         private MetroTextBox descriptionTextBox;
         private MetroDateTime dueDateTime;
@@ -370,5 +489,11 @@ namespace PresentationLayer.Controls.Panels
         private MetroRadioButton highPriorityRadioButton;
         private MetroRadioButton mediumPriorityRadioButton;
         private MetroRadioButton lowPriorityRadioButton;
+=======
+        private MetroTextBox descriptionTextBox;
+        private MetroPanel priorityPanel;
+        private MetroDateTime dueDateTime;
+        private MetroTextBox nameTextBox;
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
     }
 }

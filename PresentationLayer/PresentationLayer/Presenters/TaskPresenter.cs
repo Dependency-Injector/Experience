@@ -104,8 +104,8 @@ namespace PresentationLayer.Presenters
             var task = isNew ? new Task() : GetSelectedTask();
 
             task.Name = view.TaskName;
+            task.Description = view.TaskDescription;
             task.Priority = view.Priority;
-            //task.StartDate = view.StartDate;
             task.DueDate = view.DueDate;
             task.IsFinished = view.IsFinished;
 
@@ -158,6 +158,7 @@ namespace PresentationLayer.Presenters
 
         }
 
+<<<<<<< HEAD
 
         private void EditTask(object sender, EventArgs e)
         {
@@ -170,17 +171,36 @@ namespace PresentationLayer.Presenters
             throw new NotImplementedException();
         }
 
+=======
+        private void Finish(object sender, int id)
+        {
+
+            var indexOfTask = tasks.FindIndex(t => t.Id == id);
+            var selectedTask = GetTaskAtIndex(indexOfTask);
+            selectedTask.IsFinished = true;
+            selectedTask.FinishedDate = DateTime.Now;
+            repository.Update(selectedTask);
+            selectedTaskIndex = indexOfTask;
+            DisplayTaskInfo(selectedTask);
+        }
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
         #endregion
 
         #region Helper methods
 
         private void AttachEvents()
         {
-            view.SaveTask += Save;
             view.NewTask += New;
+<<<<<<< HEAD
             view.PreviousTask += ShowPrevious;
             view.NextTask += ShowNext;
+=======
+            view.SaveTask += Save;
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             view.RemoveTask += Remove;
+            view.FinishTask += Finish;
+            view.PreviousTask += ShowPrevious;
+            view.NextTask += ShowNext;
             view.SelectTask += SelectTask;
             view.EditTask += EditTask;
             view.FinishTask += FinishTask;
@@ -205,6 +225,10 @@ namespace PresentationLayer.Presenters
         {
             view.TaskName = "[Name something to be done]";
             view.Priority = 1;
+<<<<<<< HEAD
+=======
+            view.TaskDescription = "[Describe your task]";
+>>>>>>> 6d0414dffd381edcb30463b5e75ea1347cea98b9
             view.DueDate = DateTime.Now.AddDays(7);
             view.IsFinished = false;
             view.FinishDate = null;
