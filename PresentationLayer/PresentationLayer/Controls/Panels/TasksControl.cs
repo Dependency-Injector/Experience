@@ -9,7 +9,7 @@ using PresentationLayer.Views;
 
 namespace PresentationLayer.Controls.Panels
 {
-    public partial class TasksControl : MetroUserControl, ITasksLayer
+    public partial class TasksControl : MetroUserControl, ITasksView
     {
         public TasksControl()
         {

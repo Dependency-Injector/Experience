@@ -12,7 +12,7 @@ namespace PresentationLayer.Presenters
     {
         #region Private fields
 
-        private readonly ITasksLayer view;
+        private readonly ITasksView view;
         private TasksRepository repository;
         private List<Task> tasks;
         private int selectedTaskIndex;
@@ -20,7 +20,7 @@ namespace PresentationLayer.Presenters
 
         #endregion
 
-        public TaskPresenter(ITasksLayer view)
+        public TaskPresenter(ITasksView view)
         {
             this.view = view;
             repository = new TasksRepository();
