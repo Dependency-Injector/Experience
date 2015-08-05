@@ -108,7 +108,7 @@
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\IActivityLayer.cs" />
-    <Compile Include="Views\ITasksLayer.cs" />
+    <Compile Include="Views\ITasksView.cs" />
     <Compile Include="Views\ITaskViewerLayer.cs" />
     <Compile Include="Views\ITaskEditorLayer.cs" />
     <Compile Include="Views\IToggleableLayer.cs" />

@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace PresentationLayer.Views
 {
-    public interface ITasksLayer
+    public interface ITasksView
     {
         String TaskName { get; set; }
         String TaskDescription { get; set; }

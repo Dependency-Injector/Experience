@@ -7,7 +7,7 @@ using PresentationLayer.Views;
 
 namespace PresentationLayer.Controls.Panels
 {
-    public partial class TasksControl : MetroUserControl, ITasksLayer
+    public partial class TasksControl : MetroUserControl, ITasksView
     {
         public TasksControl()
         {
@@ -19,17 +19,74 @@ namespace PresentationLayer.Controls.Panels
 
         }
 
-        public string TaskName {
-            get { return nameLabel.Text; }
-            set { nameLabel.Text = value; } }
+        public string TaskName
+        {
+            get { return nameTextBox.Text; }
+            set
+            {
+                nameLabel.Text = value;
+                nameTextBox.Text = value;
+            }
+        }
 
         public string TaskDescription
         {
             get { return descriptionLabel.Text; }
-            set { descriptionLabel.Text = value; }
+            set
+            {
+                descriptionLabel.Text = value;
+                descriptionTextBox.Text = value;
+            }
         }
-        public int Priority { get; set; }
-        public DateTime? DueDate { get; set; }
+        public int Priority
+        {
+            get
+            {
+                int priority = 0;
+                if (lowPriorityRadioButton.Checked)
+                    priority = 1;
+                else if (mediumPriorityRadioButton.Checked)
+                    priority = 2;
+                else if (highPriorityRadioButton.Checked)
+                    priority = 3;
+
+                return priority;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case 1:
+                        priorityLabel.Text = "Low";
+                        lowPriorityRadioButton.Checked = true;
+                        break;
+                    case 2:
+                        priorityLabel.Text = "Medium";
+                        mediumPriorityRadioButton.Checked = true;
+                        break;
+                    case 3:
+                        priorityLabel.Text = "High";
+                        highPriorityRadioButton.Checked = true;
+                        break;
+                    default:
+                        priorityLabel.Text = "Unknown priority";
+                        break;
+                }
+            }
+        }
+
+        public DateTime? DueDate
+        {
+            get { return DateTime.Now; }
+            set
+            {
+                if (value.HasValue)
+                {
+                    startAndDueDate.Text = value.Value.ToShortDateString();
+                    dueDateTime.Value = value.Value;
+                }
+            }
+        }
         public bool IsFinished { get; set; }
         public DateTime? FinishDate { get; set; }
 
@@ -67,6 +124,9 @@ namespace PresentationLayer.Controls.Panels
         {
             if (EditTask != null)
                 EditTask(this, e);
+
+            taskViewPanel.Hide();
+            taskEditPanel.Show();
         }
 
         private void taskViewPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -80,6 +140,20 @@ namespace PresentationLayer.Controls.Panels
                 FinishTask(this, 0);
         }
 
-        
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (SaveTask != null)
+                SaveTask(this, e);
+
+            taskEditPanel.Hide();
+            taskViewPanel.Show();
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+
+            taskEditPanel.Hide();
+            taskViewPanel.Show();
+        }
     }
 }
