@@ -12,6 +12,7 @@ namespace PresentationLayer.Views
         bool IsFinished {  set; }
         DateTime? FinishDate { get; set; }
         bool IsDirty { get; set; }
+        ICollection WorkUnits { set; }
         ICollection Tasks { set; }
 
 
@@ -21,6 +22,8 @@ namespace PresentationLayer.Views
         event EventHandler<EventArgs> FinishTask;
         event EventHandler<EventArgs> PreviousTask;
         event EventHandler<EventArgs> NextTask;
+        event EventHandler<EventArgs> StartWorkingOnTask;
+        event EventHandler<EventArgs> StopWorkingOnTask;
         event EventHandler<int> SelectTask;
     }
 }

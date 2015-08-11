@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
 using MetroFramework.Controls;
-using PresentationLayer.Controls.Editors;
-using PresentationLayer.Controls.Viewers;
 
-namespace PresentationLayer.Controls.Panels
+namespace PresentationLayer.Controls
 {
     partial class TasksControl
     {
@@ -34,9 +32,12 @@ namespace PresentationLayer.Controls.Panels
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             this.newTaskButton = new MetroFramework.Controls.MetroButton();
             this.nextTaskButton = new MetroFramework.Controls.MetroButton();
@@ -49,6 +50,15 @@ namespace PresentationLayer.Controls.Panels
             this.startAndDueDate = new MetroFramework.Controls.MetroLabel();
             this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
+            this.stopWorkingButton = new MetroFramework.Controls.MetroButton();
+            this.startWorkButton = new MetroFramework.Controls.MetroButton();
+            this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.durationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.taskDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.workUnitBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
             this.removeButton = new MetroFramework.Controls.MetroButton();
             this.cancelButton = new MetroFramework.Controls.MetroButton();
@@ -62,14 +72,17 @@ namespace PresentationLayer.Controls.Panels
             this.nameTextBox = new MetroFramework.Controls.MetroTextBox();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
             this.tasksListGrid = new MetroFramework.Controls.MetroGrid();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dueDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isFinishedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.priorityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idGridColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameGridColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dueDateGridColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isFinishedGridColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.priorityGridColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.metroPanel1.SuspendLayout();
             this.taskViewPanel.SuspendLayout();
+            this.workUnitsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.workUnitBindingSource)).BeginInit();
             this.taskEditPanel.SuspendLayout();
             this.priorityPanel.SuspendLayout();
             this.metroPanel2.SuspendLayout();
@@ -85,7 +98,7 @@ namespace PresentationLayer.Controls.Panels
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(131, 20);
+            this.metroPanel1.Location = new System.Drawing.Point(230, 20);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(250, 30);
             this.metroPanel1.TabIndex = 3;
@@ -125,6 +138,9 @@ namespace PresentationLayer.Controls.Panels
             // 
             // taskViewPanel
             // 
+            this.taskViewPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.taskViewPanel.Controls.Add(this.stopWorkingButton);
+            this.taskViewPanel.Controls.Add(this.startWorkButton);
             this.taskViewPanel.Controls.Add(this.editButton);
             this.taskViewPanel.Controls.Add(this.finishedButton);
             this.taskViewPanel.Controls.Add(this.priorityLabel);
@@ -137,7 +153,7 @@ namespace PresentationLayer.Controls.Panels
             this.taskViewPanel.HorizontalScrollbarSize = 10;
             this.taskViewPanel.Location = new System.Drawing.Point(18, 56);
             this.taskViewPanel.Name = "taskViewPanel";
-            this.taskViewPanel.Size = new System.Drawing.Size(240, 360);
+            this.taskViewPanel.Size = new System.Drawing.Size(426, 302);
             this.taskViewPanel.TabIndex = 4;
             this.taskViewPanel.VerticalScrollbarBarColor = true;
             this.taskViewPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -145,8 +161,8 @@ namespace PresentationLayer.Controls.Panels
             // 
             // editButton
             // 
-            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editButton.Location = new System.Drawing.Point(153, 11);
+            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editButton.Location = new System.Drawing.Point(3, 271);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(84, 26);
             this.editButton.TabIndex = 9;
@@ -157,7 +173,7 @@ namespace PresentationLayer.Controls.Panels
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.finishedButton.Location = new System.Drawing.Point(153, 279);
+            this.finishedButton.Location = new System.Drawing.Point(337, 271);
             this.finishedButton.Name = "finishedButton";
             this.finishedButton.Size = new System.Drawing.Size(84, 26);
             this.finishedButton.TabIndex = 10;
@@ -208,19 +224,139 @@ namespace PresentationLayer.Controls.Panels
             this.workUnitsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.workUnitsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.workUnitsPanel.Controls.Add(this.workUnitsGrid);
             this.workUnitsPanel.HorizontalScrollbarBarColor = true;
             this.workUnitsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.workUnitsPanel.HorizontalScrollbarSize = 10;
             this.workUnitsPanel.Location = new System.Drawing.Point(3, 93);
             this.workUnitsPanel.Name = "workUnitsPanel";
-            this.workUnitsPanel.Size = new System.Drawing.Size(232, 180);
+            this.workUnitsPanel.Size = new System.Drawing.Size(418, 172);
             this.workUnitsPanel.TabIndex = 7;
             this.workUnitsPanel.VerticalScrollbarBarColor = true;
             this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.workUnitsPanel.VerticalScrollbarSize = 10;
             // 
+            // stopWorkingButton
+            // 
+            this.stopWorkingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopWorkingButton.Location = new System.Drawing.Point(155, 271);
+            this.stopWorkingButton.Name = "stopWorkingButton";
+            this.stopWorkingButton.Size = new System.Drawing.Size(85, 26);
+            this.stopWorkingButton.TabIndex = 11;
+            this.stopWorkingButton.Text = "Stop working";
+            this.stopWorkingButton.UseSelectable = true;
+            this.stopWorkingButton.Click += new System.EventHandler(this.stopWorkingButton_Click);
+            // 
+            // startWorkButton
+            // 
+            this.startWorkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.startWorkButton.Location = new System.Drawing.Point(246, 271);
+            this.startWorkButton.Name = "startWorkButton";
+            this.startWorkButton.Size = new System.Drawing.Size(85, 26);
+            this.startWorkButton.TabIndex = 11;
+            this.startWorkButton.Text = "Start working";
+            this.startWorkButton.UseSelectable = true;
+            this.startWorkButton.Click += new System.EventHandler(this.startWorkButton_Click);
+            // 
+            // workUnitsGrid
+            // 
+            this.workUnitsGrid.AllowUserToAddRows = false;
+            this.workUnitsGrid.AllowUserToDeleteRows = false;
+            this.workUnitsGrid.AllowUserToResizeRows = false;
+            this.workUnitsGrid.AutoGenerateColumns = false;
+            this.workUnitsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.workUnitsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.workUnitsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.workUnitsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.workUnitsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.workUnitsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.workUnitsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.startTimeDataGridViewTextBoxColumn,
+            this.endTimeDataGridViewTextBoxColumn,
+            this.durationDataGridViewTextBoxColumn,
+            this.taskDataGridViewTextBoxColumn});
+            this.workUnitsGrid.DataSource = this.workUnitBindingSource;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle8;
+            this.workUnitsGrid.EnableHeadersVisualStyles = false;
+            this.workUnitsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.workUnitsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.workUnitsGrid.Location = new System.Drawing.Point(3, 3);
+            this.workUnitsGrid.Name = "workUnitsGrid";
+            this.workUnitsGrid.ReadOnly = true;
+            this.workUnitsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.workUnitsGrid.Size = new System.Drawing.Size(408, 164);
+            this.workUnitsGrid.TabIndex = 2;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // startTimeDataGridViewTextBoxColumn
+            // 
+            this.startTimeDataGridViewTextBoxColumn.DataPropertyName = "StartTime";
+            this.startTimeDataGridViewTextBoxColumn.HeaderText = "StartTime";
+            this.startTimeDataGridViewTextBoxColumn.Name = "startTimeDataGridViewTextBoxColumn";
+            this.startTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // endTimeDataGridViewTextBoxColumn
+            // 
+            this.endTimeDataGridViewTextBoxColumn.DataPropertyName = "EndTime";
+            this.endTimeDataGridViewTextBoxColumn.HeaderText = "EndTime";
+            this.endTimeDataGridViewTextBoxColumn.Name = "endTimeDataGridViewTextBoxColumn";
+            this.endTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // durationDataGridViewTextBoxColumn
+            // 
+            this.durationDataGridViewTextBoxColumn.DataPropertyName = "Duration";
+            this.durationDataGridViewTextBoxColumn.HeaderText = "Duration";
+            this.durationDataGridViewTextBoxColumn.Name = "durationDataGridViewTextBoxColumn";
+            this.durationDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // taskDataGridViewTextBoxColumn
+            // 
+            this.taskDataGridViewTextBoxColumn.DataPropertyName = "Task";
+            this.taskDataGridViewTextBoxColumn.HeaderText = "Task";
+            this.taskDataGridViewTextBoxColumn.Name = "taskDataGridViewTextBoxColumn";
+            this.taskDataGridViewTextBoxColumn.ReadOnly = true;
+            this.taskDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // workUnitBindingSource
+            // 
+            this.workUnitBindingSource.DataSource = typeof(DataAccessLayer.Model.WorkUnit);
+            // 
             // taskEditPanel
             // 
+            this.taskEditPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.taskEditPanel.Controls.Add(this.removeButton);
             this.taskEditPanel.Controls.Add(this.cancelButton);
             this.taskEditPanel.Controls.Add(this.saveButton);
@@ -231,9 +367,9 @@ namespace PresentationLayer.Controls.Panels
             this.taskEditPanel.HorizontalScrollbarBarColor = true;
             this.taskEditPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.HorizontalScrollbarSize = 10;
-            this.taskEditPanel.Location = new System.Drawing.Point(271, 56);
+            this.taskEditPanel.Location = new System.Drawing.Point(450, 56);
             this.taskEditPanel.Name = "taskEditPanel";
-            this.taskEditPanel.Size = new System.Drawing.Size(240, 360);
+            this.taskEditPanel.Size = new System.Drawing.Size(245, 302);
             this.taskEditPanel.TabIndex = 5;
             this.taskEditPanel.VerticalScrollbarBarColor = true;
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -241,7 +377,8 @@ namespace PresentationLayer.Controls.Panels
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(4, 279);
+            this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.removeButton.Location = new System.Drawing.Point(4, 274);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(72, 23);
             this.removeButton.TabIndex = 13;
@@ -251,7 +388,8 @@ namespace PresentationLayer.Controls.Panels
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(82, 279);
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cancelButton.Location = new System.Drawing.Point(82, 274);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 13;
@@ -261,7 +399,8 @@ namespace PresentationLayer.Controls.Panels
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(163, 279);
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveButton.Location = new System.Drawing.Point(163, 274);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 13;
@@ -271,16 +410,18 @@ namespace PresentationLayer.Controls.Panels
             // 
             // descriptionTextBox
             // 
+            this.descriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.descriptionTextBox.Lines = new string[] {
         "Description"};
-            this.descriptionTextBox.Location = new System.Drawing.Point(4, 183);
+            this.descriptionTextBox.Location = new System.Drawing.Point(4, 151);
             this.descriptionTextBox.MaxLength = 32767;
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
-            this.descriptionTextBox.PasswordChar = '\0';
+            //this.descriptionTextBox.PasswordChar = '\0';
             this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.descriptionTextBox.SelectedText = "";
-            this.descriptionTextBox.Size = new System.Drawing.Size(233, 90);
+            this.descriptionTextBox.Size = new System.Drawing.Size(233, 117);
             this.descriptionTextBox.TabIndex = 12;
             this.descriptionTextBox.Text = "Description";
             this.descriptionTextBox.UseSelectable = true;
@@ -295,7 +436,7 @@ namespace PresentationLayer.Controls.Panels
             this.priorityPanel.HorizontalScrollbarSize = 10;
             this.priorityPanel.Location = new System.Drawing.Point(4, 76);
             this.priorityPanel.Name = "priorityPanel";
-            this.priorityPanel.Size = new System.Drawing.Size(234, 100);
+            this.priorityPanel.Size = new System.Drawing.Size(234, 69);
             this.priorityPanel.TabIndex = 11;
             this.priorityPanel.VerticalScrollbarBarColor = true;
             this.priorityPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -346,7 +487,7 @@ namespace PresentationLayer.Controls.Panels
             this.nameTextBox.Location = new System.Drawing.Point(4, 11);
             this.nameTextBox.MaxLength = 32767;
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.PasswordChar = '\0';
+            //this.nameTextBox.PasswordChar = '\0';
             this.nameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.nameTextBox.SelectedText = "";
             this.nameTextBox.Size = new System.Drawing.Size(233, 22);
@@ -360,9 +501,9 @@ namespace PresentationLayer.Controls.Panels
             this.metroPanel2.HorizontalScrollbarBarColor = true;
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(18, 423);
+            this.metroPanel2.Location = new System.Drawing.Point(18, 364);
             this.metroPanel2.Name = "metroPanel2";
-            this.metroPanel2.Size = new System.Drawing.Size(493, 198);
+            this.metroPanel2.Size = new System.Drawing.Size(677, 198);
             this.metroPanel2.TabIndex = 6;
             this.metroPanel2.VerticalScrollbarBarColor = true;
             this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
@@ -378,30 +519,30 @@ namespace PresentationLayer.Controls.Panels
             this.tasksListGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tasksListGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.tasksListGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tasksListGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tasksListGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.tasksListGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tasksListGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.nameDataGridViewTextBoxColumn,
-            this.dueDateDataGridViewTextBoxColumn,
-            this.isFinishedDataGridViewCheckBoxColumn,
-            this.priorityDataGridViewTextBoxColumn});
+            this.idGridColumn,
+            this.nameGridColumn,
+            this.dueDateGridColumn,
+            this.isFinishedGridColumn,
+            this.priorityGridColumn});
             this.tasksListGrid.DataSource = this.taskBindingSource;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tasksListGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tasksListGrid.DefaultCellStyle = dataGridViewCellStyle11;
             this.tasksListGrid.EnableHeadersVisualStyles = false;
             this.tasksListGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.tasksListGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -409,55 +550,56 @@ namespace PresentationLayer.Controls.Panels
             this.tasksListGrid.Name = "tasksListGrid";
             this.tasksListGrid.ReadOnly = true;
             this.tasksListGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tasksListGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tasksListGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.tasksListGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tasksListGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tasksListGrid.Size = new System.Drawing.Size(487, 192);
+            this.tasksListGrid.Size = new System.Drawing.Size(671, 192);
             this.tasksListGrid.TabIndex = 2;
+            this.tasksListGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tasksListGrid_DataBindingComplete);
             this.tasksListGrid.SelectionChanged += new System.EventHandler(this.tasksListGrid_SelectionChanged);
             // 
-            // idDataGridViewTextBoxColumn
+            // idGridColumn
             // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            this.idDataGridViewTextBoxColumn.Visible = false;
+            this.idGridColumn.DataPropertyName = "Id";
+            this.idGridColumn.HeaderText = "Id";
+            this.idGridColumn.Name = "idGridColumn";
+            this.idGridColumn.ReadOnly = true;
+            this.idGridColumn.Visible = false;
             // 
-            // nameDataGridViewTextBoxColumn
+            // nameGridColumn
             // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameGridColumn.DataPropertyName = "Name";
+            this.nameGridColumn.HeaderText = "Name";
+            this.nameGridColumn.Name = "nameGridColumn";
+            this.nameGridColumn.ReadOnly = true;
             // 
-            // dueDateDataGridViewTextBoxColumn
+            // dueDateGridColumn
             // 
-            this.dueDateDataGridViewTextBoxColumn.DataPropertyName = "DueDate";
-            this.dueDateDataGridViewTextBoxColumn.HeaderText = "DueDate";
-            this.dueDateDataGridViewTextBoxColumn.Name = "dueDateDataGridViewTextBoxColumn";
-            this.dueDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dueDateGridColumn.DataPropertyName = "DueDate";
+            this.dueDateGridColumn.HeaderText = "DueDate";
+            this.dueDateGridColumn.Name = "dueDateGridColumn";
+            this.dueDateGridColumn.ReadOnly = true;
             // 
-            // isFinishedDataGridViewCheckBoxColumn
+            // isFinishedGridColumn
             // 
-            this.isFinishedDataGridViewCheckBoxColumn.DataPropertyName = "IsFinished";
-            this.isFinishedDataGridViewCheckBoxColumn.HeaderText = "IsFinished";
-            this.isFinishedDataGridViewCheckBoxColumn.Name = "isFinishedDataGridViewCheckBoxColumn";
-            this.isFinishedDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.isFinishedGridColumn.DataPropertyName = "IsFinished";
+            this.isFinishedGridColumn.HeaderText = "IsFinished";
+            this.isFinishedGridColumn.Name = "isFinishedGridColumn";
+            this.isFinishedGridColumn.ReadOnly = true;
             // 
-            // priorityDataGridViewTextBoxColumn
+            // priorityGridColumn
             // 
-            this.priorityDataGridViewTextBoxColumn.DataPropertyName = "Priority";
-            this.priorityDataGridViewTextBoxColumn.HeaderText = "Priority";
-            this.priorityDataGridViewTextBoxColumn.Name = "priorityDataGridViewTextBoxColumn";
-            this.priorityDataGridViewTextBoxColumn.ReadOnly = true;
+            this.priorityGridColumn.DataPropertyName = "Priority";
+            this.priorityGridColumn.HeaderText = "Priority";
+            this.priorityGridColumn.Name = "priorityGridColumn";
+            this.priorityGridColumn.ReadOnly = true;
             // 
             // taskBindingSource
             // 
@@ -472,11 +614,14 @@ namespace PresentationLayer.Controls.Panels
             this.Controls.Add(this.taskViewPanel);
             this.Controls.Add(this.metroPanel1);
             this.Name = "TasksControl";
-            this.Size = new System.Drawing.Size(534, 653);
+            this.Size = new System.Drawing.Size(833, 579);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.metroPanel1.ResumeLayout(false);
             this.taskViewPanel.ResumeLayout(false);
             this.taskViewPanel.PerformLayout();
+            this.workUnitsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.workUnitBindingSource)).EndInit();
             this.taskEditPanel.ResumeLayout(false);
             this.priorityPanel.ResumeLayout(false);
             this.priorityPanel.PerformLayout();
@@ -513,11 +658,25 @@ namespace PresentationLayer.Controls.Panels
         private MetroButton removeButton;
         private MetroPanel metroPanel2;
         private MetroGrid tasksListGrid;
+        private System.Windows.Forms.BindingSource taskBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dueDateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isFinishedDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn priorityDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource taskBindingSource;
+        private MetroButton stopWorkingButton;
+        private MetroButton startWorkButton;
+        private MetroGrid workUnitsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idGridColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameGridColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dueDateGridColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isFinishedGridColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn priorityGridColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn startTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn durationDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taskDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource workUnitBindingSource;
     }
 }

@@ -13,20 +13,22 @@ namespace PresentationLayer.Presenters
         #region Private fields
 
         private readonly ITasksView view;
-        private TasksRepository repository;
+        private TasksRepository taskRepository;
+        private WorkUnitsRepository workUnitsRepository;
         private List<Task> tasks;
+        private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
-        private bool isNew = true;
+        private bool isTaskNew = true;
 
         #endregion
 
         public TaskPresenter(ITasksView view)
         {
             this.view = view;
-            repository = new TasksRepository();
+            taskRepository = new TasksRepository();
+            workUnitsRepository = new WorkUnitsRepository();
 
             Initialize();
-
         }
 
         #region Events
@@ -41,22 +43,19 @@ namespace PresentationLayer.Presenters
 
                 if (tasks != null && tasks.Count > 0)
                 {
-                    DisplayTaskInfo(tasks[0]);
+                    DisplaySingleTaskInfo(tasks[0]);
                     DisplayTasksList(tasks);
-                    SetStatus("{0} tasks were loaded", tasks.Count);
                     selectedTaskIndex = tasks.Count - 1;
                 }
                 else
                 {
                     DisplayBlankTask();
-                    SetStatus("No tasks were found");
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -65,13 +64,8 @@ namespace PresentationLayer.Presenters
             if (selectedTaskIndex > 0)
             {
                 selectedTaskIndex--;
-                DisplayTaskInfo(GetTaskAtIndex(selectedTaskIndex));
+                DisplaySingleTaskInfo(GetTaskAtIndex(selectedTaskIndex));
                 view.IsDirty = false;
-                SetStatus("Task: {0}", selectedTaskIndex + 1);
-            }
-            else
-            {
-                SetStatus("No previous task");
             }
         }
 
@@ -80,47 +74,40 @@ namespace PresentationLayer.Presenters
             if (selectedTaskIndex + 1 < tasks.Count)
             {
                 selectedTaskIndex++;
-                DisplayTaskInfo(GetTaskAtIndex(selectedTaskIndex));
+                DisplaySingleTaskInfo(GetTaskAtIndex(selectedTaskIndex));
                 view.IsDirty = false;
-                SetStatus("Task: {0}", selectedTaskIndex + 1);
-            }
-            else
-            {
-                SetStatus("No next task");
             }
         }
 
         private void New(object sender, EventArgs e)
         {
             DisplayBlankTask();
-            isNew = true;
+            isTaskNew = true;
             view.IsDirty = false;
             selectedTaskIndex = tasks.Count - 1;
-            SetStatus("New task created");
         }
 
         private void Save(object sender, EventArgs e)
         {
-            var task = isNew ? new Task() : GetSelectedTask();
+            var task = isTaskNew ? new Task() : GetSelectedTask();
 
             task.Name = view.TaskName;
             task.Description = view.TaskDescription;
             task.Priority = view.Priority;
             task.DueDate = view.DueDate;
 
-            if (isNew)
+            if (isTaskNew)
             {
                 task.CreationDate = DateTime.Now;
-                repository.Add(task);
+                taskRepository.Add(task);
             }
             else
             {
-                repository.Update(task);
+                taskRepository.Update(task);
             }
 
-            isNew = false;
+            isTaskNew = false;
             view.IsDirty = false;
-            SetStatus("Task saved");
             ObtainTasksList();
             RefreshTasksGridview();
             SelectTask(task);
@@ -128,7 +115,7 @@ namespace PresentationLayer.Presenters
 
         private void Remove(object sender, EventArgs e)
         {
-            if (isNew)
+            if (isTaskNew)
             {
                 MessageBox.Show("This task is not saved yet, so it can't be deleted");
             }
@@ -140,24 +127,24 @@ namespace PresentationLayer.Presenters
                     MessageBox.Show("No task to remove");
                 }
 
-                repository.Delete(task);
+                taskRepository.Delete(task);
 
-                tasks = repository.GetAll().ToList();
+                tasks = taskRepository.GetAll().ToList();
                 selectedTaskIndex = tasks.Count - 1;
 
                 if (selectedTaskIndex > 0)
                 {
-                    DisplayTaskInfo(tasks[selectedTaskIndex]);
-                    isNew = false;
+                    DisplaySingleTaskInfo(tasks[selectedTaskIndex]);
+                    isTaskNew = false;
                 }
                 else
                 {
                     New(sender, e);
-                    isNew = true;
+                    isTaskNew = true;
                 }
 
                 RefreshTasksGridview();
-                DisplayTaskInfo(task);
+                DisplaySingleTaskInfo(task);
             }
 
         }
@@ -167,9 +154,37 @@ namespace PresentationLayer.Presenters
             var taskToFinish = GetSelectedTask();
             taskToFinish.IsFinished = true;
             taskToFinish.FinishedDate = DateTime.Now;
-            repository.Update(taskToFinish);
-            DisplayTaskInfo(taskToFinish);
+            taskRepository.Update(taskToFinish);
+            DisplaySingleTaskInfo(taskToFinish);
         }
+
+        private void StopWorkingOnTask(object sender, EventArgs e)
+        {
+            if (currentWorkUnit != null)
+            {
+                currentWorkUnit.EndTime = DateTime.Now;
+
+                if (currentWorkUnit.StartTime.HasValue)
+                {
+                    TimeSpan workingTime = currentWorkUnit.EndTime.Value - currentWorkUnit.StartTime.Value;
+                    currentWorkUnit.Duration = Convert.ToInt16(workingTime.TotalSeconds);
+                }
+
+                workUnitsRepository.Add(currentWorkUnit);
+
+                RefreshWorkUnitsGridView();
+            }
+        }
+
+        private void StartWorkingOnTask(object sender, EventArgs e)
+        {
+            currentWorkUnit = new WorkUnit
+            {
+                StartTime = DateTime.Now,
+                Task = GetSelectedTask()
+            };
+        }
+
         #endregion
 
         #region Helper methods
@@ -183,16 +198,23 @@ namespace PresentationLayer.Presenters
             view.PreviousTask += ShowPrevious;
             view.NextTask += ShowNext;
             view.SelectTask += SelectTask;
+            view.StartWorkingOnTask += StartWorkingOnTask;
+            view.StopWorkingOnTask += StopWorkingOnTask;
         }
 
         private void ObtainTasksList()
         {
-            tasks = repository.HasTasks() ? repository.GetAll().ToList() : new List<Task>();
+            tasks = taskRepository.HasTasks() ? taskRepository.GetAll().ToList() : new List<Task>();
         }
 
         private void RefreshTasksGridview()
         {
             view.Tasks = tasks;
+        }
+
+        private void RefreshWorkUnitsGridView()
+        {
+            view.WorkUnits = GetSelectedTask().WorkUnits.ToList();
         }
 
         private void DisplayTasksList(List<Task> tasksList)
@@ -210,7 +232,7 @@ namespace PresentationLayer.Presenters
             view.FinishDate = null;
         }
 
-        private void DisplayTaskInfo(Task task)
+        private void DisplaySingleTaskInfo(Task task)
         {
             view.TaskName = task.Name;
             view.TaskDescription = task.Description;
@@ -218,7 +240,8 @@ namespace PresentationLayer.Presenters
             view.DueDate = task.DueDate;
             view.IsFinished = task.IsFinished;
             view.FinishDate = task.FinishedDate;
-            isNew = false;
+            view.WorkUnits = task.WorkUnits.ToList();
+            isTaskNew = false;
         }
 
         private Task GetTaskAtIndex(int index)
@@ -239,7 +262,7 @@ namespace PresentationLayer.Presenters
             var indexOfTask = tasks.FindIndex(t => t.Id == id);
             var selectedTask = GetTaskAtIndex(indexOfTask);
             selectedTaskIndex = indexOfTask;
-            DisplayTaskInfo(selectedTask);
+            DisplaySingleTaskInfo(selectedTask);
         }
 
         private void SelectTask(Task task)
@@ -249,12 +272,7 @@ namespace PresentationLayer.Presenters
 
         private List<Task> SortTasksByDateAndPriority(List<Task> tasksUnsorted)
         {
-            return tasksUnsorted.OrderBy(t => t.DueDate).OrderByDescending(t => t.Priority).ToList();
-        }
-
-        private void SetStatus(String message, params object[] parameters)
-        {
-            //view.Status = String.Format(message, parameters);
+            return tasksUnsorted.OrderBy(t => t.DueDate).ThenByDescending(t => t.IsFinished).ThenByDescending(t => t.Priority).ToList();
         }
 
         #endregion

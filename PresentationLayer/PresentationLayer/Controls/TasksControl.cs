@@ -2,12 +2,9 @@
 using System.Collections;
 using System.Windows.Forms;
 using MetroFramework.Controls;
-using PresentationLayer.Controls.Editors;
-using PresentationLayer.Controls.Viewers;
-using PresentationLayer.Presenters;
 using PresentationLayer.Views;
 
-namespace PresentationLayer.Controls.Panels
+namespace PresentationLayer.Controls
 {
     public partial class TasksControl : MetroUserControl, ITasksView
     {
@@ -88,16 +85,20 @@ namespace PresentationLayer.Controls.Panels
                 {
                     finishedButton.Visible = false;
                     editButton.Visible = false;
+                    startWorkButton.Enabled = false;
+                    stopWorkingButton.Enabled = false;
                 }
                 else
                 {
                     editButton.Visible = true;
                     finishedButton.Visible = true;
+                    startWorkButton.Enabled = true;
                 }
             }
         }
         public DateTime? FinishDate { get; set; }
         public bool IsDirty { get; set; }
+        public ICollection WorkUnits { set { workUnitsGrid.DataSource = value; } }
 
         public ICollection Tasks
         {
@@ -112,6 +113,9 @@ namespace PresentationLayer.Controls.Panels
         public event EventHandler<EventArgs> PreviousTask;
         public event EventHandler<EventArgs> NextTask;
         public event EventHandler<int> SelectTask;
+
+        public event EventHandler<EventArgs> StartWorkingOnTask;
+        public event EventHandler<EventArgs> StopWorkingOnTask;
 
         #region Events
 
@@ -173,19 +177,68 @@ namespace PresentationLayer.Controls.Panels
 
         private void tasksListGrid_SelectionChanged(object sender, EventArgs e)
         {
-            if (tasksListGrid.SelectedRows.Count > 0)
+            if (SelectTask != null)
             {
-                var selectedRow = tasksListGrid.SelectedRows[0];
-                if (selectedRow.Cells[0].Value != null)
+                if (tasksListGrid.SelectedRows.Count > 0)
                 {
-                    var cellValue = selectedRow.Cells[0].Value;
+                    var selectedRow = tasksListGrid.SelectedRows[0];
+                    if (selectedRow.Cells[0].Value != null)
+                    {
+                        var cellValue = selectedRow.Cells[0].Value;
 
-                    int selectedTaskId = 0;
-                    if (int.TryParse(cellValue.ToString(), out selectedTaskId))
-                        SelectTask(tasksListGrid, selectedTaskId);
+                        int selectedTaskId;
+                        if (int.TryParse(cellValue.ToString(), out selectedTaskId))
+                            SelectTask(tasksListGrid, selectedTaskId);
+                    }
                 }
             }
         }
+
+        private void tasksListGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            /*if (e.ListChangedType != ListChangedType.ItemDeleted)
+            {
+                DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+                DataGridViewCellStyle mediumPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+                DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+
+                lowPriorityStyle.BackColor = Color.Green;
+                mediumPriorityStyle.BackColor = Color.Yellow;
+                highPriorityStyle.BackColor = Color.Red;
+
+                int priorityColumnIndex = tasksListGrid.Columns["Priority"].Index;
+                
+                foreach (DataGridViewRow row in tasksListGrid.Rows)
+                {
+                    if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
+                        row.DefaultCellStyle = lowPriorityStyle;
+                    else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
+                        row.DefaultCellStyle = mediumPriorityStyle;
+                    else if (row.Cells[priorityColumnIndex].Value.ToString() == "3")
+                        row.DefaultCellStyle = highPriorityStyle;
+                    
+                }
+            }*/
+        }
+
+        private void startWorkButton_Click(object sender, EventArgs e)
+        {
+            if (StartWorkingOnTask != null)
+                StartWorkingOnTask(this, e);
+
+            stopWorkingButton.Enabled = true;
+            startWorkButton.Enabled = false;
+        }
+
+        private void stopWorkingButton_Click(object sender, EventArgs e)
+        {
+            if (StopWorkingOnTask != null)
+                StopWorkingOnTask(this, e);
+
+            startWorkButton.Enabled = true;
+            stopWorkingButton.Enabled = false;
+        }
+        
         #endregion Events
 
         private void SetDisplayMode(DisplayMode displayMode)
@@ -202,6 +255,18 @@ namespace PresentationLayer.Controls.Panels
             }
         }
 
-        
+        public void SetColumnNames()
+        {
+            idDataGridViewTextBoxColumn.Name = "Id";
+            nameDataGridViewTextBoxColumn.Name = "Name";
+            priorityDataGridViewTextBoxColumn.Name = "Priority";
+        }
+
+    }
+
+    internal enum DisplayMode
+    {
+        View,
+        Edit
     }
 }

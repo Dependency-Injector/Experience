@@ -10,5 +10,6 @@ namespace DataAccessLayer
         }
 
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<WorkUnit> WorkUnits { get; set; }
     }
 }

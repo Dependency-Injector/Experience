@@ -65,35 +65,11 @@ namespace DataAccessLayer.Repositories
                 context.SaveChanges();
             }
         }
+
         public bool HasTasks()
         {
             return context.Tasks.Any();
         }
-
-        /*
-        public void AddActivity(Activity activity)
-        {
-            context.Activities.Add(activity);
-            context.SaveChanges();
-        }
-        public void UpdateActivity(Activity activity)
-        {
-            context.Activities.Attach(activity);
-            context.SaveChanges();
-        }
-        public IQueryable<Activity> GetActivities()
-        {
-            return context.Activities;
-        }
-        public IQueryable<TimePeriod> GetActivitiesHistory()
-        {
-            return context.TimePeriods;
-        }
-        public void RemoveActivity(Activity selectedActivity)
-        {
-            context.Activities.Remove(selectedActivity);
-            context.SaveChanges();
-        }
-        */
+        
     }
 }

@@ -31,12 +31,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -51,7 +51,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntitiesContext.cs" />
+    <Compile Include="Migrations\201507260540194_InitialCreate.cs" />
+    <Compile Include="Migrations\201507260540194_InitialCreate.Designer.cs">
+      <DependentUpon>201507260540194_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508110125028_WorkUnits.cs" />
+    <Compile Include="Migrations\201508110125028_WorkUnits.Designer.cs">
+      <DependentUpon>201508110125028_WorkUnits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\WorkUnit.cs" />
     <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\WorkUnitsRepository.cs" />
     <Compile Include="Repositories\TasksRepository.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +73,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507260540194_InitialCreate.resx">
+      <DependentUpon>201507260540194_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508110125028_WorkUnits.resx">
+      <DependentUpon>201508110125028_WorkUnits.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
