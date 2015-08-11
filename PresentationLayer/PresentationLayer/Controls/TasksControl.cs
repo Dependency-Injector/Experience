@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using PresentationLayer.Views;
+using Utilities;
 
 namespace PresentationLayer.Controls
 {
@@ -47,20 +50,25 @@ namespace PresentationLayer.Controls
 
             set
             {
-                switch (value)
+                if (TaskDefaults.Priorities.ContainsKey(value))
                 {
-                    case 1:
-                        lowPriorityRadioButton.Checked = true;
-                        priorityLabel.Text = "Low";
-                        break;
-                    case 2:
-                        mediumPriorityRadioButton.Checked = true;
-                        priorityLabel.Text = "Medium";
-                        break;
-                    case 3:
-                        highPriorityRadioButton.Checked = true;
-                        priorityLabel.Text = "High";
-                        break;
+                    PriorityLevel priority = TaskDefaults.Priorities[value];
+
+                    switch (priority.Severity)
+                    {
+                        case Severity.Low:
+                            lowPriorityRadioButton.Checked = true;
+                            break;
+                        case Severity.Medium:
+                            mediumPriorityRadioButton.Checked = true;
+                            break;
+                        case Severity.High:
+                            highPriorityRadioButton.Checked = true;
+                            break;
+                    }
+
+                    priorityLabel.Text = priority.Name;
+                    priorityLabel.ForeColor = priority.Color;
                 }
             }
         }
@@ -85,13 +93,17 @@ namespace PresentationLayer.Controls
                 {
                     finishedButton.Visible = false;
                     editButton.Visible = false;
-                    startWorkButton.Enabled = false;
-                    stopWorkingButton.Enabled = false;
+
+                    startWorkButton.Visible = false;
+                    stopWorkingButton.Visible = false;
                 }
                 else
                 {
                     editButton.Visible = true;
                     finishedButton.Visible = true;
+
+                    startWorkButton.Visible = true;
+                    stopWorkingButton.Visible = true;
                     startWorkButton.Enabled = true;
                 }
             }
@@ -196,29 +208,53 @@ namespace PresentationLayer.Controls
 
         private void tasksListGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            /*if (e.ListChangedType != ListChangedType.ItemDeleted)
+            if (e.ListChangedType != ListChangedType.ItemDeleted)
             {
                 DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
                 DataGridViewCellStyle mediumPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
                 DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
 
-                lowPriorityStyle.BackColor = Color.Green;
-                mediumPriorityStyle.BackColor = Color.Yellow;
-                highPriorityStyle.BackColor = Color.Red;
+                lowPriorityStyle.BackColor = TaskDefaults.Priorities[1].Color;
+                mediumPriorityStyle.BackColor = TaskDefaults.Priorities[2].Color;
+                highPriorityStyle.BackColor = TaskDefaults.Priorities[3].Color;
 
-                int priorityColumnIndex = tasksListGrid.Columns["Priority"].Index;
-                
-                foreach (DataGridViewRow row in tasksListGrid.Rows)
+                var dataGridViewColumn = tasksListGrid.Columns["Priority"];
+                if (dataGridViewColumn == null)
                 {
-                    if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
-                        row.DefaultCellStyle = lowPriorityStyle;
-                    else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
-                        row.DefaultCellStyle = mediumPriorityStyle;
-                    else if (row.Cells[priorityColumnIndex].Value.ToString() == "3")
-                        row.DefaultCellStyle = highPriorityStyle;
-                    
+                    SetColumnNames();
+                    dataGridViewColumn = tasksListGrid.Columns["Priority"];
                 }
-            }*/
+
+                if (dataGridViewColumn != null)
+                {
+                    int priorityColumnIndex = dataGridViewColumn.Index;
+
+                    foreach (DataGridViewRow row in tasksListGrid.Rows)
+                    {
+                        int priorityValue;
+                        if (int.TryParse(row.Cells[priorityColumnIndex].Value.ToString(), out priorityValue))
+                        {
+                            //Priority priority = TaskDefaults.Priorities[priorityValue];
+                            //row.Cells[priorityColumnIndex].Value = priority.Name;
+                        }
+
+                        if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
+                        {
+                            row.DefaultCellStyle = lowPriorityStyle;
+                        }
+                        else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
+                        {
+                            row.DefaultCellStyle = mediumPriorityStyle;
+                        }
+                        else if (row.Cells[priorityColumnIndex].Value.ToString() == "3")
+                        {
+                            row.DefaultCellStyle = highPriorityStyle;
+                        }
+
+                    }
+                }
+            }
+            
         }
 
         private void startWorkButton_Click(object sender, EventArgs e)
@@ -238,7 +274,7 @@ namespace PresentationLayer.Controls
             startWorkButton.Enabled = true;
             stopWorkingButton.Enabled = false;
         }
-        
+
         #endregion Events
 
         private void SetDisplayMode(DisplayMode displayMode)
@@ -257,9 +293,7 @@ namespace PresentationLayer.Controls
 
         public void SetColumnNames()
         {
-            idDataGridViewTextBoxColumn.Name = "Id";
-            nameDataGridViewTextBoxColumn.Name = "Name";
-            priorityDataGridViewTextBoxColumn.Name = "Priority";
+            priorityGridColumn.Name = "Priority";
         }
 
     }

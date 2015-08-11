@@ -31,18 +31,18 @@ namespace PresentationLayer.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.tasksControl1 = new TasksControl();
+            this.tasksControl1 = new PresentationLayer.Controls.TasksControl();
             this.SuspendLayout();
             // 
             // tasksControl1
             // 
-            this.tasksControl1.DueDate = new System.DateTime(2015, 8, 11, 5, 17, 30, 302);
+            this.tasksControl1.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
             this.tasksControl1.FinishDate = null;
             this.tasksControl1.IsDirty = true;
-            this.tasksControl1.Location = new System.Drawing.Point(20, 60);
+            this.tasksControl1.Location = new System.Drawing.Point(23, 63);
             this.tasksControl1.Name = "tasksControl1";
             this.tasksControl1.Priority = 0;
-            this.tasksControl1.Size = new System.Drawing.Size(937, 561);
+            this.tasksControl1.Size = new System.Drawing.Size(833, 579);
             this.tasksControl1.TabIndex = 0;
             this.tasksControl1.TaskDescription = "Description";
             this.tasksControl1.TaskName = "Name";
@@ -57,6 +57,7 @@ namespace PresentationLayer.Forms
             this.MinimumSize = new System.Drawing.Size(1000, 650);
             this.Name = "TestForm";
             this.Text = "TestForm";
+            this.Load += new System.EventHandler(this.TestForm_Load);
             this.ResumeLayout(false);
 
         }

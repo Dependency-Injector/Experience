@@ -41,9 +41,15 @@ namespace DataAccessLayer.Repositories
         {
             using (EntitiesContext context = new EntitiesContext())
             {
+                for (int i = 0; i < workUnit.Task.WorkUnits.Count; i++)
+                {
+                    context.Entry(workUnit.Task.WorkUnits.ElementAt(i)).State = EntityState.Unchanged;
+                }
+
                 context.WorkUnits.Add(workUnit);
                 context.Entry(workUnit).State = EntityState.Added;
                 context.Entry(workUnit.Task).State = EntityState.Modified;
+                
                 context.SaveChanges();
             }
         }

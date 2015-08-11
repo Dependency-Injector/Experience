@@ -19,5 +19,10 @@ namespace PresentationLayer.Forms
         {
             this.tasksControl1.SetColumnNames();
         }
+
+        /*private void TestForm_Load(object sender, EventArgs e)
+        {
+            this.tasksControl1.SetColumnNames();
+        }*/
     }
 }
