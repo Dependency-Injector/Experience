@@ -65,7 +65,7 @@
             // ageTextLabel
             // 
             this.ageTextLabel.AutoSize = true;
-            this.ageTextLabel.Location = new System.Drawing.Point(21, 47);
+            this.ageTextLabel.Location = new System.Drawing.Point(3, 44);
             this.ageTextLabel.Name = "ageTextLabel";
             this.ageTextLabel.Size = new System.Drawing.Size(33, 19);
             this.ageTextLabel.TabIndex = 0;
@@ -74,7 +74,7 @@
             // historyTextLabel
             // 
             this.historyTextLabel.AutoSize = true;
-            this.historyTextLabel.Location = new System.Drawing.Point(21, 77);
+            this.historyTextLabel.Location = new System.Drawing.Point(3, 74);
             this.historyTextLabel.Name = "historyTextLabel";
             this.historyTextLabel.Size = new System.Drawing.Size(49, 19);
             this.historyTextLabel.TabIndex = 0;
@@ -83,7 +83,7 @@
             // ageLabel
             // 
             this.ageLabel.AutoSize = true;
-            this.ageLabel.Location = new System.Drawing.Point(104, 47);
+            this.ageLabel.Location = new System.Drawing.Point(109, 44);
             this.ageLabel.Name = "ageLabel";
             this.ageLabel.Size = new System.Drawing.Size(77, 19);
             this.ageLabel.TabIndex = 0;
@@ -92,7 +92,7 @@
             // experienceTextLabel
             // 
             this.experienceTextLabel.AutoSize = true;
-            this.experienceTextLabel.Location = new System.Drawing.Point(21, 144);
+            this.experienceTextLabel.Location = new System.Drawing.Point(3, 141);
             this.experienceTextLabel.Name = "experienceTextLabel";
             this.experienceTextLabel.Size = new System.Drawing.Size(72, 19);
             this.experienceTextLabel.TabIndex = 0;
@@ -101,7 +101,7 @@
             // levelLabel
             // 
             this.levelLabel.AutoSize = true;
-            this.levelLabel.Location = new System.Drawing.Point(104, 107);
+            this.levelLabel.Location = new System.Drawing.Point(109, 104);
             this.levelLabel.Name = "levelLabel";
             this.levelLabel.Size = new System.Drawing.Size(82, 19);
             this.levelLabel.TabIndex = 0;
@@ -109,15 +109,15 @@
             // 
             // experienceProgressBar
             // 
-            this.experienceProgressBar.Location = new System.Drawing.Point(21, 176);
+            this.experienceProgressBar.Location = new System.Drawing.Point(3, 173);
             this.experienceProgressBar.Name = "experienceProgressBar";
-            this.experienceProgressBar.Size = new System.Drawing.Size(329, 23);
+            this.experienceProgressBar.Size = new System.Drawing.Size(479, 23);
             this.experienceProgressBar.TabIndex = 1;
             // 
             // historyLabel
             // 
             this.historyLabel.AutoSize = true;
-            this.historyLabel.Location = new System.Drawing.Point(104, 77);
+            this.historyLabel.Location = new System.Drawing.Point(109, 74);
             this.historyLabel.Name = "historyLabel";
             this.historyLabel.Size = new System.Drawing.Size(93, 19);
             this.historyLabel.TabIndex = 0;
@@ -126,7 +126,7 @@
             // skillsTextLabel
             // 
             this.skillsTextLabel.AutoSize = true;
-            this.skillsTextLabel.Location = new System.Drawing.Point(21, 225);
+            this.skillsTextLabel.Location = new System.Drawing.Point(3, 225);
             this.skillsTextLabel.Name = "skillsTextLabel";
             this.skillsTextLabel.Size = new System.Drawing.Size(36, 19);
             this.skillsTextLabel.TabIndex = 0;
@@ -135,7 +135,7 @@
             // levelTextLabel
             // 
             this.levelTextLabel.AutoSize = true;
-            this.levelTextLabel.Location = new System.Drawing.Point(21, 107);
+            this.levelTextLabel.Location = new System.Drawing.Point(3, 104);
             this.levelTextLabel.Name = "levelTextLabel";
             this.levelTextLabel.Size = new System.Drawing.Size(38, 19);
             this.levelTextLabel.TabIndex = 0;
@@ -144,7 +144,7 @@
             // experienceLabel
             // 
             this.experienceLabel.AutoSize = true;
-            this.experienceLabel.Location = new System.Drawing.Point(104, 144);
+            this.experienceLabel.Location = new System.Drawing.Point(109, 141);
             this.experienceLabel.Name = "experienceLabel";
             this.experienceLabel.Size = new System.Drawing.Size(116, 19);
             this.experienceLabel.TabIndex = 0;
@@ -156,9 +156,9 @@
             this.skillsPanel.HorizontalScrollbarBarColor = true;
             this.skillsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.skillsPanel.HorizontalScrollbarSize = 10;
-            this.skillsPanel.Location = new System.Drawing.Point(21, 247);
+            this.skillsPanel.Location = new System.Drawing.Point(3, 247);
             this.skillsPanel.Name = "skillsPanel";
-            this.skillsPanel.Size = new System.Drawing.Size(329, 141);
+            this.skillsPanel.Size = new System.Drawing.Size(479, 141);
             this.skillsPanel.TabIndex = 2;
             this.skillsPanel.VerticalScrollbarBarColor = true;
             this.skillsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -169,6 +169,7 @@
             this.skillsGrid.AllowUserToAddRows = false;
             this.skillsGrid.AllowUserToDeleteRows = false;
             this.skillsGrid.AllowUserToResizeRows = false;
+            this.skillsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.skillsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.skillsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.skillsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -213,7 +214,7 @@
             this.skillsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.skillsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.skillsGrid.Size = new System.Drawing.Size(329, 141);
+            this.skillsGrid.Size = new System.Drawing.Size(479, 141);
             this.skillsGrid.TabIndex = 2;
             // 
             // skillNameColumn
@@ -257,7 +258,7 @@
             this.Controls.Add(this.ageTextLabel);
             this.Controls.Add(this.nameLabel);
             this.Name = "ProfileControl";
-            this.Size = new System.Drawing.Size(368, 418);
+            this.Size = new System.Drawing.Size(485, 418);
             this.skillsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).EndInit();
             this.ResumeLayout(false);

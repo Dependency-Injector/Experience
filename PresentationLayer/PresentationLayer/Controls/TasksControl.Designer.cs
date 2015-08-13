@@ -102,7 +102,7 @@ namespace PresentationLayer.Controls
             this.buttonsPanel.HorizontalScrollbarBarColor = true;
             this.buttonsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.buttonsPanel.HorizontalScrollbarSize = 10;
-            this.buttonsPanel.Location = new System.Drawing.Point(106, 3);
+            this.buttonsPanel.Location = new System.Drawing.Point(360, 3);
             this.buttonsPanel.Name = "buttonsPanel";
             this.buttonsPanel.Size = new System.Drawing.Size(250, 30);
             this.buttonsPanel.TabIndex = 3;
@@ -302,6 +302,7 @@ namespace PresentationLayer.Controls
             this.workUnitsGrid.AllowUserToDeleteRows = false;
             this.workUnitsGrid.AllowUserToResizeRows = false;
             this.workUnitsGrid.AutoGenerateColumns = false;
+            this.workUnitsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.workUnitsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.workUnitsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.workUnitsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -560,6 +561,7 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.AllowUserToDeleteRows = false;
             this.tasksListGrid.AllowUserToResizeRows = false;
             this.tasksListGrid.AutoGenerateColumns = false;
+            this.tasksListGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tasksListGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.tasksListGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tasksListGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;

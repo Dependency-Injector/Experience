@@ -197,7 +197,7 @@ namespace PresentationLayer.Controls
         {
             if (e.ListChangedType != ListChangedType.ItemDeleted)
             {
-                DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+               /* DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
                 DataGridViewCellStyle mediumPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
                 DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
 
@@ -236,7 +236,7 @@ namespace PresentationLayer.Controls
                         }
 
                     }
-                }
+                }*/
             }
             
         }

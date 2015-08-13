@@ -320,7 +320,7 @@ namespace PresentationLayer.Presenters
             {
                 Profile profile = profileRepository.GetAll().First();
                 Skill skillTrained = profile.Skills.First(s => s.Id == id);
-                float hours = (float)duration/60;
+                float hours = (float)duration/360;
                 float gainedExperience = hours * 10;
 
                 skillTrained.Experience += (int) gainedExperience;
