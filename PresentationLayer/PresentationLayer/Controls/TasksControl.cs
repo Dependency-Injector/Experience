@@ -68,7 +68,7 @@ namespace PresentationLayer.Controls
                     }
 
                     priorityLabel.Text = priority.Name;
-                    priorityLabel.ForeColor = priority.Color;
+                    priorityLabel.BackColor = priority.Color;
                 }
             }
         }
@@ -89,25 +89,10 @@ namespace PresentationLayer.Controls
         {
             set
             {
-                if (value)
-                {
-                    finishedButton.Visible = false;
-                    editButton.Visible = false;
-
-                    startWorkButton.Visible = false;
-                    stopWorkingButton.Visible = false;
-                }
-                else
-                {
-                    editButton.Visible = true;
-                    finishedButton.Visible = true;
-
-                    startWorkButton.Visible = true;
-                    stopWorkingButton.Visible = true;
-                    startWorkButton.Enabled = true;
-                }
+                PrepareButtonsForTask(value);
             }
         }
+
         public DateTime? FinishDate { get; set; }
         public bool IsDirty { get; set; }
         public ICollection WorkUnits { set { workUnitsGrid.DataSource = value; } }
@@ -185,6 +170,8 @@ namespace PresentationLayer.Controls
         {
             if (RemoveTask != null)
                 RemoveTask(this, e);
+
+            SetDisplayMode(DisplayMode.View);
         }
 
         private void tasksListGrid_SelectionChanged(object sender, EventArgs e)
@@ -215,8 +202,11 @@ namespace PresentationLayer.Controls
                 DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
 
                 lowPriorityStyle.BackColor = TaskDefaults.Priorities[1].Color;
+                lowPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[1].SelectionColor;
                 mediumPriorityStyle.BackColor = TaskDefaults.Priorities[2].Color;
+                mediumPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[2].SelectionColor;
                 highPriorityStyle.BackColor = TaskDefaults.Priorities[3].Color;
+                highPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[3].SelectionColor;
 
                 var dataGridViewColumn = tasksListGrid.Columns["Priority"];
                 if (dataGridViewColumn == null)
@@ -231,16 +221,10 @@ namespace PresentationLayer.Controls
 
                     foreach (DataGridViewRow row in tasksListGrid.Rows)
                     {
-                        int priorityValue;
-                        if (int.TryParse(row.Cells[priorityColumnIndex].Value.ToString(), out priorityValue))
-                        {
-                            //Priority priority = TaskDefaults.Priorities[priorityValue];
-                            //row.Cells[priorityColumnIndex].Value = priority.Name;
-                        }
-
                         if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
                         {
                             row.DefaultCellStyle = lowPriorityStyle;
+                            
                         }
                         else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
                         {
@@ -281,19 +265,40 @@ namespace PresentationLayer.Controls
         {
             if (displayMode == DisplayMode.Edit)
             {
-                taskViewPanel.Hide();
+                taskDetailsPanel.Hide();
                 taskEditPanel.Show();
             }
             else if (displayMode == DisplayMode.View)
             {
                 taskEditPanel.Hide();
-                taskViewPanel.Show();
+                taskDetailsPanel.Show();
             }
         }
 
         public void SetColumnNames()
         {
             priorityGridColumn.Name = "Priority";
+        }
+
+        private void PrepareButtonsForTask(bool finished)
+        {
+            if (finished)
+            {
+                finishedButton.Visible = false;
+                editButton.Visible = false;
+
+                startWorkButton.Visible = false;
+                stopWorkingButton.Visible = false;
+            }
+            else
+            {
+                editButton.Visible = true;
+                finishedButton.Visible = true;
+
+                startWorkButton.Visible = true;
+                stopWorkingButton.Visible = true;
+                startWorkButton.Enabled = true;
+            }
         }
 
     }

@@ -8,9 +8,9 @@ namespace Utilities
     {
         static TaskDefaults()
         {
-            PriorityLevel lowPriority = new PriorityLevel(Severity.Low, "Low", Color.Green);
-            PriorityLevel mediumPriority = new PriorityLevel(Severity.Medium, "Medium", Color.Yellow);
-            PriorityLevel highPriority = new PriorityLevel(Severity.High, "High", Color.Red);
+            PriorityLevel lowPriority = new PriorityLevel(Severity.Low, "Low", Color.Green, Color.DarkGreen);
+            PriorityLevel mediumPriority = new PriorityLevel(Severity.Medium, "Medium", Color.Yellow, Color.DarkGoldenrod);
+            PriorityLevel highPriority = new PriorityLevel(Severity.High, "High", Color.Red, Color.DarkRed);
 
             Priorities = new Dictionary<int, PriorityLevel>
             {

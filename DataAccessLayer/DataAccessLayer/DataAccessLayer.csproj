@@ -59,9 +59,19 @@
     <Compile Include="Migrations\201508110125028_WorkUnits.Designer.cs">
       <DependentUpon>201508110125028_WorkUnits.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508130022567_Profile.cs" />
+    <Compile Include="Migrations\201508130022567_Profile.Designer.cs">
+      <DependentUpon>201508130022567_Profile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508130227471_ProfileHistory.cs" />
+    <Compile Include="Migrations\201508130227471_ProfileHistory.Designer.cs">
+      <DependentUpon>201508130227471_ProfileHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Profile.cs" />
     <Compile Include="Model\WorkUnit.cs" />
     <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\ProfileRepository.cs" />
     <Compile Include="Repositories\WorkUnitsRepository.cs" />
     <Compile Include="Repositories\TasksRepository.cs" />
     <Compile Include="Model\Task.cs" />
@@ -80,6 +90,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508110125028_WorkUnits.resx">
       <DependentUpon>201508110125028_WorkUnits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130022567_Profile.resx">
+      <DependentUpon>201508130022567_Profile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130227471_ProfileHistory.resx">
+      <DependentUpon>201508130227471_ProfileHistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
