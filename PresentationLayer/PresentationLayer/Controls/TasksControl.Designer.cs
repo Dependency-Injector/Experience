@@ -160,7 +160,7 @@ namespace PresentationLayer.Controls
             this.taskDetailsPanel.HorizontalScrollbarSize = 10;
             this.taskDetailsPanel.Location = new System.Drawing.Point(3, 39);
             this.taskDetailsPanel.Name = "taskDetailsPanel";
-            this.taskDetailsPanel.Size = new System.Drawing.Size(457, 302);
+            this.taskDetailsPanel.Size = new System.Drawing.Size(611, 302);
             this.taskDetailsPanel.TabIndex = 4;
             this.taskDetailsPanel.VerticalScrollbarBarColor = true;
             this.taskDetailsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -178,7 +178,7 @@ namespace PresentationLayer.Controls
             // stopWorkingButton
             // 
             this.stopWorkingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.stopWorkingButton.Location = new System.Drawing.Point(186, 271);
+            this.stopWorkingButton.Location = new System.Drawing.Point(340, 271);
             this.stopWorkingButton.Name = "stopWorkingButton";
             this.stopWorkingButton.Size = new System.Drawing.Size(85, 26);
             this.stopWorkingButton.TabIndex = 11;
@@ -189,7 +189,7 @@ namespace PresentationLayer.Controls
             // startWorkButton
             // 
             this.startWorkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.startWorkButton.Location = new System.Drawing.Point(277, 271);
+            this.startWorkButton.Location = new System.Drawing.Point(431, 271);
             this.startWorkButton.Name = "startWorkButton";
             this.startWorkButton.Size = new System.Drawing.Size(85, 26);
             this.startWorkButton.TabIndex = 11;
@@ -211,7 +211,7 @@ namespace PresentationLayer.Controls
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.finishedButton.Location = new System.Drawing.Point(368, 271);
+            this.finishedButton.Location = new System.Drawing.Point(522, 271);
             this.finishedButton.Name = "finishedButton";
             this.finishedButton.Size = new System.Drawing.Size(84, 26);
             this.finishedButton.TabIndex = 10;
@@ -290,7 +290,7 @@ namespace PresentationLayer.Controls
             this.workUnitsPanel.HorizontalScrollbarSize = 10;
             this.workUnitsPanel.Location = new System.Drawing.Point(3, 196);
             this.workUnitsPanel.Name = "workUnitsPanel";
-            this.workUnitsPanel.Size = new System.Drawing.Size(449, 69);
+            this.workUnitsPanel.Size = new System.Drawing.Size(603, 69);
             this.workUnitsPanel.TabIndex = 7;
             this.workUnitsPanel.VerticalScrollbarBarColor = true;
             this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -348,7 +348,7 @@ namespace PresentationLayer.Controls
             this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.workUnitsGrid.Size = new System.Drawing.Size(447, 67);
+            this.workUnitsGrid.Size = new System.Drawing.Size(601, 67);
             this.workUnitsGrid.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -548,7 +548,7 @@ namespace PresentationLayer.Controls
             this.tasksListPanel.HorizontalScrollbarSize = 10;
             this.tasksListPanel.Location = new System.Drawing.Point(3, 347);
             this.tasksListPanel.Name = "tasksListPanel";
-            this.tasksListPanel.Size = new System.Drawing.Size(457, 198);
+            this.tasksListPanel.Size = new System.Drawing.Size(611, 198);
             this.tasksListPanel.TabIndex = 6;
             this.tasksListPanel.VerticalScrollbarBarColor = true;
             this.tasksListPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -606,7 +606,7 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.tasksListGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tasksListGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tasksListGrid.Size = new System.Drawing.Size(457, 198);
+            this.tasksListGrid.Size = new System.Drawing.Size(611, 198);
             this.tasksListGrid.TabIndex = 2;
             this.tasksListGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tasksListGrid_DataBindingComplete);
             this.tasksListGrid.SelectionChanged += new System.EventHandler(this.tasksListGrid_SelectionChanged);
@@ -663,7 +663,7 @@ namespace PresentationLayer.Controls
             this.Controls.Add(this.buttonsPanel);
             this.Controls.Add(this.taskEditPanel);
             this.Name = "TasksControl";
-            this.Size = new System.Drawing.Size(463, 579);
+            this.Size = new System.Drawing.Size(617, 579);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.buttonsPanel.ResumeLayout(false);
             this.taskDetailsPanel.ResumeLayout(false);

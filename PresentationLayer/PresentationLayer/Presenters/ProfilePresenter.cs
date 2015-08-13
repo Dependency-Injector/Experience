@@ -48,6 +48,7 @@ namespace PresentationLayer.Presenters
             view.Experience = profile.Experience;
             view.Level = profile.Level;
             view.LevelProgress = profile.LevelProgressInPercent();
+            view.Skills = profile.Skills.ToList();
         }
 
         private Profile ObtainProfile()

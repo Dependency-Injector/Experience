@@ -22,6 +22,7 @@ namespace DataAccessLayer.Model
         public DateTime CreationDate { get; set; }
         public DateTime? FinishedDate { get; set; }
 
+        public virtual Skill SkillToTrain { get; set; }
         public virtual ICollection<WorkUnit> WorkUnits { get; set; }
     }
 }

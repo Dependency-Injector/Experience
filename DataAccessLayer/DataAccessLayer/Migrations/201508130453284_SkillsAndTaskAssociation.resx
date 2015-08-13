@@ -117,16 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="skillNameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="skillLevelColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="skillExperienceColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="skillNewLevelProgressColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <data name="Target" xml:space="preserve">
+    <value>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</value>
+  </data>
+  <data name="DefaultSchema" xml:space="preserve">
+    <value>dbo</value>
+  </data>
 </root>

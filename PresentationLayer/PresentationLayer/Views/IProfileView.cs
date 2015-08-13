@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace PresentationLayer.Views
         int Level { get; set; }
         int Experience { get; set; }
         int LevelProgress { get; set; }
+        ICollection Skills { set; } 
     }
 }

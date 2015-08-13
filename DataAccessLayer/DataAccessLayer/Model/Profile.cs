@@ -10,7 +10,7 @@ namespace DataAccessLayer.Model
     {
         public Profile()
         {
-            
+            Skills = new List<Skill>();
         }
 
         public int Id { get; set; }
@@ -19,6 +19,8 @@ namespace DataAccessLayer.Model
         public DateTime BirthDate { get; set; }
         public int Level { get; set; }
         public int Experience { get; set; }
+
+        public virtual ICollection<Skill> Skills { get; set; }
 
         public int AgeInYears()
         {
@@ -34,6 +36,6 @@ namespace DataAccessLayer.Model
             int percentCompleted = (int)(completedPart * 100);
             return percentCompleted;
         }
-        //public virtual ICollection<Skill> Skills { get; set; } 
+
     }
 }

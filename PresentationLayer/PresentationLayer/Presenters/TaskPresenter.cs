@@ -15,6 +15,7 @@ namespace PresentationLayer.Presenters
         private readonly ITasksView view;
         private TasksRepository taskRepository;
         private WorkUnitsRepository workUnitsRepository;
+        private SkillsRepository skillsRepository;
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
@@ -27,6 +28,7 @@ namespace PresentationLayer.Presenters
             this.view = view;
             taskRepository = new TasksRepository();
             workUnitsRepository = new WorkUnitsRepository();
+            skillsRepository = new SkillsRepository();
 
             Initialize();
         }
@@ -39,8 +41,8 @@ namespace PresentationLayer.Presenters
             {
                 AttachEvents();
                 ObtainTasksList();
-                tasks = SortTasksByDateAndPriority(tasks);
-
+                tasks = SortTasks(tasks);
+                
                 if (tasks != null && tasks.Count > 0)
                 {
                     DisplaySingleTaskInfo(tasks[0]);
@@ -172,6 +174,12 @@ namespace PresentationLayer.Presenters
 
                 workUnitsRepository.Add(currentWorkUnit);
 
+                Task task = taskRepository.Get(currentWorkUnit.Task.Id);
+                if (task.SkillToTrain != null)
+                {
+                    SkillTrainer.SkillTrained(task.SkillToTrain.Id, currentWorkUnit.Duration.Value);
+                }
+
                 RefreshWorkUnitsGridView();
             }
         }
@@ -219,7 +227,7 @@ namespace PresentationLayer.Presenters
 
         private void DisplayTasksList(List<Task> tasksList)
         {
-            view.Tasks = SortTasksByDateAndPriority(tasksList);
+            view.Tasks = SortTasks(tasksList);
         }
 
         private void DisplayBlankTask()
@@ -270,11 +278,60 @@ namespace PresentationLayer.Presenters
             SelectTask(this, task.Id);
         }
 
-        private List<Task> SortTasksByDateAndPriority(List<Task> tasksUnsorted)
+
+        private IEnumerable<Task> SortUnfinishedFirst(IEnumerable<Task> tasks)
         {
-            return tasksUnsorted.OrderBy(t => t.DueDate).ThenByDescending(t => t.IsFinished).ThenByDescending(t => t.Priority).ToList();
+            return tasks.OrderByDescending(t => t.IsFinished);
+        }
+
+        private IEnumerable<Task> SortByDeadline(IEnumerable<Task> tasks)
+        {
+            return tasks.OrderBy(t => t.DueDate);
+        }
+
+        private IEnumerable<Task> SortByPriority(IEnumerable<Task> tasks)
+        {
+            return tasks.OrderByDescending(t => t.Priority);
+        }
+
+        private List<Task> SortTasks(List<Task> tasksUnsorted)
+        {
+            return SortByPriority(
+                        SortByDeadline(
+                            SortUnfinishedFirst(tasksUnsorted))).ToList();
         }
 
         #endregion
+    }
+
+    internal static class SkillTrainer
+    {
+        private static ProfileRepository profileRepository = new ProfileRepository();
+        private static SkillsRepository skillsRepository = new SkillsRepository();
+
+        static SkillTrainer()
+        {
+            
+        }
+
+        public static void SkillTrained(int id, int duration)
+        {
+            if (profileRepository != null)
+            {
+                Profile profile = profileRepository.GetAll().First();
+                Skill skillTrained = profile.Skills.First(s => s.Id == id);
+                float hours = (float)duration/60;
+                float gainedExperience = hours * 10;
+
+                skillTrained.Experience += (int) gainedExperience;
+
+                profile.Experience += (int) gainedExperience;
+
+                skillsRepository.Update(skillTrained);
+                profileRepository.Update(profile);
+            }
+
+           
+        }
     }
 }

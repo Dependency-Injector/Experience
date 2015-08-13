@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataAccessLayer.Model;
 using MetroFramework.Controls;
 using PresentationLayer.Views;
 
@@ -61,7 +63,7 @@ namespace PresentationLayer.Controls
             set
             {
                 TimeSpan age = DateTime.Now - value;
-                int years = (int) (age.TotalDays/365);
+                int years = (int)(age.TotalDays / 365);
                 ageLabel.Text = years.ToString();
             }
         }
@@ -99,6 +101,36 @@ namespace PresentationLayer.Controls
         {
             get { return experienceProgressBar.Value; }
             set { experienceProgressBar.Value = value; }
+        }
+
+        public ICollection Skills
+        {
+            set { AddSkillsToDataGrid(value); }
+        }
+
+        private void AddSkillsToDataGrid(ICollection skills)
+        {
+            foreach (var skillObject in skills)
+            {
+                if (skillObject is Skill)
+                {
+                    Skill skill = (Skill)skillObject;
+                    skillsGrid.Columns[0].Name = "Name";
+                    skillsGrid.Columns[1].Name = "Level";
+                    skillsGrid.Columns[2].Name = "Exp";
+                    skillsGrid.Columns[3].Name = "NewLevelProgress";
+
+                    string[] skillRow = new string[]
+                    {
+                        $"{skill.Name}",
+                        $"{skill.Level}",
+                        $"{skill.Experience}",
+                        $"{skill.GetNewLevelProgress()}"
+                    };
+
+                    skillsGrid.Rows.Add(skillRow);
+                }
+            }
         }
     }
 }

@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.nameLabel = new MetroFramework.Controls.MetroLabel();
             this.ageTextLabel = new MetroFramework.Controls.MetroLabel();
             this.historyTextLabel = new MetroFramework.Controls.MetroLabel();
@@ -40,6 +43,13 @@
             this.levelTextLabel = new MetroFramework.Controls.MetroLabel();
             this.experienceLabel = new MetroFramework.Controls.MetroLabel();
             this.skillsPanel = new MetroFramework.Controls.MetroPanel();
+            this.skillsGrid = new MetroFramework.Controls.MetroGrid();
+            this.skillNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.skillLevelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.skillExperienceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.skillNewLevelProgressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.skillsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -142,6 +152,7 @@
             // 
             // skillsPanel
             // 
+            this.skillsPanel.Controls.Add(this.skillsGrid);
             this.skillsPanel.HorizontalScrollbarBarColor = true;
             this.skillsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.skillsPanel.HorizontalScrollbarSize = 10;
@@ -152,6 +163,82 @@
             this.skillsPanel.VerticalScrollbarBarColor = true;
             this.skillsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.skillsPanel.VerticalScrollbarSize = 10;
+            // 
+            // skillsGrid
+            // 
+            this.skillsGrid.AllowUserToAddRows = false;
+            this.skillsGrid.AllowUserToDeleteRows = false;
+            this.skillsGrid.AllowUserToResizeRows = false;
+            this.skillsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.skillsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.skillsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.skillsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.skillsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.skillsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.skillsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.skillNameColumn,
+            this.skillLevelColumn,
+            this.skillExperienceColumn,
+            this.skillNewLevelProgressColumn});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.skillsGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            this.skillsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.skillsGrid.EnableHeadersVisualStyles = false;
+            this.skillsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.skillsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.skillsGrid.Location = new System.Drawing.Point(0, 0);
+            this.skillsGrid.Name = "skillsGrid";
+            this.skillsGrid.ReadOnly = true;
+            this.skillsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.skillsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.skillsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.skillsGrid.Size = new System.Drawing.Size(329, 141);
+            this.skillsGrid.TabIndex = 2;
+            // 
+            // skillNameColumn
+            // 
+            this.skillNameColumn.HeaderText = "Name";
+            this.skillNameColumn.Name = "skillNameColumn";
+            this.skillNameColumn.ReadOnly = true;
+            // 
+            // skillLevelColumn
+            // 
+            this.skillLevelColumn.HeaderText = "Level";
+            this.skillLevelColumn.Name = "skillLevelColumn";
+            this.skillLevelColumn.ReadOnly = true;
+            // 
+            // skillExperienceColumn
+            // 
+            this.skillExperienceColumn.HeaderText = "Exp";
+            this.skillExperienceColumn.Name = "skillExperienceColumn";
+            this.skillExperienceColumn.ReadOnly = true;
+            // 
+            // skillNewLevelProgressColumn
+            // 
+            this.skillNewLevelProgressColumn.HeaderText = "New level";
+            this.skillNewLevelProgressColumn.Name = "skillNewLevelProgressColumn";
+            this.skillNewLevelProgressColumn.ReadOnly = true;
             // 
             // ProfileControl
             // 
@@ -171,6 +258,8 @@
             this.Controls.Add(this.nameLabel);
             this.Name = "ProfileControl";
             this.Size = new System.Drawing.Size(368, 418);
+            this.skillsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,5 +279,10 @@
         private MetroFramework.Controls.MetroLabel levelTextLabel;
         private MetroFramework.Controls.MetroLabel experienceLabel;
         private MetroFramework.Controls.MetroPanel skillsPanel;
+        private MetroFramework.Controls.MetroGrid skillsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn skillNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn skillLevelColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn skillExperienceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn skillNewLevelProgressColumn;
     }
 }

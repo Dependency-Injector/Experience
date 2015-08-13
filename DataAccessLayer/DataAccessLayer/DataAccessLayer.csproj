@@ -67,10 +67,20 @@
     <Compile Include="Migrations\201508130227471_ProfileHistory.Designer.cs">
       <DependentUpon>201508130227471_ProfileHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508130242486_Skills.cs" />
+    <Compile Include="Migrations\201508130242486_Skills.Designer.cs">
+      <DependentUpon>201508130242486_Skills.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508130453284_SkillsAndTaskAssociation.cs" />
+    <Compile Include="Migrations\201508130453284_SkillsAndTaskAssociation.Designer.cs">
+      <DependentUpon>201508130453284_SkillsAndTaskAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Profile.cs" />
+    <Compile Include="Model\Skill.cs" />
     <Compile Include="Model\WorkUnit.cs" />
     <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\SkillsRepository.cs" />
     <Compile Include="Repositories\ProfileRepository.cs" />
     <Compile Include="Repositories\WorkUnitsRepository.cs" />
     <Compile Include="Repositories\TasksRepository.cs" />
@@ -96,6 +106,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508130227471_ProfileHistory.resx">
       <DependentUpon>201508130227471_ProfileHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130242486_Skills.resx">
+      <DependentUpon>201508130242486_Skills.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130453284_SkillsAndTaskAssociation.resx">
+      <DependentUpon>201508130453284_SkillsAndTaskAssociation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

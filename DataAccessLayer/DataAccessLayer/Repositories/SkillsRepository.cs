@@ -9,59 +9,54 @@ using DataAccessLayer.Model;
 
 namespace DataAccessLayer.Repositories
 {
-    public class ProfileRepository : IRepository<Profile>
+    public class SkillsRepository : IRepository<Skill>
     {
         private readonly EntitiesContext context;
 
-        public ProfileRepository()
+        public SkillsRepository()
         {
             context = new EntitiesContext();
             context.Database.Connection.Open();    
         }
-
-        public IEnumerable<Profile> GetAll()
-        {
-            return context.Profiles.AsNoTracking();
-        }
-
-        public IEnumerable<Profile> Find(Expression<Func<Profile, bool>> @where)
+        
+        public IEnumerable<Skill> Find(Expression<Func<Skill, bool>> @where)
         {
             throw new NotImplementedException();
         }
 
-        public Profile Single(Expression<Func<Profile, bool>> @where)
+        public Skill Single(Expression<Func<Skill, bool>> @where)
         {
             throw new NotImplementedException();
         }
 
-        public Profile First(Expression<Func<Profile, bool>> @where)
+        public Skill First(Expression<Func<Skill, bool>> @where)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Profile entity)
+        public void Delete(Skill entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Profile entity)
+        public void Add(Skill entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Profile profile)
+        public void Update(Skill skill)
         {
             using (EntitiesContext context = new EntitiesContext())
             {
-                context.Profiles.Attach(profile);
-                context.Entry(profile).State = EntityState.Modified;
+                context.Skills.Attach(skill);
+                context.Entry(skill).State = EntityState.Modified;
                 context.SaveChanges();
             }
         }
-
-        public bool HasProfile()
+        
+        public IEnumerable<Skill> GetAll()
         {
-            return context.Profiles.Any();
+            return context.Skills.AsNoTracking();
         }
     }
 }
