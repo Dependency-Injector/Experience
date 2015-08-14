@@ -42,7 +42,7 @@ namespace PresentationLayer.Forms
             this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.profileControl.BirthDate = new System.DateTime(2015, 8, 13, 9, 15, 7, 709);
+            this.profileControl.BirthDate = new System.DateTime(2015, 8, 13, 14, 10, 10, 177);
             this.profileControl.Experience = 0;
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
@@ -74,7 +74,7 @@ namespace PresentationLayer.Forms
             // profileControl1
             // 
             this.profileControl1.Age = 0;
-            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 13, 9, 12, 55, 152);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 13, 14, 10, 10, 181);
             this.profileControl1.Experience = 0;
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;

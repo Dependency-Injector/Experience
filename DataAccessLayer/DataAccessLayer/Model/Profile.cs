@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Model
 {
@@ -17,6 +14,7 @@ namespace DataAccessLayer.Model
         public String Name { get; set; }
         public String History { get; set; }
         public DateTime BirthDate { get; set; }
+        public DateTime JoinDate { get; set; }
         public int Level { get; set; }
         public int Experience { get; set; }
 

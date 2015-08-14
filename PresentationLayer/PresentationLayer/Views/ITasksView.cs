@@ -14,7 +14,7 @@ namespace PresentationLayer.Views
         bool IsDirty { get; set; }
         ICollection WorkUnits { set; }
         ICollection Tasks { set; }
-
+        ICollection SkillsAvailable {  set; }
 
         event EventHandler<EventArgs> NewTask;
         event EventHandler<EventArgs> SaveTask;

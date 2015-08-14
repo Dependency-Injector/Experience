@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using DataAccessLayer.Migrations;
 using MetroFramework.Controls;
 using PresentationLayer.Views;
 using Utilities;
@@ -16,6 +17,8 @@ namespace PresentationLayer.Controls
             InitializeComponent();
         }
 
+        #region Properties and events
+
         public string TaskName
         {
             get { return nameTextBox.Text; }
@@ -25,6 +28,7 @@ namespace PresentationLayer.Controls
                 nameTextBox.Text = value;
             }
         }
+
         public string TaskDescription
         {
             get { return descriptionTextBox.Text; }
@@ -34,44 +38,14 @@ namespace PresentationLayer.Controls
                 descriptionTextBox.Text = value;
             }
         }
+
         public int Priority
         {
-            get
-            {
-                if (lowPriorityRadioButton.Checked)
-                    return 1;
-                else if (mediumPriorityRadioButton.Checked)
-                    return 2;
-                else if (highPriorityRadioButton.Checked)
-                    return 3;
-                else
-                    return 0;
-            }
+            get { return GetSelectedPriority(); }
 
-            set
-            {
-                if (TaskDefaults.Priorities.ContainsKey(value))
-                {
-                    PriorityLevel priority = TaskDefaults.Priorities[value];
-
-                    switch (priority.Severity)
-                    {
-                        case Severity.Low:
-                            lowPriorityRadioButton.Checked = true;
-                            break;
-                        case Severity.Medium:
-                            mediumPriorityRadioButton.Checked = true;
-                            break;
-                        case Severity.High:
-                            highPriorityRadioButton.Checked = true;
-                            break;
-                    }
-
-                    priorityLabel.Text = priority.Name;
-                    priorityLabel.BackColor = priority.Color;
-                }
-            }
+            set { SelectPriority(value); }
         }
+
         public DateTime? DueDate
         {
             get { return dueDateTime.Value; }
@@ -79,7 +53,7 @@ namespace PresentationLayer.Controls
             {
                 if (value.HasValue)
                 {
-                    startAndDueDate.Text = value.Value.ToShortDateString();
+                    startAndDueDate.Text = value.Value.ToString("M");
                     dueDateTime.Value = value.Value;
                 }
             }
@@ -87,19 +61,39 @@ namespace PresentationLayer.Controls
 
         public bool IsFinished
         {
-            set
-            {
-                PrepareButtonsForTask(value);
-            }
+            set { PrepareButtonsForTask(value); }
         }
 
         public DateTime? FinishDate { get; set; }
         public bool IsDirty { get; set; }
-        public ICollection WorkUnits { set { workUnitsGrid.DataSource = value; } }
+
+        public ICollection WorkUnits
+        {
+            set
+            {
+                ClearWorkUnitsGrid();
+                FillWorkUnitsGrid(value);
+            }
+        }
+
+        public ICollection SkillsAvailable
+        {
+            set
+            {
+                if (value != null && value.Count > 0)
+                {
+                    skillToTrainComboBox.DataSource = value;
+                }
+            }
+        }
 
         public ICollection Tasks
         {
-            set { tasksListGrid.DataSource = value; }
+            set
+            {
+                ClearTasksGrid();
+                FillTasksGrid(value);
+            }
         }
 
         public event EventHandler<EventArgs> NewTask;
@@ -113,6 +107,8 @@ namespace PresentationLayer.Controls
 
         public event EventHandler<EventArgs> StartWorkingOnTask;
         public event EventHandler<EventArgs> StopWorkingOnTask;
+
+        #endregion
 
         #region Events
 
@@ -261,6 +257,8 @@ namespace PresentationLayer.Controls
 
         #endregion Events
 
+        #region Private methods
+
         private void SetDisplayMode(DisplayMode displayMode)
         {
             if (displayMode == DisplayMode.Edit)
@@ -277,7 +275,8 @@ namespace PresentationLayer.Controls
 
         public void SetColumnNames()
         {
-            priorityGridColumn.Name = "Priority";
+            taskIdColumn.Name = "Id";
+            taskPriorityColumn.Name = "Priority";
         }
 
         private void PrepareButtonsForTask(bool finished)
@@ -301,11 +300,88 @@ namespace PresentationLayer.Controls
             }
         }
 
-    }
+        private void SelectPriority(int value)
+        {
+            if (TaskDefaults.Priorities.ContainsKey(value))
+            {
+                PriorityLevel priority = TaskDefaults.Priorities[value];
 
-    internal enum DisplayMode
-    {
-        View,
-        Edit
+                switch (priority.Severity)
+                {
+                    case Severity.Low:
+                        lowPriorityRadioButton.Checked = true;
+                        break;
+                    case Severity.Medium:
+                        mediumPriorityRadioButton.Checked = true;
+                        break;
+                    case Severity.High:
+                        highPriorityRadioButton.Checked = true;
+                        break;
+                }
+
+                priorityLabel.Text = priority.Name;
+                priorityLabel.BackColor = priority.Color;
+            }
+        }
+
+        private int GetSelectedPriority()
+        {
+
+            if (lowPriorityRadioButton.Checked)
+                return 1;
+            else if (mediumPriorityRadioButton.Checked)
+                return 2;
+            else if (highPriorityRadioButton.Checked)
+                return 3;
+            else
+                return 0;
+        }
+
+        private void ClearTasksGrid()
+        {
+            tasksListGrid.Rows.Clear();
+        }
+
+        private void ClearWorkUnitsGrid()
+        {
+            workUnitsGrid.Rows.Clear();
+        }
+
+        private void FillTasksGrid(ICollection tasksRowData)
+        {
+            if (tasksRowData != null && tasksRowData.Count > 0)
+            {
+                foreach (var row in tasksRowData)
+                {
+                    if (row is string[])
+                    {
+                        string[] rowCells = (string[]) row;
+                        tasksListGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2], rowCells[3], rowCells[4],
+                            rowCells[5]);
+                    }
+                }
+
+            }
+        }
+
+        private void FillWorkUnitsGrid(ICollection worksUnitRowData)
+        {
+            if (worksUnitRowData != null && worksUnitRowData.Count > 0)
+            {
+                foreach (var workUnit in worksUnitRowData)
+                {
+                    if (workUnit is string[])
+                    {
+                        string[] rowCells = (string[]) workUnit;
+
+                        workUnitsGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2]);
+                    }
+                }
+
+            }
+        }
+
+        #endregion
+
     }
 }

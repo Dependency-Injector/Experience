@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
+using PresentationLayer.Others;
 using PresentationLayer.Views;
 
 namespace PresentationLayer.Presenters
@@ -20,7 +22,7 @@ namespace PresentationLayer.Presenters
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
         private bool isTaskNew = true;
-
+        private bool isPlayerCurrentlyWorking = false;
         #endregion
 
         public TaskPresenter(ITasksView view)
@@ -42,7 +44,7 @@ namespace PresentationLayer.Presenters
                 AttachEvents();
                 ObtainTasksList();
                 tasks = SortTasks(tasks);
-                
+
                 if (tasks != null && tasks.Count > 0)
                 {
                     DisplaySingleTaskInfo(tasks[0]);
@@ -111,7 +113,8 @@ namespace PresentationLayer.Presenters
             isTaskNew = false;
             view.IsDirty = false;
             ObtainTasksList();
-            RefreshTasksGridview();
+            tasks = SortTasks(tasks);
+            DisplayTasksList(tasks);
             SelectTask(task);
         }
 
@@ -120,6 +123,7 @@ namespace PresentationLayer.Presenters
             if (isTaskNew)
             {
                 MessageBox.Show("This task is not saved yet, so it can't be deleted");
+                return;
             }
             else
             {
@@ -127,11 +131,18 @@ namespace PresentationLayer.Presenters
                 if (task == null)
                 {
                     MessageBox.Show("No task to remove");
+                    return;
+                }
+                else
+                {
+                    DialogResult taskDeleteConfirmation = MessageBox.Show("Delete task '{0}'?", "Confirm deletion", MessageBoxButtons.YesNo);
+                    if (taskDeleteConfirmation == DialogResult.No)
+                        return;
                 }
 
                 taskRepository.Delete(task);
 
-                tasks = taskRepository.GetAll().ToList();
+                tasks = SortTasks(taskRepository.GetAll().ToList());
                 selectedTaskIndex = tasks.Count - 1;
 
                 if (selectedTaskIndex > 0)
@@ -145,7 +156,7 @@ namespace PresentationLayer.Presenters
                     isTaskNew = true;
                 }
 
-                RefreshTasksGridview();
+                DisplayTasksList(tasks);
                 DisplaySingleTaskInfo(task);
             }
 
@@ -157,7 +168,10 @@ namespace PresentationLayer.Presenters
             taskToFinish.IsFinished = true;
             taskToFinish.FinishedDate = DateTime.Now;
             taskRepository.Update(taskToFinish);
+            SkillTrainer.TaskCompleted(taskToFinish.Priority);
+
             DisplaySingleTaskInfo(taskToFinish);
+            DisplayTasksList(tasks);
         }
 
         private void StopWorkingOnTask(object sender, EventArgs e)
@@ -180,7 +194,8 @@ namespace PresentationLayer.Presenters
                     SkillTrainer.SkillTrained(task.SkillToTrain.Id, currentWorkUnit.Duration.Value);
                 }
 
-                RefreshWorkUnitsGridView();
+                
+                DisplayWorkUnitsList(task.WorkUnits.ToList());
             }
         }
 
@@ -215,41 +230,73 @@ namespace PresentationLayer.Presenters
             tasks = taskRepository.HasTasks() ? taskRepository.GetAll().ToList() : new List<Task>();
         }
 
-        private void RefreshTasksGridview()
+        private ICollection GetTasksRows(List<Task> tasks)
         {
-            view.Tasks = tasks;
+            List<string[]> taskRows = new List<string[]>();
+
+            foreach (var task in tasks)
+            {
+                int daysToDeadline = (int)(task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
+                string deadlineLiteral = String.Empty;
+                if (daysToDeadline < 0)
+                    deadlineLiteral = $"Overdue {Math.Abs(daysToDeadline)} days!";
+                else if (daysToDeadline == 0)
+                    deadlineLiteral = "Today";
+                else if (daysToDeadline == 1)
+                    deadlineLiteral = "Tomorrow";
+                else if (daysToDeadline > 1)
+                    deadlineLiteral = task.DueDate.Value.ToString("M");
+
+                string timeSpent = task.GetTotalTimeSpent();
+
+                String priority = task.GetPriorityLiteral(task.Priority);
+
+                string[] taskRow = new string[]
+                {
+                    $"{task.Id}",
+                    $"{task.Name}",
+                    $"{deadlineLiteral}",
+                    $"{timeSpent}",
+                    $"{priority}",
+                    $"{task.IsFinished}"
+                };
+
+                taskRows.Add(taskRow);
+            }
+
+            return taskRows;
         }
 
-        private void RefreshWorkUnitsGridView()
+        private ICollection GetWorkUnitsRows(List<WorkUnit> unitsOfWork)
         {
-            view.WorkUnits = GetSelectedTask().WorkUnits.ToList();
-        }
+            List<string[]> workUnitsRows = new List<string[]>();
 
-        private void DisplayTasksList(List<Task> tasksList)
-        {
-            view.Tasks = SortTasks(tasksList);
-        }
+            foreach (var unitOfWork in unitsOfWork)
+            {
+                String startDate = unitOfWork.StartTime.Value.ToString("dddd, d MMMM HH:mm");
+                String endDate = unitOfWork.EndTime.Value.ToString("dddd, d MMMM HH:mm");
+                TimeSpan duration = new TimeSpan(0, 0, 0, unitOfWork.Duration.Value);
 
-        private void DisplayBlankTask()
-        {
-            view.TaskName = "[Name something to be done]";
-            view.Priority = 1;
-            view.TaskDescription = "[Describe your task]";
-            view.DueDate = DateTime.Now.AddDays(7);
-            view.IsFinished = false;
-            view.FinishDate = null;
-        }
+                if (duration.TotalMinutes < 5)
+                    continue;
 
-        private void DisplaySingleTaskInfo(Task task)
-        {
-            view.TaskName = task.Name;
-            view.TaskDescription = task.Description;
-            view.Priority = task.Priority;
-            view.DueDate = task.DueDate;
-            view.IsFinished = task.IsFinished;
-            view.FinishDate = task.FinishedDate;
-            view.WorkUnits = task.WorkUnits.ToList();
-            isTaskNew = false;
+                String durationLiteral;
+                if (duration.TotalHours < 1)
+                    durationLiteral = $"{duration.Minutes}m";
+                else
+                    durationLiteral = $"{duration.Hours}h {duration.Minutes}min";
+
+                string[] taskRow = new string[]
+                {
+                    $"{startDate}",
+                    $"{endDate}",
+                    $"{durationLiteral}"
+                };
+
+                workUnitsRows.Add(taskRow);
+            }
+
+            return workUnitsRows;
         }
 
         private Task GetTaskAtIndex(int index)
@@ -277,61 +324,53 @@ namespace PresentationLayer.Presenters
         {
             SelectTask(this, task.Id);
         }
-
-
-        private IEnumerable<Task> SortUnfinishedFirst(IEnumerable<Task> tasks)
-        {
-            return tasks.OrderByDescending(t => t.IsFinished);
-        }
-
-        private IEnumerable<Task> SortByDeadline(IEnumerable<Task> tasks)
-        {
-            return tasks.OrderBy(t => t.DueDate);
-        }
-
-        private IEnumerable<Task> SortByPriority(IEnumerable<Task> tasks)
-        {
-            return tasks.OrderByDescending(t => t.Priority);
-        }
-
+        
         private List<Task> SortTasks(List<Task> tasksUnsorted)
         {
-            return SortByPriority(
-                        SortByDeadline(
-                            SortUnfinishedFirst(tasksUnsorted))).ToList();
+            return
+                tasksUnsorted.Where(t => t.IsFinished == false)
+                    .OrderBy(t => t.DueDate.Value.Date)
+                    .ThenByDescending(t => t.Priority)
+                    .ToList();
+        }
+
+        #region Displaying data
+
+        private void DisplayWorkUnitsList(List<WorkUnit> workUnits)
+        {
+            view.WorkUnits = GetWorkUnitsRows(workUnits);
+        }
+
+        private void DisplayTasksList(List<Task> tasksList)
+        {
+            view.Tasks = GetTasksRows(tasksList);
+        }
+
+        private void DisplayBlankTask()
+        {
+            view.TaskName = "[Name something to be done]";
+            view.Priority = 1;
+            view.TaskDescription = "[Describe your task]";
+            view.DueDate = DateTime.Now.AddDays(7);
+            view.IsFinished = false;
+            view.FinishDate = null;
+        }
+
+        private void DisplaySingleTaskInfo(Task task)
+        {
+            view.TaskName = task.Name;
+            view.TaskDescription = task.Description;
+            view.Priority = task.Priority;
+            view.DueDate = task.DueDate;
+            view.IsFinished = task.IsFinished;
+            view.FinishDate = task.FinishedDate;
+            view.WorkUnits = GetWorkUnitsRows(task.WorkUnits.ToList());
+            view.SkillsAvailable = skillsRepository.GetAll().ToList();
+            isTaskNew = false;
         }
 
         #endregion
-    }
 
-    internal static class SkillTrainer
-    {
-        private static ProfileRepository profileRepository = new ProfileRepository();
-        private static SkillsRepository skillsRepository = new SkillsRepository();
-
-        static SkillTrainer()
-        {
-            
-        }
-
-        public static void SkillTrained(int id, int duration)
-        {
-            if (profileRepository != null)
-            {
-                Profile profile = profileRepository.GetAll().First();
-                Skill skillTrained = profile.Skills.First(s => s.Id == id);
-                float hours = (float)duration/360;
-                float gainedExperience = hours * 10;
-
-                skillTrained.Experience += (int) gainedExperience;
-
-                profile.Experience += (int) gainedExperience;
-
-                skillsRepository.Update(skillTrained);
-                profileRepository.Update(profile);
-            }
-
-           
-        }
+        #endregion
     }
 }

@@ -61,12 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ActivitiesPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ActivitiesPanel.Designer.cs">
-      <DependentUpon>ActivitiesPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ProfileControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,6 +79,7 @@
     <Compile Include="Forms\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Others\SkillTrainer.cs" />
     <Compile Include="Presenters\ActivityPresenter.cs" />
     <Compile Include="Presenters\ProfilePresenter.cs" />
     <Compile Include="Presenters\TaskPresenter.cs" />
@@ -94,14 +89,12 @@
     <Compile Include="Views\IProfileView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\ActivitiesPanel.resx">
-      <DependentUpon>ActivitiesPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProfileControl.resx">
       <DependentUpon>ProfileControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TasksControl.resx">
       <DependentUpon>TasksControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>

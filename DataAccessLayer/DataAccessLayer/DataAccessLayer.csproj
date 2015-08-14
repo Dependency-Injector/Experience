@@ -75,6 +75,10 @@
     <Compile Include="Migrations\201508130453284_SkillsAndTaskAssociation.Designer.cs">
       <DependentUpon>201508130453284_SkillsAndTaskAssociation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508140621119_ProfileJoinDate.cs" />
+    <Compile Include="Migrations\201508140621119_ProfileJoinDate.Designer.cs">
+      <DependentUpon>201508140621119_ProfileJoinDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Profile.cs" />
     <Compile Include="Model\Skill.cs" />
@@ -113,6 +117,15 @@
     <EmbeddedResource Include="Migrations\201508130453284_SkillsAndTaskAssociation.resx">
       <DependentUpon>201508130453284_SkillsAndTaskAssociation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508140621119_ProfileJoinDate.resx">
+      <DependentUpon>201508140621119_ProfileJoinDate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj">
+      <Project>{1A6D1290-AD48-4A38-9987-7856ECBEFA15}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
