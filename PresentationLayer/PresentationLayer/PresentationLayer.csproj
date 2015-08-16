@@ -79,6 +79,7 @@
     <Compile Include="Forms\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Others\ExtensionMethods.cs" />
     <Compile Include="Others\SkillTrainer.cs" />
     <Compile Include="Presenters\ActivityPresenter.cs" />
     <Compile Include="Presenters\ProfilePresenter.cs" />

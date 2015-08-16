@@ -7,6 +7,7 @@ using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
 using PresentationLayer.Others;
 using PresentationLayer.Views;
+using Utilities;
 
 namespace PresentationLayer.Presenters
 {
@@ -97,9 +98,12 @@ namespace PresentationLayer.Presenters
 
             task.Name = view.TaskName;
             task.Description = view.TaskDescription;
-            task.Priority = view.Priority;
+            task.Priority = TaskDefaults.Priorities[view.Priority].Severity;
             task.DueDate = view.DueDate;
 
+            if(view.SkillToTrainId.HasValue)
+                task.SkillToTrain = skillsRepository.First(s => s.Id == view.SkillToTrainId.Value);
+            
             if (isTaskNew)
             {
                 task.CreationDate = DateTime.Now;
@@ -189,7 +193,7 @@ namespace PresentationLayer.Presenters
                 workUnitsRepository.Add(currentWorkUnit);
 
                 Task task = taskRepository.Get(currentWorkUnit.Task.Id);
-                if (task.SkillToTrain != null)
+                if (task.SkillToTrain != null && currentWorkUnit.Duration.HasValue)
                 {
                     SkillTrainer.SkillTrained(task.SkillToTrain.Id, currentWorkUnit.Duration.Value);
                 }
@@ -247,9 +251,9 @@ namespace PresentationLayer.Presenters
                 else if (daysToDeadline > 1)
                     deadlineLiteral = task.DueDate.Value.ToString("M");
 
-                string timeSpent = task.GetTotalTimeSpent();
+                string timeSpent = task.GetTotalWorkloadLiteral();
 
-                String priority = task.GetPriorityLiteral(task.Priority);
+                String priority = task.GetPriorityLiteral();
 
                 string[] taskRow = new string[]
                 {
@@ -299,6 +303,24 @@ namespace PresentationLayer.Presenters
             return workUnitsRows;
         }
 
+        private ICollection GetSkillsRows(List<Skill> skills)
+        {
+            List<string[]> skillsRows = new List<string[]>();
+
+            foreach (var skill in skills)
+            {
+                string[] skillRow = new string[]
+                {
+                    $"{skill.Id}",
+                    $"{skill.Name}"
+                };
+
+                skillsRows.Add(skillRow);
+            }
+
+            return skillsRows;
+        }
+
         private Task GetTaskAtIndex(int index)
         {
             if (tasks != null && tasks.Count > 0 && index < tasks.Count)
@@ -334,8 +356,6 @@ namespace PresentationLayer.Presenters
                     .ToList();
         }
 
-        #region Displaying data
-
         private void DisplayWorkUnitsList(List<WorkUnit> workUnits)
         {
             view.WorkUnits = GetWorkUnitsRows(workUnits);
@@ -351,26 +371,35 @@ namespace PresentationLayer.Presenters
             view.TaskName = "[Name something to be done]";
             view.Priority = 1;
             view.TaskDescription = "[Describe your task]";
-            view.DueDate = DateTime.Now.AddDays(7);
+            view.DueDate = DateTime.Now.AddDays(1);
+            view.AssociatedSkillName = "-";
+            view.TotalWorkload = "-";
+            view.TotalExperienceGained = "-";
             view.IsFinished = false;
             view.FinishDate = null;
+            view.WorkUnits = null;
+            view.SkillsAvailable = GetSkillsRows(skillsRepository.GetAll().ToList());
+            view.SkillToTrainId = null;
+            view.ParentTaskId = null;
         }
 
         private void DisplaySingleTaskInfo(Task task)
         {
             view.TaskName = task.Name;
             view.TaskDescription = task.Description;
-            view.Priority = task.Priority;
+            view.Priority = (int)task.Priority;
             view.DueDate = task.DueDate;
+            view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
+            view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
+            view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGained() : "-";
             view.IsFinished = task.IsFinished;
             view.FinishDate = task.FinishedDate;
             view.WorkUnits = GetWorkUnitsRows(task.WorkUnits.ToList());
-            view.SkillsAvailable = skillsRepository.GetAll().ToList();
+            view.SkillsAvailable = GetSkillsRows(skillsRepository.GetAll().ToList());
+            view.SkillToTrainId = task.SkillToTrain?.Id;
             isTaskNew = false;
         }
-
-        #endregion
-
+        
         #endregion
     }
 }

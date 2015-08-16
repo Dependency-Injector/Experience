@@ -31,7 +31,7 @@ namespace DataAccessLayer.Repositories
 
         public Skill First(Expression<Func<Skill, bool>> @where)
         {
-            throw new NotImplementedException();
+            return context.Skills.AsNoTracking().First(where);
         }
 
         public void Delete(Skill entity)

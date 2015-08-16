@@ -79,6 +79,10 @@
     <Compile Include="Migrations\201508140621119_ProfileJoinDate.Designer.cs">
       <DependentUpon>201508140621119_ProfileJoinDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508161849150_SkillHoursTrained.cs" />
+    <Compile Include="Migrations\201508161849150_SkillHoursTrained.Designer.cs">
+      <DependentUpon>201508161849150_SkillHoursTrained.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Profile.cs" />
     <Compile Include="Model\Skill.cs" />
@@ -119,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508140621119_ProfileJoinDate.resx">
       <DependentUpon>201508140621119_ProfileJoinDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508161849150_SkillHoursTrained.resx">
+      <DependentUpon>201508161849150_SkillHoursTrained.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -11,11 +11,16 @@ namespace PresentationLayer.Views
         DateTime? DueDate { get; set; }
         bool IsFinished {  set; }
         DateTime? FinishDate { get; set; }
+        String TotalWorkload { set; }
+        String TotalExperienceGained { set; }
+        String AssociatedSkillName { set; }
         bool IsDirty { get; set; }
+        int? SkillToTrainId { get; set; }
+        int? ParentTaskId { get; set; }
         ICollection WorkUnits { set; }
         ICollection Tasks { set; }
         ICollection SkillsAvailable {  set; }
-
+        
         event EventHandler<EventArgs> NewTask;
         event EventHandler<EventArgs> SaveTask;
         event EventHandler<EventArgs> RemoveTask;

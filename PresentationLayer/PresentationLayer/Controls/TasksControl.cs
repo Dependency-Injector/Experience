@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using DataAccessLayer.Migrations;
 using MetroFramework.Controls;
+using PresentationLayer.Others;
 using PresentationLayer.Views;
 using Utilities;
 
@@ -28,7 +31,6 @@ namespace PresentationLayer.Controls
                 nameTextBox.Text = value;
             }
         }
-
         public string TaskDescription
         {
             get { return descriptionTextBox.Text; }
@@ -38,14 +40,12 @@ namespace PresentationLayer.Controls
                 descriptionTextBox.Text = value;
             }
         }
-
         public int Priority
         {
             get { return GetSelectedPriority(); }
 
             set { SelectPriority(value); }
         }
-
         public DateTime? DueDate
         {
             get { return dueDateTime.Value; }
@@ -58,41 +58,103 @@ namespace PresentationLayer.Controls
                 }
             }
         }
-
         public bool IsFinished
         {
-            set { PrepareButtonsForTask(value); }
+            set
+            {
+                if(value)
+                    ShowActionButtons(false);
+                else
+                    ShowActionButtons(true);
+            }
         }
-
         public DateTime? FinishDate { get; set; }
+        public string TotalWorkload
+        {
+            set
+            {
+                totalWorkloadLabel.Text = value;
+            }
+        }
+        public string TotalExperienceGained
+        {
+            set { totalExpGainedLabel.Text = value; }
+        }
+        public string AssociatedSkillName
+        {
+            set { attachedSkillNameLabel.Text = value; }
+        }
         public bool IsDirty { get; set; }
+        public int? SkillToTrainId
+        {
+            get
+            {
+                if (skillToTrainComboBox.SelectedItem != null)
+                {
+                    var selectedSkill = (KeyValuePair<int, string>)skillToTrainComboBox.SelectedItem;
+                    return selectedSkill.Key;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    skillToTrainComboBox.SelectItemByValue(value.Value);
+                }
+            }
+        }
+        public int? ParentTaskId
+        {
+            get
+            {
+                int selectedSkillId;
+                if (int.TryParse(skillToTrainComboBox.SelectedValue.ToString(), out selectedSkillId) && selectedSkillId > 0)
+                    return selectedSkillId;
+                else
+                    return null;
+            }
+            set
+            {
+                if (value.HasValue)
+                    parentTaskComboBox.SelectItemByValue(value.Value);
+            }
+        }
 
         public ICollection WorkUnits
         {
             set
             {
-                ClearWorkUnitsGrid();
-                FillWorkUnitsGrid(value);
+                if (value != null && value.Count > 0)
+                {
+                    ClearWorkUnitsGrid();
+                    FillWorkUnitsGrid(value);
+                    ShowWorkUnitsPanel(true);
+                }
+                else
+                {
+                    ShowWorkUnitsPanel(false);
+                }
             }
         }
-
         public ICollection SkillsAvailable
         {
             set
             {
-                if (value != null && value.Count > 0)
-                {
-                    skillToTrainComboBox.DataSource = value;
-                }
+                ClearSkillsComboBox();
+                FillSkillsComboBox(value);
             }
         }
-
         public ICollection Tasks
         {
             set
             {
                 ClearTasksGrid();
                 FillTasksGrid(value);
+                FillParentTasksComboBox(value);
             }
         }
 
@@ -193,48 +255,48 @@ namespace PresentationLayer.Controls
         {
             if (e.ListChangedType != ListChangedType.ItemDeleted)
             {
-               /* DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
-                DataGridViewCellStyle mediumPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
-                DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+                /* DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+                 DataGridViewCellStyle mediumPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
+                 DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
 
-                lowPriorityStyle.BackColor = TaskDefaults.Priorities[1].Color;
-                lowPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[1].SelectionColor;
-                mediumPriorityStyle.BackColor = TaskDefaults.Priorities[2].Color;
-                mediumPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[2].SelectionColor;
-                highPriorityStyle.BackColor = TaskDefaults.Priorities[3].Color;
-                highPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[3].SelectionColor;
+                 lowPriorityStyle.BackColor = TaskDefaults.Priorities[1].Color;
+                 lowPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[1].SelectionColor;
+                 mediumPriorityStyle.BackColor = TaskDefaults.Priorities[2].Color;
+                 mediumPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[2].SelectionColor;
+                 highPriorityStyle.BackColor = TaskDefaults.Priorities[3].Color;
+                 highPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[3].SelectionColor;
 
-                var dataGridViewColumn = tasksListGrid.Columns["Priority"];
-                if (dataGridViewColumn == null)
-                {
-                    SetColumnNames();
-                    dataGridViewColumn = tasksListGrid.Columns["Priority"];
-                }
+                 var dataGridViewColumn = tasksListGrid.Columns["Priority"];
+                 if (dataGridViewColumn == null)
+                 {
+                     SetColumnNames();
+                     dataGridViewColumn = tasksListGrid.Columns["Priority"];
+                 }
 
-                if (dataGridViewColumn != null)
-                {
-                    int priorityColumnIndex = dataGridViewColumn.Index;
+                 if (dataGridViewColumn != null)
+                 {
+                     int priorityColumnIndex = dataGridViewColumn.Index;
 
-                    foreach (DataGridViewRow row in tasksListGrid.Rows)
-                    {
-                        if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
-                        {
-                            row.DefaultCellStyle = lowPriorityStyle;
-                            
-                        }
-                        else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
-                        {
-                            row.DefaultCellStyle = mediumPriorityStyle;
-                        }
-                        else if (row.Cells[priorityColumnIndex].Value.ToString() == "3")
-                        {
-                            row.DefaultCellStyle = highPriorityStyle;
-                        }
+                     foreach (DataGridViewRow row in tasksListGrid.Rows)
+                     {
+                         if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
+                         {
+                             row.DefaultCellStyle = lowPriorityStyle;
 
-                    }
-                }*/
+                         }
+                         else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
+                         {
+                             row.DefaultCellStyle = mediumPriorityStyle;
+                         }
+                         else if (row.Cells[priorityColumnIndex].Value.ToString() == "3")
+                         {
+                             row.DefaultCellStyle = highPriorityStyle;
+                         }
+
+                     }
+                 }*/
             }
-            
+
         }
 
         private void startWorkButton_Click(object sender, EventArgs e)
@@ -279,13 +341,11 @@ namespace PresentationLayer.Controls
             taskPriorityColumn.Name = "Priority";
         }
 
-        private void PrepareButtonsForTask(bool finished)
+        private void ShowActionButtons(bool show)
         {
-            if (finished)
-            {
-                finishedButton.Visible = false;
+                taskActionButtonsPanel.Visible = show;
+         /*       finishedButton.Visible = false;
                 editButton.Visible = false;
-
                 startWorkButton.Visible = false;
                 stopWorkingButton.Visible = false;
             }
@@ -293,11 +353,10 @@ namespace PresentationLayer.Controls
             {
                 editButton.Visible = true;
                 finishedButton.Visible = true;
-
                 startWorkButton.Visible = true;
                 stopWorkingButton.Visible = true;
                 startWorkButton.Enabled = true;
-            }
+            }*/
         }
 
         private void SelectPriority(int value)
@@ -347,6 +406,33 @@ namespace PresentationLayer.Controls
             workUnitsGrid.Rows.Clear();
         }
 
+        private void ClearSkillsComboBox()
+        {
+            skillToTrainComboBox.Items.Clear();
+        }
+
+        private void FillSkillsComboBox(ICollection skillRowData)
+        {
+            if (skillRowData != null && skillRowData.Count > 0)
+            {
+                List<object> skillsComboBoxItems = new List<object>()
+                {
+                    new {Id = 0, Name = ""}
+                };
+
+                foreach (var row in skillRowData)
+                {
+                    var cells = row as string[];
+                    if (cells != null)
+                    {
+                        string[] rowCells = cells;
+                        KeyValuePair<int, string> comboItem = new KeyValuePair<int, string>(int.Parse(rowCells[0]), rowCells[1]);
+                        skillToTrainComboBox.Items.Add(comboItem);
+                    }
+                }
+            }
+        }
+
         private void FillTasksGrid(ICollection tasksRowData)
         {
             if (tasksRowData != null && tasksRowData.Count > 0)
@@ -355,12 +441,36 @@ namespace PresentationLayer.Controls
                 {
                     if (row is string[])
                     {
-                        string[] rowCells = (string[]) row;
+                        string[] rowCells = (string[])row;
                         tasksListGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2], rowCells[3], rowCells[4],
                             rowCells[5]);
+
                     }
                 }
 
+            }
+
+        }
+
+        private void FillParentTasksComboBox(ICollection tasksRowData)
+        {
+            if (tasksRowData != null && tasksRowData.Count > 0)
+            {
+                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
+                parentTaskComboBox.Items.Add(emptyItem);
+
+                foreach (var row in tasksRowData)
+                {
+                    var cells = row as string[];
+                    if (cells != null)
+                    {
+                        string[] rowCells = cells;
+                        
+                        KeyValuePair<int, string> comboItem = new KeyValuePair<int, string>(int.Parse(rowCells[0]), rowCells[1]);
+                        parentTaskComboBox.Items.Add(comboItem);
+                    }
+                }
+                
             }
         }
 
@@ -372,7 +482,7 @@ namespace PresentationLayer.Controls
                 {
                     if (workUnit is string[])
                     {
-                        string[] rowCells = (string[]) workUnit;
+                        string[] rowCells = (string[])workUnit;
 
                         workUnitsGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2]);
                     }
@@ -381,6 +491,10 @@ namespace PresentationLayer.Controls
             }
         }
 
+        private void ShowWorkUnitsPanel(bool show)
+        {
+            workUnitsPanel.Visible = show;
+        }
         #endregion
 
     }

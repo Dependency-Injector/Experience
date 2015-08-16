@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
+using Utilities;
 
 namespace PresentationLayer.Others
 {
@@ -14,27 +15,32 @@ namespace PresentationLayer.Others
 
         }
 
-        public static void SkillTrained(int id, int duration)
+        public static void SkillTrained(int id, float durationInSeconds)
         {
             if (profileRepository != null)
             {
-                Profile profile = profileRepository.GetAll().First();
-                Skill skillTrained = profile.Skills.First(s => s.Id == id);
-                float hours = (float)duration / 360;
-                float gainedExperience = hours * 10;
+                //Profile profile = profileRepository.GetAll().First();
+                Skill skillTrained = skillsRepository.First(s => s.Id == id);//profile.Skills.First(s => s.Id == id);
+                float durationInMinutes = durationInSeconds / 60;
+                float durationInHours = durationInMinutes / 60;
+                float gainedExperience = durationInHours * 10;
+                float experienceToNewLevel = (skillTrained.Level + 1) * 100;
 
                 skillTrained.Experience += (int)gainedExperience;
 
-                profile.Experience += (int)gainedExperience;
+                if (skillTrained.Experience > experienceToNewLevel)
+                {
+                    int newLevel = skillTrained.Experience/100;
+                    skillTrained.Level = newLevel;
+                }
 
                 skillsRepository.Update(skillTrained);
-                profileRepository.Update(profile);
             }
-
-
         }
 
-        public static void TaskCompleted(int priority)
+
+
+        public static void TaskCompleted(Severity priority)
         {
             if (profileRepository != null)
             {
@@ -42,15 +48,15 @@ namespace PresentationLayer.Others
                 int experienceGained = 0;
                 switch (priority)
                 {
-                    case 1:
+                    case Severity.Low:
                         experienceGained = 1;
                         break;
 
-                    case 2:
+                    case Severity.Medium:
                         experienceGained = 3;
                         break;
 
-                    case 3:
+                    case Severity.High:
                         experienceGained = 5;
                         break;
                 }

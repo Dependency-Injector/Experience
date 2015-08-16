@@ -58,6 +58,9 @@ namespace PresentationLayer.Controls
             this.startWorkButton = new MetroFramework.Controls.MetroButton();
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
+            this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.workDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
             this.parentTaskTextLabel = new MetroFramework.Controls.MetroLabel();
             this.skillToTrainTextLabel = new MetroFramework.Controls.MetroLabel();
@@ -75,15 +78,20 @@ namespace PresentationLayer.Controls
             this.nameTextBox = new MetroFramework.Controls.MetroTextBox();
             this.tasksListPanel = new MetroFramework.Controls.MetroPanel();
             this.tasksListGrid = new MetroFramework.Controls.MetroGrid();
-            this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.workDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.reportedWorkTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.tasksListTextLabel = new MetroFramework.Controls.MetroLabel();
             this.taskIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskDeadlineColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timeSpentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskPriorityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskIsFinishedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.attachedSkillTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.attachedSkillNameLabel = new MetroFramework.Controls.MetroLabel();
+            this.totalWorkloadTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.totalWorkloadLabel = new MetroFramework.Controls.MetroLabel();
+            this.totalExpGainedTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.totalExpGainedLabel = new MetroFramework.Controls.MetroLabel();
             this.workUnitBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.buttonsPanel.SuspendLayout();
@@ -108,7 +116,7 @@ namespace PresentationLayer.Controls
             this.buttonsPanel.HorizontalScrollbarBarColor = true;
             this.buttonsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.buttonsPanel.HorizontalScrollbarSize = 10;
-            this.buttonsPanel.Location = new System.Drawing.Point(368, 575);
+            this.buttonsPanel.Location = new System.Drawing.Point(110, 461);
             this.buttonsPanel.Name = "buttonsPanel";
             this.buttonsPanel.Size = new System.Drawing.Size(250, 30);
             this.buttonsPanel.TabIndex = 3;
@@ -148,18 +156,15 @@ namespace PresentationLayer.Controls
             // 
             // taskDetailsPanel
             // 
-            this.taskDetailsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.taskDetailsPanel.Controls.Add(this.taskInfoPanel);
             this.taskDetailsPanel.Controls.Add(this.taskActionButtonsPanel);
-            this.taskDetailsPanel.Controls.Add(this.workUnitsPanel);
+            this.taskDetailsPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.taskDetailsPanel.HorizontalScrollbarBarColor = true;
             this.taskDetailsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskDetailsPanel.HorizontalScrollbarSize = 10;
-            this.taskDetailsPanel.Location = new System.Drawing.Point(3, 3);
+            this.taskDetailsPanel.Location = new System.Drawing.Point(492, 0);
             this.taskDetailsPanel.Name = "taskDetailsPanel";
-            this.taskDetailsPanel.Size = new System.Drawing.Size(615, 360);
+            this.taskDetailsPanel.Size = new System.Drawing.Size(608, 500);
             this.taskDetailsPanel.TabIndex = 4;
             this.taskDetailsPanel.VerticalScrollbarBarColor = true;
             this.taskDetailsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -167,6 +172,13 @@ namespace PresentationLayer.Controls
             // 
             // taskInfoPanel
             // 
+            this.taskInfoPanel.Controls.Add(this.totalExpGainedLabel);
+            this.taskInfoPanel.Controls.Add(this.totalWorkloadLabel);
+            this.taskInfoPanel.Controls.Add(this.attachedSkillNameLabel);
+            this.taskInfoPanel.Controls.Add(this.workUnitsPanel);
+            this.taskInfoPanel.Controls.Add(this.totalExpGainedTextLabel);
+            this.taskInfoPanel.Controls.Add(this.totalWorkloadTextLabel);
+            this.taskInfoPanel.Controls.Add(this.attachedSkillTextLabel);
             this.taskInfoPanel.Controls.Add(this.nameLabel);
             this.taskInfoPanel.Controls.Add(this.dueDateTextLabel);
             this.taskInfoPanel.Controls.Add(this.descriptionLabel);
@@ -174,12 +186,13 @@ namespace PresentationLayer.Controls
             this.taskInfoPanel.Controls.Add(this.startAndDueDate);
             this.taskInfoPanel.Controls.Add(this.priorityLabel);
             this.taskInfoPanel.Controls.Add(this.priorityTextLabel);
+            this.taskInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.taskInfoPanel.HorizontalScrollbarBarColor = true;
             this.taskInfoPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskInfoPanel.HorizontalScrollbarSize = 10;
-            this.taskInfoPanel.Location = new System.Drawing.Point(4, 41);
+            this.taskInfoPanel.Location = new System.Drawing.Point(0, 0);
             this.taskInfoPanel.Name = "taskInfoPanel";
-            this.taskInfoPanel.Size = new System.Drawing.Size(611, 175);
+            this.taskInfoPanel.Size = new System.Drawing.Size(608, 465);
             this.taskInfoPanel.TabIndex = 13;
             this.taskInfoPanel.VerticalScrollbarBarColor = true;
             this.taskInfoPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -190,7 +203,7 @@ namespace PresentationLayer.Controls
             this.nameLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.nameLabel.Location = new System.Drawing.Point(5, 5);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(598, 25);
+            this.nameLabel.Size = new System.Drawing.Size(593, 25);
             this.nameLabel.TabIndex = 4;
             this.nameLabel.Text = "Name";
             this.nameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -207,11 +220,12 @@ namespace PresentationLayer.Controls
             // descriptionLabel
             // 
             this.descriptionLabel.Location = new System.Drawing.Point(84, 68);
-            this.descriptionLabel.MinimumSize = new System.Drawing.Size(200, 50);
+            this.descriptionLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.descriptionLabel.MaximumSize = new System.Drawing.Size(512, 100);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(519, 96);
+            this.descriptionLabel.Size = new System.Drawing.Size(512, 100);
             this.descriptionLabel.TabIndex = 6;
-            this.descriptionLabel.Text = "Description";
+            this.descriptionLabel.Text = "[Task description]";
             // 
             // descriptionTextLabel
             // 
@@ -227,18 +241,18 @@ namespace PresentationLayer.Controls
             this.startAndDueDate.AutoSize = true;
             this.startAndDueDate.Location = new System.Drawing.Point(84, 30);
             this.startAndDueDate.Name = "startAndDueDate";
-            this.startAndDueDate.Size = new System.Drawing.Size(132, 19);
+            this.startAndDueDate.Size = new System.Drawing.Size(70, 19);
             this.startAndDueDate.TabIndex = 5;
-            this.startAndDueDate.Text = "Start date - due date";
+            this.startAndDueDate.Text = "[Due date]";
             // 
             // priorityLabel
             // 
             this.priorityLabel.AutoSize = true;
             this.priorityLabel.Location = new System.Drawing.Point(84, 49);
             this.priorityLabel.Name = "priorityLabel";
-            this.priorityLabel.Size = new System.Drawing.Size(51, 19);
+            this.priorityLabel.Size = new System.Drawing.Size(122, 19);
             this.priorityLabel.TabIndex = 8;
-            this.priorityLabel.Text = "Priority";
+            this.priorityLabel.Text = "[Task priority value]";
             this.priorityLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.priorityLabel.UseCustomForeColor = true;
             // 
@@ -259,12 +273,13 @@ namespace PresentationLayer.Controls
             this.taskActionButtonsPanel.Controls.Add(this.editButton);
             this.taskActionButtonsPanel.Controls.Add(this.stopWorkingButton);
             this.taskActionButtonsPanel.Controls.Add(this.startWorkButton);
+            this.taskActionButtonsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.taskActionButtonsPanel.HorizontalScrollbarBarColor = true;
             this.taskActionButtonsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskActionButtonsPanel.HorizontalScrollbarSize = 10;
-            this.taskActionButtonsPanel.Location = new System.Drawing.Point(3, 3);
+            this.taskActionButtonsPanel.Location = new System.Drawing.Point(0, 468);
             this.taskActionButtonsPanel.Name = "taskActionButtonsPanel";
-            this.taskActionButtonsPanel.Size = new System.Drawing.Size(604, 32);
+            this.taskActionButtonsPanel.Size = new System.Drawing.Size(608, 32);
             this.taskActionButtonsPanel.TabIndex = 13;
             this.taskActionButtonsPanel.VerticalScrollbarBarColor = true;
             this.taskActionButtonsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -273,7 +288,7 @@ namespace PresentationLayer.Controls
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.finishedButton.Location = new System.Drawing.Point(517, 3);
+            this.finishedButton.Location = new System.Drawing.Point(521, 3);
             this.finishedButton.Name = "finishedButton";
             this.finishedButton.Size = new System.Drawing.Size(84, 26);
             this.finishedButton.TabIndex = 10;
@@ -294,7 +309,7 @@ namespace PresentationLayer.Controls
             // stopWorkingButton
             // 
             this.stopWorkingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stopWorkingButton.Location = new System.Drawing.Point(335, 3);
+            this.stopWorkingButton.Location = new System.Drawing.Point(339, 3);
             this.stopWorkingButton.Name = "stopWorkingButton";
             this.stopWorkingButton.Size = new System.Drawing.Size(85, 26);
             this.stopWorkingButton.TabIndex = 11;
@@ -305,7 +320,7 @@ namespace PresentationLayer.Controls
             // startWorkButton
             // 
             this.startWorkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.startWorkButton.Location = new System.Drawing.Point(426, 3);
+            this.startWorkButton.Location = new System.Drawing.Point(430, 3);
             this.startWorkButton.Name = "startWorkButton";
             this.startWorkButton.Size = new System.Drawing.Size(85, 26);
             this.startWorkButton.TabIndex = 11;
@@ -315,16 +330,15 @@ namespace PresentationLayer.Controls
             // 
             // workUnitsPanel
             // 
-            this.workUnitsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.workUnitsPanel.Controls.Add(this.reportedWorkTextLabel);
             this.workUnitsPanel.Controls.Add(this.workUnitsGrid);
+            this.workUnitsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.workUnitsPanel.HorizontalScrollbarBarColor = true;
             this.workUnitsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.workUnitsPanel.HorizontalScrollbarSize = 10;
-            this.workUnitsPanel.Location = new System.Drawing.Point(3, 219);
+            this.workUnitsPanel.Location = new System.Drawing.Point(0, 228);
             this.workUnitsPanel.Name = "workUnitsPanel";
-            this.workUnitsPanel.Size = new System.Drawing.Size(609, 138);
+            this.workUnitsPanel.Size = new System.Drawing.Size(608, 237);
             this.workUnitsPanel.TabIndex = 7;
             this.workUnitsPanel.VerticalScrollbarBarColor = true;
             this.workUnitsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -335,6 +349,9 @@ namespace PresentationLayer.Controls
             this.workUnitsGrid.AllowUserToAddRows = false;
             this.workUnitsGrid.AllowUserToDeleteRows = false;
             this.workUnitsGrid.AllowUserToResizeRows = false;
+            this.workUnitsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.workUnitsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.workUnitsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.workUnitsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -361,11 +378,10 @@ namespace PresentationLayer.Controls
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle2;
-            this.workUnitsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.workUnitsGrid.EnableHeadersVisualStyles = false;
             this.workUnitsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.workUnitsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.workUnitsGrid.Location = new System.Drawing.Point(0, 0);
+            this.workUnitsGrid.Location = new System.Drawing.Point(3, 24);
             this.workUnitsGrid.Name = "workUnitsGrid";
             this.workUnitsGrid.ReadOnly = true;
             this.workUnitsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -379,8 +395,26 @@ namespace PresentationLayer.Controls
             this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.workUnitsGrid.Size = new System.Drawing.Size(609, 138);
+            this.workUnitsGrid.Size = new System.Drawing.Size(600, 210);
             this.workUnitsGrid.TabIndex = 2;
+            // 
+            // workStartTimeColumn
+            // 
+            this.workStartTimeColumn.HeaderText = "Started";
+            this.workStartTimeColumn.Name = "workStartTimeColumn";
+            this.workStartTimeColumn.ReadOnly = true;
+            // 
+            // workEndedTimeColumn
+            // 
+            this.workEndedTimeColumn.HeaderText = "Ended";
+            this.workEndedTimeColumn.Name = "workEndedTimeColumn";
+            this.workEndedTimeColumn.ReadOnly = true;
+            // 
+            // workDurationColumn
+            // 
+            this.workDurationColumn.HeaderText = "Duration";
+            this.workDurationColumn.Name = "workDurationColumn";
+            this.workDurationColumn.ReadOnly = true;
             // 
             // taskEditPanel
             // 
@@ -399,9 +433,9 @@ namespace PresentationLayer.Controls
             this.taskEditPanel.HorizontalScrollbarBarColor = true;
             this.taskEditPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.HorizontalScrollbarSize = 10;
-            this.taskEditPanel.Location = new System.Drawing.Point(3, 3);
+            this.taskEditPanel.Location = new System.Drawing.Point(489, 3);
             this.taskEditPanel.Name = "taskEditPanel";
-            this.taskEditPanel.Size = new System.Drawing.Size(611, 302);
+            this.taskEditPanel.Size = new System.Drawing.Size(608, 439);
             this.taskEditPanel.TabIndex = 5;
             this.taskEditPanel.VerticalScrollbarBarColor = true;
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -452,7 +486,7 @@ namespace PresentationLayer.Controls
             // removeButton
             // 
             this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeButton.Location = new System.Drawing.Point(4, 275);
+            this.removeButton.Location = new System.Drawing.Point(4, 412);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(72, 22);
             this.removeButton.TabIndex = 13;
@@ -463,7 +497,7 @@ namespace PresentationLayer.Controls
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(448, 275);
+            this.cancelButton.Location = new System.Drawing.Point(445, 412);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 22);
             this.cancelButton.TabIndex = 13;
@@ -474,7 +508,7 @@ namespace PresentationLayer.Controls
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(529, 275);
+            this.saveButton.Location = new System.Drawing.Point(526, 412);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(77, 22);
             this.saveButton.TabIndex = 13;
@@ -496,7 +530,7 @@ namespace PresentationLayer.Controls
             this.descriptionTextBox.PasswordChar = '\0';
             this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.descriptionTextBox.SelectedText = "";
-            this.descriptionTextBox.Size = new System.Drawing.Size(373, 118);
+            this.descriptionTextBox.Size = new System.Drawing.Size(370, 255);
             this.descriptionTextBox.TabIndex = 12;
             this.descriptionTextBox.Text = "Description";
             this.descriptionTextBox.UseSelectable = true;
@@ -513,7 +547,7 @@ namespace PresentationLayer.Controls
             this.priorityPanel.HorizontalScrollbarSize = 10;
             this.priorityPanel.Location = new System.Drawing.Point(4, 76);
             this.priorityPanel.Name = "priorityPanel";
-            this.priorityPanel.Size = new System.Drawing.Size(602, 69);
+            this.priorityPanel.Size = new System.Drawing.Size(599, 69);
             this.priorityPanel.TabIndex = 11;
             this.priorityPanel.VerticalScrollbarBarColor = true;
             this.priorityPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -556,7 +590,7 @@ namespace PresentationLayer.Controls
             this.dueDateTime.Location = new System.Drawing.Point(3, 40);
             this.dueDateTime.MinimumSize = new System.Drawing.Size(4, 29);
             this.dueDateTime.Name = "dueDateTime";
-            this.dueDateTime.Size = new System.Drawing.Size(603, 29);
+            this.dueDateTime.Size = new System.Drawing.Size(600, 29);
             this.dueDateTime.TabIndex = 10;
             // 
             // nameTextBox
@@ -571,20 +605,23 @@ namespace PresentationLayer.Controls
             this.nameTextBox.PasswordChar = '\0';
             this.nameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.nameTextBox.SelectedText = "";
-            this.nameTextBox.Size = new System.Drawing.Size(602, 22);
+            this.nameTextBox.Size = new System.Drawing.Size(599, 22);
             this.nameTextBox.TabIndex = 14;
             this.nameTextBox.Text = "Name";
             this.nameTextBox.UseSelectable = true;
             // 
             // tasksListPanel
             // 
+            this.tasksListPanel.Controls.Add(this.buttonsPanel);
+            this.tasksListPanel.Controls.Add(this.tasksListTextLabel);
             this.tasksListPanel.Controls.Add(this.tasksListGrid);
+            this.tasksListPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.tasksListPanel.HorizontalScrollbarBarColor = true;
             this.tasksListPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.tasksListPanel.HorizontalScrollbarSize = 10;
-            this.tasksListPanel.Location = new System.Drawing.Point(3, 369);
+            this.tasksListPanel.Location = new System.Drawing.Point(0, 0);
             this.tasksListPanel.Name = "tasksListPanel";
-            this.tasksListPanel.Size = new System.Drawing.Size(615, 200);
+            this.tasksListPanel.Size = new System.Drawing.Size(490, 500);
             this.tasksListPanel.TabIndex = 6;
             this.tasksListPanel.VerticalScrollbarBarColor = true;
             this.tasksListPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -624,11 +661,10 @@ namespace PresentationLayer.Controls
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tasksListGrid.DefaultCellStyle = dataGridViewCellStyle5;
-            this.tasksListGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tasksListGrid.EnableHeadersVisualStyles = false;
             this.tasksListGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.tasksListGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.tasksListGrid.Location = new System.Drawing.Point(0, 0);
+            this.tasksListGrid.Location = new System.Drawing.Point(3, 38);
             this.tasksListGrid.Name = "tasksListGrid";
             this.tasksListGrid.ReadOnly = true;
             this.tasksListGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -642,28 +678,28 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.tasksListGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tasksListGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tasksListGrid.Size = new System.Drawing.Size(615, 200);
+            this.tasksListGrid.Size = new System.Drawing.Size(480, 417);
             this.tasksListGrid.TabIndex = 2;
             this.tasksListGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tasksListGrid_DataBindingComplete);
             this.tasksListGrid.SelectionChanged += new System.EventHandler(this.tasksListGrid_SelectionChanged);
             // 
-            // workStartTimeColumn
+            // reportedWorkTextLabel
             // 
-            this.workStartTimeColumn.HeaderText = "Started";
-            this.workStartTimeColumn.Name = "workStartTimeColumn";
-            this.workStartTimeColumn.ReadOnly = true;
+            this.reportedWorkTextLabel.AutoSize = true;
+            this.reportedWorkTextLabel.Location = new System.Drawing.Point(2, 2);
+            this.reportedWorkTextLabel.Name = "reportedWorkTextLabel";
+            this.reportedWorkTextLabel.Size = new System.Drawing.Size(96, 19);
+            this.reportedWorkTextLabel.TabIndex = 3;
+            this.reportedWorkTextLabel.Text = "Reported work";
             // 
-            // workEndedTimeColumn
+            // tasksListTextLabel
             // 
-            this.workEndedTimeColumn.HeaderText = "Ended";
-            this.workEndedTimeColumn.Name = "workEndedTimeColumn";
-            this.workEndedTimeColumn.ReadOnly = true;
-            // 
-            // workDurationColumn
-            // 
-            this.workDurationColumn.HeaderText = "Duration";
-            this.workDurationColumn.Name = "workDurationColumn";
-            this.workDurationColumn.ReadOnly = true;
+            this.tasksListTextLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.tasksListTextLabel.Location = new System.Drawing.Point(183, 6);
+            this.tasksListTextLabel.Name = "tasksListTextLabel";
+            this.tasksListTextLabel.Size = new System.Drawing.Size(114, 29);
+            this.tasksListTextLabel.TabIndex = 3;
+            this.tasksListTextLabel.Text = "Active quests";
             // 
             // taskIdColumn
             // 
@@ -703,6 +739,61 @@ namespace PresentationLayer.Controls
             this.taskIsFinishedColumn.ReadOnly = true;
             this.taskIsFinishedColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.taskIsFinishedColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.taskIsFinishedColumn.Visible = false;
+            // 
+            // attachedSkillTextLabel
+            // 
+            this.attachedSkillTextLabel.AutoSize = true;
+            this.attachedSkillTextLabel.Location = new System.Drawing.Point(288, 30);
+            this.attachedSkillTextLabel.Name = "attachedSkillTextLabel";
+            this.attachedSkillTextLabel.Size = new System.Drawing.Size(85, 19);
+            this.attachedSkillTextLabel.TabIndex = 13;
+            this.attachedSkillTextLabel.Text = "Attached skill";
+            // 
+            // attachedSkillNameLabel
+            // 
+            this.attachedSkillNameLabel.AutoSize = true;
+            this.attachedSkillNameLabel.Location = new System.Drawing.Point(390, 30);
+            this.attachedSkillNameLabel.Name = "attachedSkillNameLabel";
+            this.attachedSkillNameLabel.Size = new System.Drawing.Size(130, 19);
+            this.attachedSkillNameLabel.TabIndex = 13;
+            this.attachedSkillNameLabel.Text = "[Attached skill name]";
+            // 
+            // totalWorkloadTextLabel
+            // 
+            this.totalWorkloadTextLabel.AutoSize = true;
+            this.totalWorkloadTextLabel.Location = new System.Drawing.Point(288, 49);
+            this.totalWorkloadTextLabel.Name = "totalWorkloadTextLabel";
+            this.totalWorkloadTextLabel.Size = new System.Drawing.Size(96, 19);
+            this.totalWorkloadTextLabel.TabIndex = 13;
+            this.totalWorkloadTextLabel.Text = "Total workload";
+            // 
+            // totalWorkloadLabel
+            // 
+            this.totalWorkloadLabel.AutoSize = true;
+            this.totalWorkloadLabel.Location = new System.Drawing.Point(390, 49);
+            this.totalWorkloadLabel.Name = "totalWorkloadLabel";
+            this.totalWorkloadLabel.Size = new System.Drawing.Size(130, 19);
+            this.totalWorkloadLabel.TabIndex = 13;
+            this.totalWorkloadLabel.Text = "[Time spend on task]";
+            // 
+            // totalExpGainedTextLabel
+            // 
+            this.totalExpGainedTextLabel.AutoSize = true;
+            this.totalExpGainedTextLabel.Location = new System.Drawing.Point(288, 68);
+            this.totalExpGainedTextLabel.Name = "totalExpGainedTextLabel";
+            this.totalExpGainedTextLabel.Size = new System.Drawing.Size(105, 19);
+            this.totalExpGainedTextLabel.TabIndex = 13;
+            this.totalExpGainedTextLabel.Text = "Total experience";
+            // 
+            // totalExpGainedLabel
+            // 
+            this.totalExpGainedLabel.AutoSize = true;
+            this.totalExpGainedLabel.Location = new System.Drawing.Point(390, 68);
+            this.totalExpGainedLabel.Name = "totalExpGainedLabel";
+            this.totalExpGainedLabel.Size = new System.Drawing.Size(177, 19);
+            this.totalExpGainedLabel.TabIndex = 13;
+            this.totalExpGainedLabel.Text = "[Experience gained with task]";
             // 
             // workUnitBindingSource
             // 
@@ -718,10 +809,9 @@ namespace PresentationLayer.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.taskDetailsPanel);
             this.Controls.Add(this.tasksListPanel);
-            this.Controls.Add(this.buttonsPanel);
             this.Controls.Add(this.taskEditPanel);
             this.Name = "TasksControl";
-            this.Size = new System.Drawing.Size(621, 608);
+            this.Size = new System.Drawing.Size(1100, 500);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.buttonsPanel.ResumeLayout(false);
             this.taskDetailsPanel.ResumeLayout(false);
@@ -729,6 +819,7 @@ namespace PresentationLayer.Controls
             this.taskInfoPanel.PerformLayout();
             this.taskActionButtonsPanel.ResumeLayout(false);
             this.workUnitsPanel.ResumeLayout(false);
+            this.workUnitsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).EndInit();
             this.taskEditPanel.ResumeLayout(false);
             this.taskEditPanel.PerformLayout();
@@ -790,11 +881,19 @@ namespace PresentationLayer.Controls
         private System.Windows.Forms.DataGridViewTextBoxColumn workStartTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn workEndedTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn workDurationColumn;
+        private MetroLabel reportedWorkTextLabel;
+        private MetroLabel tasksListTextLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskIdColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskDeadlineColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn timeSpentColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn taskPriorityColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn taskIsFinishedColumn;
+        private MetroLabel totalWorkloadLabel;
+        private MetroLabel attachedSkillNameLabel;
+        private MetroLabel totalWorkloadTextLabel;
+        private MetroLabel attachedSkillTextLabel;
+        private MetroLabel totalExpGainedLabel;
+        private MetroLabel totalExpGainedTextLabel;
     }
 }
