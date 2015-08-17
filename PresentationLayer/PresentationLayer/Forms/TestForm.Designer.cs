@@ -31,16 +31,21 @@ namespace PresentationLayer.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tasksControl1 = new PresentationLayer.Controls.TasksControl();
             this.profileControl = new PresentationLayer.Controls.ProfileControl();
+            this.optionsControl = new PresentationLayer.Controls.OptionsControl();
             this.profileControl1 = new PresentationLayer.Controls.ProfileControl();
             this.contentTabControl.SuspendLayout();
             this.tasksTabPage.SuspendLayout();
             this.profileTabPage.SuspendLayout();
+            this.optionsTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.metroColorsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // contentTabControl
@@ -51,7 +56,7 @@ namespace PresentationLayer.Forms
             this.contentTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentTabControl.Location = new System.Drawing.Point(20, 60);
             this.contentTabControl.Name = "contentTabControl";
-            this.contentTabControl.SelectedIndex = 1;
+            this.contentTabControl.SelectedIndex = 2;
             this.contentTabControl.Size = new System.Drawing.Size(1160, 620);
             this.contentTabControl.TabIndex = 2;
             this.contentTabControl.UseSelectable = true;
@@ -88,6 +93,7 @@ namespace PresentationLayer.Forms
             // 
             // optionsTabPage
             // 
+            this.optionsTabPage.Controls.Add(this.optionsControl);
             this.optionsTabPage.HorizontalScrollbarBarColor = true;
             this.optionsTabPage.HorizontalScrollbarHighlightOnWheel = false;
             this.optionsTabPage.HorizontalScrollbarSize = 10;
@@ -100,6 +106,10 @@ namespace PresentationLayer.Forms
             this.optionsTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.optionsTabPage.VerticalScrollbarSize = 10;
             // 
+            // metroColorsBindingSource
+            // 
+            this.metroColorsBindingSource.DataSource = typeof(MetroFramework.MetroColors);
+            // 
             // tasksControl1
             // 
             this.tasksControl1.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
@@ -107,6 +117,7 @@ namespace PresentationLayer.Forms
             this.tasksControl1.IsDirty = true;
             this.tasksControl1.Location = new System.Drawing.Point(0, 0);
             this.tasksControl1.Name = "tasksControl1";
+            this.tasksControl1.ParentTaskId = null;
             this.tasksControl1.Priority = 0;
             this.tasksControl1.Size = new System.Drawing.Size(1153, 575);
             this.tasksControl1.SkillToTrainId = null;
@@ -118,7 +129,7 @@ namespace PresentationLayer.Forms
             // profileControl
             // 
             this.profileControl.Age = 0;
-            this.profileControl.BirthDate = new System.DateTime(2015, 8, 16, 20, 17, 43, 322);
+            this.profileControl.BirthDate = new System.DateTime(2015, 8, 17, 1, 30, 53, 181);
             this.profileControl.Experience = 0;
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
@@ -130,10 +141,20 @@ namespace PresentationLayer.Forms
             this.profileControl.TabIndex = 1;
             this.profileControl.UseSelectable = true;
             // 
+            // optionsControl
+            // 
+            this.optionsControl.Location = new System.Drawing.Point(3, 3);
+            this.optionsControl.Name = "optionsControl";
+            this.optionsControl.Size = new System.Drawing.Size(460, 420);
+            this.optionsControl.StyleName = "Blue";
+            this.optionsControl.TabIndex = 5;
+            this.optionsControl.ThemeName = "Light";
+            this.optionsControl.UseSelectable = true;
+            // 
             // profileControl1
             // 
             this.profileControl1.Age = 0;
-            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 16, 20, 17, 43, 327);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 17, 1, 30, 53, 188);
             this.profileControl1.Experience = 0;
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
@@ -157,6 +178,8 @@ namespace PresentationLayer.Forms
             this.contentTabControl.ResumeLayout(false);
             this.tasksTabPage.ResumeLayout(false);
             this.profileTabPage.ResumeLayout(false);
+            this.optionsTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.metroColorsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -170,5 +193,7 @@ namespace PresentationLayer.Forms
         private MetroFramework.Controls.MetroTabPage tasksTabPage;
         private MetroFramework.Controls.MetroTabPage profileTabPage;
         private MetroFramework.Controls.MetroTabPage optionsTabPage;
+        private System.Windows.Forms.BindingSource metroColorsBindingSource;
+        private OptionsControl optionsControl;
     }
 }

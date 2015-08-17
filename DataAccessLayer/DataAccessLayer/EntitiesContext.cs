@@ -13,5 +13,6 @@ namespace DataAccessLayer
         public DbSet<WorkUnit> WorkUnits { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Preferences> Preferences { get; set; }
     }
 }

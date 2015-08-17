@@ -9,7 +9,7 @@ namespace PresentationLayer.Views
         String TaskDescription { get; set; }
         int Priority { get; set; }
         DateTime? DueDate { get; set; }
-        bool IsFinished {  set; }
+        bool IsFinished { set; }
         DateTime? FinishDate { get; set; }
         String TotalWorkload { set; }
         String TotalExperienceGained { set; }
@@ -19,8 +19,8 @@ namespace PresentationLayer.Views
         int? ParentTaskId { get; set; }
         ICollection WorkUnits { set; }
         ICollection Tasks { set; }
-        ICollection SkillsAvailable {  set; }
-        
+        ICollection SkillsAvailable { set; }
+
         event EventHandler<EventArgs> NewTask;
         event EventHandler<EventArgs> SaveTask;
         event EventHandler<EventArgs> RemoveTask;

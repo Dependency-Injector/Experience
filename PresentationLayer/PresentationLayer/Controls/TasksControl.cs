@@ -111,9 +111,15 @@ namespace PresentationLayer.Controls
         {
             get
             {
-                int selectedSkillId;
-                if (int.TryParse(skillToTrainComboBox.SelectedValue.ToString(), out selectedSkillId) && selectedSkillId > 0)
-                    return selectedSkillId;
+                if (parentTaskComboBox.SelectedItem != null)
+                {
+                    int selectedSkillId;
+                    if (int.TryParse(skillToTrainComboBox.SelectedValue.ToString(), out selectedSkillId) &&
+                        selectedSkillId > 0)
+                        return selectedSkillId;
+                    else
+                        return null;
+                }
                 else
                     return null;
             }
@@ -121,6 +127,7 @@ namespace PresentationLayer.Controls
             {
                 if (value.HasValue)
                     parentTaskComboBox.SelectItemByValue(value.Value);
+                
             }
         }
 
