@@ -5,8 +5,10 @@ using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Services;
 using Model.Classes;
 using Model.Entities;
+using Model.Enums;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -16,8 +18,10 @@ namespace BussinessLogicLayer.Presenters
 
         private readonly ITasksView view;
         private TasksRepository taskRepository;
+        private TaskService taskService;
         private WorkUnitsRepository workUnitsRepository;
         private SkillsRepository skillsRepository;
+        private HistoryService historyService;
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
@@ -28,9 +32,13 @@ namespace BussinessLogicLayer.Presenters
         public TaskPresenter(ITasksView view)
         {
             this.view = view;
+
             taskRepository = new TasksRepository();
             workUnitsRepository = new WorkUnitsRepository();
             skillsRepository = new SkillsRepository();
+
+            taskService = new TaskService();
+            historyService = new HistoryService();
 
             Initialize();
         }
@@ -95,6 +103,8 @@ namespace BussinessLogicLayer.Presenters
         {
             var task = isTaskNew ? new Task() : GetSelectedTask();
 
+            //taskService.AddNewTask(view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+
             task.Name = view.TaskName;
             task.Description = view.TaskDescription;
             task.Priority = TaskDefaults.Priorities[view.Priority].Severity;
@@ -110,10 +120,14 @@ namespace BussinessLogicLayer.Presenters
             {
                 task.CreationDate = DateTime.Now;
                 taskRepository.Add(task);
+
+                historyService.AddHistoryEvent(HistoryEventType.TaskCreated, task.Id);
             }
             else
             {
                 taskRepository.Update(task);
+
+                historyService.AddHistoryEvent(HistoryEventType.TaskEdited, task.Id);
             }
 
             isTaskNew = false;
@@ -148,6 +162,8 @@ namespace BussinessLogicLayer.Presenters
 
                 taskRepository.Delete(task);
 
+                historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
+
                 tasks = SortTasks(taskRepository.GetAll().ToList());
                 selectedTaskIndex = tasks.Count - 1;
 
@@ -176,6 +192,8 @@ namespace BussinessLogicLayer.Presenters
             taskRepository.Update(taskToFinish);
             SkillTrainer.TaskCompleted(taskToFinish.Priority);
 
+            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id);
+
             DisplaySingleTaskInfo(taskToFinish);
             DisplayTasksList(tasks);
         }
@@ -194,10 +212,14 @@ namespace BussinessLogicLayer.Presenters
 
                 workUnitsRepository.Add(currentWorkUnit);
 
+                historyService.AddHistoryEvent(HistoryEventType.WorkStopped, currentWorkUnit.Id);
+
                 Task task = taskRepository.Get(currentWorkUnit.Task.Id);
                 if (task.SkillToTrain != null && currentWorkUnit.Duration.HasValue)
                 {
                     SkillTrainer.SkillTrained(task.SkillToTrain.Id, currentWorkUnit.Duration.Value);
+
+                    historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, currentWorkUnit.Id);
                 }
 
                 
@@ -212,6 +234,9 @@ namespace BussinessLogicLayer.Presenters
                 StartTime = DateTime.Now,
                 Task = GetSelectedTask()
             };
+
+
+            historyService.AddHistoryEvent(HistoryEventType.WorkStarted, currentWorkUnit.Id);
         }
 
         #endregion

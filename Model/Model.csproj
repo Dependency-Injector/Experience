@@ -99,6 +99,10 @@
     <Compile Include="Migrations\201508170737421_HistoryEvents.Designer.cs">
       <DependentUpon>201508170737421_HistoryEvents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508170801365_HistoryAssociatedItems.cs" />
+    <Compile Include="Migrations\201508170801365_HistoryAssociatedItems.Designer.cs">
+      <DependentUpon>201508170801365_HistoryAssociatedItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -141,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508170737421_HistoryEvents.resx">
       <DependentUpon>201508170737421_HistoryEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508170801365_HistoryAssociatedItems.resx">
+      <DependentUpon>201508170801365_HistoryAssociatedItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

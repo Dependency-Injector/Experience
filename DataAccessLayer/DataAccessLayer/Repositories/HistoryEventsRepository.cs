@@ -40,10 +40,17 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void Add(HistoryEvent entity)
+        public void Add(HistoryEvent historyEvent)
         {
-            throw new NotImplementedException();
-        }
+            using (EntitiesContext context = new EntitiesContext())
+            {
+                context.HistoryEvents.Add(historyEvent);
+                context.Entry(historyEvent).State = EntityState.Added;
+                
+                context.SaveChanges();
+            }
+        
+    }
 
         public void Update(HistoryEvent HistoryEvent)
         {

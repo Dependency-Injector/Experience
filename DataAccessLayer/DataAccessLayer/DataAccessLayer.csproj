@@ -58,6 +58,8 @@
     <Compile Include="Repositories\WorkUnitsRepository.cs" />
     <Compile Include="Repositories\TasksRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HistoryService.cs" />
+    <Compile Include="Services\TaskService.cs" />
     <Compile Include="SkillTrainer.cs" />
   </ItemGroup>
   <ItemGroup>

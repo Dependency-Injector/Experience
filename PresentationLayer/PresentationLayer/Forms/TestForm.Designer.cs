@@ -34,17 +34,20 @@ namespace PresentationLayer.Forms
             this.components = new System.ComponentModel.Container();
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tasksControl1 = new PresentationLayer.Controls.TasksControl();
+            this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
             this.profileControl = new PresentationLayer.Controls.ProfileControl();
+            this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
             this.optionsControl = new PresentationLayer.Controls.OptionsControl();
+            this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.profileControl1 = new PresentationLayer.Controls.ProfileControl();
+            this.historyControl1 = new PresentationLayer.Controls.HistoryControl();
             this.contentTabControl.SuspendLayout();
             this.tasksTabPage.SuspendLayout();
             this.profileTabPage.SuspendLayout();
             this.optionsTabPage.SuspendLayout();
+            this.historyTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroColorsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,10 +56,11 @@ namespace PresentationLayer.Forms
             this.contentTabControl.Controls.Add(this.tasksTabPage);
             this.contentTabControl.Controls.Add(this.profileTabPage);
             this.contentTabControl.Controls.Add(this.optionsTabPage);
+            this.contentTabControl.Controls.Add(this.historyTabPage);
             this.contentTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentTabControl.Location = new System.Drawing.Point(20, 60);
             this.contentTabControl.Name = "contentTabControl";
-            this.contentTabControl.SelectedIndex = 2;
+            this.contentTabControl.SelectedIndex = 3;
             this.contentTabControl.Size = new System.Drawing.Size(1160, 620);
             this.contentTabControl.TabIndex = 2;
             this.contentTabControl.UseSelectable = true;
@@ -76,40 +80,6 @@ namespace PresentationLayer.Forms
             this.tasksTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.tasksTabPage.VerticalScrollbarSize = 10;
             // 
-            // profileTabPage
-            // 
-            this.profileTabPage.Controls.Add(this.profileControl);
-            this.profileTabPage.HorizontalScrollbarBarColor = true;
-            this.profileTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.profileTabPage.HorizontalScrollbarSize = 10;
-            this.profileTabPage.Location = new System.Drawing.Point(4, 38);
-            this.profileTabPage.Name = "profileTabPage";
-            this.profileTabPage.Size = new System.Drawing.Size(1152, 578);
-            this.profileTabPage.TabIndex = 1;
-            this.profileTabPage.Text = "Profile";
-            this.profileTabPage.VerticalScrollbarBarColor = true;
-            this.profileTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.profileTabPage.VerticalScrollbarSize = 10;
-            // 
-            // optionsTabPage
-            // 
-            this.optionsTabPage.Controls.Add(this.optionsControl);
-            this.optionsTabPage.HorizontalScrollbarBarColor = true;
-            this.optionsTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.optionsTabPage.HorizontalScrollbarSize = 10;
-            this.optionsTabPage.Location = new System.Drawing.Point(4, 38);
-            this.optionsTabPage.Name = "optionsTabPage";
-            this.optionsTabPage.Size = new System.Drawing.Size(1152, 578);
-            this.optionsTabPage.TabIndex = 2;
-            this.optionsTabPage.Text = "Options";
-            this.optionsTabPage.VerticalScrollbarBarColor = true;
-            this.optionsTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.optionsTabPage.VerticalScrollbarSize = 10;
-            // 
-            // metroColorsBindingSource
-            // 
-            this.metroColorsBindingSource.DataSource = typeof(MetroFramework.MetroColors);
-            // 
             // tasksControl1
             // 
             this.tasksControl1.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
@@ -126,10 +96,25 @@ namespace PresentationLayer.Forms
             this.tasksControl1.TaskName = "Name";
             this.tasksControl1.UseSelectable = true;
             // 
+            // profileTabPage
+            // 
+            this.profileTabPage.Controls.Add(this.profileControl);
+            this.profileTabPage.HorizontalScrollbarBarColor = true;
+            this.profileTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.profileTabPage.HorizontalScrollbarSize = 10;
+            this.profileTabPage.Location = new System.Drawing.Point(4, 38);
+            this.profileTabPage.Name = "profileTabPage";
+            this.profileTabPage.Size = new System.Drawing.Size(1152, 578);
+            this.profileTabPage.TabIndex = 1;
+            this.profileTabPage.Text = "Profile";
+            this.profileTabPage.VerticalScrollbarBarColor = true;
+            this.profileTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.profileTabPage.VerticalScrollbarSize = 10;
+            // 
             // profileControl
             // 
             this.profileControl.Age = 0;
-            this.profileControl.BirthDate = new System.DateTime(2015, 8, 17, 1, 30, 53, 181);
+            this.profileControl.BirthDate = new System.DateTime(2015, 8, 17, 10, 37, 3, 648);
             this.profileControl.Experience = 0;
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
@@ -141,20 +126,55 @@ namespace PresentationLayer.Forms
             this.profileControl.TabIndex = 1;
             this.profileControl.UseSelectable = true;
             // 
+            // optionsTabPage
+            // 
+            this.optionsTabPage.Controls.Add(this.optionsControl);
+            this.optionsTabPage.HorizontalScrollbarBarColor = true;
+            this.optionsTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.optionsTabPage.HorizontalScrollbarSize = 10;
+            this.optionsTabPage.Location = new System.Drawing.Point(4, 38);
+            this.optionsTabPage.Name = "optionsTabPage";
+            this.optionsTabPage.Size = new System.Drawing.Size(1152, 578);
+            this.optionsTabPage.TabIndex = 2;
+            this.optionsTabPage.Text = "Options";
+            this.optionsTabPage.VerticalScrollbarBarColor = true;
+            this.optionsTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.optionsTabPage.VerticalScrollbarSize = 10;
+            // 
             // optionsControl
             // 
             this.optionsControl.Location = new System.Drawing.Point(3, 3);
             this.optionsControl.Name = "optionsControl";
+            this.optionsControl.ShowFinishedTasks = null;
             this.optionsControl.Size = new System.Drawing.Size(460, 420);
-            this.optionsControl.StyleName = "Blue";
+            this.optionsControl.StyleName = null;
             this.optionsControl.TabIndex = 5;
             this.optionsControl.ThemeName = "Light";
             this.optionsControl.UseSelectable = true;
             // 
+            // historyTabPage
+            // 
+            this.historyTabPage.Controls.Add(this.historyControl1);
+            this.historyTabPage.HorizontalScrollbarBarColor = true;
+            this.historyTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.historyTabPage.HorizontalScrollbarSize = 10;
+            this.historyTabPage.Location = new System.Drawing.Point(4, 38);
+            this.historyTabPage.Name = "historyTabPage";
+            this.historyTabPage.Size = new System.Drawing.Size(1152, 578);
+            this.historyTabPage.TabIndex = 3;
+            this.historyTabPage.Text = "metroTabPage1";
+            this.historyTabPage.VerticalScrollbarBarColor = true;
+            this.historyTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.historyTabPage.VerticalScrollbarSize = 10;
+            // 
+            // metroColorsBindingSource
+            // 
+            this.metroColorsBindingSource.DataSource = typeof(MetroFramework.MetroColors);
+            // 
             // profileControl1
             // 
             this.profileControl1.Age = 0;
-            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 17, 1, 30, 53, 188);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 17, 10, 37, 3, 700);
             this.profileControl1.Experience = 0;
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
@@ -165,6 +185,17 @@ namespace PresentationLayer.Forms
             this.profileControl1.Size = new System.Drawing.Size(368, 418);
             this.profileControl1.TabIndex = 1;
             this.profileControl1.UseSelectable = true;
+            // 
+            // historyControl1
+            // 
+            this.historyControl1.DisplayExperienceEvents = true;
+            this.historyControl1.DisplayTaskEvents = true;
+            this.historyControl1.DisplayWorkUnitEvents = true;
+            this.historyControl1.Location = new System.Drawing.Point(0, 0);
+            this.historyControl1.Name = "historyControl1";
+            this.historyControl1.Size = new System.Drawing.Size(1091, 575);
+            this.historyControl1.TabIndex = 2;
+            this.historyControl1.UseSelectable = true;
             // 
             // TestForm
             // 
@@ -179,6 +210,7 @@ namespace PresentationLayer.Forms
             this.tasksTabPage.ResumeLayout(false);
             this.profileTabPage.ResumeLayout(false);
             this.optionsTabPage.ResumeLayout(false);
+            this.historyTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroColorsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -195,5 +227,7 @@ namespace PresentationLayer.Forms
         private MetroFramework.Controls.MetroTabPage optionsTabPage;
         private System.Windows.Forms.BindingSource metroColorsBindingSource;
         private OptionsControl optionsControl;
+        private MetroFramework.Controls.MetroTabPage historyTabPage;
+        private HistoryControl historyControl1;
     }
 }

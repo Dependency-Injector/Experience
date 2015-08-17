@@ -50,7 +50,10 @@ namespace PresentationLayer.Controls
         {
             get
             {
-                return styleComboBox.SelectedItem.ToString();
+                if (styleComboBox.SelectedItem != null)
+                    return styleComboBox.SelectedItem.ToString();
+                else
+                    return null;
             }
             set
             {
