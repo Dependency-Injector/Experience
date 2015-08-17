@@ -5,11 +5,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using DataAccessLayer.Migrations;
+using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
-using PresentationLayer.Others;
-using PresentationLayer.Views;
-using Utilities;
+using Model.Classes;
+using Model.Enums;
 
 namespace PresentationLayer.Controls
 {
@@ -105,6 +104,10 @@ namespace PresentationLayer.Controls
                 {
                     skillToTrainComboBox.SelectItemByValue(value.Value);
                 }
+                else
+                {
+                    skillToTrainComboBox.SelectedValue = 0;
+                }
             }
         }
         public int? ParentTaskId
@@ -113,12 +116,10 @@ namespace PresentationLayer.Controls
             {
                 if (parentTaskComboBox.SelectedItem != null)
                 {
-                    int selectedSkillId;
-                    if (int.TryParse(skillToTrainComboBox.SelectedValue.ToString(), out selectedSkillId) &&
-                        selectedSkillId > 0)
-                        return selectedSkillId;
-                    else
-                        return null;
+                    int parentTaskId;
+                    var selectedTask = (KeyValuePair<int, string>)parentTaskComboBox.SelectedItem;
+                    return selectedTask.Key;
+                    
                 }
                 else
                     return null;
@@ -127,7 +128,10 @@ namespace PresentationLayer.Controls
             {
                 if (value.HasValue)
                     parentTaskComboBox.SelectItemByValue(value.Value);
-                
+                else
+                {
+                    parentTaskComboBox.SelectedValue = 0;
+                }
             }
         }
 
@@ -161,6 +165,8 @@ namespace PresentationLayer.Controls
             {
                 ClearTasksGrid();
                 FillTasksGrid(value);
+
+                ClearParentTaskComboBox();
                 FillParentTasksComboBox(value);
             }
         }
@@ -406,6 +412,11 @@ namespace PresentationLayer.Controls
         private void ClearTasksGrid()
         {
             tasksListGrid.Rows.Clear();
+        }
+
+        private void ClearParentTaskComboBox()
+        {
+            parentTaskComboBox.Items.Clear();
         }
 
         private void ClearWorkUnitsGrid()

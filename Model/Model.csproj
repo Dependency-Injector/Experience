@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{410149D5-4981-4E6D-AF23-25798C3E4422}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\TaskDefaults.cs" />
+    <Compile Include="EntitiesContext.cs" />
+    <Compile Include="Enums\DisplayMode.cs" />
+    <Compile Include="Enums\HistoryEventType.cs" />
+    <Compile Include="Enums\PriorityLevel.cs" />
+    <Compile Include="Migrations\201507260540194_InitialCreate.cs" />
+    <Compile Include="Migrations\201507260540194_InitialCreate.Designer.cs">
+      <DependentUpon>201507260540194_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508110125028_WorkUnits.cs" />
+    <Compile Include="Migrations\201508110125028_WorkUnits.Designer.cs">
+      <DependentUpon>201508110125028_WorkUnits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508130022567_Profile.cs" />
+    <Compile Include="Migrations\201508130022567_Profile.Designer.cs">
+      <DependentUpon>201508130022567_Profile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508130227471_ProfileHistory.cs" />
+    <Compile Include="Migrations\201508130227471_ProfileHistory.Designer.cs">
+      <DependentUpon>201508130227471_ProfileHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508130242486_Skills.cs" />
+    <Compile Include="Migrations\201508130242486_Skills.Designer.cs">
+      <DependentUpon>201508130242486_Skills.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508130453284_SkillsAndTaskAssociation.cs" />
+    <Compile Include="Migrations\201508130453284_SkillsAndTaskAssociation.Designer.cs">
+      <DependentUpon>201508130453284_SkillsAndTaskAssociation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508140621119_ProfileJoinDate.cs" />
+    <Compile Include="Migrations\201508140621119_ProfileJoinDate.Designer.cs">
+      <DependentUpon>201508140621119_ProfileJoinDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508161849150_SkillHoursTrained.cs" />
+    <Compile Include="Migrations\201508161849150_SkillHoursTrained.Designer.cs">
+      <DependentUpon>201508161849150_SkillHoursTrained.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508162041347_Preferences.cs" />
+    <Compile Include="Migrations\201508162041347_Preferences.Designer.cs">
+      <DependentUpon>201508162041347_Preferences.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508170418545_ParentTasks.cs" />
+    <Compile Include="Migrations\201508170418545_ParentTasks.Designer.cs">
+      <DependentUpon>201508170418545_ParentTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508170737421_HistoryEvents.cs" />
+    <Compile Include="Migrations\201508170737421_HistoryEvents.Designer.cs">
+      <DependentUpon>201508170737421_HistoryEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Entities\Preferences.cs" />
+    <Compile Include="Entities\HistoryEvent.cs" />
+    <Compile Include="Entities\Profile.cs" />
+    <Compile Include="Entities\Skill.cs" />
+    <Compile Include="Entities\Task.cs" />
+    <Compile Include="Entities\WorkUnit.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507260540194_InitialCreate.resx">
+      <DependentUpon>201507260540194_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508110125028_WorkUnits.resx">
+      <DependentUpon>201508110125028_WorkUnits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130022567_Profile.resx">
+      <DependentUpon>201508130022567_Profile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130227471_ProfileHistory.resx">
+      <DependentUpon>201508130227471_ProfileHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130242486_Skills.resx">
+      <DependentUpon>201508130242486_Skills.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508130453284_SkillsAndTaskAssociation.resx">
+      <DependentUpon>201508130453284_SkillsAndTaskAssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508140621119_ProfileJoinDate.resx">
+      <DependentUpon>201508140621119_ProfileJoinDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508161849150_SkillHoursTrained.resx">
+      <DependentUpon>201508161849150_SkillHoursTrained.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508162041347_Preferences.resx">
+      <DependentUpon>201508162041347_Preferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508170418545_ParentTasks.resx">
+      <DependentUpon>201508170418545_ParentTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508170737421_HistoryEvents.resx">
+      <DependentUpon>201508170737421_HistoryEvents.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

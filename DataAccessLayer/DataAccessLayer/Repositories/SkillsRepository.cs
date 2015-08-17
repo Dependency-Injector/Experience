@@ -5,7 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.Model;
+using Model;
+using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {

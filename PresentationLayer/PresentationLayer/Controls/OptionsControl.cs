@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BussinessLogicLayer.Interfaces;
 using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Controls;
-using PresentationLayer.Views;
 
 namespace PresentationLayer.Controls
 {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+//using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
-using DataAccessLayer.Model;
+using Model;
+using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
@@ -43,6 +45,13 @@ namespace DataAccessLayer.Repositories
             {
                 context.Tasks.Add(task);
                 context.Entry(task).State = EntityState.Added;
+
+                if(task.Parent != null)
+                    context.Entry(task.Parent).State = EntityState.Unchanged;
+                
+                if(task.SkillToTrain != null)
+                    context.Entry(task.SkillToTrain).State = EntityState.Unchanged;
+
                 context.SaveChanges();
             }
         }
@@ -50,8 +59,19 @@ namespace DataAccessLayer.Repositories
         {
             using (EntitiesContext context = new EntitiesContext())
             {
-                context.Tasks.Attach(task);
-                context.Entry(task).State = EntityState.Modified;
+                var oldTask = context.Tasks.Find(task.Id);
+                context.Tasks.Attach(oldTask);
+
+                context.Entry(oldTask).CurrentValues.SetValues(task);
+
+                if (task.SkillToTrain != null)
+                    oldTask.SkillToTrain = context.Skills.Find(task.SkillToTrain.Id);
+
+                if (task.Parent != null)
+                    oldTask.Parent = context.Tasks.Find(task.Parent.Id);
+
+                context.Entry(oldTask).State = EntityState.Modified;
+                
                 context.SaveChanges();
             }
         }

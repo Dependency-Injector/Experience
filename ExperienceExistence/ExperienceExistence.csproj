@@ -84,9 +84,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PresentationLayer\PresentationLayer\PresentationLayer.csproj">
+    <ProjectReference Include="..\PresentationLayer\PresentationLayer\View.csproj">
       <Project>{25D6690D-EC3A-45B3-B23E-B8DEDF696ADE}</Project>
-      <Name>PresentationLayer</Name>
+      <Name>View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

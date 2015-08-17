@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DataAccessLayer.Model;
+using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
-using PresentationLayer.Views;
+using Model.Entities;
 
 namespace PresentationLayer.Controls
 {
