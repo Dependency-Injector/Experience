@@ -100,6 +100,13 @@ namespace PresentationLayer.Controls
             set { AddSkillsToDataGrid(value); }
         }
 
+        public DateTime Joined
+        {
+            set
+            {
+            }
+        }
+
         private void AddSkillsToDataGrid(ICollection skills)
         {
             foreach (var skillObject in skills)
@@ -123,6 +130,20 @@ namespace PresentationLayer.Controls
                     skillsGrid.Rows.Add(skillRow);
                 }
             }
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        { 
+            editButton.Enabled = false;
+            saveButton.Enabled = true;
+            //TODO
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            editButton.Enabled = true;
+            saveButton.Enabled = false;
+            // TODO
         }
     }
 }

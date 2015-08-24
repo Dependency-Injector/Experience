@@ -11,6 +11,7 @@ namespace DataAccessLayer.Repositories
     public class WorkUnitsRepository : IRepository<WorkUnit>
     {
         private readonly EntitiesContext context;
+        private string v;
 
         public WorkUnitsRepository()
         {
@@ -18,9 +19,15 @@ namespace DataAccessLayer.Repositories
             context.Database.Connection.Open();
         }
 
-        public Task Get(int taskId)
+        public WorkUnitsRepository(string connectionString)
         {
-            return context.Tasks.AsNoTracking().First(t => t.Id == taskId);
+            context = new EntitiesContext(connectionString);
+            context.Database.Connection.Open();
+        }
+
+        public WorkUnit Get(int workUnitId)
+        {
+            return context.WorkUnits.AsNoTracking().First(t => t.Id == workUnitId);
         }
         public IEnumerable<WorkUnit> GetAll()
         {

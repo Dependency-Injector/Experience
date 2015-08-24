@@ -15,7 +15,6 @@ namespace BussinessLogicLayer.Presenters
     public class TaskPresenter
     {
         #region Private fields
-
         private readonly ITasksView view;
         private TasksRepository taskRepository;
         private TaskService taskService;
@@ -50,7 +49,7 @@ namespace BussinessLogicLayer.Presenters
             try
             {
                 AttachEvents();
-                ObtainTasksList();
+                tasks = ObtainTasksList();
                 tasks = SortTasks(tasks);
 
                 if (tasks != null && tasks.Count > 0)
@@ -101,41 +100,28 @@ namespace BussinessLogicLayer.Presenters
 
         private void Save(object sender, EventArgs e)
         {
-            var task = isTaskNew ? new Task() : GetSelectedTask();
-
-            //taskService.AddNewTask(view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-
-            task.Name = view.TaskName;
-            task.Description = view.TaskDescription;
-            task.Priority = TaskDefaults.Priorities[view.Priority].Severity;
-            task.DueDate = view.DueDate;
-
-            if(view.SkillToTrainId.HasValue)
-                task.SkillToTrain = skillsRepository.First(s => s.Id == view.SkillToTrainId.Value);
-
-            if (view.ParentTaskId.HasValue)
-                task.Parent = taskRepository.Get(view.ParentTaskId.Value);
+            Task taskToSave = isTaskNew ? new Task() : GetSelectedTask();
 
             if (isTaskNew)
             {
-                task.CreationDate = DateTime.Now;
-                taskRepository.Add(task);
-
-                historyService.AddHistoryEvent(HistoryEventType.TaskCreated, task.Id);
+                taskToSave = taskService.CreateNewTask(view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                taskRepository.Add(taskToSave);
+                historyService.AddHistoryEvent(HistoryEventType.TaskCreated, taskToSave.Id);
             }
             else
             {
-                taskRepository.Update(task);
-
-                historyService.AddHistoryEvent(HistoryEventType.TaskEdited, task.Id);
+                taskToSave = taskService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                taskRepository.Update(taskToSave);
+                historyService.AddHistoryEvent(HistoryEventType.TaskEdited, taskToSave.Id);
             }
 
             isTaskNew = false;
             view.IsDirty = false;
-            ObtainTasksList();
+
+            tasks = ObtainTasksList();
             tasks = SortTasks(tasks);
             DisplayTasksList(tasks);
-            SelectTask(task);
+            SelectTask(taskToSave);
         }
 
         private void Remove(object sender, EventArgs e)
@@ -145,53 +131,47 @@ namespace BussinessLogicLayer.Presenters
                 //MessageBox.Show("This task is not saved yet, so it can't be deleted");
                 return;
             }
+
+            Task task = GetSelectedTask();
+            if (task == null)
+            {
+                // MessageBox.Show("No task to remove");
+                return;
+            }
             else
             {
-                Task task = GetSelectedTask();
-                if (task == null)
-                {
-                   // MessageBox.Show("No task to remove");
-                    return;
-                }
-                else
-                {
-                   // DialogResult taskDeleteConfirmation = MessageBox.Show("Delete task '{0}'?", "Confirm deletion", MessageBoxButtons.YesNo);
-                    //if (taskDeleteConfirmation == DialogResult.No)
-                   //     return;
-                }
-
-                taskRepository.Delete(task);
-
-                historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
-
-                tasks = SortTasks(taskRepository.GetAll().ToList());
-                selectedTaskIndex = tasks.Count - 1;
-
-                if (selectedTaskIndex > 0)
-                {
-                    DisplaySingleTaskInfo(tasks[selectedTaskIndex]);
-                    isTaskNew = false;
-                }
-                else
-                {
-                    New(sender, e);
-                    isTaskNew = true;
-                }
-
-                DisplayTasksList(tasks);
-                DisplaySingleTaskInfo(task);
+                // DialogResult taskDeleteConfirmation = MessageBox.Show("Delete task '{0}'?", "Confirm deletion", MessageBoxButtons.YesNo);
+                //if (taskDeleteConfirmation == DialogResult.No)
+                //     return;
             }
 
+            taskRepository.Delete(task);
+
+            historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
+
+            tasks = ObtainTasksList();
+            tasks = SortTasks(tasks);
+            selectedTaskIndex = tasks.Count - 1;
+
+            if (selectedTaskIndex > 0)
+            {
+                DisplaySingleTaskInfo(tasks[selectedTaskIndex]);
+                isTaskNew = false;
+            }
+            else
+            {
+                New(sender, e);
+                isTaskNew = true;
+            }
+
+            DisplayTasksList(tasks);
         }
 
         private void Finish(object sender, EventArgs e)
         {
             var taskToFinish = GetSelectedTask();
-            taskToFinish.IsFinished = true;
-            taskToFinish.FinishedDate = DateTime.Now;
-            taskRepository.Update(taskToFinish);
+            taskService.FinishTask(taskToFinish);
             SkillTrainer.TaskCompleted(taskToFinish.Priority);
-
             historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id);
 
             DisplaySingleTaskInfo(taskToFinish);
@@ -222,7 +202,6 @@ namespace BussinessLogicLayer.Presenters
                     historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, currentWorkUnit.Id);
                 }
 
-                
                 DisplayWorkUnitsList(task.WorkUnits.ToList());
             }
         }
@@ -234,7 +213,6 @@ namespace BussinessLogicLayer.Presenters
                 StartTime = DateTime.Now,
                 Task = GetSelectedTask()
             };
-
 
             historyService.AddHistoryEvent(HistoryEventType.WorkStarted, currentWorkUnit.Id);
         }
@@ -254,11 +232,17 @@ namespace BussinessLogicLayer.Presenters
             view.SelectTask += SelectTask;
             view.StartWorkingOnTask += StartWorkingOnTask;
             view.StopWorkingOnTask += StopWorkingOnTask;
+            view.ShowFinishedTasks += ShowFinishedTasks;
         }
 
-        private void ObtainTasksList()
+        private void ShowFinishedTasks(object sender, bool e)
         {
-            tasks = taskRepository.HasTasks() ? taskRepository.GetAll().ToList() : new List<Task>();
+            // TODO
+        }
+
+        private List<Task> ObtainTasksList()
+        {
+            return taskRepository.HasTasks() ? taskRepository.GetAll().ToList() : new List<Task>();
         }
 
         private ICollection GetTasksRows(List<Task> tasks)
@@ -373,7 +357,7 @@ namespace BussinessLogicLayer.Presenters
         {
             SelectTask(this, task.Id);
         }
-        
+
         private List<Task> SortTasks(List<Task> tasksUnsorted)
         {
             return
@@ -425,9 +409,10 @@ namespace BussinessLogicLayer.Presenters
             view.SkillsAvailable = GetSkillsRows(skillsRepository.GetAll().ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;
+            view.CanBeFinished = taskService.IsFinishingAllowed(task.Id);
             isTaskNew = false;
         }
-        
+
         #endregion
     }
 }

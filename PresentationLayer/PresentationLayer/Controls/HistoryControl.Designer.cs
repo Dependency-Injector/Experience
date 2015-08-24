@@ -31,7 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.metroGrid1 = new MetroFramework.Controls.MetroGrid();
+            this.historyEventsGrid = new MetroFramework.Controls.MetroGrid();
             this.eventDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eventTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eventTypeDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,17 +40,20 @@
             this.workUnitsEventsCheckBox = new MetroFramework.Controls.MetroCheckBox();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             this.displayInfoAboutTextLabel = new MetroFramework.Controls.MetroLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.historyEventsGrid)).BeginInit();
             this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // metroGrid1
+            // historyEventsGrid
             // 
-            this.metroGrid1.AllowUserToResizeRows = false;
-            this.metroGrid1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGrid1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.metroGrid1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.metroGrid1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.historyEventsGrid.AllowUserToAddRows = false;
+            this.historyEventsGrid.AllowUserToDeleteRows = false;
+            this.historyEventsGrid.AllowUserToResizeRows = false;
+            this.historyEventsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.historyEventsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.historyEventsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.historyEventsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.historyEventsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -58,9 +61,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.metroGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.metroGrid1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.historyEventsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.historyEventsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.historyEventsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.eventDateColumn,
             this.eventTypeColumn,
             this.eventTypeDescription});
@@ -71,13 +74,15 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.metroGrid1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.metroGrid1.EnableHeadersVisualStyles = false;
-            this.metroGrid1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.metroGrid1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGrid1.Location = new System.Drawing.Point(3, 109);
-            this.metroGrid1.Name = "metroGrid1";
-            this.metroGrid1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.historyEventsGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            this.historyEventsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.historyEventsGrid.EnableHeadersVisualStyles = false;
+            this.historyEventsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.historyEventsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.historyEventsGrid.Location = new System.Drawing.Point(0, 100);
+            this.historyEventsGrid.Name = "historyEventsGrid";
+            this.historyEventsGrid.ReadOnly = true;
+            this.historyEventsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -85,26 +90,29 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.metroGrid1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.metroGrid1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.metroGrid1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGrid1.Size = new System.Drawing.Size(622, 285);
-            this.metroGrid1.TabIndex = 0;
+            this.historyEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.historyEventsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.historyEventsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.historyEventsGrid.Size = new System.Drawing.Size(628, 297);
+            this.historyEventsGrid.TabIndex = 0;
             // 
             // eventDateColumn
             // 
             this.eventDateColumn.HeaderText = "When";
             this.eventDateColumn.Name = "eventDateColumn";
+            this.eventDateColumn.ReadOnly = true;
             // 
             // eventTypeColumn
             // 
             this.eventTypeColumn.HeaderText = "What";
             this.eventTypeColumn.Name = "eventTypeColumn";
+            this.eventTypeColumn.ReadOnly = true;
             // 
             // eventTypeDescription
             // 
             this.eventTypeDescription.HeaderText = "Description";
             this.eventTypeDescription.Name = "eventTypeDescription";
+            this.eventTypeDescription.ReadOnly = true;
             // 
             // tasksEventsCheckBox
             // 
@@ -151,12 +159,13 @@
             this.metroPanel1.Controls.Add(this.experienceEventsCheckBox);
             this.metroPanel1.Controls.Add(this.workUnitsEventsCheckBox);
             this.metroPanel1.Controls.Add(this.tasksEventsCheckBox);
+            this.metroPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(3, 3);
+            this.metroPanel1.Location = new System.Drawing.Point(0, 0);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(270, 100);
+            this.metroPanel1.Size = new System.Drawing.Size(628, 100);
             this.metroPanel1.TabIndex = 2;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
@@ -175,11 +184,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.historyEventsGrid);
             this.Controls.Add(this.metroPanel1);
-            this.Controls.Add(this.metroGrid1);
             this.Name = "HistoryControl";
             this.Size = new System.Drawing.Size(628, 397);
-            ((System.ComponentModel.ISupportInitialize)(this.metroGrid1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.historyEventsGrid)).EndInit();
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -188,7 +197,7 @@
 
         #endregion
 
-        private MetroFramework.Controls.MetroGrid metroGrid1;
+        private MetroFramework.Controls.MetroGrid historyEventsGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn eventDateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn eventTypeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn eventTypeDescription;

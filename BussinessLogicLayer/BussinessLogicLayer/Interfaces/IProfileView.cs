@@ -13,5 +13,6 @@ namespace BussinessLogicLayer.Interfaces
         int Experience { get; set; }
         int LevelProgress { get; set; }
         ICollection Skills { set; } 
+        DateTime Joined { set; }
     }
 }

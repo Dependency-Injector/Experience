@@ -27,7 +27,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Profile> Find(Expression<Func<Profile, bool>> @where)
         {
-            throw new NotImplementedException();
+            return context.Profiles.AsNoTracking().Where(@where);
         }
 
         public Profile Single(Expression<Func<Profile, bool>> @where)

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Services;
 using Model.Entities;
 using Model.Enums;
 
@@ -9,6 +10,8 @@ namespace DataAccessLayer
     {
         private static ProfileRepository profileRepository = new ProfileRepository();
         private static SkillsRepository skillsRepository = new SkillsRepository();
+
+        private static HistoryService historyService = new HistoryService();
 
         static SkillTrainer()
         {
@@ -65,6 +68,7 @@ namespace DataAccessLayer
                 profile.Experience += experienceGained;
                 profileRepository.Update(profile);
             }
+
         }
     }
 }

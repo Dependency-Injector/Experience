@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\DayRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\HistoryEventsRepository.cs" />
     <Compile Include="Repositories\PreferencesRepository.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Repositories\WorkUnitsRepository.cs" />
     <Compile Include="Repositories\TasksRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DaysService.cs" />
     <Compile Include="Services\HistoryService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="SkillTrainer.cs" />

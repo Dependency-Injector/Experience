@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Classes\TaskDefaults.cs" />
     <Compile Include="EntitiesContext.cs" />
+    <Compile Include="Entities\Day.cs" />
     <Compile Include="Enums\DisplayMode.cs" />
     <Compile Include="Enums\HistoryEventType.cs" />
     <Compile Include="Enums\PriorityLevel.cs" />
@@ -103,6 +104,10 @@
     <Compile Include="Migrations\201508170801365_HistoryAssociatedItems.Designer.cs">
       <DependentUpon>201508170801365_HistoryAssociatedItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508231829142_HistoryAndDays.cs" />
+    <Compile Include="Migrations\201508231829142_HistoryAndDays.Designer.cs">
+      <DependentUpon>201508231829142_HistoryAndDays.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -148,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508170801365_HistoryAssociatedItems.resx">
       <DependentUpon>201508170801365_HistoryAssociatedItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508231829142_HistoryAndDays.resx">
+      <DependentUpon>201508231829142_HistoryAndDays.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

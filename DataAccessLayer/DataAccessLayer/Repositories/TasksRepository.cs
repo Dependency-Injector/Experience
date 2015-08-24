@@ -13,6 +13,12 @@ namespace DataAccessLayer.Repositories
     {
         private readonly EntitiesContext context;
 
+        public TasksRepository(String connectionString)
+        {
+            context = new EntitiesContext(connectionString);
+            context.Database.Connection.Open();
+        }
+
         public TasksRepository()
         {
             context = new EntitiesContext();
@@ -21,7 +27,7 @@ namespace DataAccessLayer.Repositories
 
         public Task Get(int taskId)
         {
-            return context.Tasks.AsNoTracking().First(t => t.Id == taskId);
+            return context.Tasks.AsNoTracking().FirstOrDefault(t => t.Id == taskId);
         }
         public IEnumerable<Task> GetAll()
         {

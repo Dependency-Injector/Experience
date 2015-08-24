@@ -5,6 +5,7 @@ namespace BussinessLogicLayer.Interfaces
 {
     public interface ITasksView
     {
+        int TaskId { get; set; }
         String TaskName { get; set; }
         String TaskDescription { get; set; }
         int Priority { get; set; }
@@ -14,9 +15,10 @@ namespace BussinessLogicLayer.Interfaces
         String TotalWorkload { set; }
         String TotalExperienceGained { set; }
         String AssociatedSkillName { set; }
-        bool IsDirty { get; set; }
+        bool IsDirty {  set; }
         int? SkillToTrainId { get; set; }
         int? ParentTaskId { get; set; }
+        bool CanBeFinished { set; }
         ICollection WorkUnits { set; }
         ICollection Tasks { set; }
         ICollection SkillsAvailable { set; }
@@ -30,5 +32,6 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> StartWorkingOnTask;
         event EventHandler<EventArgs> StopWorkingOnTask;
         event EventHandler<int> SelectTask;
+        event EventHandler<bool> ShowFinishedTasks;
     }
 }

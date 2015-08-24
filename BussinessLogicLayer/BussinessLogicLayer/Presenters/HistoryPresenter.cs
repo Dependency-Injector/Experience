@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,21 +27,41 @@ namespace BussinessLogicLayer.Presenters
 
         private void Initialize()
         {
-            ObtainHistoryEvents();
-            DisplayHistoryEvents();
+            historyEvents = ObtainHistoryEvents();
+            DisplayHistoryEvents(this.historyEvents);
         }
 
-        private void DisplayHistoryEvents()
+        private void DisplayHistoryEvents(List<HistoryEvent> historyEvents)
         {
-            foreach (HistoryEvent evt in historyEvents)
+            view.HistoryEventsRows = GetHistoryEventsInRows(historyEvents);
+        }
+
+        private List<HistoryEvent> ObtainHistoryEvents()
+        {
+            return historyRepository.GetAll().ToList();
+        }
+
+        private ICollection GetHistoryEventsInRows(List<HistoryEvent> historyEvents)
+        {
+            List<string[]> historyEventsInRows = new List<string[]>();
+
+            foreach (var historyEvent in historyEvents)
             {
+                String whenOccured = historyEvent.Occured.ToString("M");
+                String whatHappened = historyEvent.Type.ToString();
+                String description = historyEvent.Description;
                 
-            }
-        }
+                string[] historyEventRow = new string[]
+                {
+                    $"{whenOccured}",
+                    $"{whatHappened}",
+                    $"{description}"
+                };
 
-        private void ObtainHistoryEvents()
-        {
-            historyEvents = historyRepository.GetAll().ToList();
+                historyEventsInRows.Add(historyEventRow);
+            }
+
+            return historyEventsInRows;
         }
     }
 }

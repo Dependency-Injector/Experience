@@ -19,7 +19,13 @@ namespace DataAccessLayer.Repositories
             context = new EntitiesContext();
             context.Database.Connection.Open();    
         }
-        
+
+        public SkillsRepository(string connectionString)
+        {
+            context = new EntitiesContext(connectionString);
+            context.Database.Connection.Open();
+        }
+
         public IEnumerable<Skill> Find(Expression<Func<Skill, bool>> @where)
         {
             throw new NotImplementedException();

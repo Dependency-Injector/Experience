@@ -21,6 +21,8 @@ namespace PresentationLayer.Controls
 
         #region Properties and events
 
+        public int TaskId { get; set; }
+
         public string TaskName
         {
             get { return nameTextBox.Text; }
@@ -83,7 +85,11 @@ namespace PresentationLayer.Controls
         {
             set { attachedSkillNameLabel.Text = value; }
         }
-        public bool IsDirty { get; set; }
+
+        public bool IsDirty
+        {
+            set { bool x = false; }
+        }
         public int? SkillToTrainId
         {
             get
@@ -135,6 +141,11 @@ namespace PresentationLayer.Controls
             }
         }
 
+        public bool CanBeFinished
+        {
+            set { finishedButton.Enabled = value; }
+        }
+
         public ICollection WorkUnits
         {
             set
@@ -182,6 +193,8 @@ namespace PresentationLayer.Controls
 
         public event EventHandler<EventArgs> StartWorkingOnTask;
         public event EventHandler<EventArgs> StopWorkingOnTask;
+
+        public event EventHandler<bool> ShowFinishedTasks;
 
         #endregion
 
@@ -330,6 +343,13 @@ namespace PresentationLayer.Controls
             stopWorkingButton.Enabled = false;
         }
 
+        private void showFinishedTasksCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ShowFinishedTasks != null)
+                ShowFinishedTasks(this, showFinishedTasksCheckBox.Checked);
+        }
+
+
         #endregion Events
 
         #region Private methods
@@ -433,10 +453,8 @@ namespace PresentationLayer.Controls
         {
             if (skillRowData != null && skillRowData.Count > 0)
             {
-                List<object> skillsComboBoxItems = new List<object>()
-                {
-                    new {Id = 0, Name = ""}
-                };
+                KeyValuePair<int, string> emptyComboItem = new KeyValuePair<int, string>(0, "");
+                skillToTrainComboBox.Items.Add(emptyComboItem);
 
                 foreach (var row in skillRowData)
                 {
