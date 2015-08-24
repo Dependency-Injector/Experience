@@ -39,7 +39,7 @@ namespace DataAccessLayer.Repositories
             return context.HistoryEvents.AsNoTracking().First(where);
         }
 
-        public void Delete(HistoryEvent entity)
+        public void Delete(HistoryEvent day)
         {
             throw new NotImplementedException();
         }

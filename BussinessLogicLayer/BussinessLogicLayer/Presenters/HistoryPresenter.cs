@@ -2,19 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Model.Entities;
-using Model.Migrations;
 
 namespace BussinessLogicLayer.Presenters
 {
     public class HistoryPresenter
     {
         private readonly IHistoryView view;
-        private HistoryEventsRepository historyRepository;
+        private readonly HistoryEventsRepository historyRepository;
         private List<HistoryEvent> historyEvents;
          
         public HistoryPresenter(IHistoryView view)

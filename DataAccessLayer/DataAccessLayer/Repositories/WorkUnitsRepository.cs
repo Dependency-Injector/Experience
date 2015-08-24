@@ -11,14 +11,12 @@ namespace DataAccessLayer.Repositories
     public class WorkUnitsRepository : IRepository<WorkUnit>
     {
         private readonly EntitiesContext context;
-        private string v;
-
+        
         public WorkUnitsRepository()
         {
             context = new EntitiesContext();
             context.Database.Connection.Open();
         }
-
         public WorkUnitsRepository(string connectionString)
         {
             context = new EntitiesContext(connectionString);
@@ -27,7 +25,7 @@ namespace DataAccessLayer.Repositories
 
         public WorkUnit Get(int workUnitId)
         {
-            return context.WorkUnits.AsNoTracking().First(t => t.Id == workUnitId);
+            return context.WorkUnits.AsNoTracking().FirstOrDefault(t => t.Id == workUnitId);
         }
         public IEnumerable<WorkUnit> GetAll()
         {
@@ -47,18 +45,19 @@ namespace DataAccessLayer.Repositories
         }
         public void Add(WorkUnit workUnit)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
+                
                 for (int i = 0; i < workUnit.Task.WorkUnits.Count; i++)
                 {
-                    context.Entry(workUnit.Task.WorkUnits.ElementAt(i)).State = EntityState.Unchanged;
+                    entities.Entry(workUnit.Task.WorkUnits.ElementAt(i)).State = EntityState.Unchanged;
                 }
 
-                context.WorkUnits.Add(workUnit);
-                context.Entry(workUnit).State = EntityState.Added;
-                context.Entry(workUnit.Task).State = EntityState.Modified;
+                entities.WorkUnits.Add(workUnit);
+                entities.Entry(workUnit).State = EntityState.Added;
+                entities.Entry(workUnit.Task).State = EntityState.Unchanged;
                 
-                context.SaveChanges();
+                entities.SaveChanges();
             }
         }
         public void Update(WorkUnit workUnit)
@@ -71,13 +70,13 @@ namespace DataAccessLayer.Repositories
                 context.SaveChanges();
             }
         }
-        public void Delete(WorkUnit workUnit)
+        public void Delete(WorkUnit day)
         {
             using (EntitiesContext context = new EntitiesContext())
             {
-                context.WorkUnits.Attach(workUnit);
-                context.WorkUnits.Remove(workUnit);
-                context.Entry(workUnit).State = EntityState.Deleted;
+                context.WorkUnits.Attach(day);
+                context.WorkUnits.Remove(day);
+                context.Entry(day).State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }

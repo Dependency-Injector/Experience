@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Services;
@@ -11,8 +10,8 @@ namespace BussinessLogicLayer.Presenters
     public class DayPresenter
     {
         private readonly IDayView view;
-        private DayRepository dayRepository;
-        private DaysService daysService;
+        private readonly DayRepository dayRepository;
+        private readonly DaysService daysService;
         private Day displayedDay;
 
         public DayPresenter(IDayView view)

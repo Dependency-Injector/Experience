@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-//using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using Model;
@@ -81,13 +80,13 @@ namespace DataAccessLayer.Repositories
                 context.SaveChanges();
             }
         }
-        public void Delete(Task task)
+        public void Delete(Task day)
         {
             using (EntitiesContext context = new EntitiesContext())
             {
-                context.Tasks.Attach(task);
-                context.Tasks.Remove(task);
-                context.Entry(task).State = EntityState.Deleted;
+                context.Tasks.Attach(day);
+                context.Tasks.Remove(day);
+                context.Entry(day).State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }

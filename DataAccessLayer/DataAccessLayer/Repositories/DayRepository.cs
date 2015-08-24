@@ -2,34 +2,31 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer.Repositories;
+using System.Linq.Expressions;
 using Model;
 using Model.Entities;
 
-namespace BussinessLogicLayer.Presenters
+namespace DataAccessLayer.Repositories
 {
     public class DayRepository : IRepository<Day>
     {
-        private EntitiesContext entities;
+        private EntitiesContext context;
 
         public DayRepository(String connectionString)
         {
-            entities = new EntitiesContext(connectionString);
-            entities.Database.Connection.Open();
+            context = new EntitiesContext(connectionString);
+            context.Database.Connection.Open();
         }
 
         internal Day Get(int dayId)
         {
-            return entities.Days.First(d => d.Id == dayId);
+            return context.Days.First(d => d.Id == dayId);
         }
 
         public DayRepository()
         {
-            entities = new EntitiesContext();
-            entities.Database.Connection.Open();
-         
+            context = new EntitiesContext();
+            context.Database.Connection.Open();
         }
 
         public void Add(Day day)
@@ -42,29 +39,34 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
-        public void Delete(Day entity)
+        public void Delete(Day day)
         {
-            throw new NotImplementedException();
+            using (var entities = new EntitiesContext())
+            {
+                entities.Days.Remove(day);
+                entities.Entry(day).State = EntityState.Deleted;
+                entities.SaveChanges();
+            }
         }
 
-        public IEnumerable<Day> Find(System.Linq.Expressions.Expression<Func<Day, bool>> where)
+        public IEnumerable<Day> Find(Expression<Func<Day, bool>> where)
         {
-            return entities.Days.AsNoTracking().Where(@where);
+            return context.Days.AsNoTracking().Where(@where);
         }
 
-        public Day First(System.Linq.Expressions.Expression<Func<Day, bool>> where)
+        public Day First(Expression<Func<Day, bool>> where)
         {
-            return entities.Days.AsNoTracking().First(@where);
+            return context.Days.AsNoTracking().First(@where);
         }
 
         public IEnumerable<Day> GetAll()
         {
-            return entities.Days.AsNoTracking();
+            return context.Days.AsNoTracking();
         }
 
-        public Day Single(System.Linq.Expressions.Expression<Func<Day, bool>> where)
+        public Day Single(Expression<Func<Day, bool>> where)
         {
-            return entities.Days.AsNoTracking().Single(@where);
+            return context.Days.AsNoTracking().Single(@where);
         }
 
         public void Update(Day day)

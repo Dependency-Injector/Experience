@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
 
@@ -11,8 +12,8 @@ namespace BussinessLogicLayer.Presenters
     public class ProfilePresenter
     {
         private readonly IProfileView view;
-        private ProfileRepository profileRepository;
-        private HistoryEventsRepository historyEventsRepository;
+        private readonly ProfileRepository profileRepository;
+        private readonly HistoryEventsRepository historyEventsRepository;
 
         public ProfilePresenter(IProfileView view)
         {
@@ -35,7 +36,7 @@ namespace BussinessLogicLayer.Presenters
             }
             catch (Exception e)
             {
-                //MessageBox.Show(e.Message);
+                Logger.Exception(e);
             }
         }
 
@@ -56,6 +57,7 @@ namespace BussinessLogicLayer.Presenters
                         he.Type == HistoryEventType.SkillExperienceGained).ToList();
             view.ExperienceEventData = GetExperienceEventRows(experienceEvents);
         }
+
         private List<string[]> GetExperienceEventRows(List<HistoryEvent> historyEvents)
         {
             List<string[]> workUnitsRows = new List<string[]>();
@@ -64,11 +66,6 @@ namespace BussinessLogicLayer.Presenters
             {
                 String occuredDate = historyEvent.Occured.ToString("dddd, d MMMM HH:mm");
                 String eventType = historyEvent.Type.ToString();
-
-                /*if (historyEvent.AssociatedEntityId)
-                {
-                    
-                }*/
                 
                 string[] taskRow = new string[]
                 {
@@ -82,6 +79,7 @@ namespace BussinessLogicLayer.Presenters
 
             return workUnitsRows;
         }
+
         private Profile ObtainProfile()
         {
             return profileRepository.HasProfile() ? profileRepository.GetAll().First() : null;

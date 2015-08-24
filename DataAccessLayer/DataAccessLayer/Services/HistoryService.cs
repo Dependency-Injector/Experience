@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
 
@@ -25,32 +26,32 @@ namespace DataAccessLayer.Services
             skillRepository = new SkillsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
         }
 
-        public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "")
+        public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "", int? XP = null)
         {
             HistoryEvent historyEvent = new HistoryEvent();
             historyEvent.Occured = DateTime.Now;
             historyEvent.Type = type;
-
+           
             if (!String.IsNullOrEmpty(description))
             {
                 historyEvent.Description = description;
             }
             else
             {
-                historyEvent.Description = GetDefaultDescription(type, associatedEntityId);
+                historyEvent.Description = GetDefaultDescription(type, associatedEntityId, XP);
             }
 
             if (associatedEntityId.HasValue)
-                historyEvent.AssociatedEntityId = associatedEntityId.Value;
+                historyEvent.TaskId = associatedEntityId.Value;
 
             historyRepository.Add(historyEvent);
         }
 
-        private string GetDefaultDescription(HistoryEventType type, int? associatedEntityId)
+        private string GetDefaultDescription(HistoryEventType type, int? associatedEntityId, int? gainedXp)
         {
             StringBuilder description = new StringBuilder();
-            Task task;
-            WorkUnit workUnit;
+            Task task = new Task();
+            WorkUnit workUnit = new WorkUnit();
             Skill skill;
 
 
@@ -83,7 +84,11 @@ namespace DataAccessLayer.Services
 
                 case HistoryEventType.WorkStarted:
                     workUnit = workUnitsRepository.Get(associatedEntityId.Value);
-                    description.AppendFormat("Work Unit of id = '{0}' was started.", workUnit.Id);
+                    if(workUnit != null)
+                        description.AppendFormat("Work Unit of id = '{0}' was started.", workUnit.Id);
+                    else
+                        description.AppendFormat("Work started.");
+
                     break;
                 case HistoryEventType.WorkStopped:
                     workUnit = workUnitsRepository.Get(associatedEntityId.Value);
@@ -107,7 +112,18 @@ namespace DataAccessLayer.Services
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
 
+            if (task != null && task.SkillToTrain != null && workUnit != null)
+                description.AppendFormat(" Skill {0} gained {1} experience.", task.SkillToTrain.Name, workUnit.GetDurationInHours() * ExperienceDefaultValues.ExperiencePerHour);
+
+            if (gainedXp.HasValue)
+                description.AppendFormat(" Gained {0} experience.", gainedXp.Value);
+
             return description.ToString();
+        }
+
+        public void AddHistoryEvent(HistoryEventType type, int associatedTaskId, int xpForEvent)
+        {
+            AddHistoryEvent(type, associatedTaskId, "", xpForEvent);
         }
     }
 }

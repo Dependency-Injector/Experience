@@ -35,7 +35,7 @@ namespace DataAccessLayer.Repositories
             return context.Preferences.AsNoTracking().First(where);
         }
 
-        public void Delete(Preferences entity)
+        public void Delete(Preferences day)
         {
             throw new NotImplementedException();
         }

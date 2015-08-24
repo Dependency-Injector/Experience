@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Model;
 using Model.Entities;
 
@@ -40,7 +38,7 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void Delete(Profile entity)
+        public void Delete(Profile day)
         {
             throw new NotImplementedException();
         }

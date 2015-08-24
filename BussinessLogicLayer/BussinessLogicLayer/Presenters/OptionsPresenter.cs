@@ -9,10 +9,8 @@ namespace BussinessLogicLayer.Presenters
     public class OptionsPresenter
     {
         #region Private fields
-
         private readonly IOptionsView view;
-
-        private PreferencesRepository preferencesRepository;
+        private readonly PreferencesRepository preferencesRepository;
         private Preferences preferences;
         #endregion
 

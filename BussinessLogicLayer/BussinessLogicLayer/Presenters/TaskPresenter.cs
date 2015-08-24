@@ -6,7 +6,7 @@ using BussinessLogicLayer.Interfaces;
 using DataAccessLayer;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Services;
-using Model.Classes;
+using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
 
@@ -16,21 +16,22 @@ namespace BussinessLogicLayer.Presenters
     {
         #region Private fields
         private readonly ITasksView view;
-        private TasksRepository taskRepository;
-        private TaskService taskService;
-        private WorkUnitsRepository workUnitsRepository;
-        private SkillsRepository skillsRepository;
-        private HistoryService historyService;
+        private readonly TasksRepository taskRepository;
+        private readonly TaskService taskService;
+        private readonly WorkUnitsRepository workUnitsRepository;
+        private readonly SkillsRepository skillsRepository;
+        private readonly HistoryService historyService;
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
         private bool isTaskNew = true;
-        private bool isPlayerCurrentlyWorking = false;
+        private bool isPlayerCurrentlyWorking;
         #endregion
 
         public TaskPresenter(ITasksView view)
         {
             this.view = view;
+            //this.isPlayerCurrentlyWorking = isPlayerCurrentlyWorking;
 
             taskRepository = new TasksRepository();
             workUnitsRepository = new WorkUnitsRepository();
@@ -64,9 +65,9 @@ namespace BussinessLogicLayer.Presenters
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.Message);
+                Logger.Exception(e);
             }
         }
 
@@ -170,8 +171,9 @@ namespace BussinessLogicLayer.Presenters
         {
             var taskToFinish = GetSelectedTask();
             taskService.FinishTask(taskToFinish);
-            SkillTrainer.TaskCompleted(taskToFinish.Priority);
-            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id);
+            int xpForTaskFinish = ExperienceDefaultValues.GetExperienceForTask(taskToFinish.Priority);
+            SkillTrainer.GiveXp(xpForTaskFinish);
+            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
 
             DisplaySingleTaskInfo(taskToFinish);
             DisplayTasksList(tasks);
@@ -190,17 +192,11 @@ namespace BussinessLogicLayer.Presenters
                 }
 
                 workUnitsRepository.Add(currentWorkUnit);
-
                 historyService.AddHistoryEvent(HistoryEventType.WorkStopped, currentWorkUnit.Id);
-
+                
                 Task task = taskRepository.Get(currentWorkUnit.Task.Id);
-                if (task.SkillToTrain != null && currentWorkUnit.Duration.HasValue)
-                {
-                    SkillTrainer.SkillTrained(task.SkillToTrain.Id, currentWorkUnit.Duration.Value);
-
-                    historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, currentWorkUnit.Id);
-                }
-
+                taskService.WorkedOnTask(task, currentWorkUnit);
+                
                 DisplayWorkUnitsList(task.WorkUnits.ToList());
             }
         }
@@ -244,38 +240,41 @@ namespace BussinessLogicLayer.Presenters
             return taskRepository.HasTasks() ? taskRepository.GetAll().ToList() : new List<Task>();
         }
 
-        private ICollection GetTasksRows(List<Task> tasks)
+        private ICollection GetTasksRows(List<Task> tasksToGetRowsFrom)
         {
             List<string[]> taskRows = new List<string[]>();
 
-            foreach (var task in tasks)
+            foreach (var task in tasksToGetRowsFrom)
             {
-                int daysToDeadline = (int)(task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
-                string deadlineLiteral = String.Empty;
-                if (daysToDeadline < 0)
-                    deadlineLiteral = $"Overdue {Math.Abs(daysToDeadline)} days!";
-                else if (daysToDeadline == 0)
-                    deadlineLiteral = "Today";
-                else if (daysToDeadline == 1)
-                    deadlineLiteral = "Tomorrow";
-                else if (daysToDeadline > 1)
-                    deadlineLiteral = task.DueDate.Value.ToString("M");
-
-                string timeSpent = task.GetTotalWorkloadLiteral();
-
-                String priority = task.GetPriorityLiteral();
-
-                string[] taskRow = new string[]
+                if (task.DueDate.HasValue)
                 {
-                    $"{task.Id}",
-                    $"{task.Name}",
-                    $"{deadlineLiteral}",
-                    $"{timeSpent}",
-                    $"{priority}",
-                    $"{task.IsFinished}"
-                };
+                    int daysToDeadline = (int) (task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
+                    string deadlineLiteral = String.Empty;
+                    if (daysToDeadline < 0)
+                        deadlineLiteral = $"Overdue {Math.Abs(daysToDeadline)} days!";
+                    else if (daysToDeadline == 0)
+                        deadlineLiteral = "Today";
+                    else if (daysToDeadline == 1)
+                        deadlineLiteral = "Tomorrow";
+                    else if (daysToDeadline > 1)
+                        deadlineLiteral = task.DueDate.Value.ToString("M");
 
-                taskRows.Add(taskRow);
+                    string timeSpent = task.GetTotalWorkloadLiteral();
+
+                    String priority = task.GetPriorityLiteral();
+
+                    string[] taskRow = new string[]
+                    {
+                        $"{task.Id}",
+                        $"{task.Name}",
+                        $"{deadlineLiteral}",
+                        $"{timeSpent}",
+                        $"{priority}",
+                        $"{task.IsFinished}"
+                    };
+
+                    taskRows.Add(taskRow);
+                }
             }
 
             return taskRows;
@@ -287,27 +286,30 @@ namespace BussinessLogicLayer.Presenters
 
             foreach (var unitOfWork in unitsOfWork)
             {
-                String startDate = unitOfWork.StartTime.Value.ToString("dddd, d MMMM HH:mm");
-                String endDate = unitOfWork.EndTime.Value.ToString("dddd, d MMMM HH:mm");
-                TimeSpan duration = new TimeSpan(0, 0, 0, unitOfWork.Duration.Value);
-
-                if (duration.TotalMinutes < 5)
-                    continue;
-
-                String durationLiteral;
-                if (duration.TotalHours < 1)
-                    durationLiteral = $"{duration.Minutes}m";
-                else
-                    durationLiteral = $"{duration.Hours}h {duration.Minutes}min";
-
-                string[] taskRow = new string[]
+                if (unitOfWork.StartTime.HasValue && unitOfWork.EndTime.HasValue)
                 {
-                    $"{startDate}",
-                    $"{endDate}",
-                    $"{durationLiteral}"
-                };
+                    String startDate = unitOfWork.StartTime.Value.ToString("dddd, d MMMM HH:mm");
+                    String endDate = unitOfWork.EndTime.Value.ToString("dddd, d MMMM HH:mm");
+                    TimeSpan duration = new TimeSpan(0, 0, 0, unitOfWork.Duration.Value);
 
-                workUnitsRows.Add(taskRow);
+                    if (duration.TotalMinutes < 5)
+                        continue;
+
+                    String durationLiteral;
+                    if (duration.TotalHours < 1)
+                        durationLiteral = $"{duration.Minutes}m";
+                    else
+                        durationLiteral = $"{duration.Hours}h {duration.Minutes}min";
+
+                    string[] taskRow = new string[]
+                    {
+                        $"{startDate}",
+                        $"{endDate}",
+                        $"{durationLiteral}"
+                    };
+
+                    workUnitsRows.Add(taskRow);
+                }
             }
 
             return workUnitsRows;

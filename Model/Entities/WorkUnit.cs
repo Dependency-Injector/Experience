@@ -10,5 +10,13 @@ namespace Model.Entities
         public int? Duration { get; set; }
         
         public virtual Task Task { get; set; }
+
+        public float GetDurationInHours()
+        {
+            if (Duration.HasValue)
+                return Duration.Value/60;
+            else
+                return 0;
+        }
     }
 }

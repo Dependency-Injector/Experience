@@ -41,7 +41,7 @@ namespace DataAccessLayer.Repositories
             return context.Skills.AsNoTracking().First(where);
         }
 
-        public void Delete(Skill entity)
+        public void Delete(Skill day)
         {
             throw new NotImplementedException();
         }

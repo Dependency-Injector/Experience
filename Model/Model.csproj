@@ -108,6 +108,10 @@
     <Compile Include="Migrations\201508231829142_HistoryAndDays.Designer.cs">
       <DependentUpon>201508231829142_HistoryAndDays.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508240450045_HistoryEventTaskAssociation.cs" />
+    <Compile Include="Migrations\201508240450045_HistoryEventTaskAssociation.Designer.cs">
+      <DependentUpon>201508240450045_HistoryEventTaskAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -156,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508231829142_HistoryAndDays.resx">
       <DependentUpon>201508231829142_HistoryAndDays.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508240450045_HistoryEventTaskAssociation.resx">
+      <DependentUpon>201508240450045_HistoryEventTaskAssociation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

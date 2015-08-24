@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Utilities;
 using Model.Classes;
 using Model.Entities;
 using Model.Enums;
@@ -14,12 +15,14 @@ namespace DataAccessLayer.Services
         private TasksRepository taskRepository;
         private SkillsRepository skillsRepository;
         private HistoryService historyService;
+        private WorkUnitsRepository workUnitsRepository;
 
         public TaskService()
         {
             taskRepository = new TasksRepository();
             skillsRepository = new SkillsRepository();
             historyService = new HistoryService();
+            workUnitsRepository = new WorkUnitsRepository();
         }
 
         public Task CreateNewTask(String name, String description, DateTime dueDateTime, int priority,
@@ -93,6 +96,16 @@ namespace DataAccessLayer.Services
             taskRepository.Add(taskToSave);
             
             historyService.AddHistoryEvent(HistoryEventType.TaskCreated, taskToSave.Id);
+        }
+
+        public void WorkedOnTask(Task task, WorkUnit workUnit)
+        {
+            if (task.SkillToTrain != null && workUnit.Duration.HasValue)
+            {
+                SkillTrainer.SkillTrained(task.SkillToTrain.Id, workUnit.Duration.Value);
+                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, workUnit.Id);
+            }
+
         }
     }
 }

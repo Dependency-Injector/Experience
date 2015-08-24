@@ -1,18 +1,15 @@
 ﻿using System.Linq;
 using DataAccessLayer.Repositories;
-using DataAccessLayer.Services;
 using Model.Entities;
 using Model.Enums;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Utilities
 {
     public static class SkillTrainer
     {
         private static ProfileRepository profileRepository = new ProfileRepository();
         private static SkillsRepository skillsRepository = new SkillsRepository();
-
-        private static HistoryService historyService = new HistoryService();
-
+        
         static SkillTrainer()
         {
 
@@ -41,7 +38,15 @@ namespace DataAccessLayer
             }
         }
 
-
+        public static void GiveXp(int xp)
+        {
+            if (profileRepository != null)
+            {
+                Profile profile = profileRepository.GetAll().First();
+                profile.Experience += xp;
+                profileRepository.Update(profile);
+            }
+        }
 
         public static void TaskCompleted(Severity priority)
         {
@@ -52,15 +57,15 @@ namespace DataAccessLayer
                 switch (priority)
                 {
                     case Severity.Low:
-                        experienceGained = 1;
+                        experienceGained = ExperienceDefaultValues.LowPriorityTaskXp;
                         break;
 
                     case Severity.Medium:
-                        experienceGained = 3;
+                        experienceGained = ExperienceDefaultValues.MediumPriorityTaskXp;
                         break;
 
                     case Severity.High:
-                        experienceGained = 5;
+                        experienceGained = ExperienceDefaultValues.HightPriorityTaskXp;
                         break;
                 }
 
@@ -70,5 +75,6 @@ namespace DataAccessLayer
             }
 
         }
+
     }
 }
