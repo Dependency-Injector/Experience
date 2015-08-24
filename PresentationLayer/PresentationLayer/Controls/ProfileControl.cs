@@ -106,6 +106,42 @@ namespace PresentationLayer.Controls
             {
             }
         }
+        
+        public ICollection ExperienceEventData
+        {
+            set
+            {
+                if (value != null && value.Count > 0)
+                {
+                    ClearExperienceEventsGrid();
+                    FillExperienceEventsGrid(value);
+                }
+                else
+                {
+                }
+            }
+        }
+
+        private void FillExperienceEventsGrid(ICollection worksUnitRowData)
+        {
+            if (worksUnitRowData != null && worksUnitRowData.Count > 0)
+            {
+                foreach (var workUnit in worksUnitRowData) 
+                {
+                    if (workUnit is string[])
+                    {
+                        string[] rowCells = (string[])workUnit;
+                        workUnitsGrid.Rows.Add(rowCells[0], rowCells[1]);
+                    }
+                }
+
+            }
+        }
+
+        private void ClearExperienceEventsGrid()
+        {
+            workUnitsGrid.DataSource = null;
+        }
 
         private void AddSkillsToDataGrid(ICollection skills)
         {

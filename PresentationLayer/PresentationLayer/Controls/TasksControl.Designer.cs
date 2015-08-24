@@ -618,7 +618,7 @@ namespace PresentationLayer.Controls
             this.descriptionTextBox.MaxLength = 32767;
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
-            this.descriptionTextBox.PasswordChar = '\0';
+            //this.descriptionTextBox.PasswordChar = '\0';
             this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.descriptionTextBox.SelectedText = "";
             this.descriptionTextBox.Size = new System.Drawing.Size(370, 255);
@@ -693,7 +693,7 @@ namespace PresentationLayer.Controls
             this.nameTextBox.Location = new System.Drawing.Point(4, 11);
             this.nameTextBox.MaxLength = 32767;
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.PasswordChar = '\0';
+            //this.nameTextBox.PasswordChar = '\0';
             this.nameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.nameTextBox.SelectedText = "";
             this.nameTextBox.Size = new System.Drawing.Size(599, 22);

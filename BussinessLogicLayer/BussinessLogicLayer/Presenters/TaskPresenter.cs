@@ -105,8 +105,7 @@ namespace BussinessLogicLayer.Presenters
             if (isTaskNew)
             {
                 taskToSave = taskService.CreateNewTask(view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-                taskRepository.Add(taskToSave);
-                historyService.AddHistoryEvent(HistoryEventType.TaskCreated, taskToSave.Id);
+                taskService.SaveTask(taskToSave);
             }
             else
             {

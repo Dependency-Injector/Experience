@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Model.Entities;
+using Model.Enums;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -10,11 +12,13 @@ namespace BussinessLogicLayer.Presenters
     {
         private readonly IProfileView view;
         private ProfileRepository profileRepository;
+        private HistoryEventsRepository historyEventsRepository;
 
         public ProfilePresenter(IProfileView view)
         {
             this.view = view;
             profileRepository = new ProfileRepository();
+            historyEventsRepository = new HistoryEventsRepository();
 
             Initialize();
         }
@@ -45,8 +49,39 @@ namespace BussinessLogicLayer.Presenters
             view.Level = profile.Level;
             view.LevelProgress = profile.LevelProgressInPercent();
             view.Skills = profile.Skills.ToList();
+            var experienceEvents =
+                historyEventsRepository.Find(
+                    he =>
+                        he.Type == HistoryEventType.ExperienceGained ||
+                        he.Type == HistoryEventType.SkillExperienceGained).ToList();
+            view.ExperienceEventData = GetExperienceEventRows(experienceEvents);
         }
+        private List<string[]> GetExperienceEventRows(List<HistoryEvent> historyEvents)
+        {
+            List<string[]> workUnitsRows = new List<string[]>();
 
+            foreach (var historyEvent in historyEvents)
+            {
+                String occuredDate = historyEvent.Occured.ToString("dddd, d MMMM HH:mm");
+                String eventType = historyEvent.Type.ToString();
+
+                /*if (historyEvent.AssociatedEntityId)
+                {
+                    
+                }*/
+                
+                string[] taskRow = new string[]
+                {
+                    $"{occuredDate}",
+                    $"{eventType}",
+/*                    $"{durationLiteral}"*/
+                };
+
+                workUnitsRows.Add(taskRow);
+            }
+
+            return workUnitsRows;
+        }
         private Profile ObtainProfile()
         {
             return profileRepository.HasProfile() ? profileRepository.GetAll().First() : null;

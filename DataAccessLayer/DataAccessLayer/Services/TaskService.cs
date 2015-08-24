@@ -87,5 +87,12 @@ namespace DataAccessLayer.Services
 
             return true;
         }
+
+        public void SaveTask(Task taskToSave)
+        {
+            taskRepository.Add(taskToSave);
+            
+            historyService.AddHistoryEvent(HistoryEventType.TaskCreated, taskToSave.Id);
+        }
     }
 }
