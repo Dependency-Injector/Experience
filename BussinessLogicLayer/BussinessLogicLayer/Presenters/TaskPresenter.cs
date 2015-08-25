@@ -31,7 +31,6 @@ namespace BussinessLogicLayer.Presenters
         public TaskPresenter(ITasksView view)
         {
             this.view = view;
-            //this.isPlayerCurrentlyWorking = isPlayerCurrentlyWorking;
 
             taskRepository = new TasksRepository();
             workUnitsRepository = new WorkUnitsRepository();
@@ -171,6 +170,7 @@ namespace BussinessLogicLayer.Presenters
         {
             var taskToFinish = GetSelectedTask();
             taskService.FinishTask(taskToFinish);
+
             int xpForTaskFinish = ExperienceDefaultValues.GetExperienceForTask(taskToFinish.Priority);
             SkillTrainer.GiveXp(xpForTaskFinish);
             historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
@@ -237,7 +237,7 @@ namespace BussinessLogicLayer.Presenters
 
         private List<Task> ObtainTasksList()
         {
-            return taskRepository.HasTasks() ? taskRepository.GetAll().ToList() : new List<Task>();
+            return taskRepository.HasTasks() ? taskRepository.Find(t => t.Owner.Id == Properties.Settings.Default.CurrentlyLoggedPlayerId).ToList() : new List<Task>();
         }
 
         private ICollection GetTasksRows(List<Task> tasksToGetRowsFrom)

@@ -9,30 +9,49 @@ namespace DataAccessLayer.Utilities
     {
         private static ProfileRepository profileRepository = new ProfileRepository();
         private static SkillsRepository skillsRepository = new SkillsRepository();
-        
+
         static SkillTrainer()
         {
 
         }
 
-        public static void SkillTrained(int id, float durationInSeconds)
+        public static bool HasSkillReachedNewLevel(int skillId)
+        {
+            Skill skill = skillsRepository.First(s => s.Id == skillId);
+            float experienceToNewLevel = (skill.Level + 1) * 100;
+            if (skill.Experience > experienceToNewLevel)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void SkillLevelUp(int skillId, int newLevel)
+        {
+            Skill skill = skillsRepository.First(s => s.Id == skillId);
+            skill.Level = newLevel;
+            skillsRepository.Update(skill);
+        }
+
+        public static int CalculateXpForWork(float durationInSeconds)
+        {
+            float durationInMinutes = durationInSeconds / 60;
+            float durationInHours = durationInMinutes / 60;
+            float gainedExperience = durationInHours * 10;
+
+            return (int)gainedExperience;
+        }
+
+        public static void GiveXpToSkill(int id, int xp)
         {
             if (profileRepository != null)
             {
-                //Profile profile = profileRepository.GetAll().First();
                 Skill skillTrained = skillsRepository.First(s => s.Id == id);//profile.Skills.First(s => s.Id == id);
-                float durationInMinutes = durationInSeconds / 60;
-                float durationInHours = durationInMinutes / 60;
-                float gainedExperience = durationInHours * 10;
-                float experienceToNewLevel = (skillTrained.Level + 1) * 100;
 
-                skillTrained.Experience += (int)gainedExperience;
-
-                if (skillTrained.Experience > experienceToNewLevel)
-                {
-                    int newLevel = skillTrained.Experience/100;
-                    skillTrained.Level = newLevel;
-                }
+                skillTrained.Experience += (int)xp;
 
                 skillsRepository.Update(skillTrained);
             }
@@ -69,12 +88,18 @@ namespace DataAccessLayer.Utilities
                         break;
                 }
 
-                
+
                 profile.Experience += experienceGained;
                 profileRepository.Update(profile);
             }
 
         }
 
+        public static int GetSkillNewLevel(int skillId)
+        {
+            Skill skill = skillsRepository.First(s => s.Id == skillId);
+            int newLevel = skill.Experience / 100;
+            return newLevel;
+        }
     }
 }

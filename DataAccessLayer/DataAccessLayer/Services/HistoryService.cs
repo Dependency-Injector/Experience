@@ -26,7 +26,7 @@ namespace DataAccessLayer.Services
             skillRepository = new SkillsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
         }
 
-        public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "", int? XP = null)
+        public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "", int? xpGained = null, int? levelGained = null)
         {
             HistoryEvent historyEvent = new HistoryEvent();
             historyEvent.Occured = DateTime.Now;
@@ -38,7 +38,7 @@ namespace DataAccessLayer.Services
             }
             else
             {
-                historyEvent.Description = GetDefaultDescription(type, associatedEntityId, XP);
+                historyEvent.Description = GetDefaultDescription(type, associatedEntityId, xpGained, levelGained);
             }
 
             if (associatedEntityId.HasValue)
@@ -47,7 +47,7 @@ namespace DataAccessLayer.Services
             historyRepository.Add(historyEvent);
         }
 
-        private string GetDefaultDescription(HistoryEventType type, int? associatedEntityId, int? gainedXp)
+        private string GetDefaultDescription(HistoryEventType type, int? associatedEntityId, int? gainedXp = null, int? gainedLevel = null)
         {
             StringBuilder description = new StringBuilder();
             Task task = new Task();
@@ -61,22 +61,20 @@ namespace DataAccessLayer.Services
                     task = taskRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Task of id = '{0}' and name = '{1}' was created.", task.Id, task.Name);
                     break;
+
                 case HistoryEventType.TaskEdited:
                     task = taskRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Task of id = '{0}' and name = '{1}' was edited.", task.Id, task.Name);
                     break;
+
                 case HistoryEventType.TaskRemoved:
                     task = taskRepository.Get(associatedEntityId.Value);
                     if (task != null)
-                    {
                         description.AppendFormat("Task of id = '{0}' and name = '{1}' was removed.", task.Id, task.Name);
-                    }
                     else
-                    {
                         description.AppendFormat("Task  was removed.");
-
-                    }
                     break;
+
                 case HistoryEventType.TaskFinished:
                     task = taskRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Task of id = '{0}' and name = '{1}' was finished.", task.Id, task.Name);
@@ -90,38 +88,54 @@ namespace DataAccessLayer.Services
                         description.AppendFormat("Work started.");
 
                     break;
+
                 case HistoryEventType.WorkStopped:
                     workUnit = workUnitsRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Work Unit of id = '{0}' was stopped.", workUnit.Id);
                     break;
+
                 case HistoryEventType.ExperienceGained:
+                    description.AppendFormat("Gained {0} xp.", gainedXp.Value);
                     break;
+
                 case HistoryEventType.LevelGained:
+                    description.AppendFormat("Reached {0} level.", gainedLevel.Value);
                     break;
+
                 case HistoryEventType.SkillExperienceGained:
+                    if (associatedEntityId.HasValue)
+                    {
+                        skill = skillRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Skill of id = '{0}' ({1}) gained {2} xp.", skill.Id, skill.Name, gainedXp.Value);
+                    }
                     break;
+
                 case HistoryEventType.SkillLevelGained:
+                    if (associatedEntityId.HasValue)
+                    {
+                        skill = skillRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Skill of id = '{0}' ({1}) gained {2} xp.", skill.Id, skill.Name,
+                            gainedLevel.Value);
+                    }
                     break;
+
                 case HistoryEventType.ProfileCreated:
                     break;
+
                 case HistoryEventType.ProfileEdited:
                     break;
+
                 case HistoryEventType.ProfileRemoved:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-
-            if (task != null && task.SkillToTrain != null && workUnit != null)
-                description.AppendFormat(" Skill {0} gained {1} experience.", task.SkillToTrain.Name, workUnit.GetDurationInHours() * ExperienceDefaultValues.ExperiencePerHour);
-
-            if (gainedXp.HasValue)
-                description.AppendFormat(" Gained {0} experience.", gainedXp.Value);
-
+            
             return description.ToString();
         }
 
-        public void AddHistoryEvent(HistoryEventType type, int associatedTaskId, int xpForEvent)
+        public void AddHistoryEvent(HistoryEventType type, int associatedTaskId, int? xpForEvent = null, int? newLevel = null)
         {
             AddHistoryEvent(type, associatedTaskId, "", xpForEvent);
         }

@@ -33,6 +33,8 @@ namespace PresentationLayer.Forms
         {
             this.components = new System.ComponentModel.Container();
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
+            this.loginTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.loginControl1 = new PresentationLayer.Controls.LoginControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
             this.dayControl = new PresentationLayer.Controls.DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
@@ -46,7 +48,9 @@ namespace PresentationLayer.Forms
             this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.historyControl1 = new PresentationLayer.Controls.HistoryControl();
             this.profileControl1 = new PresentationLayer.Controls.ProfileControl();
+            this.loggedUserControl1 = new PresentationLayer.Controls.LoggedUserControl();
             this.contentTabControl.SuspendLayout();
+            this.loginTabPage.SuspendLayout();
             this.dayTabPage.SuspendLayout();
             this.tasksTabPage.SuspendLayout();
             this.profileTabPage.SuspendLayout();
@@ -57,6 +61,7 @@ namespace PresentationLayer.Forms
             // 
             // contentTabControl
             // 
+            this.contentTabControl.Controls.Add(this.loginTabPage);
             this.contentTabControl.Controls.Add(this.dayTabPage);
             this.contentTabControl.Controls.Add(this.tasksTabPage);
             this.contentTabControl.Controls.Add(this.profileTabPage);
@@ -65,10 +70,36 @@ namespace PresentationLayer.Forms
             this.contentTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentTabControl.Location = new System.Drawing.Point(20, 60);
             this.contentTabControl.Name = "contentTabControl";
-            this.contentTabControl.SelectedIndex = 3;
+            this.contentTabControl.SelectedIndex = 0;
             this.contentTabControl.Size = new System.Drawing.Size(1160, 620);
             this.contentTabControl.TabIndex = 2;
             this.contentTabControl.UseSelectable = true;
+            // 
+            // loginTabPage
+            // 
+            this.loginTabPage.Controls.Add(this.loggedUserControl1);
+            this.loginTabPage.Controls.Add(this.loginControl1);
+            this.loginTabPage.HorizontalScrollbarBarColor = true;
+            this.loginTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.loginTabPage.HorizontalScrollbarSize = 10;
+            this.loginTabPage.Location = new System.Drawing.Point(4, 38);
+            this.loginTabPage.Name = "loginTabPage";
+            this.loginTabPage.Size = new System.Drawing.Size(1152, 578);
+            this.loginTabPage.TabIndex = 5;
+            this.loginTabPage.Text = "Login";
+            this.loginTabPage.VerticalScrollbarBarColor = true;
+            this.loginTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.loginTabPage.VerticalScrollbarSize = 10;
+            // 
+            // loginControl1
+            // 
+            this.loginControl1.IsNew = false;
+            this.loginControl1.Location = new System.Drawing.Point(417, 3);
+            this.loginControl1.Name = "loginControl1";
+            this.loginControl1.Size = new System.Drawing.Size(319, 481);
+            this.loginControl1.TabIndex = 2;
+            this.loginControl1.UseSelectable = true;
+            this.loginControl1.Load += new System.EventHandler(this.loginControl1_Load);
             // 
             // dayTabPage
             // 
@@ -143,7 +174,7 @@ namespace PresentationLayer.Forms
             // profileControl
             // 
             this.profileControl.Age = 0;
-            this.profileControl.BirthDate = new System.DateTime(2015, 8, 24, 2, 7, 49, 920);
+            this.profileControl.BirthDate = new System.DateTime(2015, 8, 25, 6, 54, 5, 85);
             this.profileControl.Experience = 0;
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
@@ -226,7 +257,7 @@ namespace PresentationLayer.Forms
             // profileControl1
             // 
             this.profileControl1.Age = 0;
-            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 24, 2, 7, 49, 945);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 25, 6, 54, 5, 113);
             this.profileControl1.Experience = 0;
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
@@ -238,6 +269,14 @@ namespace PresentationLayer.Forms
             this.profileControl1.TabIndex = 1;
             this.profileControl1.UseSelectable = true;
             // 
+            // loggedUserControl1
+            // 
+            this.loggedUserControl1.Location = new System.Drawing.Point(960, 3);
+            this.loggedUserControl1.Name = "loggedUserControl1";
+            this.loggedUserControl1.Size = new System.Drawing.Size(189, 30);
+            this.loggedUserControl1.TabIndex = 3;
+            this.loggedUserControl1.UseSelectable = true;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +287,7 @@ namespace PresentationLayer.Forms
             this.Text = "jp2gmd";
             this.Load += new System.EventHandler(this.TestForm_Load);
             this.contentTabControl.ResumeLayout(false);
+            this.loginTabPage.ResumeLayout(false);
             this.dayTabPage.ResumeLayout(false);
             this.tasksTabPage.ResumeLayout(false);
             this.profileTabPage.ResumeLayout(false);
@@ -274,5 +314,8 @@ namespace PresentationLayer.Forms
         private MetroFramework.Controls.MetroTabPage dayTabPage;
         private DayControl dayControl;
         private HistoryControl historyControl2;
+        private MetroFramework.Controls.MetroTabPage loginTabPage;
+        private LoginControl loginControl1;
+        private LoggedUserControl loggedUserControl1;
     }
 }

@@ -23,6 +23,7 @@ namespace Model.Entities
         public DateTime CreationDate { get; set; }
         public DateTime? FinishedDate { get; set; }
 
+        public virtual Profile Owner { get; set; }
         public virtual Task Parent { get; set; }
         public virtual Skill SkillToTrain { get; set; }
         public virtual ICollection<WorkUnit> WorkUnits { get; set; }

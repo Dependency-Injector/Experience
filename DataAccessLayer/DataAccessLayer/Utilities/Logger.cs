@@ -16,7 +16,8 @@ namespace DataAccessLayer.Utilities
         {
             String currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             String fullPath = String.Format(@"{0}\{1}", currentDirectory, logFileName);
-            logFile = new StreamWriter(fullPath);    
+            fullPath = fullPath.Replace(':', '-').Trim();
+            logFile = File.AppendText(fullPath);    
         }
 
         public static void Exception(Exception e)

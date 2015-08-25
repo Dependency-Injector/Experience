@@ -65,5 +65,10 @@ namespace DataAccessLayer.Repositories
         {
             return context.Skills.AsNoTracking();
         }
+
+        public Skill Get(int skillId)
+        {
+            return First(s => s.Id == skillId);
+        }
     }
 }

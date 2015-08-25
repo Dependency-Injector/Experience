@@ -45,7 +45,6 @@ namespace BussinessLogicLayer.Presenters
             view.PlayerName = profile.Name;
             view.History = profile.History;
             view.Age = profile.AgeInYears();
-            //view.BirthDate = profile.BirthDate;
             view.Experience = profile.Experience;
             view.Level = profile.Level;
             view.LevelProgress = profile.LevelProgressInPercent();
@@ -54,7 +53,10 @@ namespace BussinessLogicLayer.Presenters
                 historyEventsRepository.Find(
                     he =>
                         he.Type == HistoryEventType.ExperienceGained ||
-                        he.Type == HistoryEventType.SkillExperienceGained).ToList();
+                        he.Type == HistoryEventType.SkillExperienceGained ||
+                        he.Type == HistoryEventType.SkinlOberwał ||
+                        he.Type == HistoryEventType.SkillLevelGained).ToList();
+            
             view.ExperienceEventData = GetExperienceEventRows(experienceEvents);
         }
 

@@ -102,8 +102,16 @@ namespace DataAccessLayer.Services
         {
             if (task.SkillToTrain != null && workUnit.Duration.HasValue)
             {
-                SkillTrainer.SkillTrained(task.SkillToTrain.Id, workUnit.Duration.Value);
-                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, workUnit.Id);
+                int gainedExperience = SkillTrainer.CalculateXpForWork(workUnit.Duration.Value);
+                SkillTrainer.GiveXpToSkill(task.SkillToTrain.Id, gainedExperience);
+                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, task.SkillToTrain.Id, gainedExperience);
+
+                if (SkillTrainer.HasSkillReachedNewLevel(task.SkillToTrain.Id))
+                {
+                    int skillNewLevel = SkillTrainer.GetSkillNewLevel(task.SkillToTrain.Id);
+                    SkillTrainer.SkillLevelUp(task.SkillToTrain.Id, skillNewLevel);
+                    historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, task.SkillToTrain.Id, newLevel: skillNewLevel);
+                }
             }
 
         }

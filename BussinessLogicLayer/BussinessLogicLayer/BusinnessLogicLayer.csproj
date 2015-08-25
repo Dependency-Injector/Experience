@@ -58,16 +58,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IDayView.cs" />
+    <Compile Include="Interfaces\ILoginView.cs" />
     <Compile Include="Interfaces\IOptionsView.cs" />
     <Compile Include="Interfaces\IHistoryView.cs" />
     <Compile Include="Interfaces\IProfileView.cs" />
     <Compile Include="Interfaces\ITasksView.cs" />
     <Compile Include="Presenters\HistoryPresenter.cs" />
+    <Compile Include="Presenters\LoginPresenter.cs" />
     <Compile Include="Presenters\OptionsPresenter.cs" />
     <Compile Include="Presenters\DayPresenter.cs" />
     <Compile Include="Presenters\ProfilePresenter.cs" />
     <Compile Include="Presenters\TaskPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -75,6 +82,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataAccessLayer\DataAccessLayer\DataAccessLayer.csproj">

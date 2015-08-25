@@ -43,9 +43,14 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void Add(Profile entity)
+        public void Add(Profile profile)
         {
-            throw new NotImplementedException();
+            using (EntitiesContext entities = new EntitiesContext())
+            {
+                entities.Profiles.Add(profile);
+                entities.Entry(profile).State = EntityState.Added;
+                entities.SaveChanges();
+            }
         }
 
         public void Update(Profile profile)
@@ -61,6 +66,11 @@ namespace DataAccessLayer.Repositories
         public bool HasProfile()
         {
             return context.Profiles.Any();
+        }
+
+        public Profile Get(int profileId)
+        {
+            return context.Profiles.FirstOrDefault(p => p.Id == profileId);
         }
     }
 }

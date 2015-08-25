@@ -12,6 +12,7 @@ namespace PresentationLayer.Forms
         private OptionsPresenter optionsPresenter;
         private HistoryPresenter historyPresenter;
         private DayPresenter dayPresenter;
+        private LoginPresenter loginPresenter;
 
         public TestForm()
         {
@@ -20,6 +21,8 @@ namespace PresentationLayer.Forms
             this.StyleManager = optionsControl.GetStyleManager();
             this.StyleManager.Owner = this;
 
+            loggedUserControl1.Logout += LoggedUserControl1_Logout;
+            loginPresenter = new LoginPresenter(this.loginControl1);
             taskPresenter = new TaskPresenter(this.tasksControl1);
             profilePresenter = new ProfilePresenter(this.profileControl);
             optionsPresenter = new OptionsPresenter(this.optionsControl);
@@ -27,10 +30,22 @@ namespace PresentationLayer.Forms
             dayPresenter = new DayPresenter(this.dayControl);
         }
 
+        private void LoggedUserControl1_Logout(object sender, EventArgs e)
+        {
+            
+            //contentTabControl.Visible = false;
+            loginControl1.Visible = true;
+        }
+
         private void TestForm_Load(object sender, EventArgs e)
         {
             this.tasksControl1.SetColumnNames();
             this.contentTabControl.SelectedTab = tasksTabPage;
+        }
+
+        private void loginControl1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

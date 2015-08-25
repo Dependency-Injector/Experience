@@ -13,7 +13,7 @@ namespace Model.Entities
         public int Id { get; set; }
         public String Name { get; set; }
         public String History { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public DateTime JoinDate { get; set; }
         public int Level { get; set; }
         public int Experience { get; set; }
@@ -22,7 +22,8 @@ namespace Model.Entities
 
         public int AgeInYears()
         {
-            TimeSpan age = DateTime.Now - BirthDate;
+   
+            TimeSpan age = DateTime.Now - BirthDate.Value;
             int years = (int)(age.TotalDays / 365);
             return years;
         }

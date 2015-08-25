@@ -112,6 +112,10 @@
     <Compile Include="Migrations\201508240450045_HistoryEventTaskAssociation.Designer.cs">
       <DependentUpon>201508240450045_HistoryEventTaskAssociation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508250431347_TaskAndUserProfileAssociation.cs" />
+    <Compile Include="Migrations\201508250431347_TaskAndUserProfileAssociation.Designer.cs">
+      <DependentUpon>201508250431347_TaskAndUserProfileAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -163,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508240450045_HistoryEventTaskAssociation.resx">
       <DependentUpon>201508240450045_HistoryEventTaskAssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508250431347_TaskAndUserProfileAssociation.resx">
+      <DependentUpon>201508250431347_TaskAndUserProfileAssociation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
