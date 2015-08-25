@@ -57,6 +57,9 @@ namespace DataAccessLayer.Repositories
                 if(task.SkillToTrain != null)
                     context.Entry(task.SkillToTrain).State = EntityState.Unchanged;
 
+                if(task.Owner != null)
+                    context.Entry(task.Owner).State = EntityState.Unchanged;
+
                 context.SaveChanges();
             }
         }

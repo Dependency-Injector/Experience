@@ -1,6 +1,7 @@
 ﻿using System;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services;
 using MetroFramework;
 using Model.Entities;
@@ -10,14 +11,16 @@ namespace BussinessLogicLayer.Presenters
     public class DayPresenter
     {
         private readonly IDayView view;
-        private readonly DayRepository dayRepository;
+        private readonly IDaysRepository daysRepository;
         private readonly DaysService daysService;
         private Day displayedDay;
 
-        public DayPresenter(IDayView view)
+        public DayPresenter(IDayView view, IDaysRepository daysRepository)
         {
             this.view = view;
-            dayRepository = new DayRepository();
+            this.daysRepository = daysRepository;
+
+            this.daysRepository = new DaysRepository();
             daysService = new DaysService();
 
             Initialize();
@@ -28,7 +31,7 @@ namespace BussinessLogicLayer.Presenters
             try
             {
                 AttachEvents();
-                displayedDay = dayRepository.Get(DateTime.Now);
+                displayedDay = daysRepository.Get(DateTime.Now);
                 if (displayedDay != null)
                 {
                     DisplayDayData(displayedDay);
@@ -36,7 +39,7 @@ namespace BussinessLogicLayer.Presenters
                 else
                 {
                     displayedDay = CreateNewDay(DateTime.Now);
-                    dayRepository.Add(displayedDay);
+                    daysRepository.Add(displayedDay);
                     DisplayDayData(displayedDay);
                 }
             }
@@ -58,9 +61,9 @@ namespace BussinessLogicLayer.Presenters
         private void NextDay(object sender, EventArgs e)
         {
             DateTime dateOfDayAhead = displayedDay.Date.AddDays(+1);
-            if (dayRepository.HasDay(dateOfDayAhead))
+            if (daysRepository.HasDay(dateOfDayAhead))
             {
-                Day dayAhead = dayRepository.Get(dateOfDayAhead);
+                Day dayAhead = daysRepository.Get(dateOfDayAhead);
                 DisplayDayData(dayAhead);
             }
             else
@@ -72,9 +75,9 @@ namespace BussinessLogicLayer.Presenters
         private void PreviousDay(object sender, EventArgs e)
         {
             DateTime dateOfDayBefore = displayedDay.Date.AddDays(-1);
-            if (dayRepository.HasDay(dateOfDayBefore))
+            if (daysRepository.HasDay(dateOfDayBefore))
             {
-                Day dayBefore = dayRepository.Get(dateOfDayBefore);
+                Day dayBefore = daysRepository.Get(dateOfDayBefore);
                 DisplayDayData(dayBefore);
             }
             else
@@ -86,7 +89,7 @@ namespace BussinessLogicLayer.Presenters
         private void SaveDay(object sender, EventArgs e)
         {
             displayedDay = daysService.UpdateExistingDay(displayedDay.Id, view.Thoughts);
-            dayRepository.Update(displayedDay);
+            daysRepository.Update(displayedDay);
         //    historyService.AddHistoryEvent();
         }
 

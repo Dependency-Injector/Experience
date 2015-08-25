@@ -51,8 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\Interfaces\IDaysRepository.cs" />
     <Compile Include="Utilities\ExperienceDefaultValues.cs" />
-    <Compile Include="Repositories\DayRepository.cs" />
+    <Compile Include="Repositories\DaysRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\HistoryEventsRepository.cs" />
     <Compile Include="Repositories\PreferencesRepository.cs" />

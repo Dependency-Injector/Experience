@@ -34,7 +34,7 @@ namespace PresentationLayer.Forms
             this.components = new System.ComponentModel.Container();
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.loginTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.loginControl1 = new PresentationLayer.Controls.LoginControl();
+            this.loggedUserControl1 = new PresentationLayer.Controls.LoggedUserControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
             this.dayControl = new PresentationLayer.Controls.DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
@@ -45,10 +45,10 @@ namespace PresentationLayer.Forms
             this.historyControl2 = new PresentationLayer.Controls.HistoryControl();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
             this.optionsControl = new PresentationLayer.Controls.OptionsControl();
+            this.loginControl1 = new PresentationLayer.Controls.LoginControl();
             this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.historyControl1 = new PresentationLayer.Controls.HistoryControl();
             this.profileControl1 = new PresentationLayer.Controls.ProfileControl();
-            this.loggedUserControl1 = new PresentationLayer.Controls.LoggedUserControl();
             this.contentTabControl.SuspendLayout();
             this.loginTabPage.SuspendLayout();
             this.dayTabPage.SuspendLayout();
@@ -78,7 +78,6 @@ namespace PresentationLayer.Forms
             // loginTabPage
             // 
             this.loginTabPage.Controls.Add(this.loggedUserControl1);
-            this.loginTabPage.Controls.Add(this.loginControl1);
             this.loginTabPage.HorizontalScrollbarBarColor = true;
             this.loginTabPage.HorizontalScrollbarHighlightOnWheel = false;
             this.loginTabPage.HorizontalScrollbarSize = 10;
@@ -91,15 +90,14 @@ namespace PresentationLayer.Forms
             this.loginTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.loginTabPage.VerticalScrollbarSize = 10;
             // 
-            // loginControl1
+            // loggedUserControl1
             // 
-            this.loginControl1.IsNew = false;
-            this.loginControl1.Location = new System.Drawing.Point(417, 3);
-            this.loginControl1.Name = "loginControl1";
-            this.loginControl1.Size = new System.Drawing.Size(319, 481);
-            this.loginControl1.TabIndex = 2;
-            this.loginControl1.UseSelectable = true;
-            this.loginControl1.Load += new System.EventHandler(this.loginControl1_Load);
+            this.loggedUserControl1.Location = new System.Drawing.Point(960, 3);
+            this.loggedUserControl1.LoggedUserName = "[User name]";
+            this.loggedUserControl1.Name = "loggedUserControl1";
+            this.loggedUserControl1.Size = new System.Drawing.Size(189, 30);
+            this.loggedUserControl1.TabIndex = 3;
+            this.loggedUserControl1.UseSelectable = true;
             // 
             // dayTabPage
             // 
@@ -174,7 +172,7 @@ namespace PresentationLayer.Forms
             // profileControl
             // 
             this.profileControl.Age = 0;
-            this.profileControl.BirthDate = new System.DateTime(2015, 8, 25, 6, 54, 5, 85);
+            this.profileControl.BirthDate = new System.DateTime(2015, 8, 25, 15, 56, 36, 528);
             this.profileControl.Experience = 0;
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
@@ -239,6 +237,16 @@ namespace PresentationLayer.Forms
             this.optionsControl.ThemeName = "Light";
             this.optionsControl.UseSelectable = true;
             // 
+            // loginControl1
+            // 
+            this.loginControl1.IsNew = false;
+            this.loginControl1.Location = new System.Drawing.Point(441, 110);
+            this.loginControl1.Name = "loginControl1";
+            this.loginControl1.Size = new System.Drawing.Size(319, 481);
+            this.loginControl1.TabIndex = 2;
+            this.loginControl1.UseSelectable = true;
+            this.loginControl1.Load += new System.EventHandler(this.loginControl1_Load);
+            // 
             // metroColorsBindingSource
             // 
             this.metroColorsBindingSource.DataSource = typeof(MetroFramework.MetroColors);
@@ -257,7 +265,7 @@ namespace PresentationLayer.Forms
             // profileControl1
             // 
             this.profileControl1.Age = 0;
-            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 25, 6, 54, 5, 113);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 25, 15, 56, 36, 563);
             this.profileControl1.Experience = 0;
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
@@ -269,19 +277,12 @@ namespace PresentationLayer.Forms
             this.profileControl1.TabIndex = 1;
             this.profileControl1.UseSelectable = true;
             // 
-            // loggedUserControl1
-            // 
-            this.loggedUserControl1.Location = new System.Drawing.Point(960, 3);
-            this.loggedUserControl1.Name = "loggedUserControl1";
-            this.loggedUserControl1.Size = new System.Drawing.Size(189, 30);
-            this.loggedUserControl1.TabIndex = 3;
-            this.loggedUserControl1.UseSelectable = true;
-            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 700);
+            this.Controls.Add(this.loginControl1);
             this.Controls.Add(this.contentTabControl);
             this.Name = "TestForm";
             this.Text = "jp2gmd";

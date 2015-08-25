@@ -79,7 +79,7 @@ namespace BussinessLogicLayer.Presenters
             Properties.Settings.Default.CurrentlyLoggedPlayerId = userToLog.Id;
             Properties.Settings.Default.Save();
 
-            view.Hidden = true;
+            //view.Hidden = true;
         }
 
         private void LoginUser(object sender, EventArgs e)
@@ -97,7 +97,7 @@ namespace BussinessLogicLayer.Presenters
             }
 
             view.DisplayMode = DisplayMode.View;
-            view.Hidden = true;
+            //view.Hidden = true;
         }
 
         private Profile CreateNewUser(string userNameToRegister)

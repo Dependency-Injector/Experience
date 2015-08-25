@@ -5,11 +5,11 @@ namespace DataAccessLayer.Services
 {
     public class DaysService
     {
-        private DayRepository daysRepository;
+        private DaysRepository daysRepository;
 
         public DaysService()
         {
-            daysRepository = new DayRepository();
+            daysRepository = new DaysRepository();
         }
 
         public Day UpdateExistingDay(int dayId, string thoughts)

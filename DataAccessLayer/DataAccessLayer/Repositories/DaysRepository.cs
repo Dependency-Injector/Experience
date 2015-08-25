@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DataAccessLayer.Repositories.Interfaces;
 using Model;
 using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
-    public class DayRepository : IRepository<Day>
+    public class DaysRepository : IDaysRepository
     {
         private EntitiesContext context;
 
-        public DayRepository(String connectionString)
+        public DaysRepository(String connectionString)
         {
             context = new EntitiesContext(connectionString);
             context.Database.Connection.Open();
         }
 
-        internal Day Get(int dayId)
+        public Day Get(int dayId)
         {
             return context.Days.First(d => d.Id == dayId);
         }
 
-        public DayRepository()
+        public DaysRepository()
         {
             context = new EntitiesContext();
             context.Database.Connection.Open();

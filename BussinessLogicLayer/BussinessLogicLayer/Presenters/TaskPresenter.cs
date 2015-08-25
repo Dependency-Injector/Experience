@@ -21,6 +21,7 @@ namespace BussinessLogicLayer.Presenters
         private readonly WorkUnitsRepository workUnitsRepository;
         private readonly SkillsRepository skillsRepository;
         private readonly HistoryService historyService;
+        private readonly ProfileRepository profilesRepository;
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
@@ -35,7 +36,7 @@ namespace BussinessLogicLayer.Presenters
             taskRepository = new TasksRepository();
             workUnitsRepository = new WorkUnitsRepository();
             skillsRepository = new SkillsRepository();
-
+            profilesRepository = new ProfileRepository();
             taskService = new TaskService();
             historyService = new HistoryService();
 
@@ -101,10 +102,12 @@ namespace BussinessLogicLayer.Presenters
         private void Save(object sender, EventArgs e)
         {
             Task taskToSave = isTaskNew ? new Task() : GetSelectedTask();
+            Profile currentUser = profilesRepository.Get(Properties.Settings.Default.CurrentlyLoggedPlayerId);
 
             if (isTaskNew)
             {
-                taskToSave = taskService.CreateNewTask(view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                taskToSave = taskService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                taskToSave.Owner = currentUser;
                 taskService.SaveTask(taskToSave);
             }
             else

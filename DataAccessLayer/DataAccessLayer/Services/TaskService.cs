@@ -16,6 +16,7 @@ namespace DataAccessLayer.Services
         private SkillsRepository skillsRepository;
         private HistoryService historyService;
         private WorkUnitsRepository workUnitsRepository;
+        private ProfileRepository profileRepository;
 
         public TaskService()
         {
@@ -23,9 +24,10 @@ namespace DataAccessLayer.Services
             skillsRepository = new SkillsRepository();
             historyService = new HistoryService();
             workUnitsRepository = new WorkUnitsRepository();
+            profileRepository = new ProfileRepository();
         }
-
-        public Task CreateNewTask(String name, String description, DateTime dueDateTime, int priority,
+        
+        public Task CreateNewTask(int? ownerId, String name, String description, DateTime dueDateTime, int priority,
             int? parentTaskId, int? associatedSkillId)
         {
             Task task = new Task();
@@ -40,6 +42,9 @@ namespace DataAccessLayer.Services
 
             if (parentTaskId.HasValue)
                 task.Parent = taskRepository.Get(parentTaskId.Value);
+
+            if (ownerId.HasValue)
+                task.Owner = profileRepository.First(p => p.Id == ownerId.Value);
 
             return task;
             //taskRepository.Add(task);
@@ -97,6 +102,8 @@ namespace DataAccessLayer.Services
             
             historyService.AddHistoryEvent(HistoryEventType.TaskCreated, taskToSave.Id);
         }
+
+
 
         public void WorkedOnTask(Task task, WorkUnit workUnit)
         {
