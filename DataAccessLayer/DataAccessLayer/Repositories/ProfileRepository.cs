@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DataAccessLayer.Repositories.Interfaces;
 using Model;
 using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
-    public class ProfileRepository : IRepository<Profile>
+    public class ProfileRepository : IProfileRepository
     {
         private readonly EntitiesContext context;
 
@@ -35,7 +36,7 @@ namespace DataAccessLayer.Repositories
 
         public Profile First(Expression<Func<Profile, bool>> @where)
         {
-            throw new NotImplementedException();
+            return context.Profiles.AsNoTracking().FirstOrDefault(@where);
         }
 
         public void Delete(Profile day)

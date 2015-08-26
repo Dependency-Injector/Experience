@@ -116,6 +116,14 @@
     <Compile Include="Migrations\201508250431347_TaskAndUserProfileAssociation.Designer.cs">
       <DependentUpon>201508250431347_TaskAndUserProfileAssociation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508260111129_DayOwner.cs" />
+    <Compile Include="Migrations\201508260111129_DayOwner.Designer.cs">
+      <DependentUpon>201508260111129_DayOwner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508260501538_PlayerAndOtherTablesAssociation.cs" />
+    <Compile Include="Migrations\201508260501538_PlayerAndOtherTablesAssociation.Designer.cs">
+      <DependentUpon>201508260501538_PlayerAndOtherTablesAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -170,6 +178,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508250431347_TaskAndUserProfileAssociation.resx">
       <DependentUpon>201508250431347_TaskAndUserProfileAssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508260111129_DayOwner.resx">
+      <DependentUpon>201508260111129_DayOwner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508260501538_PlayerAndOtherTablesAssociation.resx">
+      <DependentUpon>201508260501538_PlayerAndOtherTablesAssociation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DataAccessLayer.Repositories.Interfaces;
 using Model;
 using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
-    public class TasksRepository : IRepository<Task>
+    public class TasksRepository : ITasksRepository
     {
         private readonly EntitiesContext context;
 

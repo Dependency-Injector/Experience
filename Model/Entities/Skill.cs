@@ -12,7 +12,7 @@ namespace Model.Entities
         public int Level { get; set; }
         public float HoursTrained { get; set; }
 
-        public virtual Profile Profile { get; set; }
+        public virtual Profile Owner { get; set; }
         public virtual IEnumerable<Task> Tasks { get; set; }
 
         public String GetNewLevelProgress()

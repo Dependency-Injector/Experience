@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
+using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
     public class LoginPresenter
     {
         private readonly ILoginView view;
-        private readonly ProfileRepository profilesRepository;
+        private readonly IProfileRepository profilesRepository;
 
-        public LoginPresenter(ILoginView view)
+        public LoginPresenter(ILoginView view, IProfileRepository profilesRepository)
         {
             this.view = view;
-            profilesRepository = new ProfileRepository();
+            this.profilesRepository = profilesRepository;
 
             Initialize();
         }
@@ -30,16 +29,6 @@ namespace BussinessLogicLayer.Presenters
             {
                 AttachEvents();
                 DisplayUserProfilesList();
-
-                // User was previously logged - trying to automatically log him after program start
-                if (Properties.Settings.Default.IsUserLogged)
-                {
-                    var currentlyLoggedUser = profilesRepository.Get(Properties.Settings.Default.CurrentlyLoggedPlayerId);
-                    if (currentlyLoggedUser != null)
-                    {
-                        LogUser(currentlyLoggedUser);
-                    }
-                }
             }
             catch (Exception e)
             {
@@ -75,11 +64,10 @@ namespace BussinessLogicLayer.Presenters
 
         private void LogUser(Profile userToLog)
         {
-            Properties.Settings.Default.IsUserLogged = true;
-            Properties.Settings.Default.CurrentlyLoggedPlayerId = userToLog.Id;
-            Properties.Settings.Default.Save();
-
-            //view.Hidden = true;
+            ApplicationSettings.Current.IsAnyUserLoggedIn = true;
+            ApplicationSettings.Current.CurrentUserId = userToLog.Id;
+            ApplicationSettings.Current.CurrentUserName = userToLog.Name;
+            ApplicationSettings.Save();
         }
 
         private void LoginUser(object sender, EventArgs e)
@@ -94,10 +82,10 @@ namespace BussinessLogicLayer.Presenters
             {
                 Profile newUser = CreateNewUser(view.UserNameToRegister);
                 profilesRepository.Add(newUser);
+                LogUser(newUser);
             }
 
             view.DisplayMode = DisplayMode.View;
-            //view.Hidden = true;
         }
 
         private Profile CreateNewUser(string userNameToRegister)
@@ -105,7 +93,7 @@ namespace BussinessLogicLayer.Presenters
             Profile newProfile = new Profile();
             newProfile.Name = userNameToRegister;
             newProfile.JoinDate = DateTime.Now;
-            newProfile.BirthDate = new DateTime(1994, 3, 2);
+            newProfile.BirthDate = null;
             return newProfile;
         }
     }

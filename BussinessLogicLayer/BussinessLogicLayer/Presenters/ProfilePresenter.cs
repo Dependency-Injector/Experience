@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
@@ -12,14 +13,14 @@ namespace BussinessLogicLayer.Presenters
     public class ProfilePresenter
     {
         private readonly IProfileView view;
-        private readonly ProfileRepository profileRepository;
-        private readonly HistoryEventsRepository historyEventsRepository;
+        private readonly IProfileRepository profileRepository;
+        private readonly IHistoryEventsRepository historyEventsRepository;
 
-        public ProfilePresenter(IProfileView view)
+        public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository)
         {
             this.view = view;
-            profileRepository = new ProfileRepository();
-            historyEventsRepository = new HistoryEventsRepository();
+            this.profileRepository = profileRepository;
+            this.historyEventsRepository = historyEventsRepository;
 
             Initialize();
         }

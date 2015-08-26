@@ -5,12 +5,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.Repositories.Interfaces;
 using Model;
 using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
-    public class PreferencesRepository : IRepository<Preferences>
+    public class PreferencesRepository : IPreferencesRepository
     {
         private readonly EntitiesContext context;
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using Model.Entities;
 
 namespace BussinessLogicLayer.Presenters
@@ -11,12 +12,13 @@ namespace BussinessLogicLayer.Presenters
     public class HistoryPresenter
     {
         private readonly IHistoryView view;
-        private readonly HistoryEventsRepository historyRepository;
+        private readonly IHistoryEventsRepository historyRepository;
         private List<HistoryEvent> historyEvents;
          
-        public HistoryPresenter(IHistoryView view)
+        public HistoryPresenter(IHistoryView view, IHistoryEventsRepository historyEventsRepository)
         {
             this.view = view;
+            this.historyRepository = historyEventsRepository;
             historyRepository = new HistoryEventsRepository();
 
             Initialize();

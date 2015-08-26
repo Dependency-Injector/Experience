@@ -156,6 +156,10 @@
       <Project>{410149d5-4981-4e6d-af23-25798c3e4422}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj">
+      <Project>{1a6d1290-ad48-4a38-9987-7856ecbefa15}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

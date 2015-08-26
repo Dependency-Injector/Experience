@@ -51,10 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\Interfaces\IHistoryEventsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDaysRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IProfileRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPreferencesRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITasksRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IWorkUnitsRepository.cs" />
     <Compile Include="Utilities\ExperienceDefaultValues.cs" />
     <Compile Include="Repositories\DaysRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\HistoryEventsRepository.cs" />
     <Compile Include="Repositories\PreferencesRepository.cs" />
     <Compile Include="Repositories\SkillsRepository.cs" />

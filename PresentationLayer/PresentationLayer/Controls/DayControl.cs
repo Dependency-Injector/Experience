@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
-using BussinessLogicLayer.Presenters;
 using MetroFramework.Controls;
 using Day = Model.Entities.Day;
 
@@ -9,7 +8,6 @@ namespace PresentationLayer.Controls
 {
     public partial class DayControl : MetroUserControl, IDayView
     {
-        
         private Day todayData;
 
         public DayControl()
@@ -32,12 +30,16 @@ namespace PresentationLayer.Controls
             }
         }
 
+        public int DayNumber
+        {
+            set { dayNumberLabel.Text = $"Day {value.ToString()}"; }
+        }
+
         public IWin32Window Window {
             get { return this.Window; }
             }
 
         public event EventHandler<EventArgs> SaveDay;
-        public event EventHandler<EventArgs> NewDay;
         public event EventHandler<EventArgs> PreviousDay;
         public event EventHandler<EventArgs> NextDay;
 

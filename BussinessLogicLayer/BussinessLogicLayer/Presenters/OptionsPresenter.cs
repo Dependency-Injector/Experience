@@ -2,6 +2,7 @@
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using Model.Entities;
 
 namespace BussinessLogicLayer.Presenters
@@ -10,15 +11,15 @@ namespace BussinessLogicLayer.Presenters
     {
         #region Private fields
         private readonly IOptionsView view;
-        private readonly PreferencesRepository preferencesRepository;
+        private readonly IPreferencesRepository preferencesRepository;
         private Preferences preferences;
         #endregion
 
-        public OptionsPresenter(IOptionsView view)
+        public OptionsPresenter(IOptionsView view, IPreferencesRepository preferencesRepository)
         {
             this.view = view;
-            preferencesRepository = new PreferencesRepository();
-
+            this.preferencesRepository = preferencesRepository;
+            
             Initialize();
         }
 

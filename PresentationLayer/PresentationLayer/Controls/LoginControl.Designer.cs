@@ -77,9 +77,7 @@
             // 
             // metroPanel1
             // 
-            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.metroPanel1.Controls.Add(this.availablePlayersComboBox);
             this.metroPanel1.Controls.Add(this.newUserButton);
             this.metroPanel1.Controls.Add(this.loginButton);
@@ -88,9 +86,9 @@
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(5, 121);
+            this.metroPanel1.Location = new System.Drawing.Point(5, -7);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(510, 195);
+            this.metroPanel1.Size = new System.Drawing.Size(510, 250);
             this.metroPanel1.TabIndex = 4;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
@@ -113,11 +111,10 @@
             // 
             // newUserButton
             // 
-            this.newUserButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.newUserButton.Location = new System.Drawing.Point(4, 168);
+            this.newUserButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.newUserButton.Location = new System.Drawing.Point(4, 212);
             this.newUserButton.Name = "newUserButton";
-            this.newUserButton.Size = new System.Drawing.Size(112, 24);
+            this.newUserButton.Size = new System.Drawing.Size(112, 33);
             this.newUserButton.TabIndex = 3;
             this.newUserButton.Text = "New profile";
             this.newUserButton.UseSelectable = true;
@@ -129,7 +126,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.metroPanel1);
             this.Name = "LoginControl";
-            this.Size = new System.Drawing.Size(519, 437);
+            this.Size = new System.Drawing.Size(519, 253);
             this.metroPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

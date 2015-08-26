@@ -11,5 +11,6 @@ namespace Model.Entities
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public String Thoughts { get; set; }
+        public virtual Profile Owner { get; set; }
     }
 }

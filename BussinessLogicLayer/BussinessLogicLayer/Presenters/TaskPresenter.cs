@@ -5,10 +5,12 @@ using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
+using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -16,12 +18,12 @@ namespace BussinessLogicLayer.Presenters
     {
         #region Private fields
         private readonly ITasksView view;
-        private readonly TasksRepository taskRepository;
-        private readonly TaskService taskService;
-        private readonly WorkUnitsRepository workUnitsRepository;
-        private readonly SkillsRepository skillsRepository;
+        private readonly ITasksRepository taskRepository;
+        private readonly IWorkUnitsRepository workUnitsRepository;
+        private readonly ISkillsRepository skillsRepository;
+        private readonly IProfileRepository profilesRepository;
         private readonly HistoryService historyService;
-        private readonly ProfileRepository profilesRepository;
+        private readonly TaskService taskService;
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
@@ -29,16 +31,17 @@ namespace BussinessLogicLayer.Presenters
         private bool isPlayerCurrentlyWorking;
         #endregion
 
-        public TaskPresenter(ITasksView view)
+        public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
+            IProfileRepository profileRepository)
         {
             this.view = view;
 
-            taskRepository = new TasksRepository();
-            workUnitsRepository = new WorkUnitsRepository();
-            skillsRepository = new SkillsRepository();
-            profilesRepository = new ProfileRepository();
-            taskService = new TaskService();
-            historyService = new HistoryService();
+            this.taskRepository = tasksRepository;
+            this.workUnitsRepository = workUnitsRepository;
+            this.skillsRepository = skillsRepository;
+            this.profilesRepository = profileRepository;
+            this.taskService = new TaskService();
+            this.historyService = new HistoryService();
 
             Initialize();
         }
@@ -102,12 +105,12 @@ namespace BussinessLogicLayer.Presenters
         private void Save(object sender, EventArgs e)
         {
             Task taskToSave = isTaskNew ? new Task() : GetSelectedTask();
-            Profile currentUser = profilesRepository.Get(Properties.Settings.Default.CurrentlyLoggedPlayerId);
+            Profile currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
 
             if (isTaskNew)
             {
                 taskToSave = taskService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-                taskToSave.Owner = currentUser;
+                //taskToSave.Owner = currentUser;
                 taskService.SaveTask(taskToSave);
             }
             else
@@ -240,7 +243,7 @@ namespace BussinessLogicLayer.Presenters
 
         private List<Task> ObtainTasksList()
         {
-            return taskRepository.HasTasks() ? taskRepository.Find(t => t.Owner.Id == Properties.Settings.Default.CurrentlyLoggedPlayerId).ToList() : new List<Task>();
+            return taskRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn ? taskRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId).ToList() : new List<Task>();
         }
 
         private ICollection GetTasksRows(List<Task> tasksToGetRowsFrom)

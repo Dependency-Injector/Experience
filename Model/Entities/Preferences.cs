@@ -8,5 +8,7 @@ namespace Model.Entities
         public String ThemeName { get; set; }
         public String StyleName { get; set; }
         public bool ShowFinishedTasks { get; set; }
+
+        public virtual Profile Owner { get; set; }
     }
 }

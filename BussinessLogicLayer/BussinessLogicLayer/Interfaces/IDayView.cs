@@ -7,11 +7,11 @@ namespace BussinessLogicLayer.Interfaces
     {
         String Thoughts { get;  set; }
         DateTime Date { set; }
+        int DayNumber { set; }
 
         IWin32Window Window { get;  }
-
+        
         event EventHandler<EventArgs> SaveDay;
-        event EventHandler<EventArgs> NewDay;
         event EventHandler<EventArgs> PreviousDay;
         event EventHandler<EventArgs> NextDay;
     }

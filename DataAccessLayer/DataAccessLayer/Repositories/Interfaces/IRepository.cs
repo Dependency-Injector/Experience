@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace DataAccessLayer.Repositories
+namespace DataAccessLayer.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class
     {
