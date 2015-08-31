@@ -5,6 +5,7 @@ using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services;
 using MetroFramework;
 using Model.Entities;
+using Model.Enums;
 using Utilities;
 
 namespace BussinessLogicLayer.Presenters
@@ -57,9 +58,15 @@ namespace BussinessLogicLayer.Presenters
                 else
                 {
                     dayToDisplay = CreateNewDay(DateTime.Now);
+                    //dayToDisplay.Owner = currentUser;
                     daysRepository.Add(dayToDisplay);
                     DisplayDayData(dayToDisplay, daysSinceUserFirstDay);
                 }
+
+                ShowNextPreviousDayButtons(dayToDisplay.Date.Date, currentUser.GetDaysSinceFirstDay());
+
+
+                view.DisplayMode = DisplayMode.View;
             }
             catch (Exception e)
             {
@@ -67,50 +74,98 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
+        private void ShowNextPreviousDayButtons(DateTime dayBeingDisplayed, int daysSinceFirstDay)
+        {
+            if (dayBeingDisplayed.Date.Date < DateTime.Now.Date)
+                ShowNextDayButton(true);
+            else
+                ShowNextDayButton(false);
+
+            if (daysSinceFirstDay > 1)
+                ShowPreviousDayButton(true);
+            else
+                ShowPreviousDayButton(false);
+        }
+
+        private void ShowPreviousDayButton(bool show)
+        {
+            view.ShowPreviousDayButton = show;
+        }
+
+        private void ShowNextDayButton(bool show)
+        {
+            view.ShowNextDayButton = show;
+        }
+
         private void AttachEvents()
         {
-            view.PreviousDay += PreviousDay;
-            view.NextDay += NextDay;
+            view.ShowPreviousDay += ShowPreviousDay;
+            view.ShowNextDay += ShowNextDay;
             view.SaveDay += SaveDay;
+            view.SwitchDisplayMode += SwitchDisplayMode;
         }
 
-        private void NextDay(object sender, EventArgs e)
+        private void ShowNextDay(object sender, EventArgs e)
         {
-            DateTime dateOfDayAhead = dayToDisplay.Date.AddDays(+1);
+            DateTime dateOfDayAhead = GetDayAhead(dayToDisplay.Date);
+            Day dayAhead = null;
             if (daysRepository.HasDay(dateOfDayAhead))
             {
-                Day dayAhead = daysRepository.Get(dateOfDayAhead);
-                int daysSinceDayAhead = GetDaysBetweenDates(dateOfDayAhead, currentUser.JoinDate);
-
-                DisplayDayData(dayAhead, daysSinceDayAhead);
+                dayAhead = daysRepository.Get(dateOfDayAhead);
             }
             else
             {
-
+                dayAhead = CreateNewDay(dateOfDayAhead);
             }
+
+            int daysSinceDayAhead = GetDaysBetweenDates(dateOfDayAhead, currentUser.JoinDate);
+            DisplayDayData(dayAhead, daysSinceDayAhead);
+            ShowNextPreviousDayButtons(dateOfDayAhead, currentUser.GetDaysSinceFirstDay(dateOfDayAhead));
         }
 
-        private void PreviousDay(object sender, EventArgs e)
+        DateTime GetDayBefore(DateTime day)
         {
             DateTime dateOfDayBefore = dayToDisplay.Date.AddDays(-1);
+            return dateOfDayBefore;
+        }
+
+        DateTime GetDayAhead(DateTime day)
+        {
+            DateTime dateOfDayAhead = dayToDisplay.Date.AddDays(+1);
+            return dateOfDayAhead;
+        }
+
+        private void ShowPreviousDay(object sender, EventArgs e)
+        {
+            DateTime dateOfDayBefore = dayToDisplay.Date.AddDays(-1);
+            Day dayBefore = null;
+
             if (daysRepository.HasDay(dateOfDayBefore))
             {
-                Day dayBefore = daysRepository.Get(dateOfDayBefore);
-                int daysSinceDayBefore = GetDaysBetweenDates(dateOfDayBefore, currentUser.JoinDate);
-
-                DisplayDayData(dayBefore, daysSinceDayBefore);
+                dayBefore = daysRepository.Get(dateOfDayBefore);
             }
             else
             {
-                
+                dayBefore = CreateNewDay(dateOfDayBefore);
             }
+
+            int daysSinceDayBefore = GetDaysBetweenDates(dateOfDayBefore, currentUser.JoinDate);
+
+            DisplayDayData(dayBefore, daysSinceDayBefore);
+            ShowNextPreviousDayButtons(dateOfDayBefore, currentUser.GetDaysSinceFirstDay(dateOfDayBefore));
         }
 
         private void SaveDay(object sender, EventArgs e)
         {
             dayToDisplay = daysService.UpdateExistingDay(dayToDisplay.Id, view.Thoughts);
             daysRepository.Update(dayToDisplay);
-        //    historyService.AddHistoryEvent();
+
+            view.DisplayMode = DisplayMode.View;
+        }
+
+        private void SwitchDisplayMode(object sender, SwitchDisplayModeEventArgs e)
+        {
+            view.DisplayMode = e.DisplayMode;
         }
 
         private Day CreateNewDay(DateTime when)
@@ -128,10 +183,10 @@ namespace BussinessLogicLayer.Presenters
             view.Thoughts = day.Thoughts;
         }
 
-        public int GetDaysBetweenDates(DateTime newerDate, DateTime olderDate)
+        private int GetDaysBetweenDates(DateTime newerDate, DateTime olderDate)
         {
             double daysBetweenDates = (newerDate - olderDate).TotalDays;
-            return (int) daysBetweenDates;
+            return (int)daysBetweenDates;
         }
     }
 }

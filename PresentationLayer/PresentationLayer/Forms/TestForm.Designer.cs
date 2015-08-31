@@ -113,13 +113,14 @@ namespace PresentationLayer.Forms
             // 
             // tasksControl1
             // 
+            this.tasksControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tasksControl1.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
             this.tasksControl1.FinishDate = null;
             this.tasksControl1.Location = new System.Drawing.Point(0, 0);
             this.tasksControl1.Name = "tasksControl1";
             this.tasksControl1.ParentTaskId = null;
             this.tasksControl1.Priority = 0;
-            this.tasksControl1.Size = new System.Drawing.Size(1153, 575);
+            this.tasksControl1.Size = new System.Drawing.Size(1152, 578);
             this.tasksControl1.SkillToTrainId = null;
             this.tasksControl1.TabIndex = 0;
             this.tasksControl1.TaskDescription = "Description";
@@ -145,7 +146,7 @@ namespace PresentationLayer.Forms
             // profileControl
             // 
             this.profileControl.Age = 0;
-            this.profileControl.BirthDate = new System.DateTime(2015, 8, 26, 3, 31, 36, 233);
+            this.profileControl.BirthDate = new System.DateTime(2015, 8, 26, 8, 41, 38, 509);
             this.profileControl.Experience = 0;
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
@@ -212,7 +213,7 @@ namespace PresentationLayer.Forms
             // 
             // loggedUserControl1
             // 
-            this.loggedUserControl1.Location = new System.Drawing.Point(987, 24);
+            this.loggedUserControl1.Location = new System.Drawing.Point(926, 24);
             this.loggedUserControl1.LoggedUserName = "[User name]";
             this.loggedUserControl1.Name = "loggedUserControl1";
             this.loggedUserControl1.Size = new System.Drawing.Size(189, 30);
@@ -227,7 +228,6 @@ namespace PresentationLayer.Forms
             this.loginControl1.Size = new System.Drawing.Size(319, 430);
             this.loginControl1.TabIndex = 2;
             this.loginControl1.UseSelectable = true;
-            this.loginControl1.Load += new System.EventHandler(this.loginControl1_Load);
             // 
             // metroColorsBindingSource
             // 
@@ -247,7 +247,7 @@ namespace PresentationLayer.Forms
             // profileControl1
             // 
             this.profileControl1.Age = 0;
-            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 26, 3, 31, 36, 263);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 8, 26, 8, 41, 38, 541);
             this.profileControl1.Experience = 0;
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
@@ -263,6 +263,9 @@ namespace PresentationLayer.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackImagePadding = new System.Windows.Forms.Padding(0, 10, 20, 0);
+            this.BackLocation = MetroFramework.Forms.BackLocation.TopRight;
+            this.BackMaxSize = 50;
             this.ClientSize = new System.Drawing.Size(1200, 700);
             this.Controls.Add(this.loginControl1);
             this.Controls.Add(this.loggedUserControl1);

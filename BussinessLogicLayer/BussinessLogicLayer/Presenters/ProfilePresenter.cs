@@ -7,6 +7,7 @@ using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
+using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -29,7 +30,8 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                Profile profile = ObtainProfile();
+                int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
+                Profile profile = ObtainProfile(currentUserId);
                 if (profile != null)
                 {
                     DisplayProfileInfo(profile);
@@ -54,8 +56,8 @@ namespace BussinessLogicLayer.Presenters
                 historyEventsRepository.Find(
                     he =>
                         he.Type == HistoryEventType.ExperienceGained ||
+                        he.Type == HistoryEventType.LevelGained ||
                         he.Type == HistoryEventType.SkillExperienceGained ||
-                        he.Type == HistoryEventType.SkinlOberwał ||
                         he.Type == HistoryEventType.SkillLevelGained).ToList();
             
             view.ExperienceEventData = GetExperienceEventRows(experienceEvents);
@@ -83,9 +85,9 @@ namespace BussinessLogicLayer.Presenters
             return workUnitsRows;
         }
 
-        private Profile ObtainProfile()
+        private Profile ObtainProfile(int profileId)
         {
-            return profileRepository.HasProfile() ? profileRepository.GetAll().First() : null;
+            return profileRepository.HasProfile() ? profileRepository.First(p => p.Id == profileId) : null;
         }
     }
 }

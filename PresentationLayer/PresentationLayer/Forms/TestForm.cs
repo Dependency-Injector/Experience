@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Timers;
+using System.Windows.Forms;
 using Autofac;
 using BussinessLogicLayer.Interfaces;
 using BussinessLogicLayer.Presenters;
@@ -11,6 +13,7 @@ using Model.Entities;
 using Model.Migrations;
 using Utilities;
 using Utilities.Enums;
+using Timer = System.Windows.Forms.Timer;
 
 namespace PresentationLayer.Forms
 {
@@ -51,6 +54,33 @@ namespace PresentationLayer.Forms
             }
         }
 
+        #region Events
+
+        private void TestForm_Load(object sender, EventArgs e)
+        {
+            this.tasksControl1.SetColumnNames();
+            this.contentTabControl.SelectedTab = tasksTabPage;
+        }
+
+        private void LoginControl1OnLogin(object sender, EventArgs eventArgs)
+        {
+            UpdateUiForLoginState(LoginState.LoggedIn);
+        }
+
+        private void LoggedUserControl1_Logout(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.IsAnyUserLoggedIn = false;
+            ApplicationSettings.Current.CurrentUserId = null;
+            ApplicationSettings.Current.CurrentUserName = null;
+            ApplicationSettings.Save();
+
+            UpdateUiForLoginState(LoginState.LoggedOut);
+        }
+
+        #endregion
+
+        #region Private methods
+
         private void PrepareStyleManager()
         {
             this.StyleManager = optionsControl.GetStyleManager();
@@ -72,8 +102,9 @@ namespace PresentationLayer.Forms
                 taskPresenter = Container.Resolve<TaskPresenter>();
                 profilePresenter = Container.Resolve<ProfilePresenter>();
                 optionsPresenter = Container.Resolve<OptionsPresenter>();
-                historyPresenter = Container.Resolve<HistoryPresenter>();//new HistoryPresenter(this.historyControl2));
-                dayPresenter = Container.Resolve<DayPresenter>(); //new DayPresenter(this.dayControl, new DaysRepository());
+                historyPresenter = Container.Resolve<HistoryPresenter>(); //new HistoryPresenter(this.historyControl2));
+                dayPresenter = Container.Resolve<DayPresenter>();
+                    //new DayPresenter(this.dayControl, new DaysRepository());
 
             }
             catch (Exception e)
@@ -82,7 +113,6 @@ namespace PresentationLayer.Forms
 
             }
         }
-
 
         private void BuildAutofac()
         {
@@ -102,29 +132,24 @@ namespace PresentationLayer.Forms
             builder.RegisterType<TasksRepository>().As<ITasksRepository>();
             builder.RegisterType<WorkUnitsRepository>().As<IWorkUnitsRepository>();
 
-            builder.Register(c => new DayPresenter(c.Resolve<IDayView>(), c.Resolve<IDaysRepository>(), c.Resolve<IProfileRepository>()));
-            builder.Register(c => new ProfilePresenter(c.Resolve<IProfileView>(), c.Resolve<IProfileRepository>(), c.Resolve<IHistoryEventsRepository>()));
+            builder.Register(
+                c =>
+                    new DayPresenter(c.Resolve<IDayView>(), c.Resolve<IDaysRepository>(),
+                        c.Resolve<IProfileRepository>()));
+            builder.Register(
+                c =>
+                    new ProfilePresenter(c.Resolve<IProfileView>(), c.Resolve<IProfileRepository>(),
+                        c.Resolve<IHistoryEventsRepository>()));
             builder.Register(c => new LoginPresenter(c.Resolve<ILoginView>(), c.Resolve<IProfileRepository>()));
-            builder.Register(c => new TaskPresenter(c.Resolve<ITasksView>(), c.Resolve<ITasksRepository>(), c.Resolve<IWorkUnitsRepository>(), c.Resolve<ISkillsRepository>(), c.Resolve<IProfileRepository>()));
+            builder.Register(
+                c =>
+                    new TaskPresenter(c.Resolve<ITasksView>(), c.Resolve<ITasksRepository>(),
+                        c.Resolve<IWorkUnitsRepository>(), c.Resolve<ISkillsRepository>(),
+                        c.Resolve<IProfileRepository>()));
             builder.Register(c => new HistoryPresenter(c.Resolve<IHistoryView>(), c.Resolve<IHistoryEventsRepository>()));
             builder.Register(c => new OptionsPresenter(c.Resolve<IOptionsView>(), c.Resolve<IPreferencesRepository>()));
-            
+
             Container = builder.Build();
-        }
-
-        private void LoginControl1OnLogin(object sender, EventArgs eventArgs)
-        {
-            UpdateUiForLoginState(LoginState.LoggedIn);
-        }
-
-        private void LoggedUserControl1_Logout(object sender, EventArgs e)
-        {
-            ApplicationSettings.Current.IsAnyUserLoggedIn = false;
-            ApplicationSettings.Current.CurrentUserId = null;
-            ApplicationSettings.Current.CurrentUserName = null;
-            ApplicationSettings.Save();
-
-            UpdateUiForLoginState(LoginState.LoggedOut);
         }
 
         private void UpdateUiForLoginState(LoginState loginState)
@@ -132,6 +157,8 @@ namespace PresentationLayer.Forms
             switch (loginState)
             {
                 case LoginState.LoggedIn:
+                    FadeIn();
+
                     loginControl1.Visible = false;
                     contentTabControl.Visible = true;
                     loggedUserControl1.Visible = true;
@@ -149,15 +176,52 @@ namespace PresentationLayer.Forms
             }
         }
 
-        private void TestForm_Load(object sender, EventArgs e)
+        private void FadeIn()
         {
-            this.tasksControl1.SetColumnNames();
-            this.contentTabControl.SelectedTab = tasksTabPage;
+            int duration = DisplaySettings.FadeInTimeInMiliseconds;
+            int steps = 100;
+            Timer timer = new Timer();
+            timer.Interval = duration/steps;
+
+            int currentStep = 0;
+            timer.Tick += (arg1, arg2) =>
+            {
+                Opacity = ((double) currentStep)/steps;
+                currentStep++;
+
+                if (currentStep >= steps)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                }
+            };
+
+            timer.Start();
         }
 
-        private void loginControl1_Load(object sender, EventArgs e)
+        private void FadeOut()
         {
+            int duration = 500; //in milliseconds
+            int steps = 100;
+            Timer timer = new Timer();
+            timer.Interval = duration/steps;
 
+            int currentStep = 0;
+            timer.Tick += (arg1, arg2) =>
+            {
+                Opacity = -(((double) currentStep)/steps);
+                currentStep++;
+
+                if (currentStep >= steps)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                }
+            };
+
+            timer.Start();
         }
+
+        #endregion
     }
 }

@@ -690,7 +690,7 @@ namespace PresentationLayer.Controls
             this.dueDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dueDateTime.Location = new System.Drawing.Point(3, 40);
-            this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dueDateTime.MinimumSize = new System.Drawing.Size(4, 29);
             this.dueDateTime.Name = "dueDateTime";
             this.dueDateTime.Size = new System.Drawing.Size(577, 29);
             this.dueDateTime.TabIndex = 10;
@@ -751,7 +751,7 @@ namespace PresentationLayer.Controls
             this.tasksListTextLabel.Name = "tasksListTextLabel";
             this.tasksListTextLabel.Size = new System.Drawing.Size(114, 29);
             this.tasksListTextLabel.TabIndex = 3;
-            this.tasksListTextLabel.Text = "Active quests";
+            this.tasksListTextLabel.Text = "Active tasks";
             // 
             // tasksListGrid
             // 

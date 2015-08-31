@@ -34,6 +34,9 @@ namespace DataAccessLayer.Repositories
         {
             using (var entities = new EntitiesContext())
             {
+                if (day.Owner != null)
+                    day.Owner = context.Profiles.Find(day.Owner.Id);
+
                 entities.Days.Add(day);
                 entities.Entry(day).State = EntityState.Added;
                 entities.SaveChanges();
@@ -74,6 +77,9 @@ namespace DataAccessLayer.Repositories
         {
             using (EntitiesContext entities = new EntitiesContext())
             {
+                if(day.Owner != null)
+                    context.Entry(day.Owner).State = EntityState.Unchanged;
+
                 entities.Days.Attach(day);
                 entities.Entry(day).State = EntityState.Modified;
                 entities.SaveChanges();

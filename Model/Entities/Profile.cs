@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Utilities;
 
 namespace Model.Entities
 {
@@ -36,5 +37,16 @@ namespace Model.Entities
             return percentCompleted;
         }
 
+        public int GetDaysSinceFirstDay()
+        {
+            int daysSinceUserFirstDay = DateTime.Now.GetDaysSince(JoinDate);
+            return daysSinceUserFirstDay;
+        }
+
+        public int GetDaysSinceFirstDay(DateTime startDay)
+        {
+            int daysSinceUserFirstDay = startDay.Date.GetDaysSince(JoinDate);
+            return daysSinceUserFirstDay;
+        }
     }
 }
