@@ -47,7 +47,6 @@ namespace DataAccessLayer.Services
                 task.Owner = profileRepository.First(p => p.Id == ownerId.Value);
 
             return task;
-            //taskRepository.Add(task);
         }
 
         public Task UpdateExistingTask(int taskId, string name, string description, DateTime dueDateTime, int priority, int? parentTaskId, int? associatedSkillId)

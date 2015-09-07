@@ -13,6 +13,12 @@ namespace DataAccessLayer.Repositories
     {
         private readonly EntitiesContext context;
 
+        public ProfileRepository(String connectionString)
+        {
+            context = new EntitiesContext(connectionString);
+            context.Database.Connection.Open();
+        }
+
         public ProfileRepository()
         {
             context = new EntitiesContext();
@@ -31,7 +37,7 @@ namespace DataAccessLayer.Repositories
 
         public Profile Single(Expression<Func<Profile, bool>> @where)
         {
-            throw new NotImplementedException();
+            return context.Profiles.AsNoTracking().Single(@where);
         }
 
         public Profile First(Expression<Func<Profile, bool>> @where)
@@ -39,9 +45,14 @@ namespace DataAccessLayer.Repositories
             return context.Profiles.AsNoTracking().FirstOrDefault(@where);
         }
 
-        public void Delete(Profile day)
+        public void Delete(Profile profile)
         {
-            throw new NotImplementedException();
+            using (var entities = new EntitiesContext())
+            {
+                entities.Profiles.Remove(profile);
+                entities.Entry(profile).State = EntityState.Deleted;
+                entities.SaveChanges();
+            }
         }
 
         public void Add(Profile profile)
@@ -66,12 +77,12 @@ namespace DataAccessLayer.Repositories
 
         public bool HasProfile()
         {
-            return context.Profiles.Any();
+            return context.Profiles.AsNoTracking().Any();
         }
 
         public Profile Get(int profileId)
         {
-            return context.Profiles.FirstOrDefault(p => p.Id == profileId);
+            return context.Profiles.AsNoTracking().FirstOrDefault(p => p.Id == profileId);
         }
     }
 }

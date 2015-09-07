@@ -11,17 +11,12 @@ namespace DataAccessLayer.Repositories
 {
     public class DaysRepository : IDaysRepository
     {
-        private EntitiesContext context;
+        private readonly EntitiesContext context;
 
         public DaysRepository(String connectionString)
         {
             context = new EntitiesContext(connectionString);
             context.Database.Connection.Open();
-        }
-
-        public Day Get(int dayId)
-        {
-            return context.Days.First(d => d.Id == dayId);
         }
 
         public DaysRepository()
@@ -32,13 +27,26 @@ namespace DataAccessLayer.Repositories
 
         public void Add(Day day)
         {
-            using (var entities = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                if (day.Owner != null)
-                    day.Owner = context.Profiles.Find(day.Owner.Id);
-
                 entities.Days.Add(day);
                 entities.Entry(day).State = EntityState.Added;
+
+                if (day.Owner != null)
+                    entities.Entry(day.Owner).State = EntityState.Unchanged;
+
+                entities.SaveChanges();
+            }
+        }
+
+        public void Update(Day day)
+        {
+            using (EntitiesContext entities = new EntitiesContext())
+            {
+                var oldDay = entities.Days.Find(day.Id);
+                entities.Days.Attach(oldDay);
+                entities.Entry(oldDay).CurrentValues.SetValues(day);
+                entities.Entry(oldDay).State = EntityState.Modified;
                 entities.SaveChanges();
             }
         }
@@ -51,6 +59,24 @@ namespace DataAccessLayer.Repositories
                 entities.Entry(day).State = EntityState.Deleted;
                 entities.SaveChanges();
             }
+        }
+
+        public Day Get(int dayId)
+        {
+            return context.Days.AsNoTracking().First(d => d.Id == dayId);
+        }
+
+        public Day GetByDate(int ownerId, DateTime date)
+        {
+            var days = Find(d => d.Owner.Id == ownerId);
+            foreach (var day in days)
+            {
+                if (day.Date.Date == date.Date)
+                {
+                    return day;
+                }
+            }
+            return null;
         }
 
         public IEnumerable<Day> Find(Expression<Func<Day, bool>> where)
@@ -73,35 +99,9 @@ namespace DataAccessLayer.Repositories
             return context.Days.AsNoTracking().Single(@where);
         }
 
-        public void Update(Day day)
+        public bool HasDay(int ownerId, DateTime dateOfDay)
         {
-            using (EntitiesContext entities = new EntitiesContext())
-            {
-                if(day.Owner != null)
-                    context.Entry(day.Owner).State = EntityState.Unchanged;
-
-                entities.Days.Attach(day);
-                entities.Entry(day).State = EntityState.Modified;
-                entities.SaveChanges();
-            }
-        }
-
-        public Day Get(DateTime date)
-        {
-            var days = GetAll();
-            foreach (var day in days)
-            {
-                if (day.Date.Date == date.Date)
-                {
-                    return day;
-                }
-            }
-            return null;
-}
-
-        public bool HasDay(DateTime dateOfDay)
-        {
-            if (Get(dateOfDay) == null)
+            if (GetByDate(ownerId, dateOfDay) == null)
                 return false;
             else
             {

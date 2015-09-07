@@ -39,26 +39,33 @@
             // 
             // dayNumberLabel
             // 
+            this.dayNumberLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dayNumberLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.dayNumberLabel.Location = new System.Drawing.Point(3, 10);
+            this.dayNumberLabel.Location = new System.Drawing.Point(6, 10);
             this.dayNumberLabel.Name = "dayNumberLabel";
-            this.dayNumberLabel.Size = new System.Drawing.Size(359, 28);
+            this.dayNumberLabel.Size = new System.Drawing.Size(295, 28);
             this.dayNumberLabel.TabIndex = 0;
             this.dayNumberLabel.Text = "Day [Number]";
             this.dayNumberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // dateLabel
             // 
+            this.dateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dateLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.dateLabel.Location = new System.Drawing.Point(3, 38);
+            this.dateLabel.Location = new System.Drawing.Point(6, 38);
             this.dateLabel.Name = "dateLabel";
-            this.dateLabel.Size = new System.Drawing.Size(359, 26);
+            this.dateLabel.Size = new System.Drawing.Size(295, 26);
             this.dateLabel.TabIndex = 0;
             this.dateLabel.Text = "[Day date]";
             this.dateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // thoughtsTextBox
             // 
+            this.thoughtsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.thoughtsTextBox.Enabled = false;
             this.thoughtsTextBox.Lines = new string[] {
         "[Thoughts]"};
@@ -66,19 +73,20 @@
             this.thoughtsTextBox.MaxLength = 32767;
             this.thoughtsTextBox.Multiline = true;
             this.thoughtsTextBox.Name = "thoughtsTextBox";
-            //this.thoughtsTextBox.PasswordChar = '\0';
+            this.thoughtsTextBox.PasswordChar = '\0';
             this.thoughtsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.thoughtsTextBox.SelectedText = "";
-            this.thoughtsTextBox.Size = new System.Drawing.Size(359, 151);
+            this.thoughtsTextBox.Size = new System.Drawing.Size(301, 150);
             this.thoughtsTextBox.TabIndex = 1;
             this.thoughtsTextBox.Text = "[Thoughts]";
             this.thoughtsTextBox.UseSelectable = true;
             // 
             // saveChangesButton
             // 
-            this.saveChangesButton.Location = new System.Drawing.Point(287, 224);
+            this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveChangesButton.Location = new System.Drawing.Point(229, 223);
             this.saveChangesButton.Name = "saveChangesButton";
-            this.saveChangesButton.Size = new System.Drawing.Size(75, 23);
+            this.saveChangesButton.Size = new System.Drawing.Size(75, 31);
             this.saveChangesButton.TabIndex = 2;
             this.saveChangesButton.Text = "Save";
             this.saveChangesButton.UseSelectable = true;
@@ -86,9 +94,10 @@
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(206, 224);
+            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.editButton.Location = new System.Drawing.Point(148, 223);
             this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(75, 23);
+            this.editButton.Size = new System.Drawing.Size(75, 31);
             this.editButton.TabIndex = 2;
             this.editButton.Text = "Edit";
             this.editButton.UseSelectable = true;
@@ -96,9 +105,10 @@
             // 
             // nextDayButton
             // 
-            this.nextDayButton.Location = new System.Drawing.Point(49, 224);
+            this.nextDayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nextDayButton.Location = new System.Drawing.Point(49, 223);
             this.nextDayButton.Name = "nextDayButton";
-            this.nextDayButton.Size = new System.Drawing.Size(39, 23);
+            this.nextDayButton.Size = new System.Drawing.Size(39, 31);
             this.nextDayButton.TabIndex = 3;
             this.nextDayButton.Text = "->";
             this.nextDayButton.UseSelectable = true;
@@ -106,9 +116,10 @@
             // 
             // previousDayButton
             // 
-            this.previousDayButton.Location = new System.Drawing.Point(3, 224);
+            this.previousDayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.previousDayButton.Location = new System.Drawing.Point(3, 223);
             this.previousDayButton.Name = "previousDayButton";
-            this.previousDayButton.Size = new System.Drawing.Size(40, 23);
+            this.previousDayButton.Size = new System.Drawing.Size(40, 31);
             this.previousDayButton.TabIndex = 3;
             this.previousDayButton.Text = "<-";
             this.previousDayButton.UseSelectable = true;
@@ -126,7 +137,7 @@
             this.Controls.Add(this.dateLabel);
             this.Controls.Add(this.dayNumberLabel);
             this.Name = "DayControl";
-            this.Size = new System.Drawing.Size(365, 439);
+            this.Size = new System.Drawing.Size(307, 258);
             this.ResumeLayout(false);
 
         }

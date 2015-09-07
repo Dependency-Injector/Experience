@@ -15,8 +15,8 @@ namespace DataAccessLayer.Utilities
         static Logger()
         {
             String currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            logFileName = logFileName.Replace(':', '-').Trim();
             String fullPath = String.Format(@"{0}\{1}", currentDirectory, logFileName);
-            fullPath = fullPath.Replace(':', '-').Trim();
             logFile = File.AppendText(fullPath);    
         }
 

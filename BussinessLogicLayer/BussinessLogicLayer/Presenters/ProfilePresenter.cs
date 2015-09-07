@@ -30,11 +30,14 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
-                Profile profile = ObtainProfile(currentUserId);
-                if (profile != null)
+                if (ApplicationSettings.Current.IsAnyUserLoggedIn)
                 {
-                    DisplayProfileInfo(profile);
+                    int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
+                    Profile profile = ObtainProfile(currentUserId);
+                    if (profile != null)
+                    {
+                        DisplayProfileInfo(profile);
+                    }
                 }
             }
             catch (Exception e)

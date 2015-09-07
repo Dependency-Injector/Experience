@@ -16,7 +16,8 @@ namespace DataAccessLayer.Services
         private TasksRepository taskRepository;
         private WorkUnitsRepository workUnitsRepository;
         private SkillsRepository skillRepository;
-         
+        private DaysRepository daysRepository;
+        private ProfileRepository profileRepository;
 
         public HistoryService()
         {
@@ -24,6 +25,8 @@ namespace DataAccessLayer.Services
             taskRepository = new TasksRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
             workUnitsRepository = new WorkUnitsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
             skillRepository = new SkillsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+            daysRepository = new DaysRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+            profileRepository = new ProfileRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
         }
 
         public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "", int? xpGained = null, int? levelGained = null)
@@ -53,7 +56,7 @@ namespace DataAccessLayer.Services
             Task task = new Task();
             WorkUnit workUnit = new WorkUnit();
             Skill skill;
-
+            Day day;
 
             switch (type)
             {
@@ -126,6 +129,19 @@ namespace DataAccessLayer.Services
                     break;
 
                 case HistoryEventType.ProfileRemoved:
+                    break;
+                    
+                case HistoryEventType.DaySaved:
+                    if (associatedEntityId.HasValue)
+                    {
+                        day = daysRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Day '{0}' was created.", day.Id);
+                        // TODO
+                        // description.AppendFormat("Day '{0}' was created for user '{1}'.", day.Id, day.Owner.Id);
+                    }
+                    break;
+
+                case HistoryEventType.DayUpdated:
                     break;
 
                 default:

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using Model.Enums;
 
 namespace BussinessLogicLayer.Interfaces
@@ -14,10 +13,11 @@ namespace BussinessLogicLayer.Interfaces
         String Thoughts { get;  set; }
         DateTime Date { set; }
         int DayNumber { set; }
-
-        IWin32Window Window { get;  }
         bool ShowNextDayButton { set; }
         bool ShowPreviousDayButton { set; }
+        bool ShowEditButton { set; }
+        bool ShowSaveChangesButton { set; }
+        bool ThoughtsTextBoxEnabled { set; }
 
         event EventHandler<EventArgs> SaveDay;
         event EventHandler<EventArgs> ShowPreviousDay;

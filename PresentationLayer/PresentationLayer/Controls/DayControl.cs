@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 using Model.Enums;
-using Day = Model.Entities.Day;
 
 namespace PresentationLayer.Controls
 {
@@ -26,42 +24,27 @@ namespace PresentationLayer.Controls
         {
             set { dayNumberLabel.Text = $"Day {value.ToString()}"; }
         }
-        public IWin32Window Window
-        {
-            get { return this.Window; }
-        }
-
         public bool ShowNextDayButton
         {
             set { nextDayButton.Visible = value; }
         }
-
         public bool ShowPreviousDayButton
         {
             set { previousDayButton.Visible = value; }
         }
-
-        public DisplayMode DisplayMode
+        public bool ShowEditButton
         {
-            set
-            {
-                if (value == DisplayMode.Edit)
-                {
-                    editButton.Enabled = false;
-                    saveChangesButton.Enabled = true;
-                    previousDayButton.Enabled = false;
-                    nextDayButton.Enabled = false;
-                }
-                else if (value == DisplayMode.View)
-                {
-                    editButton.Enabled = true;
-                    saveChangesButton.Enabled = false;
-                    previousDayButton.Enabled = true;
-                    nextDayButton.Enabled = true;
-                }
-            }
+            set { editButton.Visible = value; }
         }
-
+        public bool ShowSaveChangesButton
+        {
+            set { saveChangesButton.Visible = value; }
+        }
+        public bool ThoughtsTextBoxEnabled
+        {
+            set { thoughtsTextBox.Enabled = value; }
+        }
+        
         public event EventHandler<EventArgs> SaveDay;
         public event EventHandler<SwitchDisplayModeEventArgs> SwitchDisplayMode;
         public event EventHandler<EventArgs> ShowPreviousDay;

@@ -35,7 +35,7 @@
             // userNameLabel
             // 
             this.userNameLabel.AutoSize = true;
-            this.userNameLabel.Location = new System.Drawing.Point(3, 3);
+            this.userNameLabel.Location = new System.Drawing.Point(5, 4);
             this.userNameLabel.Name = "userNameLabel";
             this.userNameLabel.Size = new System.Drawing.Size(80, 19);
             this.userNameLabel.TabIndex = 0;
@@ -43,11 +43,12 @@
             // 
             // logoutLink
             // 
-            this.logoutLink.Location = new System.Drawing.Point(106, 3);
+            this.logoutLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.logoutLink.Location = new System.Drawing.Point(108, 4);
             this.logoutLink.Name = "logoutLink";
             this.logoutLink.Size = new System.Drawing.Size(75, 23);
             this.logoutLink.TabIndex = 1;
-            this.logoutLink.Text = "(Log out)";
+            this.logoutLink.Text = "Log out";
             this.logoutLink.UseSelectable = true;
             this.logoutLink.Click += new System.EventHandler(this.logoutLink_Click);
             // 

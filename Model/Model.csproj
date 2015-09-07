@@ -124,6 +124,10 @@
     <Compile Include="Migrations\201508260501538_PlayerAndOtherTablesAssociation.Designer.cs">
       <DependentUpon>201508260501538_PlayerAndOtherTablesAssociation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509071947590_DayNumber.cs" />
+    <Compile Include="Migrations\201509071947590_DayNumber.Designer.cs">
+      <DependentUpon>201509071947590_DayNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -184,6 +188,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508260501538_PlayerAndOtherTablesAssociation.resx">
       <DependentUpon>201508260501538_PlayerAndOtherTablesAssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509071947590_DayNumber.resx">
+      <DependentUpon>201509071947590_DayNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

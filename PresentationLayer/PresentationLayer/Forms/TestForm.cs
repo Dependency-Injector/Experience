@@ -38,15 +38,12 @@ namespace PresentationLayer.Forms
             UpdateUiForLoginState(LoginState.LoggedOut);
             BuildAutofac();
             AttachEvents();
-
-
             BindPresentersToControls();
 
             if (ApplicationSettings.Current.IsAnyUserLoggedIn)
             {
                 UpdateUiForLoginState(LoginState.LoggedIn);
                 loggedUserControl1.LoggedUserName = ApplicationSettings.Current.CurrentUserName;
-
             }
             else
             {
@@ -97,20 +94,16 @@ namespace PresentationLayer.Forms
         {
             try
             {
-
                 loginPresenter = Container.Resolve<LoginPresenter>();
                 taskPresenter = Container.Resolve<TaskPresenter>();
                 profilePresenter = Container.Resolve<ProfilePresenter>();
                 optionsPresenter = Container.Resolve<OptionsPresenter>();
-                historyPresenter = Container.Resolve<HistoryPresenter>(); //new HistoryPresenter(this.historyControl2));
+                historyPresenter = Container.Resolve<HistoryPresenter>();
                 dayPresenter = Container.Resolve<DayPresenter>();
-                    //new DayPresenter(this.dayControl, new DaysRepository());
-
             }
             catch (Exception e)
             {
                 Logger.Exception(e);
-
             }
         }
 
