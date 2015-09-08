@@ -1,11 +1,12 @@
 ﻿using System;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Services.Interfaces;
 using Model.Entities;
 using Model.Enums;
 
 namespace DataAccessLayer.Services
 {
-    public class DaysService
+    public class DaysService : IDaysService
     {
         private DaysRepository daysRepository;
         private ProfileRepository profileRepository;

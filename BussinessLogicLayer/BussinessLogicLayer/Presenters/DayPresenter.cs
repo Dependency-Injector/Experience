@@ -1,7 +1,7 @@
 ﻿using System;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
-using DataAccessLayer.Services;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
@@ -14,17 +14,17 @@ namespace BussinessLogicLayer.Presenters
         private readonly IDayView view;
         private readonly IDaysRepository daysRepository;
         private readonly IProfileRepository profileRepository;
-        private readonly DaysService daysService;
+        private readonly IDaysService daysService;
 
         private Day dayBeingDisplayed;
         private Profile currentUser;
 
-        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository)
+        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService)
         {
             this.view = view;
             this.daysRepository = daysRepository;
             this.profileRepository = profileRepository;
-            this.daysService = new DaysService();
+            this.daysService = daysService;
 
             Initialize();
         }
@@ -47,8 +47,8 @@ namespace BussinessLogicLayer.Presenters
 
                     DisplayDayData(dayBeingDisplayed, currentUser.GetDaysSinceFirstDay());
 
-                    ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay());
                     SetDisplayMode(DisplayMode.View);
+                    ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay());
                 }
             }
             catch (Exception e)
@@ -101,7 +101,7 @@ namespace BussinessLogicLayer.Presenters
             else
                 ShowNextDayButton(false);
 
-            if (daysSinceFirstDay > 1)
+            if (daysSinceFirstDay >= 1)
                 ShowPreviousDayButton(true);
             else
                 ShowPreviousDayButton(false);
@@ -172,6 +172,7 @@ namespace BussinessLogicLayer.Presenters
             }
 
             SetDisplayMode(DisplayMode.View);
+            ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dayBeingDisplayed.Date));
         }
 
         private void SwitchDisplayMode(object sender, SwitchDisplayModeEventArgs e)

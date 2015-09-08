@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using DataAccessLayer.Repositories;
-using DataAccessLayer.Utilities;
+using DataAccessLayer.Services.Interfaces;
 using Model.Entities;
 using Model.Enums;
 
 namespace DataAccessLayer.Services
 {
-    public class HistoryService
+    public class HistoryService : IHistoryService
     {
         private HistoryEventsRepository historyRepository;
         private TasksRepository taskRepository;

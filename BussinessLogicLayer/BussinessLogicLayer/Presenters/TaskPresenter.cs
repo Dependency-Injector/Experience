@@ -7,6 +7,7 @@ using DataAccessLayer;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
@@ -22,8 +23,8 @@ namespace BussinessLogicLayer.Presenters
         private readonly IWorkUnitsRepository workUnitsRepository;
         private readonly ISkillsRepository skillsRepository;
         private readonly IProfileRepository profilesRepository;
-        private readonly HistoryService historyService;
-        private readonly TaskService taskService;
+        private readonly IHistoryService historyService;
+        private readonly ITaskService taskService;
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
@@ -32,7 +33,7 @@ namespace BussinessLogicLayer.Presenters
         #endregion
 
         public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
-            IProfileRepository profileRepository)
+            IProfileRepository profileRepository, IHistoryService historyService, ITaskService tasksService)
         {
             this.view = view;
 
@@ -40,8 +41,8 @@ namespace BussinessLogicLayer.Presenters
             this.workUnitsRepository = workUnitsRepository;
             this.skillsRepository = skillsRepository;
             this.profilesRepository = profileRepository;
-            this.taskService = new TaskService();
-            this.historyService = new HistoryService();
+            this.taskService = tasksService;
+            this.historyService = historyService;
 
             Initialize();
         }

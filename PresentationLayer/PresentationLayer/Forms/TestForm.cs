@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Timers;
-using System.Windows.Forms;
 using Autofac;
 using BussinessLogicLayer.Interfaces;
 using BussinessLogicLayer.Presenters;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
+using DataAccessLayer.Services;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
-using MetroFramework;
 using MetroFramework.Forms;
-using Model.Entities;
-using Model.Migrations;
 using Utilities;
 using Utilities.Enums;
 using Timer = System.Windows.Forms.Timer;
@@ -110,6 +107,7 @@ namespace PresentationLayer.Forms
         private void BuildAutofac()
         {
             var builder = new ContainerBuilder();
+
             builder.RegisterInstance(this.dayControl).As<IDayView>();
             builder.RegisterInstance(this.profileControl).As<IProfileView>();
             builder.RegisterInstance(this.tasksControl1).As<ITasksView>();
@@ -125,22 +123,62 @@ namespace PresentationLayer.Forms
             builder.RegisterType<TasksRepository>().As<ITasksRepository>();
             builder.RegisterType<WorkUnitsRepository>().As<IWorkUnitsRepository>();
 
+            builder.RegisterType<DaysService>().As<IDaysService>();
+            builder.RegisterType<TaskService>().As<ITaskService>();
+            builder.RegisterType<HistoryService>().As<IHistoryService>();
+
             builder.Register(
                 c =>
-                    new DayPresenter(c.Resolve<IDayView>(), c.Resolve<IDaysRepository>(),
-                        c.Resolve<IProfileRepository>()));
+                    new DayPresenter(
+                        c.Resolve<IDayView>(),
+                        c.Resolve<IDaysRepository>(),
+                        c.Resolve<IProfileRepository>(),
+                        c.Resolve<IDaysService>()));
+
             builder.Register(
                 c =>
-                    new ProfilePresenter(c.Resolve<IProfileView>(), c.Resolve<IProfileRepository>(),
+                    new ProfilePresenter(
+                        c.Resolve<IProfileView>(),
+                        c.Resolve<IProfileRepository>(),
                         c.Resolve<IHistoryEventsRepository>()));
-            builder.Register(c => new LoginPresenter(c.Resolve<ILoginView>(), c.Resolve<IProfileRepository>()));
+
             builder.Register(
                 c =>
-                    new TaskPresenter(c.Resolve<ITasksView>(), c.Resolve<ITasksRepository>(),
-                        c.Resolve<IWorkUnitsRepository>(), c.Resolve<ISkillsRepository>(),
+                    new LoginPresenter(
+                        c.Resolve<ILoginView>(),
                         c.Resolve<IProfileRepository>()));
-            builder.Register(c => new HistoryPresenter(c.Resolve<IHistoryView>(), c.Resolve<IHistoryEventsRepository>()));
-            builder.Register(c => new OptionsPresenter(c.Resolve<IOptionsView>(), c.Resolve<IPreferencesRepository>()));
+
+            builder.Register(
+                c =>
+                    new TaskPresenter(
+                        c.Resolve<ITasksView>(),
+                        c.Resolve<ITasksRepository>(),
+                        c.Resolve<IWorkUnitsRepository>(),
+                        c.Resolve<ISkillsRepository>(),
+                        c.Resolve<IProfileRepository>(),
+                        c.Resolve<IHistoryService>(),
+                        c.Resolve<ITaskService>()));
+
+            builder.Register(
+                c => 
+                new HistoryPresenter(
+                    c.Resolve<IHistoryView>(), 
+                    c.Resolve<IHistoryEventsRepository>()));
+
+            builder.Register(
+                c => 
+                new OptionsPresenter(
+                    c.Resolve<IOptionsView>(), 
+                    c.Resolve<IPreferencesRepository>()));
+
+            builder.Register(
+                c =>
+                    new TaskService(
+                        c.Resolve<ITasksRepository>(),
+                        c.Resolve<ISkillsRepository>(),
+                        c.Resolve<IWorkUnitsRepository>(),
+                        c.Resolve<IProfileRepository>(),
+                        c.Resolve<IHistoryService>()));
 
             Container = builder.Build();
         }
@@ -174,12 +212,12 @@ namespace PresentationLayer.Forms
             int duration = DisplaySettings.FadeInTimeInMiliseconds;
             int steps = 100;
             Timer timer = new Timer();
-            timer.Interval = duration/steps;
+            timer.Interval = duration / steps;
 
             int currentStep = 0;
             timer.Tick += (arg1, arg2) =>
             {
-                Opacity = ((double) currentStep)/steps;
+                Opacity = ((double)currentStep) / steps;
                 currentStep++;
 
                 if (currentStep >= steps)
@@ -197,12 +235,12 @@ namespace PresentationLayer.Forms
             int duration = 500; //in milliseconds
             int steps = 100;
             Timer timer = new Timer();
-            timer.Interval = duration/steps;
+            timer.Interval = duration / steps;
 
             int currentStep = 0;
             timer.Tick += (arg1, arg2) =>
             {
-                Opacity = -(((double) currentStep)/steps);
+                Opacity = -(((double)currentStep) / steps);
                 currentStep++;
 
                 if (currentStep >= steps)

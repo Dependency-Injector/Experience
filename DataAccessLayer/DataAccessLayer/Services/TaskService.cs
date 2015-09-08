@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Classes;
 using Model.Entities;
@@ -10,21 +9,21 @@ using Model.Enums;
 
 namespace DataAccessLayer.Services
 {
-    public class TaskService
+    public class TaskService : ITaskService
     {
-        private TasksRepository taskRepository;
-        private SkillsRepository skillsRepository;
-        private HistoryService historyService;
-        private WorkUnitsRepository workUnitsRepository;
-        private ProfileRepository profileRepository;
+        private ITasksRepository tasksRepository;
+        private ISkillsRepository skillsRepository;
+        private IHistoryService historyService;
+        private IWorkUnitsRepository workUnitsRepository;
+        private IProfileRepository profileRepository;
 
-        public TaskService()
+        public TaskService(ITasksRepository tasksRepository, ISkillsRepository skillsRepository, IWorkUnitsRepository workUnitsRepository, IProfileRepository profileRepository, IHistoryService historyService)
         {
-            taskRepository = new TasksRepository();
-            skillsRepository = new SkillsRepository();
-            historyService = new HistoryService();
-            workUnitsRepository = new WorkUnitsRepository();
-            profileRepository = new ProfileRepository();
+            this.tasksRepository = tasksRepository;
+            this.skillsRepository = skillsRepository;
+            this.historyService = historyService;
+            this.workUnitsRepository = workUnitsRepository;
+            this.profileRepository = profileRepository;
         }
         
         public Task CreateNewTask(int? ownerId, String name, String description, DateTime dueDateTime, int priority,
@@ -41,7 +40,7 @@ namespace DataAccessLayer.Services
                 task.SkillToTrain = skillsRepository.First(s => s.Id == associatedSkillId);
 
             if (parentTaskId.HasValue)
-                task.Parent = taskRepository.Get(parentTaskId.Value);
+                task.Parent = tasksRepository.Get(parentTaskId.Value);
 
             if (ownerId.HasValue)
                 task.Owner = profileRepository.First(p => p.Id == ownerId.Value);
@@ -51,7 +50,7 @@ namespace DataAccessLayer.Services
 
         public Task UpdateExistingTask(int taskId, string name, string description, DateTime dueDateTime, int priority, int? parentTaskId, int? associatedSkillId)
         {
-            Task task = taskRepository.Get(taskId);
+            Task task = tasksRepository.Get(taskId);
             task.Name = name;
             task.Description = description;
             task.Priority = TaskDefaults.Priorities[priority].Severity;
@@ -62,7 +61,7 @@ namespace DataAccessLayer.Services
                 task.SkillToTrain = skillsRepository.First(s => s.Id == associatedSkillId);
 
             if (parentTaskId.HasValue && parentTaskId.Value > 0)
-                task.Parent = taskRepository.Get(parentTaskId.Value);
+                task.Parent = tasksRepository.Get(parentTaskId.Value);
 
             return task;
         }
@@ -71,7 +70,7 @@ namespace DataAccessLayer.Services
         {
             taskToFinish.IsFinished = true;
             taskToFinish.FinishedDate = DateTime.Now;
-            taskRepository.Update(taskToFinish);
+            tasksRepository.Update(taskToFinish);
         }
 
         /// <summary>
@@ -81,11 +80,11 @@ namespace DataAccessLayer.Services
         /// <returns></returns>
         public bool IsFinishingAllowed(int id)
         {
-            var task = taskRepository.Get(id);
+            var task = tasksRepository.Get(id);
             if (task.IsFinished)
                 return false;
 
-            var childrenTasks = taskRepository.Find(t => t.Parent.Id == id);
+            var childrenTasks = tasksRepository.Find(t => t.Parent.Id == id);
             foreach (var childrenTask in childrenTasks)
             {
                 if (!childrenTask.IsFinished)
@@ -97,7 +96,7 @@ namespace DataAccessLayer.Services
 
         public void SaveTask(Task taskToSave)
         {
-            taskRepository.Add(taskToSave);
+            tasksRepository.Add(taskToSave);
             
             historyService.AddHistoryEvent(HistoryEventType.TaskCreated, taskToSave.Id);
         }

@@ -58,6 +58,9 @@
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITasksRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWorkUnitsRepository.cs" />
+    <Compile Include="Services\Interfaces\IHistoryService.cs" />
+    <Compile Include="Services\Interfaces\IDaysService.cs" />
+    <Compile Include="Services\Interfaces\ITaskService.cs" />
     <Compile Include="Utilities\ExperienceDefaultValues.cs" />
     <Compile Include="Repositories\DaysRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />

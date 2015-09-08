@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using Model.Entities;
 
@@ -19,7 +18,6 @@ namespace BussinessLogicLayer.Presenters
         {
             this.view = view;
             this.historyRepository = historyEventsRepository;
-            historyRepository = new HistoryEventsRepository();
 
             Initialize();
         }
