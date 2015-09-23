@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
@@ -63,10 +62,10 @@ namespace PresentationLayer.Controls
         {
             set
             {
-                if(value)
-                    ShowActionButtons(false);
-                else
-                    ShowActionButtons(true);
+                //if(value)
+                //    ShowActionButtons(false);
+                //else
+                //    ShowActionButtons(true);
             }
         }
         public DateTime? FinishDate { get; set; }
@@ -84,6 +83,10 @@ namespace PresentationLayer.Controls
         public string AssociatedSkillName
         {
             set { attachedSkillNameLabel.Text = value; }
+        }
+        public string ParentTaskName
+        {
+            set { parentTaskLabel.Text = value; }
         }
 
         public bool IsDirty
@@ -106,13 +109,16 @@ namespace PresentationLayer.Controls
             }
             set
             {
-                if (value.HasValue)
+                if (skillToTrainComboBox.Items.Count > 0)
                 {
-                    skillToTrainComboBox.SelectItemByValue(value.Value);
-                }
-                else
-                {
-                    skillToTrainComboBox.SelectedValue = 0;
+                    if (value.HasValue)
+                    {
+                        skillToTrainComboBox.SelectItemByValue(value.Value);
+                    }
+                    else
+                    {
+                        skillToTrainComboBox.SelectedIndex = 0;
+                    }
                 }
             }
         }
@@ -132,11 +138,14 @@ namespace PresentationLayer.Controls
             }
             set
             {
-                if (value.HasValue)
-                    parentTaskComboBox.SelectItemByValue(value.Value);
-                else
+                if (parentTaskComboBox.Items.Count > 0)
                 {
-                    parentTaskComboBox.SelectedValue = 0;
+                    if (value.HasValue)
+                        parentTaskComboBox.SelectItemByValue(value.Value);
+                    else
+                    {
+                        parentTaskComboBox.SelectedIndex = 0;
+                    }
                 }
             }
         }
@@ -170,6 +179,41 @@ namespace PresentationLayer.Controls
                 FillSkillsComboBox(value);
             }
         }
+
+        public bool TaskListOpacity
+        {
+            set
+            {
+                tasksListGrid.UseCustomBackColor = true;
+                Color color = Color.FromArgb(100, 100, 100, 100);
+                tasksListGrid.BackgroundColor = color;
+            }
+        }
+
+
+        public bool TaskListEnabled
+        {
+            set
+            {
+                tasksListGrid.Enabled = value;
+            }
+        }
+
+        public bool TaskDetailsPanelVisible
+        {
+            set { taskDetailsPanel.Visible = value; }
+        }
+
+        public bool TaskEditPanelVisible
+        {
+            set { taskEditPanel.Visible = value; }
+        }
+
+        public bool ActionButtonsVisible
+        {
+            set { taskActionButtonsPanel.Visible = value; }
+        }
+
         public ICollection Tasks
         {
             set
@@ -184,11 +228,14 @@ namespace PresentationLayer.Controls
 
         public event EventHandler<EventArgs> NewTask;
         public event EventHandler<EventArgs> SaveTask;
+        public event EventHandler<EventArgs> EditTask;
         public event EventHandler<EventArgs> RemoveTask;
+        public event EventHandler<EventArgs> CancelTaskEditing;
         public event EventHandler<EventArgs> FinishTask;
 
         public event EventHandler<EventArgs> PreviousTask;
         public event EventHandler<EventArgs> NextTask;
+        public event EventHandler<EventArgs> ParentTaskChanged;
         public event EventHandler<int> SelectTask;
 
         public event EventHandler<EventArgs> StartWorkingOnTask;
@@ -203,7 +250,6 @@ namespace PresentationLayer.Controls
         private void TasksControl_Load(object sender, EventArgs e)
         {
             IsDirty = true;
-            SetDisplayMode(DisplayMode.View);
         }
 
         private void nextTaskButton_Click(object sender, EventArgs e)
@@ -222,13 +268,12 @@ namespace PresentationLayer.Controls
         {
             if (NewTask != null)
                 NewTask(this, e);
-
-            SetDisplayMode(DisplayMode.Edit);
         }
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            SetDisplayMode(DisplayMode.Edit);
+            if (EditTask != null)
+                EditTask(this, e);
         }
 
         private void finishedButton_Click(object sender, EventArgs e)
@@ -241,21 +286,18 @@ namespace PresentationLayer.Controls
         {
             if (SaveTask != null)
                 SaveTask(this, e);
-
-            SetDisplayMode(DisplayMode.View);
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            SetDisplayMode(DisplayMode.View);
+            if (CancelTaskEditing != null)
+                CancelTaskEditing(this, e);
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
             if (RemoveTask != null)
                 RemoveTask(this, e);
-
-            SetDisplayMode(DisplayMode.View);
         }
 
         private void tasksListGrid_SelectionChanged(object sender, EventArgs e)
@@ -349,25 +391,15 @@ namespace PresentationLayer.Controls
                 ShowFinishedTasks(this, showFinishedTasksCheckBox.Checked);
         }
 
-
+        private void parentTaskComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ParentTaskChanged != null)
+                ParentTaskChanged(this, e);
+        }
         #endregion Events
 
         #region Private methods
-
-        private void SetDisplayMode(DisplayMode displayMode)
-        {
-            if (displayMode == DisplayMode.Edit)
-            {
-                taskDetailsPanel.Hide();
-                taskEditPanel.Show();
-            }
-            else if (displayMode == DisplayMode.View)
-            {
-                taskEditPanel.Hide();
-                taskDetailsPanel.Show();
-            }
-        }
-
+        
         public void SetColumnNames()
         {
             taskIdColumn.Name = "Id";
@@ -377,19 +409,6 @@ namespace PresentationLayer.Controls
         private void ShowActionButtons(bool show)
         {
                 taskActionButtonsPanel.Visible = show;
-         /*       finishedButton.Visible = false;
-                editButton.Visible = false;
-                startWorkButton.Visible = false;
-                stopWorkingButton.Visible = false;
-            }
-            else
-            {
-                editButton.Visible = true;
-                finishedButton.Visible = true;
-                startWorkButton.Visible = true;
-                stopWorkingButton.Visible = true;
-                startWorkButton.Enabled = true;
-            }*/
         }
 
         private void SelectPriority(int value)
@@ -532,6 +551,7 @@ namespace PresentationLayer.Controls
             workUnitsPanel.Visible = show;
         }
         #endregion
+
 
     }
 }

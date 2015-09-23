@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
 namespace PresentationLayer.Controls
 {
-    public partial class LoggedUserControl : MetroUserControl
+    public partial class LoggedUserControl : MetroUserControl, ILoggedUserView
     {
         public String LoggedUserName
         {
@@ -24,14 +17,12 @@ namespace PresentationLayer.Controls
         public LoggedUserControl()
         {
             InitializeComponent();
-
-            
         }
 
         private void logoutLink_Click(object sender, EventArgs e)
         {
             if (Logout != null)
-                Logout(this, new EventArgs());
+                Logout(this, e);
         }
     }
 }

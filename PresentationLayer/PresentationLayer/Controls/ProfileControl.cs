@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 using Model.Entities;
@@ -25,16 +26,8 @@ namespace PresentationLayer.Controls
             set { historyLabel.Text = value; }
         }
 
-        public int Age
+        public String Age
         {
-            get
-            {
-                int age;
-                if (int.TryParse(ageLabel.Text, out age))
-                    return age;
-                else
-                    return 0;
-            }
             set { ageLabel.Text = value.ToString(); }
         }
 
@@ -106,7 +99,7 @@ namespace PresentationLayer.Controls
             {
             }
         }
-        
+
         public ICollection ExperienceEventData
         {
             set
@@ -122,11 +115,48 @@ namespace PresentationLayer.Controls
             }
         }
 
+        public bool RemoveSkillColumnVisible
+        {
+            set { RemoveSkillButtonColumn.Visible = value; }
+        }
+
+        public bool AddNewSkillPanelVisible
+        {
+            set { addNewSkillPanel.Visible = value; }
+        }
+
+        public bool EditProfileButtonVisible
+        {
+            set { editProfileButton.Visible = value; }
+        }
+
+        public bool CancelChangesButtonVisible
+        {
+            set { cancelChangesButton.Visible = value; }
+        }
+
+        public bool SaveChangesButtonVisible
+        {
+            set { saveChangesButton.Visible = value; }
+        }
+
+        public string NewSkillName
+        {
+            get { return newSkillNameTextBox.Text; }
+            set { newSkillNameTextBox.Text = value; }
+        }
+
+        public event EventHandler<EventArgs> AddNewSkill;
+        public event EventHandler<int> RemoveSkill;
+        public event EventHandler<EventArgs> EditProfile;
+        public event EventHandler<EventArgs> SaveChanges;
+        public event EventHandler<EventArgs> CancelChanges;
+
         private void FillExperienceEventsGrid(ICollection worksUnitRowData)
         {
             if (worksUnitRowData != null && worksUnitRowData.Count > 0)
             {
-                foreach (var workUnit in worksUnitRowData) 
+                foreach (var workUnit in worksUnitRowData)
                 {
                     if (workUnit is string[])
                     {
@@ -150,17 +180,21 @@ namespace PresentationLayer.Controls
                 if (skillObject is Skill)
                 {
                     Skill skill = (Skill)skillObject;
-                    skillsGrid.Columns[0].Name = "Name";
-                    skillsGrid.Columns[1].Name = "Level";
-                    skillsGrid.Columns[2].Name = "Exp";
-                    skillsGrid.Columns[3].Name = "NewLevelProgress";
+                    skillsGrid.Columns[0].Name = "Id";
+                    skillsGrid.Columns[1].Name = "Name";
+                    skillsGrid.Columns[2].Name = "Level";
+                    skillsGrid.Columns[3].Name = "Exp";
+                    skillsGrid.Columns[4].Name = "NewLevelProgress";
+                    skillsGrid.Columns[5].Name = "Remove";
 
                     string[] skillRow = new string[]
                     {
+                        $"{skill.Id}",
                         $"{skill.Name}",
                         $"{skill.Level}",
                         $"{skill.Experience}",
-                        $"{skill.GetNewLevelProgress()}"
+                        $"{skill.GetNewLevelProgress()}",
+                        "X"
                     };
 
                     skillsGrid.Rows.Add(skillRow);
@@ -169,17 +203,53 @@ namespace PresentationLayer.Controls
         }
 
         private void editButton_Click(object sender, EventArgs e)
-        { 
-            editButton.Enabled = false;
-            saveButton.Enabled = true;
+        {
+            if (EditProfile != null)
+                EditProfile(this, e);
+
+            //editProfileButton.Enabled = false;
+            //saveChangesButton.Enabled = true;
             //TODO
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            editButton.Enabled = true;
-            saveButton.Enabled = false;
+            if (SaveChanges != null)
+                SaveChanges(this, e);
+
+           // editProfileButton.Enabled = true;
+            //saveChangesButton.Enabled = false;
             // TODO
+        }
+
+        private void addNewSkillButton_Click(object sender, EventArgs e)
+        {
+            if (AddNewSkill != null)
+                AddNewSkill(this, e);
+        }
+
+        private void cancelChangesButton_Click(object sender, EventArgs e)
+        {
+            if (CancelChanges != null)
+                CancelChanges(this, e);
+        }
+
+        private void skillsGrid_CellContentClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
+        {
+            if (RemoveSkill != null)
+            {
+                var senderGrid = (MetroGrid) sender;
+
+                if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+                {
+                    var idColumn = senderGrid.Rows[e.RowIndex].Cells["Id"];
+                    int skillToRemoveId;
+                    if (int.TryParse(idColumn.Value.ToString(), out skillToRemoveId))
+                    {
+                        RemoveSkill(this, skillToRemoveId);
+                    }
+                }
+            }
         }
     }
 }

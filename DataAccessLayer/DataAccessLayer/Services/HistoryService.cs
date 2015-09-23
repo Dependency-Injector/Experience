@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using Model.Entities;
 using Model.Enums;
@@ -9,21 +10,33 @@ namespace DataAccessLayer.Services
 {
     public class HistoryService : IHistoryService
     {
-        private HistoryEventsRepository historyRepository;
-        private TasksRepository taskRepository;
-        private WorkUnitsRepository workUnitsRepository;
-        private SkillsRepository skillRepository;
-        private DaysRepository daysRepository;
-        private ProfileRepository profileRepository;
+        private IHistoryEventsRepository historyRepository;
+        private ITasksRepository tasksRepository;
+        private IWorkUnitsRepository workUnitsRepository;
+        private ISkillsRepository skillsRepository;
+        private IDaysRepository daysRepository;
+        private IProfileRepository profilesRepository;
 
         public HistoryService()
         {
             historyRepository = new HistoryEventsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            taskRepository = new TasksRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+            tasksRepository = new TasksRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
             workUnitsRepository = new WorkUnitsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            skillRepository = new SkillsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+            skillsRepository = new SkillsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
             daysRepository = new DaysRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            profileRepository = new ProfileRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+            profilesRepository = new ProfileRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+        }
+
+        public HistoryService(IHistoryEventsRepository historyEventsRepository, ITasksRepository tasksRepository,
+            IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
+            IDaysRepository daysRepository, IProfileRepository profilesRepository)
+        {
+            this.historyRepository = historyEventsRepository;
+            this.tasksRepository = tasksRepository;
+            this.workUnitsRepository = workUnitsRepository;
+            this.skillsRepository = skillsRepository;
+            this.daysRepository = daysRepository;
+            this.profilesRepository = profilesRepository;
         }
 
         public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "", int? xpGained = null, int? levelGained = null)
@@ -31,7 +44,7 @@ namespace DataAccessLayer.Services
             HistoryEvent historyEvent = new HistoryEvent();
             historyEvent.Occured = DateTime.Now;
             historyEvent.Type = type;
-           
+
             if (!String.IsNullOrEmpty(description))
             {
                 historyEvent.Description = description;
@@ -54,21 +67,22 @@ namespace DataAccessLayer.Services
             WorkUnit workUnit = new WorkUnit();
             Skill skill;
             Day day;
+            Profile profile;
 
             switch (type)
             {
                 case HistoryEventType.TaskCreated:
-                    task = taskRepository.Get(associatedEntityId.Value);
+                    task = tasksRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Task of id = '{0}' and name = '{1}' was created.", task.Id, task.Name);
                     break;
 
                 case HistoryEventType.TaskEdited:
-                    task = taskRepository.Get(associatedEntityId.Value);
+                    task = tasksRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Task of id = '{0}' and name = '{1}' was edited.", task.Id, task.Name);
                     break;
 
                 case HistoryEventType.TaskRemoved:
-                    task = taskRepository.Get(associatedEntityId.Value);
+                    task = tasksRepository.Get(associatedEntityId.Value);
                     if (task != null)
                         description.AppendFormat("Task of id = '{0}' and name = '{1}' was removed.", task.Id, task.Name);
                     else
@@ -76,13 +90,13 @@ namespace DataAccessLayer.Services
                     break;
 
                 case HistoryEventType.TaskFinished:
-                    task = taskRepository.Get(associatedEntityId.Value);
+                    task = tasksRepository.Get(associatedEntityId.Value);
                     description.AppendFormat("Task of id = '{0}' and name = '{1}' was finished.", task.Id, task.Name);
                     break;
 
                 case HistoryEventType.WorkStarted:
                     workUnit = workUnitsRepository.Get(associatedEntityId.Value);
-                    if(workUnit != null)
+                    if (workUnit != null)
                         description.AppendFormat("Work Unit of id = '{0}' was started.", workUnit.Id);
                     else
                         description.AppendFormat("Work started.");
@@ -105,7 +119,7 @@ namespace DataAccessLayer.Services
                 case HistoryEventType.SkillExperienceGained:
                     if (associatedEntityId.HasValue)
                     {
-                        skill = skillRepository.Get(associatedEntityId.Value);
+                        skill = skillsRepository.Get(associatedEntityId.Value);
                         description.AppendFormat("Skill of id = '{0}' ({1}) gained {2} xp.", skill.Id, skill.Name, gainedXp.Value);
                     }
                     break;
@@ -113,21 +127,52 @@ namespace DataAccessLayer.Services
                 case HistoryEventType.SkillLevelGained:
                     if (associatedEntityId.HasValue)
                     {
-                        skill = skillRepository.Get(associatedEntityId.Value);
+                        skill = skillsRepository.Get(associatedEntityId.Value);
                         description.AppendFormat("Skill of id = '{0}' ({1}) gained {2} xp.", skill.Id, skill.Name,
                             gainedLevel.Value);
                     }
                     break;
 
+                case HistoryEventType.SkillCreated:
+                    if (associatedEntityId.HasValue)
+                    {
+                        skill = skillsRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Skill of id = '{0}' and name = '{1}' was created.", skill.Id, skill.Name);
+                    }
+                    break;
+
+                case HistoryEventType.SkillEdited:
+                    if (associatedEntityId.HasValue)
+                    {
+                        skill = skillsRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Skill of id = '{0}' and name = '{1}' was edited.", skill.Id, skill.Name);
+                    }
+                    break;
+
+                case HistoryEventType.SkillRemoved:
+                    description.AppendFormat("Skill  was removed.");
+                    break;
+
                 case HistoryEventType.ProfileCreated:
+                    if (associatedEntityId.HasValue)
+                    {
+                        profile = profilesRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Profile of id = '{0}' and name = '{1}' was created.", profile.Id, profile.Name);
+                    }
                     break;
 
                 case HistoryEventType.ProfileEdited:
+                    if (associatedEntityId.HasValue)
+                    {
+                        profile = profilesRepository.Get(associatedEntityId.Value);
+                        description.AppendFormat("Profile of id = '{0}' and name = '{1}' was edited.", profile.Id, profile.Name);
+                    }
                     break;
 
                 case HistoryEventType.ProfileRemoved:
+                    description.AppendFormat("Profile was removed.");
                     break;
-                    
+
                 case HistoryEventType.DaySaved:
                     if (associatedEntityId.HasValue)
                     {
@@ -141,10 +186,11 @@ namespace DataAccessLayer.Services
                 case HistoryEventType.DayUpdated:
                     break;
 
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-            
+
             return description.ToString();
         }
 

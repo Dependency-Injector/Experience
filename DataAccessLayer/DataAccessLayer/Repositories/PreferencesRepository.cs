@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccessLayer.Repositories.Interfaces;
 using Model;
 using Model.Entities;
@@ -48,11 +46,11 @@ namespace DataAccessLayer.Repositories
 
         public void Update(Preferences preferences)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entitites = new EntitiesContext())
             {
-                context.Preferences.Attach(preferences);
-                context.Entry(preferences).State = EntityState.Modified;
-                context.SaveChanges();
+                entitites.Preferences.Attach(preferences);
+                entitites.Entry(preferences).State = EntityState.Modified;
+                entitites.SaveChanges();
             }
         }
         

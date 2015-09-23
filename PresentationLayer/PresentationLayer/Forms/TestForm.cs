@@ -22,6 +22,7 @@ namespace PresentationLayer.Forms
         private HistoryPresenter historyPresenter;
         private DayPresenter dayPresenter;
         private LoginPresenter loginPresenter;
+        private LoggedUserPresenter loggedUserPresenter;
 
         private static IContainer Container { get; set; }
 
@@ -32,15 +33,13 @@ namespace PresentationLayer.Forms
             ApplicationSettings.Load();
 
             PrepareStyleManager();
-            UpdateUiForLoginState(LoginState.LoggedOut);
             BuildAutofac();
-            AttachEvents();
             BindPresentersToControls();
+            AttachEvents();
 
             if (ApplicationSettings.Current.IsAnyUserLoggedIn)
             {
                 UpdateUiForLoginState(LoginState.LoggedIn);
-                loggedUserControl1.LoggedUserName = ApplicationSettings.Current.CurrentUserName;
             }
             else
             {
@@ -52,22 +51,18 @@ namespace PresentationLayer.Forms
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            this.tasksControl1.SetColumnNames();
+            this.tasksControl.SetColumnNames();
             this.contentTabControl.SelectedTab = tasksTabPage;
         }
 
-        private void LoginControl1OnLogin(object sender, EventArgs eventArgs)
+        private void LoginControlOnLogin(object sender, EventArgs eventArgs)
         {
             UpdateUiForLoginState(LoginState.LoggedIn);
+            BindPresentersToControls();
         }
 
-        private void LoggedUserControl1_Logout(object sender, EventArgs e)
+        private void LoggedUserControl_Logout(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.IsAnyUserLoggedIn = false;
-            ApplicationSettings.Current.CurrentUserId = null;
-            ApplicationSettings.Current.CurrentUserName = null;
-            ApplicationSettings.Save();
-
             UpdateUiForLoginState(LoginState.LoggedOut);
         }
 
@@ -83,8 +78,8 @@ namespace PresentationLayer.Forms
 
         private void AttachEvents()
         {
-            loginControl1.Login += LoginControl1OnLogin;
-            loggedUserControl1.Logout += LoggedUserControl1_Logout;
+            loginControl.Login += LoginControlOnLogin;
+            loggedUserControl.Logout += LoggedUserControl_Logout;
         }
 
         private void BindPresentersToControls()
@@ -92,6 +87,8 @@ namespace PresentationLayer.Forms
             try
             {
                 loginPresenter = Container.Resolve<LoginPresenter>();
+
+                loggedUserPresenter = Container.Resolve<LoggedUserPresenter>();
                 taskPresenter = Container.Resolve<TaskPresenter>();
                 profilePresenter = Container.Resolve<ProfilePresenter>();
                 optionsPresenter = Container.Resolve<OptionsPresenter>();
@@ -108,12 +105,19 @@ namespace PresentationLayer.Forms
         {
             var builder = new ContainerBuilder();
 
+            #region Instance (interfaces) registration
+
             builder.RegisterInstance(this.dayControl).As<IDayView>();
             builder.RegisterInstance(this.profileControl).As<IProfileView>();
-            builder.RegisterInstance(this.tasksControl1).As<ITasksView>();
+            builder.RegisterInstance(this.tasksControl).As<ITasksView>();
             builder.RegisterInstance(this.historyControl2).As<IHistoryView>();
-            builder.RegisterInstance(this.loginControl1).As<ILoginView>();
+            builder.RegisterInstance(this.loginControl).As<ILoginView>();
             builder.RegisterInstance(this.optionsControl).As<IOptionsView>();
+            builder.RegisterInstance(this.loggedUserControl).As<ILoggedUserView>();
+
+            #endregion
+
+            #region Type registration
 
             builder.RegisterType<DaysRepository>().As<IDaysRepository>();
             builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
@@ -126,6 +130,11 @@ namespace PresentationLayer.Forms
             builder.RegisterType<DaysService>().As<IDaysService>();
             builder.RegisterType<TaskService>().As<ITaskService>();
             builder.RegisterType<HistoryService>().As<IHistoryService>();
+            builder.RegisterType<SkillsService>().As<ISkillsService>();
+
+            #endregion
+
+            #region Presenters registration
 
             builder.Register(
                 c =>
@@ -140,7 +149,8 @@ namespace PresentationLayer.Forms
                     new ProfilePresenter(
                         c.Resolve<IProfileView>(),
                         c.Resolve<IProfileRepository>(),
-                        c.Resolve<IHistoryEventsRepository>()));
+                        c.Resolve<IHistoryEventsRepository>(),
+                        c.Resolve<ISkillsService>()));
 
             builder.Register(
                 c =>
@@ -160,16 +170,26 @@ namespace PresentationLayer.Forms
                         c.Resolve<ITaskService>()));
 
             builder.Register(
-                c => 
-                new HistoryPresenter(
-                    c.Resolve<IHistoryView>(), 
-                    c.Resolve<IHistoryEventsRepository>()));
+                c =>
+                    new HistoryPresenter(
+                        c.Resolve<IHistoryView>(),
+                        c.Resolve<IHistoryEventsRepository>()));
+
+            builder.Register(
+                c =>
+                    new OptionsPresenter(
+                        c.Resolve<IOptionsView>(),
+                        c.Resolve<IPreferencesRepository>()));
 
             builder.Register(
                 c => 
-                new OptionsPresenter(
-                    c.Resolve<IOptionsView>(), 
-                    c.Resolve<IPreferencesRepository>()));
+                    new LoggedUserPresenter(
+                        c.Resolve<ILoggedUserView>(),
+                        c.Resolve<IProfileRepository>()));
+
+            #endregion
+
+            #region Services registration
 
             builder.Register(
                 c =>
@@ -180,6 +200,30 @@ namespace PresentationLayer.Forms
                         c.Resolve<IProfileRepository>(),
                         c.Resolve<IHistoryService>()));
 
+            builder.Register(
+                c =>
+                    new HistoryService(
+                        c.Resolve<IHistoryEventsRepository>(),
+                        c.Resolve<ITasksRepository>(),
+                        c.Resolve<IWorkUnitsRepository>(),
+                        c.Resolve<ISkillsRepository>(),
+                        c.Resolve<IDaysRepository>(),
+                        c.Resolve<IProfileRepository>()));
+
+            builder.Register(
+                c => new DaysService(
+                    c.Resolve<IDaysRepository>(),
+                    c.Resolve<IProfileRepository>(),
+                    c.Resolve<IHistoryService>()));
+
+            builder.Register(
+                c => new SkillsService(
+                    c.Resolve<ISkillsRepository>(),
+                    c.Resolve<IProfileRepository>(),
+                    c.Resolve<IHistoryService>()));
+
+            #endregion
+
             Container = builder.Build();
         }
 
@@ -188,18 +232,19 @@ namespace PresentationLayer.Forms
             switch (loginState)
             {
                 case LoginState.LoggedIn:
-                    FadeIn();
+                    //FadeIn();
 
-                    loginControl1.Visible = false;
+                    loginControl.Visible = false;
                     contentTabControl.Visible = true;
-                    loggedUserControl1.Visible = true;
-                    loggedUserControl1.LoggedUserName = ApplicationSettings.Current.CurrentUserName;
+                    loggedUserControl.Visible = true;
+                    loggedUserControl.LoggedUserName = ApplicationSettings.Current.CurrentUserName;
                     break;
 
                 case LoginState.LoggedOut:
-                    loginControl1.Visible = true;
+                    loginControl.Visible = true;
                     contentTabControl.Visible = false;
-                    loggedUserControl1.Visible = false;
+                    loggedUserControl.Visible = false;
+                    loggedUserControl.LoggedUserName = null;
                     break;
 
                 default:

@@ -29,69 +29,76 @@ namespace DataAccessLayer.Repositories
         {
             return context.Tasks.AsNoTracking().FirstOrDefault(t => t.Id == taskId);
         }
+
         public IEnumerable<Task> GetAll()
         {
             return context.Tasks.AsNoTracking();
         }
+
         public IEnumerable<Task> Find(Expression<Func<Task, bool>> @where)
         {
             return context.Tasks.AsNoTracking().Where(where);
         }
+
         public Task Single(Expression<Func<Task, bool>> @where)
         {
             return context.Tasks.AsNoTracking().Single(where);
         }
+
         public Task First(Expression<Func<Task, bool>> @where)
         {
             return context.Tasks.AsNoTracking().First(where);
         }
+
         public void Add(Task task)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                context.Tasks.Add(task);
-                context.Entry(task).State = EntityState.Added;
+                entities.Tasks.Add(task);
+                entities.Entry(task).State = EntityState.Added;
 
                 if(task.Parent != null)
-                    context.Entry(task.Parent).State = EntityState.Unchanged;
+                    entities.Entry(task.Parent).State = EntityState.Unchanged;
                 
                 if(task.SkillToTrain != null)
-                    context.Entry(task.SkillToTrain).State = EntityState.Unchanged;
+                    entities.Entry(task.SkillToTrain).State = EntityState.Unchanged;
 
                 if(task.Owner != null)
-                    context.Entry(task.Owner).State = EntityState.Unchanged;
+                    entities.Entry(task.Owner).State = EntityState.Unchanged;
 
-                context.SaveChanges();
+                entities.SaveChanges();
             }
         }
+
         public void Update(Task task)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                var oldTask = context.Tasks.Find(task.Id);
-                context.Tasks.Attach(oldTask);
+                var oldTask = entities.Tasks.Find(task.Id);
+                entities.Tasks.Attach(oldTask);
 
-                context.Entry(oldTask).CurrentValues.SetValues(task);
+                entities.Entry(oldTask).CurrentValues.SetValues(task);
 
                 if (task.SkillToTrain != null)
-                    oldTask.SkillToTrain = context.Skills.Find(task.SkillToTrain.Id);
+                    oldTask.SkillToTrain = entities.Skills.Find(task.SkillToTrain.Id);
 
                 if (task.Parent != null)
-                    oldTask.Parent = context.Tasks.Find(task.Parent.Id);
+                    oldTask.Parent = entities.Tasks.Find(task.Parent.Id);
 
-                context.Entry(oldTask).State = EntityState.Modified;
+                entities.Entry(oldTask).State = EntityState.Modified;
                 
-                context.SaveChanges();
+                entities.SaveChanges();
             }
         }
+
         public void Delete(Task day)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                context.Tasks.Attach(day);
-                context.Tasks.Remove(day);
-                context.Entry(day).State = EntityState.Deleted;
-                context.SaveChanges();
+                entities.Tasks.Attach(day);
+                entities.Tasks.Remove(day);
+                entities.Entry(day).State = EntityState.Deleted;
+                entities.SaveChanges();
             }
         }
 

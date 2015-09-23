@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccessLayer.Repositories.Interfaces;
 using Model;
 using Model.Entities;
@@ -29,12 +27,12 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Skill> Find(Expression<Func<Skill, bool>> @where)
         {
-            throw new NotImplementedException();
+            return context.Skills.AsNoTracking().Where(@where);
         }
 
         public Skill Single(Expression<Func<Skill, bool>> @where)
         {
-            throw new NotImplementedException();
+            return context.Skills.AsNoTracking().Single(@where);
         }
 
         public Skill First(Expression<Func<Skill, bool>> @where)
@@ -42,23 +40,39 @@ namespace DataAccessLayer.Repositories
             return context.Skills.AsNoTracking().First(where);
         }
 
-        public void Delete(Skill day)
+        public void Delete(Skill skill)
         {
-            throw new NotImplementedException();
+            using (EntitiesContext entities = new EntitiesContext())
+            {
+                entities.Skills.Attach(skill);
+                entities.Skills.Remove(skill);
+                entities.Entry(skill).State = EntityState.Deleted;
+                entities.SaveChanges();
+            }
         }
 
-        public void Add(Skill entity)
+        public void Add(Skill skill)
         {
-            throw new NotImplementedException();
+            using (EntitiesContext entities = new EntitiesContext())
+            {
+                entities.Skills.Add(skill);
+                entities.Entry(skill).State = EntityState.Added;
+                
+                if(skill.Owner != null)
+                    entities.Entry(skill.Owner).State = EntityState.Unchanged;
+
+                entities.SaveChanges();
+            }
         }
 
         public void Update(Skill skill)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            //TODO
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                context.Skills.Attach(skill);
-                context.Entry(skill).State = EntityState.Modified;
-                context.SaveChanges();
+                entities.Skills.Attach(skill);
+                entities.Entry(skill).State = EntityState.Modified;
+                entities.SaveChanges();
             }
         }
         

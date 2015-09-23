@@ -48,18 +48,25 @@
             this.skillsPanel = new MetroFramework.Controls.MetroPanel();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             this.skillsGrid = new MetroFramework.Controls.MetroGrid();
+            this.editProfileButton = new MetroFramework.Controls.MetroButton();
+            this.saveChangesButton = new MetroFramework.Controls.MetroButton();
+            this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
+            this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.newSkillNameTextBox = new MetroFramework.Controls.MetroTextBox();
+            this.addNewSkillButton = new MetroFramework.Controls.MetroButton();
+            this.addNewSkillPanel = new MetroFramework.Controls.MetroPanel();
+            this.cancelChangesButton = new MetroFramework.Controls.MetroButton();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.skillNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.skillLevelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.skillExperienceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.skillNewLevelProgressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.editButton = new MetroFramework.Controls.MetroButton();
-            this.saveButton = new MetroFramework.Controls.MetroButton();
-            this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
-            this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RemoveSkillButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.skillsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).BeginInit();
+            this.addNewSkillPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -169,7 +176,7 @@
             this.skillsPanel.HorizontalScrollbarSize = 10;
             this.skillsPanel.Location = new System.Drawing.Point(3, 247);
             this.skillsPanel.Name = "skillsPanel";
-            this.skillsPanel.Size = new System.Drawing.Size(479, 141);
+            this.skillsPanel.Size = new System.Drawing.Size(479, 86);
             this.skillsPanel.TabIndex = 2;
             this.skillsPanel.VerticalScrollbarBarColor = true;
             this.skillsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -208,10 +215,12 @@
             this.skillsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.skillsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.skillsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id,
             this.skillNameColumn,
             this.skillLevelColumn,
             this.skillExperienceColumn,
-            this.skillNewLevelProgressColumn});
+            this.skillNewLevelProgressColumn,
+            this.RemoveSkillButtonColumn});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -239,50 +248,29 @@
             this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.skillsGrid.Size = new System.Drawing.Size(479, 129);
             this.skillsGrid.TabIndex = 2;
+            this.skillsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.skillsGrid_CellContentClick);
             // 
-            // skillNameColumn
+            // editProfileButton
             // 
-            this.skillNameColumn.HeaderText = "Name";
-            this.skillNameColumn.Name = "skillNameColumn";
-            this.skillNameColumn.ReadOnly = true;
+            this.editProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editProfileButton.Location = new System.Drawing.Point(6, 419);
+            this.editProfileButton.Name = "editProfileButton";
+            this.editProfileButton.Size = new System.Drawing.Size(106, 30);
+            this.editProfileButton.TabIndex = 2;
+            this.editProfileButton.Text = "Edit";
+            this.editProfileButton.UseSelectable = true;
+            this.editProfileButton.Click += new System.EventHandler(this.editButton_Click);
             // 
-            // skillLevelColumn
+            // saveChangesButton
             // 
-            this.skillLevelColumn.HeaderText = "Level";
-            this.skillLevelColumn.Name = "skillLevelColumn";
-            this.skillLevelColumn.ReadOnly = true;
-            // 
-            // skillExperienceColumn
-            // 
-            this.skillExperienceColumn.HeaderText = "Exp";
-            this.skillExperienceColumn.Name = "skillExperienceColumn";
-            this.skillExperienceColumn.ReadOnly = true;
-            // 
-            // skillNewLevelProgressColumn
-            // 
-            this.skillNewLevelProgressColumn.HeaderText = "New level";
-            this.skillNewLevelProgressColumn.Name = "skillNewLevelProgressColumn";
-            this.skillNewLevelProgressColumn.ReadOnly = true;
-            // 
-            // editButton
-            // 
-            this.editButton.Location = new System.Drawing.Point(6, 382);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(106, 30);
-            this.editButton.TabIndex = 2;
-            this.editButton.Text = "Edit";
-            this.editButton.UseSelectable = true;
-            this.editButton.Click += new System.EventHandler(this.editButton_Click);
-            // 
-            // saveButton
-            // 
-            this.saveButton.Location = new System.Drawing.Point(119, 382);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(106, 30);
-            this.saveButton.TabIndex = 2;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseSelectable = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveChangesButton.Location = new System.Drawing.Point(376, 419);
+            this.saveChangesButton.Name = "saveChangesButton";
+            this.saveChangesButton.Size = new System.Drawing.Size(106, 30);
+            this.saveChangesButton.TabIndex = 2;
+            this.saveChangesButton.Text = "Save";
+            this.saveChangesButton.UseSelectable = true;
+            this.saveChangesButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // workUnitsGrid
             // 
@@ -334,7 +322,7 @@
             this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.workUnitsGrid.Size = new System.Drawing.Size(471, 403);
+            this.workUnitsGrid.Size = new System.Drawing.Size(471, 440);
             this.workUnitsGrid.TabIndex = 3;
             // 
             // workStartTimeColumn
@@ -349,13 +337,104 @@
             this.workEndedTimeColumn.Name = "workEndedTimeColumn";
             this.workEndedTimeColumn.ReadOnly = true;
             // 
+            // newSkillNameTextBox
+            // 
+            this.newSkillNameTextBox.Lines = new string[] {
+        "(New skil name)"};
+            this.newSkillNameTextBox.Location = new System.Drawing.Point(3, 3);
+            this.newSkillNameTextBox.MaxLength = 32767;
+            this.newSkillNameTextBox.Name = "newSkillNameTextBox";
+            this.newSkillNameTextBox.PasswordChar = '\0';
+            this.newSkillNameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.newSkillNameTextBox.SelectedText = "";
+            this.newSkillNameTextBox.Size = new System.Drawing.Size(349, 23);
+            this.newSkillNameTextBox.TabIndex = 4;
+            this.newSkillNameTextBox.Text = "(New skil name)";
+            this.newSkillNameTextBox.UseSelectable = true;
+            // 
+            // addNewSkillButton
+            // 
+            this.addNewSkillButton.Location = new System.Drawing.Point(353, 3);
+            this.addNewSkillButton.Name = "addNewSkillButton";
+            this.addNewSkillButton.Size = new System.Drawing.Size(120, 23);
+            this.addNewSkillButton.TabIndex = 5;
+            this.addNewSkillButton.Text = "Add";
+            this.addNewSkillButton.UseSelectable = true;
+            this.addNewSkillButton.Click += new System.EventHandler(this.addNewSkillButton_Click);
+            // 
+            // addNewSkillPanel
+            // 
+            this.addNewSkillPanel.Controls.Add(this.addNewSkillButton);
+            this.addNewSkillPanel.Controls.Add(this.newSkillNameTextBox);
+            this.addNewSkillPanel.HorizontalScrollbarBarColor = true;
+            this.addNewSkillPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.addNewSkillPanel.HorizontalScrollbarSize = 10;
+            this.addNewSkillPanel.Location = new System.Drawing.Point(6, 384);
+            this.addNewSkillPanel.Name = "addNewSkillPanel";
+            this.addNewSkillPanel.Size = new System.Drawing.Size(476, 29);
+            this.addNewSkillPanel.TabIndex = 6;
+            this.addNewSkillPanel.VerticalScrollbarBarColor = true;
+            this.addNewSkillPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.addNewSkillPanel.VerticalScrollbarSize = 10;
+            // 
+            // cancelChangesButton
+            // 
+            this.cancelChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cancelChangesButton.Location = new System.Drawing.Point(264, 419);
+            this.cancelChangesButton.Name = "cancelChangesButton";
+            this.cancelChangesButton.Size = new System.Drawing.Size(106, 30);
+            this.cancelChangesButton.TabIndex = 2;
+            this.cancelChangesButton.Text = "Cancel";
+            this.cancelChangesButton.UseSelectable = true;
+            this.cancelChangesButton.Click += new System.EventHandler(this.cancelChangesButton_Click);
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // skillNameColumn
+            // 
+            this.skillNameColumn.HeaderText = "Name";
+            this.skillNameColumn.Name = "skillNameColumn";
+            this.skillNameColumn.ReadOnly = true;
+            // 
+            // skillLevelColumn
+            // 
+            this.skillLevelColumn.HeaderText = "Level";
+            this.skillLevelColumn.Name = "skillLevelColumn";
+            this.skillLevelColumn.ReadOnly = true;
+            // 
+            // skillExperienceColumn
+            // 
+            this.skillExperienceColumn.HeaderText = "Exp";
+            this.skillExperienceColumn.Name = "skillExperienceColumn";
+            this.skillExperienceColumn.ReadOnly = true;
+            // 
+            // skillNewLevelProgressColumn
+            // 
+            this.skillNewLevelProgressColumn.HeaderText = "New level";
+            this.skillNewLevelProgressColumn.Name = "skillNewLevelProgressColumn";
+            this.skillNewLevelProgressColumn.ReadOnly = true;
+            // 
+            // RemoveSkillButtonColumn
+            // 
+            this.RemoveSkillButtonColumn.HeaderText = "Remove";
+            this.RemoveSkillButtonColumn.Name = "RemoveSkillButtonColumn";
+            this.RemoveSkillButtonColumn.ReadOnly = true;
+            this.RemoveSkillButtonColumn.Text = "X";
+            // 
             // ProfileControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.addNewSkillPanel);
             this.Controls.Add(this.workUnitsGrid);
-            this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.editButton);
+            this.Controls.Add(this.cancelChangesButton);
+            this.Controls.Add(this.saveChangesButton);
+            this.Controls.Add(this.editProfileButton);
             this.Controls.Add(this.skillsPanel);
             this.Controls.Add(this.experienceProgressBar);
             this.Controls.Add(this.levelTextLabel);
@@ -369,10 +448,11 @@
             this.Controls.Add(this.ageTextLabel);
             this.Controls.Add(this.nameLabel);
             this.Name = "ProfileControl";
-            this.Size = new System.Drawing.Size(962, 418);
+            this.Size = new System.Drawing.Size(962, 455);
             this.skillsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).EndInit();
+            this.addNewSkillPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -393,15 +473,21 @@
         private MetroFramework.Controls.MetroLabel experienceLabel;
         private MetroFramework.Controls.MetroPanel skillsPanel;
         private MetroFramework.Controls.MetroGrid skillsGrid;
+        private MetroFramework.Controls.MetroPanel metroPanel1;
+        private MetroFramework.Controls.MetroButton editProfileButton;
+        private MetroFramework.Controls.MetroButton saveChangesButton;
+        private MetroFramework.Controls.MetroGrid workUnitsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn workStartTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn workEndedTimeColumn;
+        private MetroFramework.Controls.MetroTextBox newSkillNameTextBox;
+        private MetroFramework.Controls.MetroButton addNewSkillButton;
+        private MetroFramework.Controls.MetroPanel addNewSkillPanel;
+        private MetroFramework.Controls.MetroButton cancelChangesButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn skillNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn skillLevelColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn skillExperienceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn skillNewLevelProgressColumn;
-        private MetroFramework.Controls.MetroPanel metroPanel1;
-        private MetroFramework.Controls.MetroButton editButton;
-        private MetroFramework.Controls.MetroButton saveButton;
-        private MetroFramework.Controls.MetroGrid workUnitsGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn workStartTimeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn workEndedTimeColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn RemoveSkillButtonColumn;
     }
 }

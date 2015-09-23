@@ -21,12 +21,18 @@ namespace Model.Entities
 
         public virtual ICollection<Skill> Skills { get; set; }
 
-        public int AgeInYears()
+        public int? AgeInYears()
         {
-   
-            TimeSpan age = DateTime.Now - BirthDate.Value;
-            int years = (int)(age.TotalDays / 365);
-            return years;
+            if (BirthDate.HasValue)
+            {
+                TimeSpan age = DateTime.Now - BirthDate.Value;
+                int years = (int) (age.TotalDays/365);
+                return years;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public int LevelProgressInPercent()

@@ -11,5 +11,6 @@ namespace DataAccessLayer.Services.Interfaces
         void SaveTask(Task taskToSave);
         Task UpdateExistingTask(int taskId, string name, string description, DateTime dueDateTime, int priority, int? parentTaskId, int? associatedSkillId);
         void WorkedOnTask(Task task, WorkUnit workUnit);
+        void UpdateTask(Task taskToUpdate);
     }
 }

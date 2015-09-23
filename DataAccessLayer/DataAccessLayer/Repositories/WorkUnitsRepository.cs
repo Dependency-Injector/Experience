@@ -9,7 +9,7 @@ using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
-    public class WorkUnitsRepository : IRepository<WorkUnit>, IWorkUnitsRepository
+    public class WorkUnitsRepository : IWorkUnitsRepository
     {
         private readonly EntitiesContext context;
         
@@ -63,22 +63,22 @@ namespace DataAccessLayer.Repositories
         }
         public void Update(WorkUnit workUnit)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                context.WorkUnits.Attach(workUnit);
-                context.Entry(workUnit).State = EntityState.Modified;
-                context.Entry(workUnit.Task).State = EntityState.Modified;
-                context.SaveChanges();
+                entities.WorkUnits.Attach(workUnit);
+                entities.Entry(workUnit).State = EntityState.Modified;
+                entities.Entry(workUnit.Task).State = EntityState.Modified;
+                entities.SaveChanges();
             }
         }
         public void Delete(WorkUnit day)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                context.WorkUnits.Attach(day);
-                context.WorkUnits.Remove(day);
-                context.Entry(day).State = EntityState.Deleted;
-                context.SaveChanges();
+                entities.WorkUnits.Attach(day);
+                entities.WorkUnits.Remove(day);
+                entities.Entry(day).State = EntityState.Deleted;
+                entities.SaveChanges();
             }
         }
 

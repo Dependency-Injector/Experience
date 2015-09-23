@@ -1,5 +1,4 @@
 ﻿using System;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
@@ -119,6 +118,12 @@ namespace DataAccessLayer.Services
                 }
             }
 
+        }
+
+        public void UpdateTask(Task taskToUpdate)
+        {
+            tasksRepository.Update(taskToUpdate);
+            historyService.AddHistoryEvent(HistoryEventType.TaskEdited, taskToUpdate.Id);
         }
     }
 }

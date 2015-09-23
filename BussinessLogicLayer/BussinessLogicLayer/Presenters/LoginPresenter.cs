@@ -28,7 +28,18 @@ namespace BussinessLogicLayer.Presenters
             try
             {
                 AttachEvents();
-                DisplayUserProfilesList();
+                // Last time user did not logged out - he is still logged in, here is code that lets him in
+                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
+                {
+                    Profile currentUserProfile = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
+                    if (currentUserProfile != null)
+                        SaveLoggedUserInfoToApplicationSettings(currentUserProfile);
+                }
+                // No user is currently logged in - display list of profiles to select one of them
+                else
+                {
+                    DisplayUserProfilesList();
+                }
             }
             catch (Exception e)
             {
@@ -62,7 +73,7 @@ namespace BussinessLogicLayer.Presenters
             view.DisplayMode = DisplayMode.Edit;
         }
 
-        private void LogUser(Profile userToLog)
+        private void SaveLoggedUserInfoToApplicationSettings(Profile userToLog)
         {
             ApplicationSettings.Current.IsAnyUserLoggedIn = true;
             ApplicationSettings.Current.CurrentUserId = userToLog.Id;
@@ -75,14 +86,14 @@ namespace BussinessLogicLayer.Presenters
             if (view.UserForBeingLoggedInId.HasValue)
             {
                 var userToLogin = profilesRepository.Get(view.UserForBeingLoggedInId.Value);
-                if(userToLogin != null) 
-                    LogUser(userToLogin);
+                if (userToLogin != null)
+                    SaveLoggedUserInfoToApplicationSettings(userToLogin);
             }
             else
             {
                 Profile newUser = CreateNewUser(view.UserNameToRegister);
                 profilesRepository.Add(newUser);
-                LogUser(newUser);
+                SaveLoggedUserInfoToApplicationSettings(newUser);
             }
 
             view.DisplayMode = DisplayMode.View;

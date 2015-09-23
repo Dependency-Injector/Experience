@@ -67,11 +67,11 @@ namespace DataAccessLayer.Repositories
 
         public void Update(Profile profile)
         {
-            using (EntitiesContext context = new EntitiesContext())
+            using (EntitiesContext entities = new EntitiesContext())
             {
-                context.Profiles.Attach(profile);
-                context.Entry(profile).State = EntityState.Modified;
-                context.SaveChanges();
+                entities.Profiles.Attach(profile);
+                entities.Entry(profile).State = EntityState.Modified;
+                entities.SaveChanges();
             }
         }
 

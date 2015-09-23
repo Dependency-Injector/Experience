@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
-using DataAccessLayer;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
-using DataAccessLayer.Services;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
@@ -19,7 +16,7 @@ namespace BussinessLogicLayer.Presenters
     {
         #region Private fields
         private readonly ITasksView view;
-        private readonly ITasksRepository taskRepository;
+        private readonly ITasksRepository tasksRepository;
         private readonly IWorkUnitsRepository workUnitsRepository;
         private readonly ISkillsRepository skillsRepository;
         private readonly IProfileRepository profilesRepository;
@@ -30,6 +27,7 @@ namespace BussinessLogicLayer.Presenters
         private int selectedTaskIndex;
         private bool isTaskNew = true;
         private bool isPlayerCurrentlyWorking;
+        private Profile currentUser;
         #endregion
 
         public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
@@ -37,7 +35,7 @@ namespace BussinessLogicLayer.Presenters
         {
             this.view = view;
 
-            this.taskRepository = tasksRepository;
+            this.tasksRepository = tasksRepository;
             this.workUnitsRepository = workUnitsRepository;
             this.skillsRepository = skillsRepository;
             this.profilesRepository = profileRepository;
@@ -53,21 +51,27 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                AttachEvents();
-                tasks = ObtainTasksList();
-                tasks = SortTasks(tasks);
-
-                if (tasks != null && tasks.Count > 0)
+                if (ApplicationSettings.Current.IsAnyUserLoggedIn)
                 {
-                    DisplaySingleTaskInfo(tasks[0]);
-                    DisplayTasksList(tasks);
-                    selectedTaskIndex = tasks.Count - 1;
-                }
-                else
-                {
-                    DisplayBlankTask();
-                }
+                    currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
 
+                    AttachEvents();
+                    tasks = ObtainTasksList();
+                    tasks = SortTasks(tasks);
+
+                    if (tasks != null && tasks.Count > 0)
+                    {
+                        DisplaySingleTaskInfoForUser(tasks[0], currentUser.Id);
+                        DisplayTasksList(tasks);
+                        selectedTaskIndex = tasks.Count - 1;
+                    }
+                    else
+                    {
+                        DisplayBlankTaskForUser(currentUser.Id);
+                    }
+
+                    SetDisplayMode(DisplayMode.View);
+                }
             }
             catch (Exception e)
             {
@@ -80,7 +84,7 @@ namespace BussinessLogicLayer.Presenters
             if (selectedTaskIndex > 0)
             {
                 selectedTaskIndex--;
-                DisplaySingleTaskInfo(GetTaskAtIndex(selectedTaskIndex));
+                DisplaySingleTaskInfoForUser(GetTaskAtIndex(selectedTaskIndex), currentUser.Id);
                 view.IsDirty = false;
             }
         }
@@ -90,17 +94,18 @@ namespace BussinessLogicLayer.Presenters
             if (selectedTaskIndex + 1 < tasks.Count)
             {
                 selectedTaskIndex++;
-                DisplaySingleTaskInfo(GetTaskAtIndex(selectedTaskIndex));
+                DisplaySingleTaskInfoForUser(GetTaskAtIndex(selectedTaskIndex), currentUser.Id);
                 view.IsDirty = false;
             }
         }
 
         private void New(object sender, EventArgs e)
         {
-            DisplayBlankTask();
+            DisplayBlankTaskForUser(currentUser.Id);
             isTaskNew = true;
             view.IsDirty = false;
             selectedTaskIndex = tasks.Count - 1;
+            SetDisplayMode(DisplayMode.Edit);
         }
 
         private void Save(object sender, EventArgs e)
@@ -111,14 +116,12 @@ namespace BussinessLogicLayer.Presenters
             if (isTaskNew)
             {
                 taskToSave = taskService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-                //taskToSave.Owner = currentUser;
                 taskService.SaveTask(taskToSave);
             }
             else
             {
                 taskToSave = taskService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-                taskRepository.Update(taskToSave);
-                historyService.AddHistoryEvent(HistoryEventType.TaskEdited, taskToSave.Id);
+                taskService.UpdateTask(taskToSave);
             }
 
             isTaskNew = false;
@@ -128,6 +131,17 @@ namespace BussinessLogicLayer.Presenters
             tasks = SortTasks(tasks);
             DisplayTasksList(tasks);
             SelectTask(taskToSave);
+            SetDisplayMode(DisplayMode.View);
+        }
+
+        private void Edit(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.Edit);
+        }
+
+        private void CancelTaskEditing(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.View);
         }
 
         private void Remove(object sender, EventArgs e)
@@ -151,7 +165,7 @@ namespace BussinessLogicLayer.Presenters
                 //     return;
             }
 
-            taskRepository.Delete(task);
+            tasksRepository.Delete(task);
 
             historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
 
@@ -161,7 +175,7 @@ namespace BussinessLogicLayer.Presenters
 
             if (selectedTaskIndex > 0)
             {
-                DisplaySingleTaskInfo(tasks[selectedTaskIndex]);
+                DisplaySingleTaskInfoForUser(tasks[selectedTaskIndex], currentUser.Id);
                 isTaskNew = false;
             }
             else
@@ -171,6 +185,7 @@ namespace BussinessLogicLayer.Presenters
             }
 
             DisplayTasksList(tasks);
+            SetDisplayMode(DisplayMode.View);
         }
 
         private void Finish(object sender, EventArgs e)
@@ -182,8 +197,9 @@ namespace BussinessLogicLayer.Presenters
             SkillTrainer.GiveXp(xpForTaskFinish);
             historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
 
-            DisplaySingleTaskInfo(taskToFinish);
+            DisplaySingleTaskInfoForUser(taskToFinish, currentUser.Id);
             DisplayTasksList(tasks);
+            SetDisplayMode(DisplayMode.View);
         }
 
         private void StopWorkingOnTask(object sender, EventArgs e)
@@ -201,7 +217,7 @@ namespace BussinessLogicLayer.Presenters
                 workUnitsRepository.Add(currentWorkUnit);
                 historyService.AddHistoryEvent(HistoryEventType.WorkStopped, currentWorkUnit.Id);
                 
-                Task task = taskRepository.Get(currentWorkUnit.Task.Id);
+                Task task = tasksRepository.Get(currentWorkUnit.Task.Id);
                 taskService.WorkedOnTask(task, currentWorkUnit);
                 
                 DisplayWorkUnitsList(task.WorkUnits.ToList());
@@ -227,6 +243,8 @@ namespace BussinessLogicLayer.Presenters
         {
             view.NewTask += New;
             view.SaveTask += Save;
+            view.EditTask += Edit;
+            view.CancelTaskEditing += CancelTaskEditing;
             view.RemoveTask += Remove;
             view.FinishTask += Finish;
             view.PreviousTask += ShowPrevious;
@@ -235,6 +253,23 @@ namespace BussinessLogicLayer.Presenters
             view.StartWorkingOnTask += StartWorkingOnTask;
             view.StopWorkingOnTask += StopWorkingOnTask;
             view.ShowFinishedTasks += ShowFinishedTasks;
+            view.ParentTaskChanged += ParentTaskChanged;
+        }
+
+        private void ParentTaskChanged(object sender, EventArgs e)
+        {
+            // Change task max due date when it exceeds parent task due date
+            if (view.ParentTaskId.HasValue)
+            {
+                Task parentTask = tasksRepository.Get(view.ParentTaskId.Value);
+                if (parentTask != null)
+                {
+                    if (view.DueDate > parentTask.DueDate)
+                    {
+                        view.DueDate = parentTask.DueDate;
+                    }
+                }
+            }
         }
 
         private void ShowFinishedTasks(object sender, bool e)
@@ -244,7 +279,7 @@ namespace BussinessLogicLayer.Presenters
 
         private List<Task> ObtainTasksList()
         {
-            return taskRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn ? taskRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId).ToList() : new List<Task>();
+            return tasksRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn ? tasksRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId).ToList() : new List<Task>();
         }
 
         private ICollection GetTasksRows(List<Task> tasksToGetRowsFrom)
@@ -270,10 +305,16 @@ namespace BussinessLogicLayer.Presenters
 
                     String priority = task.GetPriorityLiteral();
 
+                    String name = String.Empty;
+                    if (task.Parent != null)
+                        name = GetTaskNameForNestedTask(task);
+                    else
+                        name = task.Name;
+
                     string[] taskRow = new string[]
                     {
                         $"{task.Id}",
-                        $"{task.Name}",
+                        $"{name}",
                         $"{deadlineLiteral}",
                         $"{timeSpent}",
                         $"{priority}",
@@ -285,6 +326,18 @@ namespace BussinessLogicLayer.Presenters
             }
 
             return taskRows;
+        }
+
+        private string GetTaskNameForNestedTask(Task taskWithParent)
+        {
+            String name = taskWithParent.Name;
+            Task tempTask = taskWithParent;
+            while (tempTask.Parent != null)
+            {
+                name = "   " + name;
+                tempTask = tempTask.Parent;
+            }
+            return name;
         }
 
         private ICollection GetWorkUnitsRows(List<WorkUnit> unitsOfWork)
@@ -358,7 +411,7 @@ namespace BussinessLogicLayer.Presenters
             var indexOfTask = tasks.FindIndex(t => t.Id == id);
             var selectedTask = GetTaskAtIndex(indexOfTask);
             selectedTaskIndex = indexOfTask;
-            DisplaySingleTaskInfo(selectedTask);
+            DisplaySingleTaskInfoForUser(selectedTask, currentUser.Id);
         }
 
         private void SelectTask(Task task)
@@ -385,7 +438,7 @@ namespace BussinessLogicLayer.Presenters
             view.Tasks = GetTasksRows(tasksList);
         }
 
-        private void DisplayBlankTask()
+        private void DisplayBlankTaskForUser(int userId)
         {
             view.TaskName = "[Name something to be done]";
             view.Priority = 1;
@@ -395,14 +448,15 @@ namespace BussinessLogicLayer.Presenters
             view.TotalWorkload = "-";
             view.TotalExperienceGained = "-";
             view.IsFinished = false;
+            view.ActionButtonsVisible = true;
             view.FinishDate = null;
             view.WorkUnits = null;
-            view.SkillsAvailable = GetSkillsRows(skillsRepository.GetAll().ToList());
+            view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == userId).ToList());
             view.SkillToTrainId = null;
             view.ParentTaskId = null;
         }
 
-        private void DisplaySingleTaskInfo(Task task)
+        private void DisplaySingleTaskInfoForUser(Task task, int userId)
         {
             view.TaskName = task.Name;
             view.TaskDescription = task.Description;
@@ -411,14 +465,32 @@ namespace BussinessLogicLayer.Presenters
             view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
             view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
             view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGained() : "-";
-            view.IsFinished = task.IsFinished;
+            //view.IsFinished = task.IsFinished;
+            view.ActionButtonsVisible = !task.IsFinished;
             view.FinishDate = task.FinishedDate;
             view.WorkUnits = GetWorkUnitsRows(task.WorkUnits.ToList());
-            view.SkillsAvailable = GetSkillsRows(skillsRepository.GetAll().ToList());
+            view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == userId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;
             view.CanBeFinished = taskService.IsFinishingAllowed(task.Id);
+            
             isTaskNew = false;
+        }
+
+        private void SetDisplayMode(DisplayMode displayMode)
+        {
+            if (displayMode == DisplayMode.Edit)
+            {
+                view.TaskDetailsPanelVisible = false;
+                view.TaskEditPanelVisible = true;
+                view.TaskListEnabled = false;
+            }
+            else if (displayMode == DisplayMode.View)
+            {
+                view.TaskDetailsPanelVisible = true;
+                view.TaskEditPanelVisible = false;
+                view.TaskListEnabled = true;
+            }
         }
 
         #endregion

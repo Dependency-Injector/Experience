@@ -3,6 +3,7 @@ using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
+using DataAccessLayer.Utilities;
 using Model.Entities;
 
 namespace BussinessLogicLayer.Presenters
@@ -40,8 +41,7 @@ namespace BussinessLogicLayer.Presenters
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
-                //MetroMessageBox.Show(null, ex.Message);
+                Logger.Exception(ex);
             }
         }
 

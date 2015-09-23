@@ -1,5 +1,6 @@
 ﻿using System;
 using DataAccessLayer.Repositories;
+using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using Model.Entities;
 using Model.Enums;
@@ -8,15 +9,23 @@ namespace DataAccessLayer.Services
 {
     public class DaysService : IDaysService
     {
-        private DaysRepository daysRepository;
-        private ProfileRepository profileRepository;
-        private HistoryService historyService;
+        private IDaysRepository daysRepository;
+        private IProfileRepository profileRepository;
+        private IHistoryService historyService;
 
         public DaysService()
         {
             daysRepository = new DaysRepository();
             profileRepository = new ProfileRepository();
             historyService = new HistoryService();
+        }
+
+        public DaysService(IDaysRepository daysRepository, IProfileRepository profileRepository,
+            IHistoryService historyService)
+        {
+            this.daysRepository = daysRepository;
+            this.profileRepository = profileRepository;
+            this.historyService = historyService;
         }
 
         public Day CreateNewDay(int? ownerId, DateTime date, String thoughts)
