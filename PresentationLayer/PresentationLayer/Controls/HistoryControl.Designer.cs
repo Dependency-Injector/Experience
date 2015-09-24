@@ -38,10 +38,11 @@
             this.tasksEventsCheckBox = new MetroFramework.Controls.MetroCheckBox();
             this.experienceEventsCheckBox = new MetroFramework.Controls.MetroCheckBox();
             this.workUnitsEventsCheckBox = new MetroFramework.Controls.MetroCheckBox();
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.historyEventsFilters = new MetroFramework.Controls.MetroPanel();
             this.displayInfoAboutTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.profileAndSkillsEventsCheckBox = new MetroFramework.Controls.MetroCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.historyEventsGrid)).BeginInit();
-            this.metroPanel1.SuspendLayout();
+            this.historyEventsFilters.SuspendLayout();
             this.SuspendLayout();
             // 
             // historyEventsGrid
@@ -79,7 +80,7 @@
             this.historyEventsGrid.EnableHeadersVisualStyles = false;
             this.historyEventsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.historyEventsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.historyEventsGrid.Location = new System.Drawing.Point(0, 100);
+            this.historyEventsGrid.Location = new System.Drawing.Point(0, 78);
             this.historyEventsGrid.Name = "historyEventsGrid";
             this.historyEventsGrid.ReadOnly = true;
             this.historyEventsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -93,7 +94,7 @@
             this.historyEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.historyEventsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.historyEventsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.historyEventsGrid.Size = new System.Drawing.Size(628, 297);
+            this.historyEventsGrid.Size = new System.Drawing.Size(628, 319);
             this.historyEventsGrid.TabIndex = 0;
             // 
             // eventDateColumn
@@ -119,7 +120,7 @@
             this.tasksEventsCheckBox.AutoSize = true;
             this.tasksEventsCheckBox.Checked = true;
             this.tasksEventsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tasksEventsCheckBox.Location = new System.Drawing.Point(3, 29);
+            this.tasksEventsCheckBox.Location = new System.Drawing.Point(16, 29);
             this.tasksEventsCheckBox.Name = "tasksEventsCheckBox";
             this.tasksEventsCheckBox.Size = new System.Drawing.Size(52, 15);
             this.tasksEventsCheckBox.TabIndex = 1;
@@ -132,7 +133,7 @@
             this.experienceEventsCheckBox.AutoSize = true;
             this.experienceEventsCheckBox.Checked = true;
             this.experienceEventsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.experienceEventsCheckBox.Location = new System.Drawing.Point(3, 50);
+            this.experienceEventsCheckBox.Location = new System.Drawing.Point(16, 50);
             this.experienceEventsCheckBox.Name = "experienceEventsCheckBox";
             this.experienceEventsCheckBox.Size = new System.Drawing.Size(79, 15);
             this.experienceEventsCheckBox.TabIndex = 1;
@@ -145,31 +146,32 @@
             this.workUnitsEventsCheckBox.AutoSize = true;
             this.workUnitsEventsCheckBox.Checked = true;
             this.workUnitsEventsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.workUnitsEventsCheckBox.Location = new System.Drawing.Point(3, 71);
+            this.workUnitsEventsCheckBox.Location = new System.Drawing.Point(121, 50);
             this.workUnitsEventsCheckBox.Name = "workUnitsEventsCheckBox";
             this.workUnitsEventsCheckBox.Size = new System.Drawing.Size(80, 15);
             this.workUnitsEventsCheckBox.TabIndex = 1;
             this.workUnitsEventsCheckBox.Text = "Work units";
             this.workUnitsEventsCheckBox.UseSelectable = true;
-            this.workUnitsEventsCheckBox.CheckedChanged += new System.EventHandler(this.metroCheckBox2_CheckedChanged);
+            this.workUnitsEventsCheckBox.CheckedChanged += new System.EventHandler(this.workUnitsEventsCheckBox_CheckedChanged);
             // 
-            // metroPanel1
+            // historyEventsFilters
             // 
-            this.metroPanel1.Controls.Add(this.displayInfoAboutTextLabel);
-            this.metroPanel1.Controls.Add(this.experienceEventsCheckBox);
-            this.metroPanel1.Controls.Add(this.workUnitsEventsCheckBox);
-            this.metroPanel1.Controls.Add(this.tasksEventsCheckBox);
-            this.metroPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(0, 0);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(628, 100);
-            this.metroPanel1.TabIndex = 2;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.historyEventsFilters.Controls.Add(this.displayInfoAboutTextLabel);
+            this.historyEventsFilters.Controls.Add(this.experienceEventsCheckBox);
+            this.historyEventsFilters.Controls.Add(this.profileAndSkillsEventsCheckBox);
+            this.historyEventsFilters.Controls.Add(this.workUnitsEventsCheckBox);
+            this.historyEventsFilters.Controls.Add(this.tasksEventsCheckBox);
+            this.historyEventsFilters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.historyEventsFilters.HorizontalScrollbarBarColor = true;
+            this.historyEventsFilters.HorizontalScrollbarHighlightOnWheel = false;
+            this.historyEventsFilters.HorizontalScrollbarSize = 10;
+            this.historyEventsFilters.Location = new System.Drawing.Point(0, 0);
+            this.historyEventsFilters.Name = "historyEventsFilters";
+            this.historyEventsFilters.Size = new System.Drawing.Size(628, 78);
+            this.historyEventsFilters.TabIndex = 2;
+            this.historyEventsFilters.VerticalScrollbarBarColor = true;
+            this.historyEventsFilters.VerticalScrollbarHighlightOnWheel = false;
+            this.historyEventsFilters.VerticalScrollbarSize = 10;
             // 
             // displayInfoAboutTextLabel
             // 
@@ -180,17 +182,30 @@
             this.displayInfoAboutTextLabel.TabIndex = 2;
             this.displayInfoAboutTextLabel.Text = "Display events related to";
             // 
+            // profileAndSkillsEventsCheckBox
+            // 
+            this.profileAndSkillsEventsCheckBox.AutoSize = true;
+            this.profileAndSkillsEventsCheckBox.Checked = true;
+            this.profileAndSkillsEventsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.profileAndSkillsEventsCheckBox.Location = new System.Drawing.Point(121, 29);
+            this.profileAndSkillsEventsCheckBox.Name = "profileAndSkillsEventsCheckBox";
+            this.profileAndSkillsEventsCheckBox.Size = new System.Drawing.Size(108, 15);
+            this.profileAndSkillsEventsCheckBox.TabIndex = 1;
+            this.profileAndSkillsEventsCheckBox.Text = "Profile and skills";
+            this.profileAndSkillsEventsCheckBox.UseSelectable = true;
+            this.profileAndSkillsEventsCheckBox.CheckedChanged += new System.EventHandler(this.profileAndSkillsEventsCheckBox_CheckedChanged);
+            // 
             // HistoryControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.historyEventsGrid);
-            this.Controls.Add(this.metroPanel1);
+            this.Controls.Add(this.historyEventsFilters);
             this.Name = "HistoryControl";
             this.Size = new System.Drawing.Size(628, 397);
             ((System.ComponentModel.ISupportInitialize)(this.historyEventsGrid)).EndInit();
-            this.metroPanel1.ResumeLayout(false);
-            this.metroPanel1.PerformLayout();
+            this.historyEventsFilters.ResumeLayout(false);
+            this.historyEventsFilters.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -204,7 +219,8 @@
         private MetroFramework.Controls.MetroCheckBox tasksEventsCheckBox;
         private MetroFramework.Controls.MetroCheckBox experienceEventsCheckBox;
         private MetroFramework.Controls.MetroCheckBox workUnitsEventsCheckBox;
-        private MetroFramework.Controls.MetroPanel metroPanel1;
+        private MetroFramework.Controls.MetroPanel historyEventsFilters;
         private MetroFramework.Controls.MetroLabel displayInfoAboutTextLabel;
+        private MetroFramework.Controls.MetroCheckBox profileAndSkillsEventsCheckBox;
     }
 }

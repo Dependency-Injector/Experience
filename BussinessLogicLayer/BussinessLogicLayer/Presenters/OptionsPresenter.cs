@@ -5,6 +5,7 @@ using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
+using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -30,13 +31,16 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                AttachEvents();
-                ObtainPreferences();
-
-                if (preferences != null)
+                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
-                    DisplayPreferences();
-                    view.IsDirty = false;
+                    AttachEvents();
+                    ObtainPreferencesForUser(ApplicationSettings.Current.CurrentUserId.Value);
+
+                    if (preferences != null)
+                    {
+                        DisplayPreferences();
+                        view.IsDirty = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -52,9 +56,9 @@ namespace BussinessLogicLayer.Presenters
             view.ThemeName = preferences.ThemeName;
         }
 
-        private void ObtainPreferences()
+        private void ObtainPreferencesForUser(int userId)
         {
-            preferences = preferencesRepository.GetAll().First();
+            preferences = preferencesRepository.First(p => p.Owner.Id == userId);
         }
 
         #endregion
@@ -79,13 +83,11 @@ namespace BussinessLogicLayer.Presenters
 
         private void View_ChangeTheme(object sender, String theme)
         {
-            //view.ThemeName = theme;
             view.IsDirty = true;
         }
 
         private void View_ChangeStyle(object sender, String style)
         {
-            //view.StyleName = style;
             view.IsDirty = true;
         }
         

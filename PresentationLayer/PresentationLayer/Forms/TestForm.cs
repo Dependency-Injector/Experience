@@ -173,7 +173,8 @@ namespace PresentationLayer.Forms
                 c =>
                     new HistoryPresenter(
                         c.Resolve<IHistoryView>(),
-                        c.Resolve<IHistoryEventsRepository>()));
+                        c.Resolve<IHistoryEventsRepository>(),
+                        c.Resolve<IProfileRepository>()));
 
             builder.Register(
                 c =>

@@ -27,6 +27,7 @@ namespace Model.Entities
         public virtual Task Parent { get; set; }
         public virtual Skill SkillToTrain { get; set; }
         public virtual ICollection<WorkUnit> WorkUnits { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
 
         public TimeSpan GetTotalWorkload()
         {

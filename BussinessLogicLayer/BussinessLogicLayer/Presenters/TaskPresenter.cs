@@ -306,8 +306,12 @@ namespace BussinessLogicLayer.Presenters
                     String priority = task.GetPriorityLiteral();
 
                     String name = String.Empty;
-                    if (task.Parent != null)
-                        name = GetTaskNameForNestedTask(task);
+                    /* if (task.Parent != null)
+                         name = GetTaskNameForNestedTask(task);
+                     else
+                         name = task.Name;*/
+                    if (task.Tasks != null && task.Tasks.Count > 0)
+                        name = $"[Goal] {task.Name}";
                     else
                         name = task.Name;
 
@@ -472,9 +476,30 @@ namespace BussinessLogicLayer.Presenters
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == userId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;
+            view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";
             view.CanBeFinished = taskService.IsFinishingAllowed(task.Id);
-            
+            view.ChildrenTasks = GetChildrenTasksRows(task.Tasks);
+
             isTaskNew = false;
+        }
+
+        private ICollection GetChildrenTasksRows(ICollection<Task> childrenTasks)
+        {
+            List<string[]> childrenTasksRows = new List<string[]>();
+
+            foreach (var childrenTask in childrenTasks)
+            {
+                string[] childrenTaskRow = new string[]
+                {
+                    $"{childrenTask.Name}",
+                    $"{childrenTask.IsFinished}",
+/*                    $"{durationLiteral}"*/
+                };
+
+                childrenTasksRows.Add(childrenTaskRow);
+            }
+
+            return childrenTasksRows;
         }
 
         private void SetDisplayMode(DisplayMode displayMode)

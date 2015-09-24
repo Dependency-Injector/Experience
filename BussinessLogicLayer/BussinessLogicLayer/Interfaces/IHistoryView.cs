@@ -14,5 +14,6 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> ShowHideTaskEvents;
         event EventHandler<EventArgs> ShowHideWorkUnitEvents;
         event EventHandler<EventArgs> ShowHideExperienceEvents;
+        event EventHandler<EventArgs> ShowHideProfileAndSkillEvents;
     }
 }

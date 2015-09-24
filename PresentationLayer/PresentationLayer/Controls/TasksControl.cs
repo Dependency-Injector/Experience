@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
+using MetroFramework;
 using MetroFramework.Controls;
 using Model.Classes;
 using Model.Enums;
+using Utilities;
 
 namespace PresentationLayer.Controls
 {
@@ -180,16 +183,14 @@ namespace PresentationLayer.Controls
             }
         }
 
-        public bool TaskListOpacity
+        public ICollection ChildrenTasks
         {
             set
             {
-                tasksListGrid.UseCustomBackColor = true;
-                Color color = Color.FromArgb(100, 100, 100, 100);
-                tasksListGrid.BackgroundColor = color;
+                ClearChildrenTasksPanel();
+                FillChildrenTasksList(value);
             }
         }
-
 
         public bool TaskListEnabled
         {
@@ -468,6 +469,11 @@ namespace PresentationLayer.Controls
             skillToTrainComboBox.Items.Clear();
         }
 
+        private void ClearChildrenTasksPanel()
+        {
+            childrenTasksPanel.Controls.Clear();
+        }
+
         private void FillSkillsComboBox(ICollection skillRowData)
         {
             if (skillRowData != null && skillRowData.Count > 0)
@@ -487,6 +493,36 @@ namespace PresentationLayer.Controls
                 }
             }
         }
+
+        private void FillChildrenTasksList(ICollection childrenTasksRowData)
+        {
+            if (childrenTasksRowData != null && childrenTasksRowData.Count > 0)
+            {
+                foreach (var row in childrenTasksRowData)
+                {
+                    var rowData = row as string[];
+                    if (rowData != null && rowData.Any())
+                    {
+                        bool finished;
+                        if (rowData.Count() > 0 && bool.TryParse(rowData[1], out finished))
+                        {
+                            MetroCheckBox childTaskCheckBox = new MetroCheckBox();
+                            childTaskCheckBox.Text = rowData[0];
+                            childTaskCheckBox.Checked = finished;
+                            childTaskCheckBox.Theme = MetroThemeStyle.Dark;
+                            childTaskCheckBox.Dock = DockStyle.Top;
+                            childTaskCheckBox.Enabled = false;
+
+                            if (finished)
+                                childTaskCheckBox.Font = new Font(childTaskCheckBox.Font, FontStyle.Strikeout);
+
+                            childrenTasksPanel.Controls.Add(childTaskCheckBox);
+                        }
+                    }
+                }
+            }
+        }
+
 
         private void FillTasksGrid(ICollection tasksRowData)
         {

@@ -23,8 +23,8 @@ namespace BussinessLogicLayer.Interfaces
         ICollection WorkUnits { set; }
         ICollection Tasks { set; }
         ICollection SkillsAvailable { set; }
-
-        bool TaskListOpacity { set; }
+        ICollection ChildrenTasks { set; }
+        
         bool TaskListEnabled { set; }
         bool TaskDetailsPanelVisible { set; }
         bool TaskEditPanelVisible { set; }
