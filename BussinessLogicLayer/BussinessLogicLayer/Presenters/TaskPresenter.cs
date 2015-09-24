@@ -26,7 +26,6 @@ namespace BussinessLogicLayer.Presenters
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
         private bool isTaskNew = true;
-        private bool isPlayerCurrentlyWorking;
         private Profile currentUser;
         #endregion
 
@@ -51,7 +50,7 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                if (ApplicationSettings.Current.IsAnyUserLoggedIn)
+                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
                     currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
 

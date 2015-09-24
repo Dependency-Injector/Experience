@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
@@ -28,6 +27,7 @@ namespace BussinessLogicLayer.Presenters
             try
             {
                 AttachEvents();
+
                 // Last time user did not logged out - he is still logged in, here is code that lets him in
                 if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
@@ -54,11 +54,11 @@ namespace BussinessLogicLayer.Presenters
             {
                 var profiles = profilesRepository.GetAll().ToList();
                 view.AvailableUsers = profiles;
-                view.DisplayMode = DisplayMode.View;
+                SetDisplayMode(DisplayMode.View);
             }
             else
             {
-                view.DisplayMode = DisplayMode.Edit;
+                SetDisplayMode(DisplayMode.Edit);
             }
         }
 
@@ -70,7 +70,7 @@ namespace BussinessLogicLayer.Presenters
 
         private void NewUser(object sender, EventArgs e)
         {
-            view.DisplayMode = DisplayMode.Edit;
+            SetDisplayMode(DisplayMode.Edit);
         }
 
         private void SaveLoggedUserInfoToApplicationSettings(Profile userToLog)
@@ -96,7 +96,7 @@ namespace BussinessLogicLayer.Presenters
                 SaveLoggedUserInfoToApplicationSettings(newUser);
             }
 
-            view.DisplayMode = DisplayMode.View;
+            SetDisplayMode(DisplayMode.View);
         }
 
         private Profile CreateNewUser(string userNameToRegister)
@@ -106,6 +106,20 @@ namespace BussinessLogicLayer.Presenters
             newProfile.JoinDate = DateTime.Now;
             newProfile.BirthDate = null;
             return newProfile;
+        }
+
+        private void SetDisplayMode(DisplayMode displayMode)
+        {
+            if (displayMode == DisplayMode.Edit)
+            {
+                view.ProfilesListVisible = false;
+                view.NewUserNameTextBoxVisible = true;
+            }
+            else if (displayMode == DisplayMode.View)
+            {
+                view.ProfilesListVisible = false;
+                view.NewUserNameTextBoxVisible = true;
+            }
         }
     }
 }

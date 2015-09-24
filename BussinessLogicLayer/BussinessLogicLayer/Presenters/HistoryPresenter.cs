@@ -16,6 +16,7 @@ namespace BussinessLogicLayer.Presenters
         private readonly IHistoryView view;
         private readonly IHistoryEventsRepository historyRepository;
         private readonly IProfileRepository profilesRepository;
+
         private Profile currentUser;
          
         public HistoryPresenter(IHistoryView view, IHistoryEventsRepository historyEventsRepository, IProfileRepository profilesRepository)
@@ -27,6 +28,8 @@ namespace BussinessLogicLayer.Presenters
             Initialize();
         }
 
+        #region Private methods
+
         private void Initialize()
         {
             try
@@ -34,7 +37,7 @@ namespace BussinessLogicLayer.Presenters
                 if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
                     currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
-                    
+
                     AttachEvents();
                     GetAndDisplayHistoryEventsList();
                 }
@@ -45,14 +48,28 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
+        private void AttachEvents()
+        {
+            view.ShowHideExperienceEvents += ViewOnShowHideExperienceEvents;
+            view.ShowHideTaskEvents += ViewOnShowHideTaskEvents;
+            view.ShowHideWorkUnitEvents += ViewOnShowHideWorkUnitEvents;
+            view.ShowHideProfileAndSkillEvents += ViewOnShowHideProfileAndSkillEvents;
+        }
+
         private void GetAndDisplayHistoryEventsList()
         {
             var historyEvents = ObtainHistoryEvents();
-            List<HistoryEvent> historyEventsList = SelectWantedHistoryEvents(historyEvents, view.DisplayExperienceEvents, view.DisplayTaskEvents, view.DisplayWorkUnitEvents);
+            List<HistoryEvent> historyEventsList = FilterHistoryEvents(historyEvents, view.DisplayExperienceEvents,
+                view.DisplayTaskEvents, view.DisplayWorkUnitEvents, view.DisplayProfileAndSkillsEvents);
             DisplayHistoryEvents(historyEventsList);
         }
 
-        private List<HistoryEvent> SelectWantedHistoryEvents(IEnumerable<HistoryEvent> events, bool showExperienceEvents, bool showTaskEvents, bool showWorkUnitsEvents)
+        private IEnumerable<HistoryEvent> ObtainHistoryEvents()
+        {
+            return historyRepository.Find(e => e.Owner.Id == currentUser.Id);
+        }
+        
+        private List<HistoryEvent> FilterHistoryEvents(IEnumerable<HistoryEvent> events, bool showExperienceEvents, bool showTaskEvents, bool showWorkUnitsEvents, bool showProfilenAndSkillsEvents)
         {
             if (!showExperienceEvents)
             {
@@ -67,31 +84,67 @@ namespace BussinessLogicLayer.Presenters
             if (!showTaskEvents)
             {
                 events = events.Where(
-                   e =>
-                       e.Type != HistoryEventType.TaskCreated &&
-                       e.Type != HistoryEventType.TaskEdited &&
-                       e.Type != HistoryEventType.TaskFinished &&
-                       e.Type != HistoryEventType.TaskRemoved);
+                    e =>
+                        e.Type != HistoryEventType.TaskCreated &&
+                        e.Type != HistoryEventType.TaskEdited &&
+                        e.Type != HistoryEventType.TaskFinished &&
+                        e.Type != HistoryEventType.TaskRemoved);
             }
 
             if (!showWorkUnitsEvents)
             {
                 events = events.Where(
-                   e =>
-                       e.Type != HistoryEventType.WorkStarted &&
-                       e.Type != HistoryEventType.WorkStopped);
+                    e =>
+                        e.Type != HistoryEventType.WorkStarted &&
+                        e.Type != HistoryEventType.WorkStopped);
+            }
+
+            if (!showProfilenAndSkillsEvents)
+            {
+                events = events.Where(
+                    e =>
+                        e.Type != HistoryEventType.ProfileCreated &&
+                        e.Type != HistoryEventType.ProfileEdited &&
+                        e.Type != HistoryEventType.ProfileRemoved &&
+                        e.Type != HistoryEventType.SkillCreated &&
+                        e.Type != HistoryEventType.SkillEdited &&
+                        e.Type != HistoryEventType.SkillRemoved);
             }
 
             return events.ToList();
         }
 
-        private void AttachEvents()
+        private void DisplayHistoryEvents(List<HistoryEvent> historyEvents)
         {
-            view.ShowHideExperienceEvents += ViewOnShowHideExperienceEvents;
-            view.ShowHideTaskEvents += ViewOnShowHideTaskEvents;
-            view.ShowHideWorkUnitEvents += ViewOnShowHideWorkUnitEvents;
-            view.ShowHideProfileAndSkillEvents += ViewOnShowHideProfileAndSkillEvents;
+            view.HistoryEventsRows = ConvertHistoryEventsToRows(historyEvents);
         }
+
+        private ICollection ConvertHistoryEventsToRows(List<HistoryEvent> historyEvents)
+        {
+            List<string[]> historyEventsInRows = new List<string[]>();
+
+            foreach (var historyEvent in historyEvents)
+            {
+                String whenOccured = historyEvent.Occured.ToString("M");
+                String whatHappened = historyEvent.Type.ToString();
+                String description = historyEvent.Description;
+
+                string[] historyEventRow = new string[]
+                {
+                    $"{whenOccured}",
+                    $"{whatHappened}",
+                    $"{description}"
+                };
+
+                historyEventsInRows.Add(historyEventRow);
+            }
+
+            return historyEventsInRows;
+        }
+
+        #endregion
+
+        #region Event handlers
 
         private void ViewOnShowHideProfileAndSkillEvents(object sender, EventArgs eventArgs)
         {
@@ -113,37 +166,6 @@ namespace BussinessLogicLayer.Presenters
             GetAndDisplayHistoryEventsList();
         }
 
-        private void DisplayHistoryEvents(List<HistoryEvent> historyEvents)
-        {
-            view.HistoryEventsRows = GetHistoryEventsInRows(historyEvents);
-        }
-
-        private IEnumerable<HistoryEvent> ObtainHistoryEvents()
-        {
-            return historyRepository.Find(e => e.Owner.Id == currentUser.Id);
-        }
-
-        private ICollection GetHistoryEventsInRows(List<HistoryEvent> historyEvents)
-        {
-            List<string[]> historyEventsInRows = new List<string[]>();
-
-            foreach (var historyEvent in historyEvents)
-            {
-                String whenOccured = historyEvent.Occured.ToString("M");
-                String whatHappened = historyEvent.Type.ToString();
-                String description = historyEvent.Description;
-                
-                string[] historyEventRow = new string[]
-                {
-                    $"{whenOccured}",
-                    $"{whatHappened}",
-                    $"{description}"
-                };
-
-                historyEventsInRows.Add(historyEventRow);
-            }
-
-            return historyEventsInRows;
-        }
+        #endregion
     }
 }

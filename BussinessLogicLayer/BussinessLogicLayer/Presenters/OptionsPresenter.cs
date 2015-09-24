@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using BussinessLogicLayer.Interfaces;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;

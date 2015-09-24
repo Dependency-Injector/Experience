@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
-using DataAccessLayer.Services;
 using MetroFramework.Controls;
 
 namespace PresentationLayer.Controls
@@ -17,6 +8,15 @@ namespace PresentationLayer.Controls
     public partial class HistoryControl : MetroUserControl, IHistoryView
     {
         #region Properties
+
+        public ICollection HistoryEventsRows
+        {
+            set
+            {
+                ClearHistoryEventsGrid();
+                FillHistoryGrid(value);
+            }
+        }
 
         public bool DisplayTaskEvents
         {
@@ -36,20 +36,12 @@ namespace PresentationLayer.Controls
             set { experienceEventsCheckBox.Checked = value; }
         }
 
-        public ICollection HistoryItems
+        public bool DisplayProfileAndSkillsEvents
         {
-            set { }
+            get { return profileAndSkillsEventsCheckBox.Checked; }
+            set { profileAndSkillsEventsCheckBox.Checked = value; }
         }
-
-        public ICollection HistoryEventsRows
-        {
-            set
-            {
-                ClearHistoryGrid();
-                FillHistoryGrid(value);
-            }
-        }
-
+        
         public event EventHandler<EventArgs> ShowHideTaskEvents;
         public event EventHandler<EventArgs> ShowHideWorkUnitEvents;
         public event EventHandler<EventArgs> ShowHideExperienceEvents;
@@ -57,13 +49,7 @@ namespace PresentationLayer.Controls
 
         #endregion
 
-        public HistoryControl()
-        {
-            InitializeComponent();
-            
-        }
-
-        #region Events
+        #region Event handlers
 
         private void tasksEventsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -76,7 +62,7 @@ namespace PresentationLayer.Controls
             if (ShowHideExperienceEvents != null)
                 ShowHideExperienceEvents(this, e);
         }
-        
+
         private void workUnitsEventsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (ShowHideWorkUnitEvents != null)
@@ -88,9 +74,15 @@ namespace PresentationLayer.Controls
             if (ShowHideProfileAndSkillEvents != null)
                 ShowHideProfileAndSkillEvents(this, e);
         }
+
         #endregion
 
-        private void ClearHistoryGrid()
+        public HistoryControl()
+        {
+            InitializeComponent();
+        }
+
+        private void ClearHistoryEventsGrid()
         {
             historyEventsGrid.Rows.Clear();
         }
@@ -105,12 +97,9 @@ namespace PresentationLayer.Controls
                     {
                         string[] rowCells = (string[])row;
                         historyEventsGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2]);
-
                     }
                 }
             }
         }
-
-
     }
 }

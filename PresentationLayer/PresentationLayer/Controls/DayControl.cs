@@ -1,7 +1,6 @@
 ﻿using System;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
-using Model.Enums;
 
 namespace PresentationLayer.Controls
 {
@@ -24,6 +23,7 @@ namespace PresentationLayer.Controls
         {
             set { dayNumberLabel.Text = $"Day {value.ToString()}"; }
         }
+
         public bool ShowNextDayButton
         {
             set { nextDayButton.Visible = value; }
@@ -45,8 +45,9 @@ namespace PresentationLayer.Controls
             set { thoughtsTextBox.Enabled = value; }
         }
         
-        public event EventHandler<EventArgs> SaveDay;
-        public event EventHandler<SwitchDisplayModeEventArgs> SwitchDisplayMode;
+        public event EventHandler<EventArgs> SaveDayChanges;
+        public event EventHandler<EventArgs> CancelDayChanges;
+        public event EventHandler<EventArgs> EditDay;
         public event EventHandler<EventArgs> ShowPreviousDay;
         public event EventHandler<EventArgs> ShowNextDay;
 
@@ -54,6 +55,8 @@ namespace PresentationLayer.Controls
         {
             InitializeComponent();
         }
+
+        #region Event handlers
 
         private void previousDayButton_Click(object sender, EventArgs e)
         {
@@ -69,17 +72,16 @@ namespace PresentationLayer.Controls
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            SwitchDisplayModeEventArgs args = new SwitchDisplayModeEventArgs();
-            args.DisplayMode = DisplayMode.Edit;
-
-            if (SwitchDisplayMode != null)
-                SwitchDisplayMode(this, args);
+            if (EditDay != null)
+                EditDay(this, e);
         }
 
         private void saveChangesButton_Click(object sender, EventArgs e)
         {
-            if (SaveDay != null)
-                SaveDay(this, e);
+            if (SaveDayChanges != null)
+                SaveDayChanges(this, e);
         }
+
+        #endregion Event handlers
     }
 }

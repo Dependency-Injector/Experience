@@ -2,7 +2,6 @@
 using System.Collections;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
-using Model.Enums;
 
 namespace PresentationLayer.Controls
 {
@@ -39,30 +38,18 @@ namespace PresentationLayer.Controls
             set { availablePlayersComboBox.DataSource = value; }
         }
 
-        public bool Hidden
+        public bool ProfilesListVisible
         {
-            set { this.Visible = !value; }
+            set { availablePlayersComboBox.Visible = value; }
         }
 
+        public bool NewUserNameTextBoxVisible
+        {
+            set { userNameTextBox.Visible = value; }
+        }
+        
         public bool IsNew { get; set; }
-
-        public DisplayMode DisplayMode
-        {
-            set
-            {
-                if (value == DisplayMode.Edit)
-                {
-                    availablePlayersComboBox.Visible = false;
-                    userNameTextBox.Visible = true;
-                }
-                else if (value == DisplayMode.View)
-                {
-                    availablePlayersComboBox.Visible = true;
-                    userNameTextBox.Visible = false;
-                }
-            }
-        }
-
+        
         public event EventHandler<EventArgs> Login;
         public event EventHandler<EventArgs> CreateNewUser;
         public event EventHandler<EventArgs> SaveUser;

@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
-using Model.Classes;
 using Model.Entities;
 using Model.Enums;
 using Utilities;
@@ -22,8 +20,8 @@ namespace BussinessLogicLayer.Presenters
         private readonly IHistoryEventsRepository historyEventsRepository;
         private readonly ISkillsService skillsService;
 
-        private List<String> newSkillsToAdd = null;
-        private List<int> skillsIdsToRemove = null;
+        private List<String> newSkillsToAdd;
+        private List<int> skillsIdsToRemove;
         private Profile currentUser;
 
         public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService)

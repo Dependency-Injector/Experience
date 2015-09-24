@@ -5,11 +5,12 @@ namespace BussinessLogicLayer.Interfaces
 {
     public interface IHistoryView
     {
+        ICollection HistoryEventsRows { set; }
+
         bool DisplayTaskEvents { get; set; }
         bool DisplayWorkUnitEvents { get; set; }
         bool DisplayExperienceEvents { get; set; }
-        ICollection HistoryItems { set; }
-        ICollection HistoryEventsRows { set; }
+        bool DisplayProfileAndSkillsEvents { get; set; }
 
         event EventHandler<EventArgs> ShowHideTaskEvents;
         event EventHandler<EventArgs> ShowHideWorkUnitEvents;

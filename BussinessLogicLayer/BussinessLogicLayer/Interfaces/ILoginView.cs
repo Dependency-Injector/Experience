@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Model.Enums;
+//using Model.Enums;
 
 namespace BussinessLogicLayer.Interfaces
 {
@@ -9,13 +9,16 @@ namespace BussinessLogicLayer.Interfaces
         int? UserForBeingLoggedInId { get;  }
         String UserNameToRegister { get; }
         ICollection AvailableUsers { set; }
-        bool Hidden { set; }
-        bool IsNew { get; set; }
+
+        bool ProfilesListVisible { set; }
+        bool NewUserNameTextBoxVisible { set; }
+        //bool Hidden { set; }
+        //bool IsNew { get; set; }
 
         event EventHandler<EventArgs> Login;
         event EventHandler<EventArgs> SaveUser;
         event EventHandler<EventArgs> NewUser;
 
-        DisplayMode DisplayMode { set; }
+        // DisplayMode DisplayMode { set; }
     }
 }

@@ -70,8 +70,8 @@ namespace BussinessLogicLayer.Presenters
         {
             view.ShowPreviousDay += ShowPreviousDay;
             view.ShowNextDay += ShowNextDay;
-            view.SaveDay += SaveDay;
-            view.SwitchDisplayMode += SwitchDisplayMode;
+            view.SaveDayChanges += SaveDayChanges;
+            view.EditDay += EditDay;
         }
 
         private void SetDisplayMode(DisplayMode displayMode)
@@ -158,7 +158,7 @@ namespace BussinessLogicLayer.Presenters
             ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dateOfDayBefore));
         }
 
-        private void SaveDay(object sender, EventArgs e)
+        private void SaveDayChanges(object sender, EventArgs e)
         {
             if (daysRepository.HasDay(currentUser.Id, dayBeingDisplayed.Date))
             {
@@ -175,16 +175,12 @@ namespace BussinessLogicLayer.Presenters
             ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dayBeingDisplayed.Date));
         }
 
-        private void SwitchDisplayMode(object sender, SwitchDisplayModeEventArgs e)
+        private void EditDay(object sender, EventArgs e)
         {
-            SetDisplayMode(e.DisplayMode);
+            SetDisplayMode(DisplayMode.Edit);
         }
 
         #endregion
 
-    }
-
-    internal class UserNotLoggedException : Exception
-    {
     }
 }

@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Interfaces\IDayView.cs" />
     <Compile Include="Interfaces\IEditable.cs" />
-    <Compile Include="Interfaces\IEditableView.cs" />
     <Compile Include="Interfaces\ILoggedUserView.cs" />
     <Compile Include="Interfaces\ILoginView.cs" />
     <Compile Include="Interfaces\IOptionsView.cs" />

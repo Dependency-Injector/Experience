@@ -8,12 +8,13 @@ namespace BussinessLogicLayer.Interfaces
         String PlayerName { get; set; }
         String History { get; set; }
         String Age { set; }
+        String NewSkillName { get; set; }
         DateTime BirthDate { get; set; }
+        DateTime Joined { set; }
         int Level { get; set; }
         int Experience { get; set; }
         int LevelProgress { get; set; }
         ICollection Skills { set; } 
-        DateTime Joined { set; }
         ICollection ExperienceEventData { set; }
 
         bool RemoveSkillColumnVisible { set; }
@@ -22,7 +23,6 @@ namespace BussinessLogicLayer.Interfaces
         bool CancelChangesButtonVisible { set; }
         bool SaveChangesButtonVisible { set; }
 
-        String NewSkillName { get; set; }
         event EventHandler<EventArgs> AddNewSkill;
         event EventHandler<int> RemoveSkill;
         event EventHandler<EventArgs> EditProfile;
