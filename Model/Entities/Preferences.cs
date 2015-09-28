@@ -1,4 +1,5 @@
 ﻿using System;
+using Model.Enums;
 
 namespace Model.Entities
 {
@@ -8,7 +9,7 @@ namespace Model.Entities
         public String ThemeName { get; set; }
         public String StyleName { get; set; }
         public bool ShowFinishedTasks { get; set; }
-
+        public Language Language { get; set; }
         public virtual Profile Owner { get; set; }
     }
 }

@@ -5,9 +5,10 @@ namespace Model.Enums
 {
     public enum Severity
     {
-        Low = 1,
-        Medium = 2,
-        High = 3
+        Trivial = 1,
+        Low = 2,
+        Medium = 3,
+        High = 4,
     }
 
     public class PriorityLevel

@@ -62,7 +62,11 @@
     <Compile Include="Services\Interfaces\IDaysService.cs" />
     <Compile Include="Services\Interfaces\ITaskService.cs" />
     <Compile Include="Services\Interfaces\ISkillsService.cs" />
+    <Compile Include="Services\Interfaces\IProfileService.cs" />
+    <Compile Include="Services\Interfaces\IWorkUnitsService.cs" />
     <Compile Include="Services\SkillsService.cs" />
+    <Compile Include="Services\ProfileService.cs" />
+    <Compile Include="Services\WorkUnitsService.cs" />
     <Compile Include="Utilities\ExperienceDefaultValues.cs" />
     <Compile Include="Repositories\DaysRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />

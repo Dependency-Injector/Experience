@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework;
 using MetroFramework.Components;
@@ -87,9 +79,20 @@ namespace PresentationLayer.Controls
             }
         }
 
+        public bool PolishLanguageButtonEnabled
+        {
+            set { polishLanguageButton.Enabled = value; }
+        }
+
+        public bool EnglishLanguageButtonEnabled
+        {
+            set { englishLanguageButton.Enabled = value; }
+        }
+
         public event EventHandler<String> ChangeTheme;
         public event EventHandler<String> ChangeStyle;
         public event EventHandler<EventArgs> SaveChanges;
+        public event EventHandler<string> ChangeLanguage;
 
 
         public MetroStyleManager GetStyleManager()
@@ -125,6 +128,18 @@ namespace PresentationLayer.Controls
         {
             if (SaveChanges != null)
                 SaveChanges(this, e);
+        }
+
+        private void polishLanguageButton_Click(object sender, EventArgs e)
+        {
+            if (ChangeLanguage != null)
+                ChangeLanguage(this, "Polish");
+        }
+
+        private void englishLanguageButton_Click(object sender, EventArgs e)
+        {
+            if (ChangeLanguage != null)
+                ChangeLanguage(this, "English");
         }
     }
 }

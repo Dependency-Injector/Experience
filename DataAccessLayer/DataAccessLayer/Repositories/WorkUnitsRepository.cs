@@ -48,15 +48,16 @@ namespace DataAccessLayer.Repositories
         {
             using (EntitiesContext entities = new EntitiesContext())
             {
-                
-                for (int i = 0; i < workUnit.Task.WorkUnits.Count; i++)
-                {
-                    entities.Entry(workUnit.Task.WorkUnits.ElementAt(i)).State = EntityState.Unchanged;
-                }
-
                 entities.WorkUnits.Add(workUnit);
                 entities.Entry(workUnit).State = EntityState.Added;
-                entities.Entry(workUnit.Task).State = EntityState.Unchanged;
+
+                /*for (int i = 0; i < workUnit.Task.WorkUnits.Count; i++)
+                {
+                    entities.Entry(workUnit.Task.WorkUnits.ElementAt(i)).State = EntityState.Unchanged;
+                }*/
+                
+                if(workUnit.Task != null)
+                    entities.Entry(workUnit.Task).State = EntityState.Unchanged;
                 
                 entities.SaveChanges();
             }

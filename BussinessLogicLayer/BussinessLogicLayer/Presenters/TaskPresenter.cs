@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
+using DataAccessLayer.Services;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
@@ -21,7 +22,10 @@ namespace BussinessLogicLayer.Presenters
         private readonly ISkillsRepository skillsRepository;
         private readonly IProfileRepository profilesRepository;
         private readonly IHistoryService historyService;
-        private readonly ITaskService taskService;
+        private readonly ITaskService tasksService;
+        private readonly IProfileService profilesService;
+        private readonly IWorkUnitsService workUnitsService;
+
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
         private int selectedTaskIndex;
@@ -30,16 +34,18 @@ namespace BussinessLogicLayer.Presenters
         #endregion
 
         public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
-            IProfileRepository profileRepository, IHistoryService historyService, ITaskService tasksService)
+            IProfileRepository profilesRepository, IHistoryService historyService, ITaskService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService)
         {
             this.view = view;
 
             this.tasksRepository = tasksRepository;
             this.workUnitsRepository = workUnitsRepository;
             this.skillsRepository = skillsRepository;
-            this.profilesRepository = profileRepository;
-            this.taskService = tasksService;
+            this.profilesRepository = profilesRepository;
+            this.tasksService = tasksService;
             this.historyService = historyService;
+            this.profilesService = profilesService;
+            this.workUnitsService = workUnitsService;
 
             Initialize();
         }
@@ -114,13 +120,13 @@ namespace BussinessLogicLayer.Presenters
 
             if (isTaskNew)
             {
-                taskToSave = taskService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-                taskService.SaveTask(taskToSave);
+                taskToSave = tasksService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                tasksService.SaveTask(taskToSave);
             }
             else
             {
-                taskToSave = taskService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
-                taskService.UpdateTask(taskToSave);
+                taskToSave = tasksService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                tasksService.UpdateTask(taskToSave);
             }
 
             isTaskNew = false;
@@ -190,11 +196,16 @@ namespace BussinessLogicLayer.Presenters
         private void Finish(object sender, EventArgs e)
         {
             var taskToFinish = GetSelectedTask();
-            taskService.FinishTask(taskToFinish);
+            int xpForTaskFinish = tasksService.GetExperienceForCompletion(taskToFinish.Id);
 
-            int xpForTaskFinish = ExperienceDefaultValues.GetExperienceForTask(taskToFinish.Priority);
-            SkillTrainer.GiveXp(xpForTaskFinish);
+            tasksService.FinishTask(taskToFinish);
             historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
+
+            profilesService.UserGainedExperience(taskToFinish.Owner.Id, xpForTaskFinish);
+            historyService.AddHistoryEvent(HistoryEventType.ExperienceGained, taskToFinish.Id, xpForTaskFinish);
+
+//            SkillTrainer.GiveXp(xpForTaskFinish);
+  //          historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
 
             DisplaySingleTaskInfoForUser(taskToFinish, currentUser.Id);
             DisplayTasksList(tasks);
@@ -213,24 +224,20 @@ namespace BussinessLogicLayer.Presenters
                     currentWorkUnit.Duration = Convert.ToInt16(workingTime.TotalSeconds);
                 }
 
-                workUnitsRepository.Add(currentWorkUnit);
+                workUnitsService.AddWorkUnit(currentWorkUnit);
                 historyService.AddHistoryEvent(HistoryEventType.WorkStopped, currentWorkUnit.Id);
+
+                currentWorkUnit = workUnitsRepository.Get(currentWorkUnit.Id);
+                DevelopPlayerSkillByWorkingOnTask(currentWorkUnit);
                 
-                Task task = tasksRepository.Get(currentWorkUnit.Task.Id);
-                taskService.WorkedOnTask(task, currentWorkUnit);
-                
-                DisplayWorkUnitsList(task.WorkUnits.ToList());
+                DisplayWorkUnitsList(currentWorkUnit.Task.WorkUnits.ToList());
             }
         }
 
         private void StartWorkingOnTask(object sender, EventArgs e)
         {
-            currentWorkUnit = new WorkUnit
-            {
-                StartTime = DateTime.Now,
-                Task = GetSelectedTask()
-            };
-
+            Task selectedTask = GetSelectedTask();
+            currentWorkUnit = workUnitsService.CreateNewWorkUnit(selectedTask.Id, DateTime.Now);
             historyService.AddHistoryEvent(HistoryEventType.WorkStarted, currentWorkUnit.Id);
         }
 
@@ -433,7 +440,15 @@ namespace BussinessLogicLayer.Presenters
 
         private void DisplayWorkUnitsList(List<WorkUnit> workUnits)
         {
-            view.WorkUnits = GetWorkUnitsRows(workUnits);
+            if (workUnits != null && workUnits.Count > 0)
+            {
+                view.WorkUnits = GetWorkUnitsRows(workUnits);
+                view.WorkUnitsPanelVisible = true;
+            }
+            else
+            {
+                view.WorkUnitsPanelVisible = false;
+            }
         }
 
         private void DisplayTasksList(List<Task> tasksList)
@@ -467,17 +482,19 @@ namespace BussinessLogicLayer.Presenters
             view.DueDate = task.DueDate;
             view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
             view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
-            view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGained() : "-";
+            view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGainedLiteral() : "-";
             //view.IsFinished = task.IsFinished;
             view.ActionButtonsVisible = !task.IsFinished;
             view.FinishDate = task.FinishedDate;
-            view.WorkUnits = GetWorkUnitsRows(task.WorkUnits.ToList());
+            //view.WorkUnits = GetWorkUnitsRows(task.WorkUnits.ToList());
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == userId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;
             view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";
-            view.CanBeFinished = taskService.IsFinishingAllowed(task.Id);
+            view.CanBeFinished = tasksService.IsFinishingAllowed(task.Id);
             view.ChildrenTasks = GetChildrenTasksRows(task.Tasks);
+
+            DisplayWorkUnitsList(task.WorkUnits.ToList());
 
             isTaskNew = false;
         }
@@ -517,6 +534,31 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
+        private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
+        {
+            Task taskWorkedOn = tasksRepository.Get(workReported.Task.Id);
+
+            // Check if any skill is attached to task
+            if (taskWorkedOn.SkillToTrain != null && workReported.Duration.HasValue)
+            {
+                Skill skillToTrain = taskWorkedOn.SkillToTrain;
+
+                // Give xp to skill
+                int experienceForWorkUnit = (int)ExperienceDefaultValues.GetExperienceForWork(workReported.Duration.Value);
+                profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
+                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
+
+                // Check if skill leveled up
+                if (skillToTrain.HasReachedNewLevel())
+                {
+                    // Give skill new level
+                    int skillNewLevel = skillToTrain.GetNewLevel();
+                    profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
+                    historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
+                }
+            }
+
+        }
         #endregion
     }
 }

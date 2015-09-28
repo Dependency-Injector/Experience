@@ -6,31 +6,49 @@ namespace DataAccessLayer.Utilities
     {
         public static int CreatingTaskXp = 1;
 
-        public static int LowPriorityTaskXp = 1;
-        public static int MediumPriorityTaskXp = 2;
-        public static int HightPriorityTaskXp = 3;
+        public static int BaseExperienceForTaskCompletion = 10;
+        public static double TrivialPriorityTaskMultiplier = 0.25;
+        public static double LowPriorityTaskMultiplier = 0.5;
+        public static double MediumPriorityTaskMultiplier = 1;
+        public static double HightPriorityTaskMultiplier = 2;
 
         public static int ExperiencePerHour = 10;
-
-        public static int GetExperienceForTask(Severity taskSeverity)
+        
+        public static double GetSeverityMultiplier(Severity taskSeverity)
         {
-            int xpForTaskCompletion = 0;
+            double severityMultiplier = 1;
             switch (taskSeverity)
             {
+                case Severity.Trivial:
+                    severityMultiplier = ExperienceDefaultValues.TrivialPriorityTaskMultiplier;
+                    break;
+
                 case Severity.Low:
-                    xpForTaskCompletion = ExperienceDefaultValues.LowPriorityTaskXp;
+                    severityMultiplier = ExperienceDefaultValues.LowPriorityTaskMultiplier;
                     break;
 
                 case Severity.Medium:
-                    xpForTaskCompletion = ExperienceDefaultValues.MediumPriorityTaskXp;
+                    severityMultiplier = ExperienceDefaultValues.MediumPriorityTaskMultiplier;
                     break;
 
                 case Severity.High:
-                    xpForTaskCompletion = ExperienceDefaultValues.HightPriorityTaskXp;
+                    severityMultiplier = ExperienceDefaultValues.HightPriorityTaskMultiplier;
+                    break;
+
+                default:
                     break;
             }
 
-            return xpForTaskCompletion;
+            return severityMultiplier;
+        }
+
+        public static double GetExperienceForWork(double workDurationInSeconds)
+        {
+            double workDurationInMinutes = workDurationInSeconds / 60;
+            double workDurationInHours = workDurationInMinutes / 60;
+            double gainedExperience = workDurationInHours * ExperienceDefaultValues.ExperiencePerHour;
+
+            return gainedExperience;
         }
     }
 }

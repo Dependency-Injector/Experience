@@ -3,6 +3,7 @@ using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
+using Model.Enums;
 using Utilities;
 
 namespace BussinessLogicLayer.Presenters
@@ -52,6 +53,22 @@ namespace BussinessLogicLayer.Presenters
             view.Styles = Enum.GetValues(typeof(MetroFramework.MetroColorStyle));
             view.StyleName = preferences.StyleName;
             view.ThemeName = preferences.ThemeName;
+
+            SetLanguageButtonsState(preferences.Language);
+        }
+
+        private void SetLanguageButtonsState(Language currentLanguage)
+        {
+            if (currentLanguage == Language.English)
+            {
+                view.PolishLanguageButtonEnabled = true;
+                view.EnglishLanguageButtonEnabled = false;
+            }
+            else if (currentLanguage == Language.Polish)
+            {
+                view.PolishLanguageButtonEnabled = false;
+                view.EnglishLanguageButtonEnabled = true;
+            }
         }
 
         private void ObtainPreferencesForUser(int userId)
@@ -68,6 +85,23 @@ namespace BussinessLogicLayer.Presenters
             view.ChangeStyle += View_ChangeStyle;
             view.ChangeTheme += View_ChangeTheme;
             view.SaveChanges += View_SaveChanges;
+            view.ChangeLanguage += View_ChangeLanguage;
+        }
+
+        private void View_ChangeLanguage(object sender, string language)
+        {
+            if (language.Equals("Polish"))
+            {
+                preferences.Language = Language.Polish;
+            }
+            else if (language.Equals("English"))
+            {
+                preferences.Language = Language.English;
+            }
+
+            SetLanguageButtonsState(preferences.Language);
+
+            view.IsDirty = true;
         }
 
         private void View_SaveChanges(object sender, EventArgs e)

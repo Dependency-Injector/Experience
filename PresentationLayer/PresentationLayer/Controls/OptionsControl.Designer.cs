@@ -37,6 +37,9 @@
             this.lightThemeTextLabel = new MetroFramework.Controls.MetroLabel();
             this.darkThemeTextLabel = new MetroFramework.Controls.MetroLabel();
             this.saveOptionsButton = new MetroFramework.Controls.MetroButton();
+            this.languageLabel = new MetroFramework.Controls.MetroLabel();
+            this.polishLanguageButton = new MetroFramework.Controls.MetroButton();
+            this.englishLanguageButton = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.styleManager)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,7 +110,7 @@
             // 
             // saveOptionsButton
             // 
-            this.saveOptionsButton.Location = new System.Drawing.Point(211, 144);
+            this.saveOptionsButton.Location = new System.Drawing.Point(211, 212);
             this.saveOptionsButton.Name = "saveOptionsButton";
             this.saveOptionsButton.Size = new System.Drawing.Size(115, 32);
             this.saveOptionsButton.TabIndex = 13;
@@ -115,10 +118,43 @@
             this.saveOptionsButton.UseSelectable = true;
             this.saveOptionsButton.Click += new System.EventHandler(this.saveOptionsButton_Click);
             // 
+            // languageLabel
+            // 
+            this.languageLabel.AutoSize = true;
+            this.languageLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.languageLabel.Location = new System.Drawing.Point(19, 144);
+            this.languageLabel.Name = "languageLabel";
+            this.languageLabel.Size = new System.Drawing.Size(87, 25);
+            this.languageLabel.TabIndex = 14;
+            this.languageLabel.Text = "Language";
+            // 
+            // polishLanguageButton
+            // 
+            this.polishLanguageButton.Location = new System.Drawing.Point(145, 144);
+            this.polishLanguageButton.Name = "polishLanguageButton";
+            this.polishLanguageButton.Size = new System.Drawing.Size(86, 32);
+            this.polishLanguageButton.TabIndex = 15;
+            this.polishLanguageButton.Text = "Polish";
+            this.polishLanguageButton.UseSelectable = true;
+            this.polishLanguageButton.Click += new System.EventHandler(this.polishLanguageButton_Click);
+            // 
+            // englishLanguageButton
+            // 
+            this.englishLanguageButton.Location = new System.Drawing.Point(237, 144);
+            this.englishLanguageButton.Name = "englishLanguageButton";
+            this.englishLanguageButton.Size = new System.Drawing.Size(89, 32);
+            this.englishLanguageButton.TabIndex = 16;
+            this.englishLanguageButton.Text = "English";
+            this.englishLanguageButton.UseSelectable = true;
+            this.englishLanguageButton.Click += new System.EventHandler(this.englishLanguageButton_Click);
+            // 
             // OptionsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.englishLanguageButton);
+            this.Controls.Add(this.polishLanguageButton);
+            this.Controls.Add(this.languageLabel);
             this.Controls.Add(this.saveOptionsButton);
             this.Controls.Add(this.darkThemeTextLabel);
             this.Controls.Add(this.lightThemeTextLabel);
@@ -127,7 +163,7 @@
             this.Controls.Add(this.styleLabel);
             this.Controls.Add(this.themeLabel);
             this.Name = "OptionsControl";
-            this.Size = new System.Drawing.Size(338, 293);
+            this.Size = new System.Drawing.Size(338, 262);
             ((System.ComponentModel.ISupportInitialize)(this.styleManager)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,5 +180,8 @@
         private MetroFramework.Controls.MetroLabel lightThemeTextLabel;
         private MetroFramework.Controls.MetroLabel darkThemeTextLabel;
         private MetroFramework.Controls.MetroButton saveOptionsButton;
+        private MetroFramework.Controls.MetroLabel languageLabel;
+        private MetroFramework.Controls.MetroButton polishLanguageButton;
+        private MetroFramework.Controls.MetroButton englishLanguageButton;
     }
 }

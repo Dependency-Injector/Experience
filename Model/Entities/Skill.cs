@@ -22,5 +22,25 @@ namespace Model.Entities
             int percentInt = Convert.ToInt32(percentCompleted*100);
             return $"{percentInt}%";
         }
+
+
+        public bool HasReachedNewLevel()
+        {
+            float experienceToNewLevel = (Level + 1) * 100;
+            if (Experience > experienceToNewLevel)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetNewLevel()
+        {
+            int newLevel = Experience / 100;
+            return newLevel;
+        }
     }
 }

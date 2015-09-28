@@ -29,6 +29,7 @@ namespace BussinessLogicLayer.Interfaces
         bool TaskDetailsPanelVisible { set; }
         bool TaskEditPanelVisible { set; }
         bool ActionButtonsVisible { set; }
+        bool WorkUnitsPanelVisible { set; }
 
         event EventHandler<EventArgs> NewTask;
         event EventHandler<EventArgs> SaveTask;

@@ -104,11 +104,12 @@ namespace DataAccessLayer.Services
 
         public void WorkedOnTask(Task task, WorkUnit workUnit)
         {
-            if (task.SkillToTrain != null && workUnit.Duration.HasValue)
+           /* if (task.SkillToTrain != null && workUnit.Duration.HasValue)
             {
-                int gainedExperience = SkillTrainer.CalculateXpForWork(workUnit.Duration.Value);
-                SkillTrainer.GiveXpToSkill(task.SkillToTrain.Id, gainedExperience);
-                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, task.SkillToTrain.Id, gainedExperience);
+                double experienceForWorkUnit = ExperienceDefaultValues.GetExperienceForWork(workUnit.Duration.Value);
+                
+                SkillTrainer.GiveXpToSkill(task.SkillToTrain.Id, experienceForWorkUnit);
+                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, task.SkillToTrain.Id, experienceForWorkUnit);
 
                 if (SkillTrainer.HasSkillReachedNewLevel(task.SkillToTrain.Id))
                 {
@@ -117,7 +118,7 @@ namespace DataAccessLayer.Services
                     historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, task.SkillToTrain.Id, newLevel: skillNewLevel);
                 }
             }
-
+*/
         }
 
         public void UpdateTask(Task taskToUpdate)
@@ -125,5 +126,51 @@ namespace DataAccessLayer.Services
             tasksRepository.Update(taskToUpdate);
             historyService.AddHistoryEvent(HistoryEventType.TaskEdited, taskToUpdate.Id);
         }
+
+        /// <summary>
+        /// Returns overall xp for completing the task. Experience is calculated as follows:
+        /// 
+        ///     Experience = ([Base experience for completing task] + [Experience for spending time on task]) * [Task severity multiplier]
+        ///     
+        /// Severity multipliers are:
+        ///     Trivial priority - 0.2
+        ///     Low priority - 0.5
+        ///     Medium priority - 1
+        ///     High priority - 1.5
+        /// 
+        /// 
+        /// Example - high priority task, which was finished in 3 hours
+        ///     
+        ///     Experience  = ([Base 10XP] + [3 hours * 10XP/hour]) * 1.5 = 40XP * 1.5 = 60XP 
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        public int GetExperienceForCompletion(int taskId)
+        {
+            double overallXpForTaskCompletion = ExperienceDefaultValues.BaseExperienceForTaskCompletion;
+
+            Task task = tasksRepository.Get(taskId);
+            if (task != null)
+            {
+                int baseXpForTaskFinish = ExperienceDefaultValues.BaseExperienceForTaskCompletion;
+                double severityMultiplier = ExperienceDefaultValues.GetSeverityMultiplier(task.Priority);
+                double experienceForWorkUnits = 0;
+
+                if (task.WorkUnits != null && task.WorkUnits.Count > 0)
+                {
+                    foreach (WorkUnit workUnit in task.WorkUnits)
+                    {
+                        double experienceForWorkUnit =
+                            ExperienceDefaultValues.GetExperienceForWork(workUnit.Duration.Value);
+                        experienceForWorkUnit += experienceForWorkUnit;
+                    }
+                }
+
+                overallXpForTaskCompletion = (baseXpForTaskFinish + experienceForWorkUnits)*severityMultiplier;
+            }
+
+            return (int)overallXpForTaskCompletion;
+        }
+
     }
 }

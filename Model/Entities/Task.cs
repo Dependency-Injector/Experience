@@ -60,7 +60,7 @@ namespace Model.Entities
             return TaskDefaults.Priorities[priority].Name;
         }
 
-        public string GetTotalExperienceGained()
+        public string GetTotalExperienceGainedLiteral()
         {
             TimeSpan workload = GetTotalWorkload();
             double exp = workload.TotalHours * 10;
@@ -69,6 +69,14 @@ namespace Model.Entities
                 return $"{(int) exp} XP";
             else
                 return "-";
+        }
+
+        public bool IsDevelopingAnySkill()
+        {
+            if (SkillToTrain != null)
+                return true;
+            else
+                return false;
         }
     }
 }

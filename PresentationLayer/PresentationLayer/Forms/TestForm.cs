@@ -34,11 +34,12 @@ namespace PresentationLayer.Forms
 
             PrepareStyleManager();
             BuildAutofac();
-            BindPresentersToControls();
+            BindLoginPresentersToControls();
             AttachEvents();
 
             if (ApplicationSettings.Current.IsAnyUserLoggedIn)
             {
+                BindContentPresentersToControls();
                 UpdateUiForLoginState(LoginState.LoggedIn);
             }
             else
@@ -58,7 +59,7 @@ namespace PresentationLayer.Forms
         private void LoginControlOnLogin(object sender, EventArgs eventArgs)
         {
             UpdateUiForLoginState(LoginState.LoggedIn);
-            BindPresentersToControls();
+            BindContentPresentersToControls();
         }
 
         private void LoggedUserControl_Logout(object sender, EventArgs e)
@@ -82,12 +83,22 @@ namespace PresentationLayer.Forms
             loggedUserControl.Logout += LoggedUserControl_Logout;
         }
 
-        private void BindPresentersToControls()
+        private void BindLoginPresentersToControls()
         {
             try
             {
                 loginPresenter = Container.Resolve<LoginPresenter>();
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+            }
+        }
 
+        private void BindContentPresentersToControls()
+        {
+            try
+            {
                 loggedUserPresenter = Container.Resolve<LoggedUserPresenter>();
                 taskPresenter = Container.Resolve<TaskPresenter>();
                 profilePresenter = Container.Resolve<ProfilePresenter>();
@@ -131,6 +142,8 @@ namespace PresentationLayer.Forms
             builder.RegisterType<TaskService>().As<ITaskService>();
             builder.RegisterType<HistoryService>().As<IHistoryService>();
             builder.RegisterType<SkillsService>().As<ISkillsService>();
+            builder.RegisterType<ProfileService>().As<IProfileService>();
+            builder.RegisterType<WorkUnitsService>().As<IWorkUnitsService>();
 
             #endregion
 
@@ -167,7 +180,9 @@ namespace PresentationLayer.Forms
                         c.Resolve<ISkillsRepository>(),
                         c.Resolve<IProfileRepository>(),
                         c.Resolve<IHistoryService>(),
-                        c.Resolve<ITaskService>()));
+                        c.Resolve<ITaskService>(),
+                        c.Resolve<IProfileService>(),
+                        c.Resolve<IWorkUnitsService>()));
 
             builder.Register(
                 c =>
@@ -221,6 +236,17 @@ namespace PresentationLayer.Forms
                 c => new SkillsService(
                     c.Resolve<ISkillsRepository>(),
                     c.Resolve<IProfileRepository>(),
+                    c.Resolve<IHistoryService>()));
+
+            builder.Register(
+                c => new ProfileService(
+                    c.Resolve<IProfileRepository>(),
+                    c.Resolve<ISkillsRepository>()));
+
+            builder.Register(
+                c => new WorkUnitsService(
+                    c.Resolve<IWorkUnitsRepository>(),
+                    c.Resolve<ITasksRepository>(),
                     c.Resolve<IHistoryService>()));
 
             #endregion

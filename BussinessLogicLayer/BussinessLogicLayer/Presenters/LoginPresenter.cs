@@ -117,8 +117,8 @@ namespace BussinessLogicLayer.Presenters
             }
             else if (displayMode == DisplayMode.View)
             {
-                view.ProfilesListVisible = false;
-                view.NewUserNameTextBoxVisible = true;
+                view.ProfilesListVisible = true;
+                view.NewUserNameTextBoxVisible = false;
             }
         }
     }

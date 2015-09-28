@@ -55,6 +55,7 @@
     <Compile Include="Entities\Day.cs" />
     <Compile Include="Enums\DisplayMode.cs" />
     <Compile Include="Enums\HistoryEventType.cs" />
+    <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\PriorityLevel.cs" />
     <Compile Include="Migrations\201507260540194_InitialCreate.cs" />
     <Compile Include="Migrations\201507260540194_InitialCreate.Designer.cs">
@@ -128,6 +129,10 @@
     <Compile Include="Migrations\201509071947590_DayNumber.Designer.cs">
       <DependentUpon>201509071947590_DayNumber.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509241148530_LanguagePreference.cs" />
+    <Compile Include="Migrations\201509241148530_LanguagePreference.Designer.cs">
+      <DependentUpon>201509241148530_LanguagePreference.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -191,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509071947590_DayNumber.resx">
       <DependentUpon>201509071947590_DayNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509241148530_LanguagePreference.resx">
+      <DependentUpon>201509241148530_LanguagePreference.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

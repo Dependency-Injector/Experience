@@ -162,16 +162,8 @@ namespace PresentationLayer.Controls
         {
             set
             {
-                if (value != null && value.Count > 0)
-                {
-                    ClearWorkUnitsGrid();
-                    FillWorkUnitsGrid(value);
-                    ShowWorkUnitsPanel(true);
-                }
-                else
-                {
-                    ShowWorkUnitsPanel(false);
-                }
+                ClearWorkUnitsGrid();
+                FillWorkUnitsGrid(value);
             }
         }
         public ICollection SkillsAvailable
@@ -213,6 +205,11 @@ namespace PresentationLayer.Controls
         public bool ActionButtonsVisible
         {
             set { taskActionButtonsPanel.Visible = value; }
+        }
+
+        public bool WorkUnitsPanelVisible
+        {
+            set { workUnitsPanel.Visible = value; }
         }
 
         public ICollection Tasks
@@ -582,10 +579,6 @@ namespace PresentationLayer.Controls
             }
         }
 
-        private void ShowWorkUnitsPanel(bool show)
-        {
-            workUnitsPanel.Visible = show;
-        }
         #endregion
 
 

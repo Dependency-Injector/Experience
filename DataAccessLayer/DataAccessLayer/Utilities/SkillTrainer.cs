@@ -67,7 +67,7 @@ namespace DataAccessLayer.Utilities
             }
         }
 
-        public static void TaskCompleted(Severity priority)
+        /*public static void TaskCompleted(Severity priority)
         {
             if (profileRepository != null)
             {
@@ -93,7 +93,7 @@ namespace DataAccessLayer.Utilities
                 profileRepository.Update(profile);
             }
 
-        }
+        }*/
 
         public static int GetSkillNewLevel(int skillId)
         {

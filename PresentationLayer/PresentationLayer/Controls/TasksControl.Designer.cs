@@ -45,32 +45,35 @@ namespace PresentationLayer.Controls
             this.nextTaskButton = new MetroFramework.Controls.MetroButton();
             this.previousTaskButton = new MetroFramework.Controls.MetroButton();
             this.taskDetailsPanel = new MetroFramework.Controls.MetroPanel();
-            this.taskActionButtonsPanel = new MetroFramework.Controls.MetroPanel();
-            this.finishedButton = new MetroFramework.Controls.MetroButton();
-            this.editButton = new MetroFramework.Controls.MetroButton();
-            this.stopWorkingButton = new MetroFramework.Controls.MetroButton();
-            this.startWorkButton = new MetroFramework.Controls.MetroButton();
             this.taskInfoPanel = new MetroFramework.Controls.MetroPanel();
+            this.childrenTasksPanel = new MetroFramework.Controls.MetroPanel();
+            this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
             this.totalExpGainedLabel = new MetroFramework.Controls.MetroLabel();
             this.totalWorkloadLabel = new MetroFramework.Controls.MetroLabel();
             this.attachedSkillNameLabel = new MetroFramework.Controls.MetroLabel();
+            this.totalExpGainedTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.totalWorkloadTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.attachedSkillTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.nameLabel = new MetroFramework.Controls.MetroLabel();
+            this.dueDateTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.descriptionTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.startAndDueDate = new MetroFramework.Controls.MetroLabel();
+            this.parentTaskLabel = new MetroFramework.Controls.MetroLabel();
+            this.childTasksLabel = new MetroFramework.Controls.MetroLabel();
+            this.priorityLabel = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.priorityTextLabel = new MetroFramework.Controls.MetroLabel();
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.reportedWorkTextLabel = new MetroFramework.Controls.MetroLabel();
             this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
             this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.workDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalExpGainedTextLabel = new MetroFramework.Controls.MetroLabel();
-            this.totalWorkloadTextLabel = new MetroFramework.Controls.MetroLabel();
-            this.attachedSkillTextLabel = new MetroFramework.Controls.MetroLabel();
-            this.nameLabel = new MetroFramework.Controls.MetroLabel();
-            this.dueDateTextLabel = new MetroFramework.Controls.MetroLabel();
-            this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
-            this.descriptionTextLabel = new MetroFramework.Controls.MetroLabel();
-            this.startAndDueDate = new MetroFramework.Controls.MetroLabel();
-            this.priorityLabel = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.priorityTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.taskActionButtonsPanel = new MetroFramework.Controls.MetroPanel();
+            this.finishedButton = new MetroFramework.Controls.MetroButton();
+            this.editButton = new MetroFramework.Controls.MetroButton();
+            this.stopWorkingButton = new MetroFramework.Controls.MetroButton();
+            this.startWorkButton = new MetroFramework.Controls.MetroButton();
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
             this.parentTaskTextLabel = new MetroFramework.Controls.MetroLabel();
             this.skillToTrainTextLabel = new MetroFramework.Controls.MetroLabel();
@@ -90,23 +93,20 @@ namespace PresentationLayer.Controls
             this.tasksPanel = new MetroFramework.Controls.MetroPanel();
             this.tasksListTextLabel = new MetroFramework.Controls.MetroLabel();
             this.tasksListGrid = new MetroFramework.Controls.MetroGrid();
+            this.workUnitBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.taskIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskDeadlineColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timeSpentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskPriorityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskIsFinishedColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.parentTaskLabel = new MetroFramework.Controls.MetroLabel();
-            this.childTasksLabel = new MetroFramework.Controls.MetroLabel();
-            this.childrenTasksPanel = new MetroFramework.Controls.MetroPanel();
-            this.workUnitBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.buttonsPanel.SuspendLayout();
             this.taskDetailsPanel.SuspendLayout();
-            this.taskActionButtonsPanel.SuspendLayout();
             this.taskInfoPanel.SuspendLayout();
             this.workUnitsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).BeginInit();
+            this.taskActionButtonsPanel.SuspendLayout();
             this.taskEditPanel.SuspendLayout();
             this.priorityPanel.SuspendLayout();
             this.tasksListPanel.SuspendLayout();
@@ -197,67 +197,6 @@ namespace PresentationLayer.Controls
             this.taskDetailsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskDetailsPanel.VerticalScrollbarSize = 10;
             // 
-            // taskActionButtonsPanel
-            // 
-            this.taskActionButtonsPanel.Controls.Add(this.finishedButton);
-            this.taskActionButtonsPanel.Controls.Add(this.editButton);
-            this.taskActionButtonsPanel.Controls.Add(this.stopWorkingButton);
-            this.taskActionButtonsPanel.Controls.Add(this.startWorkButton);
-            this.taskActionButtonsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.taskActionButtonsPanel.HorizontalScrollbarBarColor = true;
-            this.taskActionButtonsPanel.HorizontalScrollbarHighlightOnWheel = false;
-            this.taskActionButtonsPanel.HorizontalScrollbarSize = 10;
-            this.taskActionButtonsPanel.Location = new System.Drawing.Point(0, 489);
-            this.taskActionButtonsPanel.Name = "taskActionButtonsPanel";
-            this.taskActionButtonsPanel.Size = new System.Drawing.Size(586, 32);
-            this.taskActionButtonsPanel.TabIndex = 13;
-            this.taskActionButtonsPanel.VerticalScrollbarBarColor = true;
-            this.taskActionButtonsPanel.VerticalScrollbarHighlightOnWheel = false;
-            this.taskActionButtonsPanel.VerticalScrollbarSize = 10;
-            // 
-            // finishedButton
-            // 
-            this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.finishedButton.Location = new System.Drawing.Point(499, 3);
-            this.finishedButton.Name = "finishedButton";
-            this.finishedButton.Size = new System.Drawing.Size(84, 26);
-            this.finishedButton.TabIndex = 10;
-            this.finishedButton.Text = "Finished!";
-            this.finishedButton.UseSelectable = true;
-            this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
-            // 
-            // editButton
-            // 
-            this.editButton.Location = new System.Drawing.Point(3, 3);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(99, 26);
-            this.editButton.TabIndex = 9;
-            this.editButton.Text = "Edit";
-            this.editButton.UseSelectable = true;
-            this.editButton.Click += new System.EventHandler(this.editButton_Click);
-            // 
-            // stopWorkingButton
-            // 
-            this.stopWorkingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stopWorkingButton.Location = new System.Drawing.Point(317, 3);
-            this.stopWorkingButton.Name = "stopWorkingButton";
-            this.stopWorkingButton.Size = new System.Drawing.Size(85, 26);
-            this.stopWorkingButton.TabIndex = 11;
-            this.stopWorkingButton.Text = "Stop working";
-            this.stopWorkingButton.UseSelectable = true;
-            this.stopWorkingButton.Click += new System.EventHandler(this.stopWorkingButton_Click);
-            // 
-            // startWorkButton
-            // 
-            this.startWorkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.startWorkButton.Location = new System.Drawing.Point(408, 3);
-            this.startWorkButton.Name = "startWorkButton";
-            this.startWorkButton.Size = new System.Drawing.Size(85, 26);
-            this.startWorkButton.TabIndex = 11;
-            this.startWorkButton.Text = "Start working";
-            this.startWorkButton.UseSelectable = true;
-            this.startWorkButton.Click += new System.EventHandler(this.startWorkButton_Click);
-            // 
             // taskInfoPanel
             // 
             this.taskInfoPanel.Controls.Add(this.childrenTasksPanel);
@@ -289,6 +228,32 @@ namespace PresentationLayer.Controls
             this.taskInfoPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskInfoPanel.VerticalScrollbarSize = 10;
             // 
+            // childrenTasksPanel
+            // 
+            this.childrenTasksPanel.AutoScroll = true;
+            this.childrenTasksPanel.HorizontalScrollbar = true;
+            this.childrenTasksPanel.HorizontalScrollbarBarColor = true;
+            this.childrenTasksPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.childrenTasksPanel.HorizontalScrollbarSize = 10;
+            this.childrenTasksPanel.Location = new System.Drawing.Point(391, 133);
+            this.childrenTasksPanel.Name = "childrenTasksPanel";
+            this.childrenTasksPanel.Size = new System.Drawing.Size(189, 99);
+            this.childrenTasksPanel.TabIndex = 17;
+            this.childrenTasksPanel.VerticalScrollbar = true;
+            this.childrenTasksPanel.VerticalScrollbarBarColor = true;
+            this.childrenTasksPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.childrenTasksPanel.VerticalScrollbarSize = 10;
+            // 
+            // descriptionLabel
+            // 
+            this.descriptionLabel.Location = new System.Drawing.Point(85, 85);
+            this.descriptionLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.descriptionLabel.Name = "descriptionLabel";
+            this.descriptionLabel.Size = new System.Drawing.Size(192, 137);
+            this.descriptionLabel.TabIndex = 6;
+            this.descriptionLabel.Text = "[Task description]";
+            this.descriptionLabel.WrapToLine = true;
+            // 
             // totalExpGainedLabel
             // 
             this.totalExpGainedLabel.AutoSize = true;
@@ -315,6 +280,120 @@ namespace PresentationLayer.Controls
             this.attachedSkillNameLabel.Size = new System.Drawing.Size(130, 19);
             this.attachedSkillNameLabel.TabIndex = 13;
             this.attachedSkillNameLabel.Text = "[Attached skill name]";
+            // 
+            // totalExpGainedTextLabel
+            // 
+            this.totalExpGainedTextLabel.AutoSize = true;
+            this.totalExpGainedTextLabel.Location = new System.Drawing.Point(289, 87);
+            this.totalExpGainedTextLabel.Name = "totalExpGainedTextLabel";
+            this.totalExpGainedTextLabel.Size = new System.Drawing.Size(105, 19);
+            this.totalExpGainedTextLabel.TabIndex = 13;
+            this.totalExpGainedTextLabel.Text = "Total experience";
+            // 
+            // totalWorkloadTextLabel
+            // 
+            this.totalWorkloadTextLabel.AutoSize = true;
+            this.totalWorkloadTextLabel.Location = new System.Drawing.Point(289, 64);
+            this.totalWorkloadTextLabel.Name = "totalWorkloadTextLabel";
+            this.totalWorkloadTextLabel.Size = new System.Drawing.Size(96, 19);
+            this.totalWorkloadTextLabel.TabIndex = 13;
+            this.totalWorkloadTextLabel.Text = "Total workload";
+            // 
+            // attachedSkillTextLabel
+            // 
+            this.attachedSkillTextLabel.AutoSize = true;
+            this.attachedSkillTextLabel.Location = new System.Drawing.Point(289, 41);
+            this.attachedSkillTextLabel.Name = "attachedSkillTextLabel";
+            this.attachedSkillTextLabel.Size = new System.Drawing.Size(85, 19);
+            this.attachedSkillTextLabel.TabIndex = 13;
+            this.attachedSkillTextLabel.Text = "Attached skill";
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.nameLabel.Location = new System.Drawing.Point(5, 5);
+            this.nameLabel.Name = "nameLabel";
+            this.nameLabel.Size = new System.Drawing.Size(593, 25);
+            this.nameLabel.TabIndex = 4;
+            this.nameLabel.Text = "Name";
+            this.nameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // dueDateTextLabel
+            // 
+            this.dueDateTextLabel.AutoSize = true;
+            this.dueDateTextLabel.Location = new System.Drawing.Point(6, 43);
+            this.dueDateTextLabel.Name = "dueDateTextLabel";
+            this.dueDateTextLabel.Size = new System.Drawing.Size(60, 19);
+            this.dueDateTextLabel.TabIndex = 12;
+            this.dueDateTextLabel.Text = "Deadline";
+            // 
+            // descriptionTextLabel
+            // 
+            this.descriptionTextLabel.AutoSize = true;
+            this.descriptionTextLabel.Location = new System.Drawing.Point(6, 85);
+            this.descriptionTextLabel.Name = "descriptionTextLabel";
+            this.descriptionTextLabel.Size = new System.Drawing.Size(74, 19);
+            this.descriptionTextLabel.TabIndex = 6;
+            this.descriptionTextLabel.Text = "Description";
+            // 
+            // startAndDueDate
+            // 
+            this.startAndDueDate.AutoSize = true;
+            this.startAndDueDate.Location = new System.Drawing.Point(85, 43);
+            this.startAndDueDate.Name = "startAndDueDate";
+            this.startAndDueDate.Size = new System.Drawing.Size(70, 19);
+            this.startAndDueDate.TabIndex = 5;
+            this.startAndDueDate.Text = "[Due date]";
+            // 
+            // parentTaskLabel
+            // 
+            this.parentTaskLabel.AutoSize = true;
+            this.parentTaskLabel.Location = new System.Drawing.Point(391, 110);
+            this.parentTaskLabel.Name = "parentTaskLabel";
+            this.parentTaskLabel.Size = new System.Drawing.Size(118, 19);
+            this.parentTaskLabel.TabIndex = 8;
+            this.parentTaskLabel.Text = "[Parent task name]";
+            this.parentTaskLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // childTasksLabel
+            // 
+            this.childTasksLabel.AutoSize = true;
+            this.childTasksLabel.Location = new System.Drawing.Point(289, 133);
+            this.childTasksLabel.Name = "childTasksLabel";
+            this.childTasksLabel.Size = new System.Drawing.Size(89, 19);
+            this.childTasksLabel.TabIndex = 8;
+            this.childTasksLabel.Text = "Children tasks";
+            this.childTasksLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // priorityLabel
+            // 
+            this.priorityLabel.AutoSize = true;
+            this.priorityLabel.Location = new System.Drawing.Point(85, 64);
+            this.priorityLabel.Name = "priorityLabel";
+            this.priorityLabel.Size = new System.Drawing.Size(122, 19);
+            this.priorityLabel.TabIndex = 8;
+            this.priorityLabel.Text = "[Task priority value]";
+            this.priorityLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Location = new System.Drawing.Point(289, 110);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(73, 19);
+            this.metroLabel1.TabIndex = 8;
+            this.metroLabel1.Text = "Parent task";
+            this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // priorityTextLabel
+            // 
+            this.priorityTextLabel.AutoSize = true;
+            this.priorityTextLabel.Location = new System.Drawing.Point(6, 64);
+            this.priorityTextLabel.Name = "priorityTextLabel";
+            this.priorityTextLabel.Size = new System.Drawing.Size(51, 19);
+            this.priorityTextLabel.TabIndex = 8;
+            this.priorityTextLabel.Text = "Priority";
+            this.priorityTextLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // workUnitsPanel
             // 
@@ -414,109 +493,66 @@ namespace PresentationLayer.Controls
             this.workDurationColumn.Name = "workDurationColumn";
             this.workDurationColumn.ReadOnly = true;
             // 
-            // totalExpGainedTextLabel
+            // taskActionButtonsPanel
             // 
-            this.totalExpGainedTextLabel.AutoSize = true;
-            this.totalExpGainedTextLabel.Location = new System.Drawing.Point(289, 87);
-            this.totalExpGainedTextLabel.Name = "totalExpGainedTextLabel";
-            this.totalExpGainedTextLabel.Size = new System.Drawing.Size(105, 19);
-            this.totalExpGainedTextLabel.TabIndex = 13;
-            this.totalExpGainedTextLabel.Text = "Total experience";
+            this.taskActionButtonsPanel.Controls.Add(this.finishedButton);
+            this.taskActionButtonsPanel.Controls.Add(this.editButton);
+            this.taskActionButtonsPanel.Controls.Add(this.stopWorkingButton);
+            this.taskActionButtonsPanel.Controls.Add(this.startWorkButton);
+            this.taskActionButtonsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.taskActionButtonsPanel.HorizontalScrollbarBarColor = true;
+            this.taskActionButtonsPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.taskActionButtonsPanel.HorizontalScrollbarSize = 10;
+            this.taskActionButtonsPanel.Location = new System.Drawing.Point(0, 489);
+            this.taskActionButtonsPanel.Name = "taskActionButtonsPanel";
+            this.taskActionButtonsPanel.Size = new System.Drawing.Size(586, 32);
+            this.taskActionButtonsPanel.TabIndex = 13;
+            this.taskActionButtonsPanel.VerticalScrollbarBarColor = true;
+            this.taskActionButtonsPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.taskActionButtonsPanel.VerticalScrollbarSize = 10;
             // 
-            // totalWorkloadTextLabel
+            // finishedButton
             // 
-            this.totalWorkloadTextLabel.AutoSize = true;
-            this.totalWorkloadTextLabel.Location = new System.Drawing.Point(289, 64);
-            this.totalWorkloadTextLabel.Name = "totalWorkloadTextLabel";
-            this.totalWorkloadTextLabel.Size = new System.Drawing.Size(96, 19);
-            this.totalWorkloadTextLabel.TabIndex = 13;
-            this.totalWorkloadTextLabel.Text = "Total workload";
+            this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.finishedButton.Location = new System.Drawing.Point(499, 3);
+            this.finishedButton.Name = "finishedButton";
+            this.finishedButton.Size = new System.Drawing.Size(84, 26);
+            this.finishedButton.TabIndex = 10;
+            this.finishedButton.Text = "Finished!";
+            this.finishedButton.UseSelectable = true;
+            this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
             // 
-            // attachedSkillTextLabel
+            // editButton
             // 
-            this.attachedSkillTextLabel.AutoSize = true;
-            this.attachedSkillTextLabel.Location = new System.Drawing.Point(289, 41);
-            this.attachedSkillTextLabel.Name = "attachedSkillTextLabel";
-            this.attachedSkillTextLabel.Size = new System.Drawing.Size(85, 19);
-            this.attachedSkillTextLabel.TabIndex = 13;
-            this.attachedSkillTextLabel.Text = "Attached skill";
+            this.editButton.Location = new System.Drawing.Point(3, 3);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(99, 26);
+            this.editButton.TabIndex = 9;
+            this.editButton.Text = "Edit";
+            this.editButton.UseSelectable = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
-            // nameLabel
+            // stopWorkingButton
             // 
-            this.nameLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.nameLabel.Location = new System.Drawing.Point(5, 5);
-            this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(593, 25);
-            this.nameLabel.TabIndex = 4;
-            this.nameLabel.Text = "Name";
-            this.nameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.stopWorkingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopWorkingButton.Location = new System.Drawing.Point(317, 3);
+            this.stopWorkingButton.Name = "stopWorkingButton";
+            this.stopWorkingButton.Size = new System.Drawing.Size(85, 26);
+            this.stopWorkingButton.TabIndex = 11;
+            this.stopWorkingButton.Text = "Stop working";
+            this.stopWorkingButton.UseSelectable = true;
+            this.stopWorkingButton.Click += new System.EventHandler(this.stopWorkingButton_Click);
             // 
-            // dueDateTextLabel
+            // startWorkButton
             // 
-            this.dueDateTextLabel.AutoSize = true;
-            this.dueDateTextLabel.Location = new System.Drawing.Point(6, 43);
-            this.dueDateTextLabel.Name = "dueDateTextLabel";
-            this.dueDateTextLabel.Size = new System.Drawing.Size(60, 19);
-            this.dueDateTextLabel.TabIndex = 12;
-            this.dueDateTextLabel.Text = "Deadline";
-            // 
-            // descriptionLabel
-            // 
-            this.descriptionLabel.Location = new System.Drawing.Point(85, 85);
-            this.descriptionLabel.Margin = new System.Windows.Forms.Padding(3);
-            this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(192, 137);
-            this.descriptionLabel.TabIndex = 6;
-            this.descriptionLabel.Text = "[Task description]";
-            this.descriptionLabel.WrapToLine = true;
-            // 
-            // descriptionTextLabel
-            // 
-            this.descriptionTextLabel.AutoSize = true;
-            this.descriptionTextLabel.Location = new System.Drawing.Point(6, 85);
-            this.descriptionTextLabel.Name = "descriptionTextLabel";
-            this.descriptionTextLabel.Size = new System.Drawing.Size(74, 19);
-            this.descriptionTextLabel.TabIndex = 6;
-            this.descriptionTextLabel.Text = "Description";
-            // 
-            // startAndDueDate
-            // 
-            this.startAndDueDate.AutoSize = true;
-            this.startAndDueDate.Location = new System.Drawing.Point(85, 43);
-            this.startAndDueDate.Name = "startAndDueDate";
-            this.startAndDueDate.Size = new System.Drawing.Size(70, 19);
-            this.startAndDueDate.TabIndex = 5;
-            this.startAndDueDate.Text = "[Due date]";
-            // 
-            // priorityLabel
-            // 
-            this.priorityLabel.AutoSize = true;
-            this.priorityLabel.Location = new System.Drawing.Point(85, 64);
-            this.priorityLabel.Name = "priorityLabel";
-            this.priorityLabel.Size = new System.Drawing.Size(122, 19);
-            this.priorityLabel.TabIndex = 8;
-            this.priorityLabel.Text = "[Task priority value]";
-            this.priorityLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // metroLabel1
-            // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(289, 110);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(73, 19);
-            this.metroLabel1.TabIndex = 8;
-            this.metroLabel1.Text = "Parent task";
-            this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // priorityTextLabel
-            // 
-            this.priorityTextLabel.AutoSize = true;
-            this.priorityTextLabel.Location = new System.Drawing.Point(6, 64);
-            this.priorityTextLabel.Name = "priorityTextLabel";
-            this.priorityTextLabel.Size = new System.Drawing.Size(51, 19);
-            this.priorityTextLabel.TabIndex = 8;
-            this.priorityTextLabel.Text = "Priority";
-            this.priorityTextLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.startWorkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.startWorkButton.Location = new System.Drawing.Point(408, 3);
+            this.startWorkButton.Name = "startWorkButton";
+            this.startWorkButton.Size = new System.Drawing.Size(85, 26);
+            this.startWorkButton.TabIndex = 11;
+            this.startWorkButton.Text = "Start working";
+            this.startWorkButton.UseSelectable = true;
+            this.startWorkButton.Click += new System.EventHandler(this.startWorkButton_Click);
             // 
             // taskEditPanel
             // 
@@ -822,6 +858,14 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tasksListGrid_DataBindingComplete);
             this.tasksListGrid.SelectionChanged += new System.EventHandler(this.tasksListGrid_SelectionChanged);
             // 
+            // workUnitBindingSource
+            // 
+            this.workUnitBindingSource.DataSource = typeof(Model.Entities.WorkUnit);
+            // 
+            // taskBindingSource
+            // 
+            this.taskBindingSource.DataSource = typeof(Model.Entities.Task);
+            // 
             // taskIdColumn
             // 
             this.taskIdColumn.HeaderText = "Id";
@@ -837,21 +881,27 @@ namespace PresentationLayer.Controls
             // 
             // taskDeadlineColumn
             // 
+            this.taskDeadlineColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.taskDeadlineColumn.HeaderText = "Deadline";
             this.taskDeadlineColumn.Name = "taskDeadlineColumn";
             this.taskDeadlineColumn.ReadOnly = true;
+            this.taskDeadlineColumn.Width = 76;
             // 
             // timeSpentColumn
             // 
+            this.timeSpentColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.timeSpentColumn.HeaderText = "Time spent";
             this.timeSpentColumn.Name = "timeSpentColumn";
             this.timeSpentColumn.ReadOnly = true;
+            this.timeSpentColumn.Width = 85;
             // 
             // taskPriorityColumn
             // 
+            this.taskPriorityColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.taskPriorityColumn.HeaderText = "Priority";
             this.taskPriorityColumn.Name = "taskPriorityColumn";
             this.taskPriorityColumn.ReadOnly = true;
+            this.taskPriorityColumn.Width = 66;
             // 
             // taskIsFinishedColumn
             // 
@@ -861,50 +911,6 @@ namespace PresentationLayer.Controls
             this.taskIsFinishedColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.taskIsFinishedColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.taskIsFinishedColumn.Visible = false;
-            // 
-            // parentTaskLabel
-            // 
-            this.parentTaskLabel.AutoSize = true;
-            this.parentTaskLabel.Location = new System.Drawing.Point(391, 110);
-            this.parentTaskLabel.Name = "parentTaskLabel";
-            this.parentTaskLabel.Size = new System.Drawing.Size(118, 19);
-            this.parentTaskLabel.TabIndex = 8;
-            this.parentTaskLabel.Text = "[Parent task name]";
-            this.parentTaskLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // childTasksLabel
-            // 
-            this.childTasksLabel.AutoSize = true;
-            this.childTasksLabel.Location = new System.Drawing.Point(289, 133);
-            this.childTasksLabel.Name = "childTasksLabel";
-            this.childTasksLabel.Size = new System.Drawing.Size(89, 19);
-            this.childTasksLabel.TabIndex = 8;
-            this.childTasksLabel.Text = "Children tasks";
-            this.childTasksLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // childrenTasksPanel
-            // 
-            this.childrenTasksPanel.AutoScroll = true;
-            this.childrenTasksPanel.HorizontalScrollbar = true;
-            this.childrenTasksPanel.HorizontalScrollbarBarColor = true;
-            this.childrenTasksPanel.HorizontalScrollbarHighlightOnWheel = false;
-            this.childrenTasksPanel.HorizontalScrollbarSize = 10;
-            this.childrenTasksPanel.Location = new System.Drawing.Point(391, 133);
-            this.childrenTasksPanel.Name = "childrenTasksPanel";
-            this.childrenTasksPanel.Size = new System.Drawing.Size(189, 99);
-            this.childrenTasksPanel.TabIndex = 17;
-            this.childrenTasksPanel.VerticalScrollbar = true;
-            this.childrenTasksPanel.VerticalScrollbarBarColor = true;
-            this.childrenTasksPanel.VerticalScrollbarHighlightOnWheel = false;
-            this.childrenTasksPanel.VerticalScrollbarSize = 10;
-            // 
-            // workUnitBindingSource
-            // 
-            this.workUnitBindingSource.DataSource = typeof(Model.Entities.WorkUnit);
-            // 
-            // taskBindingSource
-            // 
-            this.taskBindingSource.DataSource = typeof(Model.Entities.Task);
             // 
             // TasksControl
             // 
@@ -919,12 +925,12 @@ namespace PresentationLayer.Controls
             this.buttonsPanel.ResumeLayout(false);
             this.buttonsPanel.PerformLayout();
             this.taskDetailsPanel.ResumeLayout(false);
-            this.taskActionButtonsPanel.ResumeLayout(false);
             this.taskInfoPanel.ResumeLayout(false);
             this.taskInfoPanel.PerformLayout();
             this.workUnitsPanel.ResumeLayout(false);
             this.workUnitsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).EndInit();
+            this.taskActionButtonsPanel.ResumeLayout(false);
             this.taskEditPanel.ResumeLayout(false);
             this.taskEditPanel.PerformLayout();
             this.priorityPanel.ResumeLayout(false);
@@ -988,12 +994,6 @@ namespace PresentationLayer.Controls
         private System.Windows.Forms.DataGridViewTextBoxColumn workDurationColumn;
         private MetroLabel reportedWorkTextLabel;
         private MetroLabel tasksListTextLabel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn taskIdColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn taskNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn taskDeadlineColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn timeSpentColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn taskPriorityColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn taskIsFinishedColumn;
         private MetroLabel totalWorkloadLabel;
         private MetroLabel attachedSkillNameLabel;
         private MetroLabel totalWorkloadTextLabel;
@@ -1006,5 +1006,11 @@ namespace PresentationLayer.Controls
         private MetroLabel parentTaskLabel;
         private MetroLabel childTasksLabel;
         private MetroPanel childrenTasksPanel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taskIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taskNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taskDeadlineColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timeSpentColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn taskPriorityColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn taskIsFinishedColumn;
     }
 }
