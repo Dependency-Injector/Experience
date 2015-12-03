@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services;
@@ -13,9 +14,8 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class TaskPresenter
+    public class TaskPresenter : IPresenter
     {
-        #region Private fields
         private readonly ITasksView view;
         private readonly ITasksRepository tasksRepository;
         private readonly IWorkUnitsRepository workUnitsRepository;
@@ -31,7 +31,6 @@ namespace BussinessLogicLayer.Presenters
         private int selectedTaskIndex;
         private bool isTaskNew = true;
         private Profile currentUser;
-        #endregion
 
         public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
             IProfileRepository profilesRepository, IHistoryService historyService, ITaskService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService)
@@ -46,37 +45,17 @@ namespace BussinessLogicLayer.Presenters
             this.historyService = historyService;
             this.profilesService = profilesService;
             this.workUnitsService = workUnitsService;
-
-            Initialize();
         }
 
         #region Events
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {
-                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
-                {
-                    currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
-
-                    AttachEvents();
-                    tasks = ObtainTasksList();
-                    tasks = SortTasks(tasks);
-
-                    if (tasks != null && tasks.Count > 0)
-                    {
-                        DisplaySingleTaskInfoForUser(tasks[0], currentUser.Id);
-                        DisplayTasksList(tasks);
-                        selectedTaskIndex = tasks.Count - 1;
-                    }
-                    else
-                    {
-                        DisplayBlankTaskForUser(currentUser.Id);
-                    }
-
-                    SetDisplayMode(DisplayMode.View);
-                }
+                AttachEvents();
+                GetAndDisplayTasks();
+                SetDisplayMode(DisplayMode.View);
             }
             catch (Exception e)
             {
@@ -84,12 +63,17 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
+        public void Displayed()
+        {
+            GetAndDisplayTasks();
+        }
+
         private void ShowPrevious(object sender, EventArgs e)
         {
             if (selectedTaskIndex > 0)
             {
                 selectedTaskIndex--;
-                DisplaySingleTaskInfoForUser(GetTaskAtIndex(selectedTaskIndex), currentUser.Id);
+                DisplayTaskDetails(GetTaskAtIndex(selectedTaskIndex));
                 view.IsDirty = false;
             }
         }
@@ -99,14 +83,14 @@ namespace BussinessLogicLayer.Presenters
             if (selectedTaskIndex + 1 < tasks.Count)
             {
                 selectedTaskIndex++;
-                DisplaySingleTaskInfoForUser(GetTaskAtIndex(selectedTaskIndex), currentUser.Id);
+                DisplayTaskDetails(GetTaskAtIndex(selectedTaskIndex));
                 view.IsDirty = false;
             }
         }
 
         private void New(object sender, EventArgs e)
         {
-            DisplayBlankTaskForUser(currentUser.Id);
+            DisplayBlankTaskDetails();
             isTaskNew = true;
             view.IsDirty = false;
             selectedTaskIndex = tasks.Count - 1;
@@ -116,8 +100,7 @@ namespace BussinessLogicLayer.Presenters
         private void Save(object sender, EventArgs e)
         {
             Task taskToSave = isTaskNew ? new Task() : GetSelectedTask();
-            Profile currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
-
+            
             if (isTaskNew)
             {
                 taskToSave = tasksService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
@@ -132,10 +115,10 @@ namespace BussinessLogicLayer.Presenters
             isTaskNew = false;
             view.IsDirty = false;
 
-            tasks = ObtainTasksList();
-            tasks = SortTasks(tasks);
-            DisplayTasksList(tasks);
+            //ObtainAndDisplayTasks();
+            GetAndDisplayTasks();
             SelectTask(taskToSave);
+
             SetDisplayMode(DisplayMode.View);
         }
 
@@ -180,7 +163,7 @@ namespace BussinessLogicLayer.Presenters
 
             if (selectedTaskIndex > 0)
             {
-                DisplaySingleTaskInfoForUser(tasks[selectedTaskIndex], currentUser.Id);
+                DisplayTaskDetails(tasks[selectedTaskIndex]);
                 isTaskNew = false;
             }
             else
@@ -189,7 +172,7 @@ namespace BussinessLogicLayer.Presenters
                 isTaskNew = true;
             }
 
-            DisplayTasksList(tasks);
+            DisplayTasks(tasks);
             SetDisplayMode(DisplayMode.View);
         }
 
@@ -198,17 +181,25 @@ namespace BussinessLogicLayer.Presenters
             var taskToFinish = GetSelectedTask();
             int xpForTaskFinish = tasksService.GetExperienceForCompletion(taskToFinish.Id);
 
+            // Finish task and save info about this
             tasksService.FinishTask(taskToFinish);
-            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
+            //historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
 
+            // Give user XP for task and save info about this 
             profilesService.UserGainedExperience(taskToFinish.Owner.Id, xpForTaskFinish);
-            historyService.AddHistoryEvent(HistoryEventType.ExperienceGained, taskToFinish.Id, xpForTaskFinish);
+           // historyService.AddHistoryEvent(HistoryEventType.ExperienceGained, taskToFinish.Id, xpForTaskFinish);
+/*
+            Profile user = profilesRepository.Get(taskToFinish.Owner.Id);
+            if (user.HasReachedNewLevel())
+            {
+                int newLevel = user.GetNewLevel();
+                profilesService.UserReachedNewLevel(taskToFinish.Owner.Id, newLevel);
+                historyService.AddHistoryEvent(HistoryEventType.LevelGained, taskToFinish.Owner.Id, "", levelGained: newLevel);
+            }*/
 
-//            SkillTrainer.GiveXp(xpForTaskFinish);
-  //          historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
-
-            DisplaySingleTaskInfoForUser(taskToFinish, currentUser.Id);
-            DisplayTasksList(tasks);
+            //ObtainAndDisplayTasks();
+            GetAndDisplayTasks();
+            DisplayTaskDetails(taskToFinish);
             SetDisplayMode(DisplayMode.View);
         }
 
@@ -229,8 +220,9 @@ namespace BussinessLogicLayer.Presenters
 
                 currentWorkUnit = workUnitsRepository.Get(currentWorkUnit.Id);
                 DevelopPlayerSkillByWorkingOnTask(currentWorkUnit);
-                
-                DisplayWorkUnitsList(currentWorkUnit.Task.WorkUnits.ToList());
+
+                Task task = tasksRepository.Get(currentWorkUnit.Task.Id);
+                DisplayWorkUnitsList(task.WorkUnits.ToList());
             }
         }
 
@@ -239,27 +231,6 @@ namespace BussinessLogicLayer.Presenters
             Task selectedTask = GetSelectedTask();
             currentWorkUnit = workUnitsService.CreateNewWorkUnit(selectedTask.Id, DateTime.Now);
             historyService.AddHistoryEvent(HistoryEventType.WorkStarted, currentWorkUnit.Id);
-        }
-
-        #endregion
-
-        #region Helper methods
-
-        private void AttachEvents()
-        {
-            view.NewTask += New;
-            view.SaveTask += Save;
-            view.EditTask += Edit;
-            view.CancelTaskEditing += CancelTaskEditing;
-            view.RemoveTask += Remove;
-            view.FinishTask += Finish;
-            view.PreviousTask += ShowPrevious;
-            view.NextTask += ShowNext;
-            view.SelectTask += SelectTask;
-            view.StartWorkingOnTask += StartWorkingOnTask;
-            view.StopWorkingOnTask += StopWorkingOnTask;
-            view.ShowFinishedTasks += ShowFinishedTasks;
-            view.ParentTaskChanged += ParentTaskChanged;
         }
 
         private void ParentTaskChanged(object sender, EventArgs e)
@@ -283,11 +254,113 @@ namespace BussinessLogicLayer.Presenters
             // TODO
         }
 
+        #endregion
+
+        #region Helper methods
+
+        private void AttachEvents()
+        {
+            view.NewTask += New;
+            view.SaveTask += Save;
+            view.EditTask += Edit;
+            view.CancelTaskEditing += CancelTaskEditing;
+            view.RemoveTask += Remove;
+            view.FinishTask += Finish;
+            view.PreviousTask += ShowPrevious;
+            view.NextTask += ShowNext;
+            view.SelectTask += SelectTask;
+            view.StartWorkingOnTask += StartWorkingOnTask;
+            view.StopWorkingOnTask += StopWorkingOnTask;
+            view.ShowFinishedTasks += ShowFinishedTasks;
+            view.ParentTaskChanged += ParentTaskChanged;
+        }
+
+        private void GetAndDisplayTasks()
+        {
+            currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
+            tasks = ObtainTasksList();
+            tasks = SortTasks(tasks);
+
+            if (tasks != null && tasks.Count > 0)
+            {
+                DisplayTaskDetails(tasks[0]);
+                DisplayTasks(tasks);
+                selectedTaskIndex = tasks.Count - 1;        // At start, select last task
+            }
+            else
+            {
+                DisplayBlankTaskDetails();
+            }
+        }
+
+        private void ObtainAndDisplayTasks()
+        {
+            tasks = ObtainTasksList();
+            tasks = SortTasks(tasks);
+            DisplayTasks(tasks);
+        }
+
+        private void DisplayTasks(List<Task> tasksList)
+        {
+            view.Tasks = tasksList.ToDictionary(k => k.Id, val => val.Name);
+            view.TasksGridItems = GetTasksGridItems(tasksList);
+        }
+
+        private IList<TaskGridItem> GetTasksGridItems(List<Task> tasksList)
+        {
+            IList<TaskGridItem> tasksGridItems = new List<TaskGridItem>();
+
+            foreach (Task task in tasksList)
+            {
+                if (task.DueDate.HasValue)
+                {
+                    int daysToDeadline = (int) (task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
+                    string deadlineLiteral = String.Empty;
+                    if (daysToDeadline < 0)
+                        deadlineLiteral = $"Overdue {Math.Abs(daysToDeadline)} days!";
+                    else if (daysToDeadline == 0)
+                        deadlineLiteral = "Today";
+                    else if (daysToDeadline == 1)
+                        deadlineLiteral = "Tomorrow";
+                    else if (daysToDeadline > 1)
+                        deadlineLiteral = task.DueDate.Value.ToString("M");
+
+                    string timeSpent = task.GetTotalWorkloadLiteral();
+
+                    String priority = task.GetPriorityLiteral();
+
+                    String name = String.Empty;
+                    /* if (task.Parent != null)
+                         name = GetTaskNameForNestedTask(task);
+                     else
+                         name = task.Name;*/
+                    if (task.Tasks != null && task.Tasks.Count > 0)
+                        name = $"[Goal] {task.Name}";
+                    else
+                        name = task.Name;
+                    
+                   
+                    tasksGridItems.Add(new TaskGridItem(task.Id, name, deadlineLiteral, timeSpent, priority));
+                }
+            }
+
+            return tasksGridItems;
+        }
+
         private List<Task> ObtainTasksList()
         {
             return tasksRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn ? tasksRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId).ToList() : new List<Task>();
         }
 
+        private List<Task> SortTasks(List<Task> tasksUnsorted)
+        {
+            return
+                tasksUnsorted.Where(t => t.IsFinished == false)
+                    .OrderBy(t => t.DueDate.Value.Date)
+                    .ThenByDescending(t => t.Priority)
+                    .ToList();
+        }
+        
         private ICollection GetTasksRows(List<Task> tasksToGetRowsFrom)
         {
             List<string[]> taskRows = new List<string[]>();
@@ -296,7 +369,7 @@ namespace BussinessLogicLayer.Presenters
             {
                 if (task.DueDate.HasValue)
                 {
-                    int daysToDeadline = (int) (task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
+                    int daysToDeadline = (int)(task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
                     string deadlineLiteral = String.Empty;
                     if (daysToDeadline < 0)
                         deadlineLiteral = $"Overdue {Math.Abs(daysToDeadline)} days!";
@@ -338,18 +411,6 @@ namespace BussinessLogicLayer.Presenters
             return taskRows;
         }
 
-        private string GetTaskNameForNestedTask(Task taskWithParent)
-        {
-            String name = taskWithParent.Name;
-            Task tempTask = taskWithParent;
-            while (tempTask.Parent != null)
-            {
-                name = "   " + name;
-                tempTask = tempTask.Parent;
-            }
-            return name;
-        }
-
         private ICollection GetWorkUnitsRows(List<WorkUnit> unitsOfWork)
         {
             List<string[]> workUnitsRows = new List<string[]>();
@@ -362,8 +423,8 @@ namespace BussinessLogicLayer.Presenters
                     String endDate = unitOfWork.EndTime.Value.ToString("dddd, d MMMM HH:mm");
                     TimeSpan duration = new TimeSpan(0, 0, 0, unitOfWork.Duration.Value);
 
-                    if (duration.TotalMinutes < 5)
-                        continue;
+                    //if (duration.TotalMinutes < 5)
+                    //    continue;
 
                     String durationLiteral;
                     if (duration.TotalHours < 1)
@@ -403,6 +464,25 @@ namespace BussinessLogicLayer.Presenters
             return skillsRows;
         }
 
+        private ICollection GetChildrenTasksRows(ICollection<Task> childrenTasks)
+        {
+            List<string[]> childrenTasksRows = new List<string[]>();
+
+            foreach (var childrenTask in childrenTasks)
+            {
+                string[] childrenTaskRow = new string[]
+                {
+                    $"{childrenTask.Name}",
+                    $"{childrenTask.IsFinished}",
+/*                    $"{durationLiteral}"*/
+                };
+
+                childrenTasksRows.Add(childrenTaskRow);
+            }
+
+            return childrenTasksRows;
+        }
+
         private Task GetTaskAtIndex(int index)
         {
             if (tasks != null && tasks.Count > 0 && index < tasks.Count)
@@ -421,21 +501,14 @@ namespace BussinessLogicLayer.Presenters
             var indexOfTask = tasks.FindIndex(t => t.Id == id);
             var selectedTask = GetTaskAtIndex(indexOfTask);
             selectedTaskIndex = indexOfTask;
-            DisplaySingleTaskInfoForUser(selectedTask, currentUser.Id);
+            view.SelectedTaskIndex = selectedTaskIndex;
+
+            DisplayTaskDetails(selectedTask);
         }
 
         private void SelectTask(Task task)
         {
             SelectTask(this, task.Id);
-        }
-
-        private List<Task> SortTasks(List<Task> tasksUnsorted)
-        {
-            return
-                tasksUnsorted.Where(t => t.IsFinished == false)
-                    .OrderBy(t => t.DueDate.Value.Date)
-                    .ThenByDescending(t => t.Priority)
-                    .ToList();
         }
 
         private void DisplayWorkUnitsList(List<WorkUnit> workUnits)
@@ -451,16 +524,12 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
-        private void DisplayTasksList(List<Task> tasksList)
-        {
-            view.Tasks = GetTasksRows(tasksList);
-        }
-
-        private void DisplayBlankTaskForUser(int userId)
+        private void DisplayBlankTaskDetails()
         {
             view.TaskName = "[Name something to be done]";
             view.Priority = 1;
             view.TaskDescription = "[Describe your task]";
+            view.MinDueDate = DateTime.Today;
             view.DueDate = DateTime.Now.AddDays(1);
             view.AssociatedSkillName = "-";
             view.TotalWorkload = "-";
@@ -469,25 +538,24 @@ namespace BussinessLogicLayer.Presenters
             view.ActionButtonsVisible = true;
             view.FinishDate = null;
             view.WorkUnits = null;
-            view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == userId).ToList());
+            view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == currentUser.Id).ToList());
             view.SkillToTrainId = null;
             view.ParentTaskId = null;
         }
 
-        private void DisplaySingleTaskInfoForUser(Task task, int userId)
+        private void DisplayTaskDetails(Task task)
         {
             view.TaskName = task.Name;
             view.TaskDescription = task.Description;
             view.Priority = (int)task.Priority;
+            view.MinDueDate = task.DueDate.Value.Date;
             view.DueDate = task.DueDate;
             view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
             view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
             view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGainedLiteral() : "-";
-            //view.IsFinished = task.IsFinished;
             view.ActionButtonsVisible = !task.IsFinished;
             view.FinishDate = task.FinishedDate;
-            //view.WorkUnits = GetWorkUnitsRows(task.WorkUnits.ToList());
-            view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == userId).ToList());
+            view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == currentUser.Id).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;
             view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";
@@ -497,25 +565,6 @@ namespace BussinessLogicLayer.Presenters
             DisplayWorkUnitsList(task.WorkUnits.ToList());
 
             isTaskNew = false;
-        }
-
-        private ICollection GetChildrenTasksRows(ICollection<Task> childrenTasks)
-        {
-            List<string[]> childrenTasksRows = new List<string[]>();
-
-            foreach (var childrenTask in childrenTasks)
-            {
-                string[] childrenTaskRow = new string[]
-                {
-                    $"{childrenTask.Name}",
-                    $"{childrenTask.IsFinished}",
-/*                    $"{durationLiteral}"*/
-                };
-
-                childrenTasksRows.Add(childrenTaskRow);
-            }
-
-            return childrenTasksRows;
         }
 
         private void SetDisplayMode(DisplayMode displayMode)
@@ -548,17 +597,30 @@ namespace BussinessLogicLayer.Presenters
                 profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
                 historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
 
-                // Check if skill leveled up
+                /*// Check if skill leveled up
                 if (skillToTrain.HasReachedNewLevel())
                 {
                     // Give skill new level
                     int skillNewLevel = skillToTrain.GetNewLevel();
                     profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
                     historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
-                }
+                }*/
             }
 
         }
+        
+        private string GetTaskNameForNestedTask(Task taskWithParent)
+        {
+            String name = taskWithParent.Name;
+            Task tempTask = taskWithParent;
+            while (tempTask.Parent != null)
+            {
+                name = "   " + name;
+                tempTask = tempTask.Parent;
+            }
+            return name;
+        }
+        
         #endregion
     }
 }

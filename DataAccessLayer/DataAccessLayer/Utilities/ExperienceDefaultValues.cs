@@ -12,16 +12,16 @@ namespace DataAccessLayer.Utilities
         public static double MediumPriorityTaskMultiplier = 1;
         public static double HightPriorityTaskMultiplier = 2;
 
-        public static int ExperiencePerHour = 10;
+        public static int ExperiencePerHour = 100;
         
         public static double GetSeverityMultiplier(Severity taskSeverity)
         {
             double severityMultiplier = 1;
             switch (taskSeverity)
             {
-                case Severity.Trivial:
-                    severityMultiplier = ExperienceDefaultValues.TrivialPriorityTaskMultiplier;
-                    break;
+                //case Severity.Trivial:
+                //    severityMultiplier = ExperienceDefaultValues.TrivialPriorityTaskMultiplier;
+                //    break;
 
                 case Severity.Low:
                     severityMultiplier = ExperienceDefaultValues.LowPriorityTaskMultiplier;

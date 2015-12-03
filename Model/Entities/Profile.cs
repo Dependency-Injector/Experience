@@ -35,12 +35,24 @@ namespace Model.Entities
             }
         }
 
+        public int GetExperienceWhenNewLevel()
+        {
+            return (Level * 100);
+        }
+
+        public int GetExperienceToGainLevel()
+        {
+            int experienceWhenNextLevel = GetExperienceWhenNewLevel();
+            int experienceToGainNextLevel = experienceWhenNextLevel - Experience;
+            return experienceToGainNextLevel;
+        }
+
         public int LevelProgressInPercent()
         {
-            int experienceToNextLevel = (Level*1000);
-            float completedPart = (float)Experience/experienceToNextLevel;
-            int percentCompleted = (int)(completedPart * 100);
-            return percentCompleted;
+            int experienceToGainLevel = GetExperienceToGainLevel();
+            float levelCompletion = (float) (100 - experienceToGainLevel)/100;
+            int levelCompletionPercent = (int) (levelCompletion*100);
+            return levelCompletionPercent;
         }
 
         public int GetDaysSinceFirstDay()
@@ -53,6 +65,25 @@ namespace Model.Entities
         {
             int daysSinceUserFirstDay = startDay.Date.GetDaysSince(JoinDate);
             return daysSinceUserFirstDay;
+        }
+
+        public bool HasReachedNewLevel()
+        {
+            float experienceToNewLevel = Level * 100;
+            if (Experience > experienceToNewLevel)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetNewLevel()
+        {
+            int newLevel = this.Experience / 100 + 1;
+            return newLevel;
         }
     }
 }

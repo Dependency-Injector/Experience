@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Windows.Forms;
 
 namespace BussinessLogicLayer.Interfaces
 {
@@ -9,15 +9,12 @@ namespace BussinessLogicLayer.Interfaces
         String History { get; set; }
         String Age { set; }
         String NewSkillName { get; set; }
-        DateTime BirthDate { get; set; }
-        DateTime Joined { set; }
         int Level { get; set; }
-        int Experience { get; set; }
+        String Experience { get; set; }
         int LevelProgress { get; set; }
-        ICollection Skills { set; } 
-        ICollection ExperienceEventData { set; }
-
-        bool RemoveSkillColumnVisible { set; }
+        int? SelectedSkill { get; set; }
+        BindingSource Skills { set; }
+        BindingSource ProfileRelatedEvents { set; }
         bool AddNewSkillPanelVisible { set; }
         bool EditProfileButtonVisible { set; }
         bool CancelChangesButtonVisible { set; }
@@ -28,6 +25,7 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> EditProfile;
         event EventHandler<EventArgs> SaveChanges;
         event EventHandler<EventArgs> CancelChanges;
-        
+        event Action SkillSelected;
     }
+
 }

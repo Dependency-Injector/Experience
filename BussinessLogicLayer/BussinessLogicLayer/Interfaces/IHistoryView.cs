@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
+using BussinessLogicLayer.Templates;
 
 namespace BussinessLogicLayer.Interfaces
 {
     public interface IHistoryView
     {
-        ICollection HistoryEventsRows { set; }
+        IList<HistoryEventGridItem> HistoryEventsGridItems { set; }
 
         bool DisplayTaskEvents { get; set; }
         bool DisplayWorkUnitEvents { get; set; }
@@ -17,4 +18,5 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> ShowHideExperienceEvents;
         event EventHandler<EventArgs> ShowHideProfileAndSkillEvents;
     }
+
 }

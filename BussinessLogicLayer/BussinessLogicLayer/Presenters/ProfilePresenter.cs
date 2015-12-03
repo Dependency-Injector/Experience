@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
+using BussinessLogicLayer.Templates;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
@@ -13,7 +16,7 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class ProfilePresenter : IEditable
+    public class ProfilePresenter : IPresenter
     {
         private readonly IProfileView view;
         private readonly IProfileRepository profileRepository;
@@ -30,21 +33,20 @@ namespace BussinessLogicLayer.Presenters
             this.profileRepository = profileRepository;
             this.historyEventsRepository = historyEventsRepository;
             this.skillsService = skillsService;
-
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {
+                AttachEvents();
+
                 if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
                     int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
                     currentUser = ObtainProfile(currentUserId);
                     if (currentUser != null)
                     {
-                        AttachEvents();
                         DisplayProfileInfo(currentUser);
                         SetDisplayMode(DisplayMode.View);
                     }
@@ -63,6 +65,12 @@ namespace BussinessLogicLayer.Presenters
             view.EditProfile += EditProfile;
             view.CancelChanges += CancelChanges;
             view.SaveChanges += SaveChanges;
+            view.SkillSelected += ViewOnSkillSelected;
+        }
+
+        private void ViewOnSkillSelected()
+        {
+            int? selectedSkillId = view.SelectedSkill;
         }
 
         private void EditProfile(object sender, EventArgs e)
@@ -94,6 +102,18 @@ namespace BussinessLogicLayer.Presenters
 
         private void SaveChanges(object sender, EventArgs e)
         {
+            String saveChangesWarning = getSaveChangesWarning();
+            DialogResult saveConfirmation = MessageBox.Show(saveChangesWarning, "Confirm save changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (saveConfirmation == DialogResult.Yes)
+            {
+                AddNewSkills();
+                RemoveSelectedSkills();
+                SetDisplayMode(DisplayMode.View);
+            }
+        }
+
+        private String getSaveChangesWarning()
+        {
             StringBuilder saveChangesWarning = new StringBuilder();
             saveChangesWarning.AppendFormat("Are you sure?");
 
@@ -109,41 +129,39 @@ namespace BussinessLogicLayer.Presenters
                 saveChangesWarning.AppendFormat("{0} skills will be removed.", skillsIdsToRemove.Count);
             }
 
-            DialogResult saveConfirmation = MessageBox.Show(saveChangesWarning.ToString(), "Confirm save changes",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (saveConfirmation == DialogResult.Yes)
+            return saveChangesWarning.ToString();
+        }
+
+        private void RemoveSelectedSkills()
+        {
+            if (skillsIdsToRemove != null)
             {
-                if (newSkillsToAdd != null)
+                foreach (int skillToRemoveId in skillsIdsToRemove)
                 {
-                    foreach (String skillToAdd in newSkillsToAdd)
-                    {
-                        Skill skillToSave = skillsService.CreateNewSkill(currentUser.Id, skillToAdd);
-                        skillsService.SaveSkill(skillToSave);
-                    }
+                    skillsService.RemoveSkill(skillToRemoveId);
                 }
 
-                if (skillsIdsToRemove != null)
+                skillsIdsToRemove.Clear();
+            }
+        }
+
+        private void AddNewSkills()
+        {
+            if (newSkillsToAdd != null)
+            {
+                foreach (String skillToAdd in newSkillsToAdd)
                 {
-                    foreach (int skillToRemoveId in skillsIdsToRemove)
-                    {
-                        skillsService.RemoveSkill(skillToRemoveId);
-                    }
+                    Skill skillToSave = skillsService.CreateNewSkill(currentUser.Id, skillToAdd);
+                    skillsService.SaveSkill(skillToSave);
                 }
 
-                SetDisplayMode(DisplayMode.View);
+                newSkillsToAdd.Clear();
             }
         }
 
         private void DisplayProfileInfo(Profile profile)
         {
-            view.PlayerName = profile.Name;
-            view.History = profile.History;
-            view.Age = profile.AgeInYears().HasValue ? profile.AgeInYears().Value.ToString() : "[birth date not set]";
-            view.Experience = profile.Experience;
-            view.Level = profile.Level;
-            view.LevelProgress = profile.LevelProgressInPercent();
-            view.Skills = profile.Skills.ToList();
-            var experienceEvents =
+            var profileRelatedHistoryEvents =
                 historyEventsRepository.Find(
                     he =>
                         he.Type == HistoryEventType.ExperienceGained ||
@@ -151,29 +169,86 @@ namespace BussinessLogicLayer.Presenters
                         he.Type == HistoryEventType.SkillExperienceGained ||
                         he.Type == HistoryEventType.SkillLevelGained).ToList();
 
-            view.ExperienceEventData = GetExperienceEventRows(experienceEvents);
+            view.PlayerName = profile.Name;
+            view.History = profile.History;
+            view.Age = profile.AgeInYears().HasValue ? profile.AgeInYears().Value.ToString() : "[birth date not set]";
+
+            
+            view.Experience = $"{profile.Experience} / {profile.GetExperienceWhenNewLevel()}"; 
+            view.Level = profile.Level;
+            view.LevelProgress = profile.LevelProgressInPercent();
+            view.Skills = MakeBindingSourceFromList(GetSkillsGridItems(profile.Skills));
+
+            var profileRelatedEventsItems =
+                GetProfileRelatedEventsGridItems(profileRelatedHistoryEvents).OrderByDescending(prei => prei.When).ToList();
+
+            view.ProfileRelatedEvents = MakeBindingSourceFromList(profileRelatedEventsItems);
         }
 
-        private List<string[]> GetExperienceEventRows(List<HistoryEvent> historyEvents)
+        private List<SkillGridItem> GetSkillsGridItems(ICollection<Skill> skills)
         {
-            List<string[]> workUnitsRows = new List<string[]>();
+            List<SkillGridItem> skillGridViewItems = new List<SkillGridItem>();
 
+            foreach (Skill skill in skills)
+            {
+                skillGridViewItems.Add(new SkillGridItem(skill.Id, skill.Name, skill.Level.ToString(), skill.Experience.ToString()));    
+            }
+
+            return skillGridViewItems;
+        }
+
+        private List<UserGrowthRelatedEventGridItem> GetProfileRelatedEventsGridItems(List<HistoryEvent> historyEvents)
+        {
+            List<UserGrowthRelatedEventGridItem> profileRelatedEvents = new List<UserGrowthRelatedEventGridItem>();
+            
             foreach (var historyEvent in historyEvents)
             {
                 String occuredDate = historyEvent.Occured.ToString("dddd, d MMMM HH:mm");
                 String eventType = historyEvent.Type.ToString();
-
-                string[] taskRow = new string[]
-                {
-                    $"{occuredDate}",
-                    $"{eventType}",
-/*                    $"{durationLiteral}"*/
-                };
-
-                workUnitsRows.Add(taskRow);
+                String eventTextForUser = GetEventTextForUser(historyEvent);
+            
+                profileRelatedEvents.Add(new UserGrowthRelatedEventGridItem(historyEvent.Occured, occuredDate, eventTextForUser));
             }
 
-            return workUnitsRows;
+            return profileRelatedEvents;
+        }
+
+        private string GetEventTextForUser(HistoryEvent historyEvent)
+        {
+            String eventTextForUser = String.Empty;
+            Dictionary<String, String> additionalInfo = new Dictionary<string, string>();
+
+            if (!String.IsNullOrEmpty(historyEvent.AdditionalInfo))
+            {
+                List<String> keyValues = historyEvent.AdditionalInfo.Split(';').ToList();
+                foreach (var keyValue in keyValues)
+                {
+                    String[] keyValueSplitted = keyValue.Split(':');
+                    additionalInfo.Add(keyValueSplitted[0], keyValueSplitted[1]);
+                }
+
+
+                switch (historyEvent.Type)
+                {
+                    case HistoryEventType.SkillExperienceGained:
+                        eventTextForUser = $"+{additionalInfo["Xp"]} XP  {additionalInfo["Name"]}";
+                        break;
+
+                    case HistoryEventType.ExperienceGained:
+                        eventTextForUser = $"+{additionalInfo["Xp"]} XP";
+                        break;
+
+                    case HistoryEventType.SkillLevelGained:
+                        eventTextForUser = $"{additionalInfo["Name"]} reached {additionalInfo["LevelReached"]} level";
+                        break;
+
+                    case HistoryEventType.LevelGained:
+                        eventTextForUser = $"You reached {additionalInfo["LevelReached"]} level";
+                        break;
+                }
+            }
+
+            return eventTextForUser;
         }
 
         private Profile ObtainProfile(int profileId)
@@ -187,7 +262,6 @@ namespace BussinessLogicLayer.Presenters
             {
                 view.SaveChangesButtonVisible = true;
                 view.CancelChangesButtonVisible = true;
-                view.RemoveSkillColumnVisible = true;
                 view.AddNewSkillPanelVisible = true;
                 view.EditProfileButtonVisible = false;
             }
@@ -195,9 +269,26 @@ namespace BussinessLogicLayer.Presenters
             {
                 view.SaveChangesButtonVisible = false;
                 view.CancelChangesButtonVisible = false;
-                view.RemoveSkillColumnVisible = false;
                 view.AddNewSkillPanelVisible = false;
                 view.EditProfileButtonVisible = true;
+            }
+        }
+        
+        public static BindingSource MakeBindingSourceFromList(IList list)
+        {
+            BindingSource source = new BindingSource();
+            source.DataSource = list;
+            return source;
+        }
+        
+        public void Displayed()
+        {
+            int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
+            currentUser = ObtainProfile(currentUserId);
+            if (currentUser != null)
+            {
+                DisplayProfileInfo(currentUser);
+                SetDisplayMode(DisplayMode.View);
             }
         }
     }

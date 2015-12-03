@@ -17,10 +17,10 @@ namespace BussinessLogicLayer.Presenters
             this.view = view;
             this.profilesRepository = profilesRepository;
 
-            Initialize();
+            //Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {

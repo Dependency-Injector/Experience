@@ -9,7 +9,7 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class DayPresenter
+    public class DayPresenter : IPresenter
     {
         private readonly IDayView view;
         private readonly IDaysRepository daysRepository;
@@ -25,31 +25,26 @@ namespace BussinessLogicLayer.Presenters
             this.daysRepository = daysRepository;
             this.profileRepository = profileRepository;
             this.daysService = daysService;
-
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {
                 AttachEvents();
 
-                if (ApplicationSettings.Current.IsAnyUserLoggedIn)
+                currentUser = GetCurrentUser();
+
+                dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, DateTime.Now);
+                if (dayBeingDisplayed == null)
                 {
-                    currentUser = GetCurrentUser();
-
-                    dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, DateTime.Now);
-                    if (dayBeingDisplayed == null)
-                    {
-                        dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, DateTime.Now, view.Thoughts);
-                    }
-
-                    DisplayDayData(dayBeingDisplayed, currentUser.GetDaysSinceFirstDay());
-
-                    SetDisplayMode(DisplayMode.View);
-                    ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay());
+                    dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, DateTime.Now, view.Thoughts);
                 }
+
+                DisplayDayData(dayBeingDisplayed, currentUser.GetDaysSinceFirstDay());
+
+                SetDisplayMode(DisplayMode.View);
+                ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay());
             }
             catch (Exception e)
             {
@@ -116,7 +111,7 @@ namespace BussinessLogicLayer.Presenters
         {
             view.ShowNextDayButton = show;
         }
-        
+
         private void DisplayDayData(Day day, double dayNumber)
         {
             view.DayNumber = (int)dayNumber;
@@ -140,7 +135,7 @@ namespace BussinessLogicLayer.Presenters
             else
                 dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, dateOfDayAhead);
             int daysSinceDayAhead = GetDaysBetweenDates(dateOfDayAhead, currentUser.JoinDate);
-           
+
             DisplayDayData(dayBeingDisplayed, daysSinceDayAhead);
             ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dateOfDayAhead));
         }
@@ -182,5 +177,9 @@ namespace BussinessLogicLayer.Presenters
 
         #endregion
 
+        public void Displayed()
+        {
+            // TODO
+        }
     }
 }

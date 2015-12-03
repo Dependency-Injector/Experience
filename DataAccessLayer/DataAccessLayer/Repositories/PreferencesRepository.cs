@@ -18,7 +18,12 @@ namespace DataAccessLayer.Repositories
             context = new EntitiesContext();
             context.Database.Connection.Open();    
         }
-        
+
+        public Preferences Get(int preferencesId)
+        {
+            return context.Preferences.AsNoTracking().FirstOrDefault(p => p.Id == preferencesId);
+        }
+
         public IEnumerable<Preferences> Find(Expression<Func<Preferences, bool>> @where)
         {
             return context.Preferences.AsNoTracking().Where(where);
@@ -39,19 +44,34 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public void Add(Preferences entity)
+        public void Add(Preferences preferences)
         {
-            throw new NotImplementedException();
+            using (EntitiesContext entities = new EntitiesContext())
+            {
+                entities.Preferences.Add(preferences);
+                entities.Entry(preferences).State = EntityState.Added;
+
+                if(preferences.Owner != null)
+                    entities.Entry(preferences.Owner).State = EntityState.Unchanged;
+
+                entities.SaveChanges();
+            }
         }
 
         public void Update(Preferences preferences)
         {
             using (EntitiesContext entitites = new EntitiesContext())
             {
-                entitites.Preferences.Attach(preferences);
-                entitites.Entry(preferences).State = EntityState.Modified;
+                var oldPreferences = entitites.Preferences.Find(preferences.Id);
+                entitites.Preferences.Attach(oldPreferences);
+
+                entitites.Entry(oldPreferences).CurrentValues.SetValues(preferences);
+                
+                entitites.Entry(oldPreferences).State = EntityState.Modified;
                 entitites.SaveChanges();
-            }
+
+
+            } 
         }
         
         public IEnumerable<Preferences> GetAll()

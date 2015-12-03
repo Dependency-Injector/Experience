@@ -64,8 +64,10 @@
     <Compile Include="Services\Interfaces\ISkillsService.cs" />
     <Compile Include="Services\Interfaces\IProfileService.cs" />
     <Compile Include="Services\Interfaces\IWorkUnitsService.cs" />
+    <Compile Include="Services\Interfaces\IPreferencesService.cs" />
     <Compile Include="Services\SkillsService.cs" />
     <Compile Include="Services\ProfileService.cs" />
+    <Compile Include="Services\PreferencesService.cs" />
     <Compile Include="Services\WorkUnitsService.cs" />
     <Compile Include="Utilities\ExperienceDefaultValues.cs" />
     <Compile Include="Repositories\DaysRepository.cs" />
@@ -94,6 +96,10 @@
     <ProjectReference Include="..\..\Model\Model.csproj">
       <Project>{410149d5-4981-4e6d-af23-25798c3e4422}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Utilities\Utilities.csproj">
+      <Project>{1A6D1290-AD48-4A38-9987-7856ECBEFA15}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -61,6 +62,13 @@ namespace PresentationLayer.Controls
                 }
             }
         }
+
+        public DateTime MinDueDate
+        {
+            get { return dueDateTime.MinDate; }
+            set { dueDateTime.MinDate = value; }
+        }
+
         public bool IsFinished
         {
             set
@@ -96,19 +104,21 @@ namespace PresentationLayer.Controls
         {
             set { bool x = false; }
         }
+
         public int? SkillToTrainId
         {
             get
             {
                 if (skillToTrainComboBox.SelectedItem != null)
                 {
-                    var selectedSkill = (KeyValuePair<int, string>)skillToTrainComboBox.SelectedItem;
-                    return selectedSkill.Key;
+                    var selectedSkill = (KeyValuePair<int, string>) skillToTrainComboBox.SelectedItem;
+
+                    // To avoid returning empty item as skill to train (no task has id = 0)
+                    if (selectedSkill.Key > 0)
+                        return selectedSkill.Key;
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
             set
             {
@@ -123,6 +133,7 @@ namespace PresentationLayer.Controls
                         skillToTrainComboBox.SelectedIndex = 0;
                     }
                 }
+
             }
         }
         public int? ParentTaskId
@@ -131,13 +142,14 @@ namespace PresentationLayer.Controls
             {
                 if (parentTaskComboBox.SelectedItem != null)
                 {
-                    int parentTaskId;
                     var selectedTask = (KeyValuePair<int, string>)parentTaskComboBox.SelectedItem;
-                    return selectedTask.Key;
-                    
+
+                    // To avoid returning empty item as parent (no task has id = 0)
+                    if (selectedTask.Key > 0)
+                        return selectedTask.Key;
                 }
-                else
-                    return null;
+
+                return null;
             }
             set
             {
@@ -153,10 +165,59 @@ namespace PresentationLayer.Controls
             }
         }
 
+        public int SelectedTaskIndex
+        {
+            set
+            {
+                selectionByCode = true;
+                DeselectAllTasksRows();
+                
+
+                tasksListGrid.Rows[value].Selected = true;
+                selectionByCode = false;
+            }
+        }
+
+        private void DeselectAllTasksRows()
+        {
+            if (tasksListGrid.Rows != null && tasksListGrid.Rows.Count > 0)
+            {
+                for (int i = 0; i < tasksListGrid.Rows.Count; i++)
+                {
+                    tasksListGrid.Rows[i].Selected = false;
+                }
+            }
+        }
+
         public bool CanBeFinished
         {
             set { finishedButton.Enabled = value; }
         }
+        public bool TaskListEnabled
+        {
+            set
+            {
+                tasksListGrid.Enabled = value;
+            }
+        }
+        public bool TaskDetailsPanelVisible
+        {
+            set { taskDetailsPanel.Visible = value; }
+        }
+        public bool TaskEditPanelVisible
+        {
+            set { taskEditPanel.Visible = value; }
+        }
+        public bool ActionButtonsVisible
+        {
+            set { taskActionButtonsPanel.Visible = value; }
+        }
+        public bool WorkUnitsPanelVisible
+        {
+            set { workUnitsPanel.Visible = value; }
+        }
+
+        private bool selectionByCode = false;
 
         public ICollection WorkUnits
         {
@@ -174,7 +235,6 @@ namespace PresentationLayer.Controls
                 FillSkillsComboBox(value);
             }
         }
-
         public ICollection ChildrenTasks
         {
             set
@@ -183,47 +243,26 @@ namespace PresentationLayer.Controls
                 FillChildrenTasksList(value);
             }
         }
-
-        public bool TaskListEnabled
+        public Dictionary<int, string> Tasks
         {
             set
             {
-                tasksListGrid.Enabled = value;
-            }
-        }
-
-        public bool TaskDetailsPanelVisible
-        {
-            set { taskDetailsPanel.Visible = value; }
-        }
-
-        public bool TaskEditPanelVisible
-        {
-            set { taskEditPanel.Visible = value; }
-        }
-
-        public bool ActionButtonsVisible
-        {
-            set { taskActionButtonsPanel.Visible = value; }
-        }
-
-        public bool WorkUnitsPanelVisible
-        {
-            set { workUnitsPanel.Visible = value; }
-        }
-
-        public ICollection Tasks
-        {
-            set
-            {
-                ClearTasksGrid();
-                FillTasksGrid(value);
+                //ClearTasksGrid();
+                //FillTasksGrid(value);
 
                 ClearParentTaskComboBox();
                 FillParentTasksComboBox(value);
             }
         }
-
+        public IList<TaskGridItem> TasksGridItems
+        {
+            set
+            {
+                tasksListGrid.DataSource = null;
+                tasksListGrid.DataSource = value;
+            }
+        }
+        
         public event EventHandler<EventArgs> NewTask;
         public event EventHandler<EventArgs> SaveTask;
         public event EventHandler<EventArgs> EditTask;
@@ -248,6 +287,9 @@ namespace PresentationLayer.Controls
         private void TasksControl_Load(object sender, EventArgs e)
         {
             IsDirty = true;
+            //metroToolTip1.SetToolTip(this.lowPriorityRadioButton, "Rather unimportant");
+            //metroToolTip1.SetToolTip(this.mediumPriorityRadioButton, "Standard priority");
+            //metroToolTip1.SetToolTip(this.highPriorityRadioButton, "Urgent and important");
         }
 
         private void nextTaskButton_Click(object sender, EventArgs e)
@@ -300,11 +342,21 @@ namespace PresentationLayer.Controls
 
         private void tasksListGrid_SelectionChanged(object sender, EventArgs e)
         {
+            if (selectionByCode == true)
+                return;
+
             if (SelectTask != null)
             {
                 if (tasksListGrid.SelectedRows.Count > 0)
                 {
-                    var selectedRow = tasksListGrid.SelectedRows[0];
+                    TaskGridItem selectedItem = (TaskGridItem) tasksListGrid.CurrentRow.DataBoundItem;
+                    SelectTask(tasksListGrid, selectedItem.Id);
+
+                   // foreach (var row in tasksListGrid.SelectedRows)
+                  //  {
+                        
+                   // }
+                    /*var selectedRow = tasksListGrid.SelectedRows[0];// as TaskGridItem;
                     if (selectedRow.Cells[0].Value != null)
                     {
                         var cellValue = selectedRow.Cells[0].Value;
@@ -312,13 +364,18 @@ namespace PresentationLayer.Controls
                         int selectedTaskId;
                         if (int.TryParse(cellValue.ToString(), out selectedTaskId))
                             SelectTask(tasksListGrid, selectedTaskId);
-                    }
+                    }*/
                 }
             }
         }
 
         private void tasksListGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            this.tasksListGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            this.tasksListGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.tasksListGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.tasksListGrid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            
             if (e.ListChangedType != ListChangedType.ItemDeleted)
             {
                 /* DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
@@ -397,16 +454,16 @@ namespace PresentationLayer.Controls
         #endregion Events
 
         #region Private methods
-        
+
         public void SetColumnNames()
         {
-            taskIdColumn.Name = "Id";
-            taskPriorityColumn.Name = "Priority";
+            //taskIdColumn.Name = "Id";
+           // taskPriorityColumn.Name = "Priority";
         }
 
         private void ShowActionButtons(bool show)
         {
-                taskActionButtonsPanel.Visible = show;
+            taskActionButtonsPanel.Visible = show;
         }
 
         private void SelectPriority(int value)
@@ -540,6 +597,21 @@ namespace PresentationLayer.Controls
 
         }
 
+
+        private void FillParentTasksComboBox(Dictionary<int, String> parentTasks)
+        {
+            if (parentTasks != null && parentTasks.Count > 0)
+            {
+                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
+                parentTaskComboBox.Items.Add(emptyItem);
+
+                foreach (var parentTask in parentTasks)
+                {
+                    parentTaskComboBox.Items.Add(parentTask);
+                }
+            }
+        }
+
         private void FillParentTasksComboBox(ICollection tasksRowData)
         {
             if (tasksRowData != null && tasksRowData.Count > 0)
@@ -553,12 +625,12 @@ namespace PresentationLayer.Controls
                     if (cells != null)
                     {
                         string[] rowCells = cells;
-                        
+
                         KeyValuePair<int, string> comboItem = new KeyValuePair<int, string>(int.Parse(rowCells[0]), rowCells[1]);
                         parentTaskComboBox.Items.Add(comboItem);
                     }
                 }
-                
+
             }
         }
 

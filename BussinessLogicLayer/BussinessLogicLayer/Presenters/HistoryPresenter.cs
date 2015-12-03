@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
+using BussinessLogicLayer.Templates;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
@@ -11,7 +12,7 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class HistoryPresenter
+    public class HistoryPresenter : IPresenter
     {
         private readonly IHistoryView view;
         private readonly IHistoryEventsRepository historyRepository;
@@ -24,23 +25,17 @@ namespace BussinessLogicLayer.Presenters
             this.view = view;
             this.historyRepository = historyEventsRepository;
             this.profilesRepository = profilesRepository;
-
-            Initialize();
         }
 
         #region Private methods
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {
-                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
-                {
-                    currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
-
-                    AttachEvents();
-                    GetAndDisplayHistoryEventsList();
-                }
+                AttachEvents();
+                currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
+                GetAndDisplayHistoryEventsList();
             }
             catch (Exception e)
             {
@@ -116,7 +111,24 @@ namespace BussinessLogicLayer.Presenters
 
         private void DisplayHistoryEvents(List<HistoryEvent> historyEvents)
         {
-            view.HistoryEventsRows = ConvertHistoryEventsToRows(historyEvents);
+            view.HistoryEventsGridItems = GetHistoryEventsGridItems(historyEvents);
+            //view.HistoryEventsRows = ConvertHistoryEventsToRows(historyEvents);
+        }
+
+        private IList<HistoryEventGridItem> GetHistoryEventsGridItems(List<HistoryEvent> historyEvents)
+        {
+            List<HistoryEventGridItem> historyEventsGridItems = new List<HistoryEventGridItem>();
+
+            foreach (var historyEvent in historyEvents)
+            {
+                String whenOccured = historyEvent.Occured.ToString("M");
+                String whatHappened = historyEvent.Type.ToString();
+                String description = historyEvent.Description;
+
+                historyEventsGridItems.Add(new HistoryEventGridItem(whenOccured, whatHappened, description));
+            }
+
+            return historyEventsGridItems;
         }
 
         private ICollection ConvertHistoryEventsToRows(List<HistoryEvent> historyEvents)
@@ -167,5 +179,10 @@ namespace BussinessLogicLayer.Presenters
         }
 
         #endregion
+
+        public void Displayed()
+        {
+            GetAndDisplayHistoryEventsList();
+        }
     }
 }

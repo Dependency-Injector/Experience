@@ -47,26 +47,18 @@
             this.experienceLabel = new MetroFramework.Controls.MetroLabel();
             this.skillsPanel = new MetroFramework.Controls.MetroPanel();
             this.skillsGrid = new MetroFramework.Controls.MetroGrid();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.skillNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.skillLevelColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.skillExperienceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.skillNewLevelProgressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RemoveSkillButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.addNewSkillPanel = new MetroFramework.Controls.MetroPanel();
+            this.addNewSkillButton = new MetroFramework.Controls.MetroButton();
+            this.newSkillNameTextBox = new MetroFramework.Controls.MetroTextBox();
             this.editProfileButton = new MetroFramework.Controls.MetroButton();
             this.saveChangesButton = new MetroFramework.Controls.MetroButton();
-            this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
-            this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.newSkillNameTextBox = new MetroFramework.Controls.MetroTextBox();
-            this.addNewSkillButton = new MetroFramework.Controls.MetroButton();
-            this.addNewSkillPanel = new MetroFramework.Controls.MetroPanel();
+            this.profileRelatedEventsGrid = new MetroFramework.Controls.MetroGrid();
             this.cancelChangesButton = new MetroFramework.Controls.MetroButton();
             this.profileInfoPanel = new MetroFramework.Controls.MetroPanel();
             this.skillsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).BeginInit();
             this.addNewSkillPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.profileRelatedEventsGrid)).BeginInit();
             this.profileInfoPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -205,13 +197,6 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.skillsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.skillsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.skillsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.skillNameColumn,
-            this.skillLevelColumn,
-            this.skillExperienceColumn,
-            this.skillNewLevelProgressColumn,
-            this.RemoveSkillButtonColumn});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -239,51 +224,48 @@
             this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.skillsGrid.Size = new System.Drawing.Size(469, 103);
             this.skillsGrid.TabIndex = 2;
-            this.skillsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.skillsGrid_CellContentClick);
+            this.skillsGrid.SelectionChanged += new System.EventHandler(this.skillsGrid_SelectionChanged);
             // 
-            // Id
+            // addNewSkillPanel
             // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
+            this.addNewSkillPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.addNewSkillPanel.Controls.Add(this.addNewSkillButton);
+            this.addNewSkillPanel.Controls.Add(this.newSkillNameTextBox);
+            this.addNewSkillPanel.HorizontalScrollbarBarColor = true;
+            this.addNewSkillPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.addNewSkillPanel.HorizontalScrollbarSize = 10;
+            this.addNewSkillPanel.Location = new System.Drawing.Point(3, 176);
+            this.addNewSkillPanel.Name = "addNewSkillPanel";
+            this.addNewSkillPanel.Size = new System.Drawing.Size(473, 30);
+            this.addNewSkillPanel.TabIndex = 6;
+            this.addNewSkillPanel.VerticalScrollbarBarColor = true;
+            this.addNewSkillPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.addNewSkillPanel.VerticalScrollbarSize = 10;
             // 
-            // skillNameColumn
+            // addNewSkillButton
             // 
-            this.skillNameColumn.HeaderText = "Name";
-            this.skillNameColumn.Name = "skillNameColumn";
-            this.skillNameColumn.ReadOnly = true;
+            this.addNewSkillButton.Location = new System.Drawing.Point(360, 3);
+            this.addNewSkillButton.Name = "addNewSkillButton";
+            this.addNewSkillButton.Size = new System.Drawing.Size(113, 23);
+            this.addNewSkillButton.TabIndex = 5;
+            this.addNewSkillButton.Text = "Add";
+            this.addNewSkillButton.UseSelectable = true;
+            this.addNewSkillButton.Click += new System.EventHandler(this.addNewSkillButton_Click);
             // 
-            // skillLevelColumn
+            // newSkillNameTextBox
             // 
-            this.skillLevelColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.skillLevelColumn.HeaderText = "Level";
-            this.skillLevelColumn.Name = "skillLevelColumn";
-            this.skillLevelColumn.ReadOnly = true;
-            this.skillLevelColumn.Width = 55;
-            // 
-            // skillExperienceColumn
-            // 
-            this.skillExperienceColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.skillExperienceColumn.HeaderText = "Exp";
-            this.skillExperienceColumn.Name = "skillExperienceColumn";
-            this.skillExperienceColumn.ReadOnly = true;
-            this.skillExperienceColumn.Width = 48;
-            // 
-            // skillNewLevelProgressColumn
-            // 
-            this.skillNewLevelProgressColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.skillNewLevelProgressColumn.HeaderText = "New level";
-            this.skillNewLevelProgressColumn.Name = "skillNewLevelProgressColumn";
-            this.skillNewLevelProgressColumn.ReadOnly = true;
-            this.skillNewLevelProgressColumn.Width = 79;
-            // 
-            // RemoveSkillButtonColumn
-            // 
-            this.RemoveSkillButtonColumn.HeaderText = "Remove";
-            this.RemoveSkillButtonColumn.Name = "RemoveSkillButtonColumn";
-            this.RemoveSkillButtonColumn.ReadOnly = true;
-            this.RemoveSkillButtonColumn.Text = "X";
+            this.newSkillNameTextBox.Lines = new string[] {
+        "(New skil name)"};
+            this.newSkillNameTextBox.Location = new System.Drawing.Point(4, 3);
+            this.newSkillNameTextBox.MaxLength = 32767;
+            this.newSkillNameTextBox.Name = "newSkillNameTextBox";
+            this.newSkillNameTextBox.PasswordChar = '\0';
+            this.newSkillNameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.newSkillNameTextBox.SelectedText = "";
+            this.newSkillNameTextBox.Size = new System.Drawing.Size(353, 23);
+            this.newSkillNameTextBox.TabIndex = 4;
+            this.newSkillNameTextBox.Text = "(New skil name)";
+            this.newSkillNameTextBox.UseSelectable = true;
             // 
             // editProfileButton
             // 
@@ -307,19 +289,19 @@
             this.saveChangesButton.UseSelectable = true;
             this.saveChangesButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // workUnitsGrid
+            // profileRelatedEventsGrid
             // 
-            this.workUnitsGrid.AllowUserToAddRows = false;
-            this.workUnitsGrid.AllowUserToDeleteRows = false;
-            this.workUnitsGrid.AllowUserToResizeRows = false;
-            this.workUnitsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.profileRelatedEventsGrid.AllowUserToAddRows = false;
+            this.profileRelatedEventsGrid.AllowUserToDeleteRows = false;
+            this.profileRelatedEventsGrid.AllowUserToResizeRows = false;
+            this.profileRelatedEventsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.workUnitsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.workUnitsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.workUnitsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.workUnitsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.workUnitsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.profileRelatedEventsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.profileRelatedEventsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.profileRelatedEventsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.profileRelatedEventsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.profileRelatedEventsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -327,11 +309,8 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.workUnitsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.workUnitsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.workUnitsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.workStartTimeColumn,
-            this.workEndedTimeColumn});
+            this.profileRelatedEventsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.profileRelatedEventsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -339,14 +318,14 @@
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle5;
-            this.workUnitsGrid.EnableHeadersVisualStyles = false;
-            this.workUnitsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.workUnitsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.workUnitsGrid.Location = new System.Drawing.Point(488, 9);
-            this.workUnitsGrid.Name = "workUnitsGrid";
-            this.workUnitsGrid.ReadOnly = true;
-            this.workUnitsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.profileRelatedEventsGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            this.profileRelatedEventsGrid.EnableHeadersVisualStyles = false;
+            this.profileRelatedEventsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.profileRelatedEventsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.profileRelatedEventsGrid.Location = new System.Drawing.Point(488, 9);
+            this.profileRelatedEventsGrid.Name = "profileRelatedEventsGrid";
+            this.profileRelatedEventsGrid.ReadOnly = true;
+            this.profileRelatedEventsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -354,64 +333,12 @@
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.workUnitsGrid.Size = new System.Drawing.Size(471, 440);
-            this.workUnitsGrid.TabIndex = 3;
-            // 
-            // workStartTimeColumn
-            // 
-            this.workStartTimeColumn.HeaderText = "Occured";
-            this.workStartTimeColumn.Name = "workStartTimeColumn";
-            this.workStartTimeColumn.ReadOnly = true;
-            // 
-            // workEndedTimeColumn
-            // 
-            this.workEndedTimeColumn.HeaderText = "Type";
-            this.workEndedTimeColumn.Name = "workEndedTimeColumn";
-            this.workEndedTimeColumn.ReadOnly = true;
-            // 
-            // newSkillNameTextBox
-            // 
-            this.newSkillNameTextBox.Lines = new string[] {
-        "(New skil name)"};
-            this.newSkillNameTextBox.Location = new System.Drawing.Point(4, 3);
-            this.newSkillNameTextBox.MaxLength = 32767;
-            this.newSkillNameTextBox.Name = "newSkillNameTextBox";
-            this.newSkillNameTextBox.PasswordChar = '\0';
-            this.newSkillNameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.newSkillNameTextBox.SelectedText = "";
-            this.newSkillNameTextBox.Size = new System.Drawing.Size(353, 23);
-            this.newSkillNameTextBox.TabIndex = 4;
-            this.newSkillNameTextBox.Text = "(New skil name)";
-            this.newSkillNameTextBox.UseSelectable = true;
-            // 
-            // addNewSkillButton
-            // 
-            this.addNewSkillButton.Location = new System.Drawing.Point(360, 3);
-            this.addNewSkillButton.Name = "addNewSkillButton";
-            this.addNewSkillButton.Size = new System.Drawing.Size(113, 23);
-            this.addNewSkillButton.TabIndex = 5;
-            this.addNewSkillButton.Text = "Add";
-            this.addNewSkillButton.UseSelectable = true;
-            this.addNewSkillButton.Click += new System.EventHandler(this.addNewSkillButton_Click);
-            // 
-            // addNewSkillPanel
-            // 
-            this.addNewSkillPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.addNewSkillPanel.Controls.Add(this.addNewSkillButton);
-            this.addNewSkillPanel.Controls.Add(this.newSkillNameTextBox);
-            this.addNewSkillPanel.HorizontalScrollbarBarColor = true;
-            this.addNewSkillPanel.HorizontalScrollbarHighlightOnWheel = false;
-            this.addNewSkillPanel.HorizontalScrollbarSize = 10;
-            this.addNewSkillPanel.Location = new System.Drawing.Point(3, 176);
-            this.addNewSkillPanel.Name = "addNewSkillPanel";
-            this.addNewSkillPanel.Size = new System.Drawing.Size(473, 30);
-            this.addNewSkillPanel.TabIndex = 6;
-            this.addNewSkillPanel.VerticalScrollbarBarColor = true;
-            this.addNewSkillPanel.VerticalScrollbarHighlightOnWheel = false;
-            this.addNewSkillPanel.VerticalScrollbarSize = 10;
+            this.profileRelatedEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.profileRelatedEventsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.profileRelatedEventsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(471, 440);
+            this.profileRelatedEventsGrid.TabIndex = 3;
+            this.profileRelatedEventsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.profileRelatedEventsGrid_DataBindingComplete);
             // 
             // cancelChangesButton
             // 
@@ -452,7 +379,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.profileInfoPanel);
-            this.Controls.Add(this.workUnitsGrid);
+            this.Controls.Add(this.profileRelatedEventsGrid);
             this.Controls.Add(this.cancelChangesButton);
             this.Controls.Add(this.saveChangesButton);
             this.Controls.Add(this.editProfileButton);
@@ -462,8 +389,8 @@
             this.skillsPanel.ResumeLayout(false);
             this.skillsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).EndInit();
             this.addNewSkillPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.profileRelatedEventsGrid)).EndInit();
             this.profileInfoPanel.ResumeLayout(false);
             this.profileInfoPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -487,19 +414,11 @@
         private MetroFramework.Controls.MetroGrid skillsGrid;
         private MetroFramework.Controls.MetroButton editProfileButton;
         private MetroFramework.Controls.MetroButton saveChangesButton;
-        private MetroFramework.Controls.MetroGrid workUnitsGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn workStartTimeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn workEndedTimeColumn;
+        private MetroFramework.Controls.MetroGrid profileRelatedEventsGrid;
         private MetroFramework.Controls.MetroTextBox newSkillNameTextBox;
         private MetroFramework.Controls.MetroButton addNewSkillButton;
         private MetroFramework.Controls.MetroPanel addNewSkillPanel;
         private MetroFramework.Controls.MetroButton cancelChangesButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn skillNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn skillLevelColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn skillExperienceColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn skillNewLevelProgressColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn RemoveSkillButtonColumn;
         private MetroFramework.Controls.MetroPanel profileInfoPanel;
     }
 }

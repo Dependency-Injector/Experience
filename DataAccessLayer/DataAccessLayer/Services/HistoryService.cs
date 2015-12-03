@@ -5,6 +5,7 @@ using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using Model.Entities;
 using Model.Enums;
+using Utilities;
 
 namespace DataAccessLayer.Services
 {
@@ -16,6 +17,24 @@ namespace DataAccessLayer.Services
         private ISkillsRepository skillsRepository;
         private IDaysRepository daysRepository;
         private IProfileRepository profilesRepository;
+
+        private Profile currentUser;
+        private Profile CurrentUser
+        {
+            get
+            {
+                if (currentUser == null)
+                {
+                    if (ApplicationSettings.Current.IsAnyUserLoggedIn &&
+                        ApplicationSettings.Current.CurrentUserId.HasValue)
+                    {
+                        int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
+                        currentUser = profilesRepository.Get(currentUserId);
+                    }
+                }
+                return currentUser;
+            }
+        }
 
         public HistoryService()
         {
@@ -38,12 +57,19 @@ namespace DataAccessLayer.Services
             this.daysRepository = daysRepository;
             this.profilesRepository = profilesRepository;
         }
+        
+
+        public void AddHistoryEvent(HistoryEventType type, int associatedTaskId, int? xpForEvent = null, int? newLevel = null)
+        {
+            AddHistoryEvent(type, associatedTaskId, "", xpForEvent, newLevel);
+        }
 
         public void AddHistoryEvent(HistoryEventType type, int? associatedEntityId = null, String description = "", int? xpGained = null, int? levelGained = null)
         {
             HistoryEvent historyEvent = new HistoryEvent();
             historyEvent.Occured = DateTime.Now;
             historyEvent.Type = type;
+            historyEvent.Owner = CurrentUser;
 
             if (!String.IsNullOrEmpty(description))
             {
@@ -55,14 +81,61 @@ namespace DataAccessLayer.Services
             }
 
             if (associatedEntityId.HasValue)
-                historyEvent.TaskId = associatedEntityId.Value;
+                historyEvent.AssociatedEntityId = associatedEntityId.Value;
+            
+
+
+            historyEvent.AdditionalInfo = GetAdditionalData(type, associatedEntityId, xpGained, levelGained);
 
             historyRepository.Add(historyEvent);
+        }
+
+        public void AddHistoryEvent(HistoryEventType type, int? associatedTaskId = null, int? xpForEvent = null, int? newLevel = null)
+        {
+            AddHistoryEvent(type, associatedTaskId, "", xpForEvent);
+        }
+
+        private string GetAdditionalData(HistoryEventType type, int? associatedEntityId, int? gainedXp = null, int? gainedLevel = null)
+        {
+            StringBuilder additionalData = new StringBuilder();
+            Skill skill;
+
+            switch (type)
+            {
+                case HistoryEventType.ExperienceGained:
+                    if (gainedXp.HasValue)
+                        additionalData.AppendFormat("Xp:{0}", gainedXp.Value);
+                    break;
+
+                case HistoryEventType.LevelGained:
+                    if(gainedLevel.HasValue)
+                        additionalData.AppendFormat("LevelReached:{0}", gainedLevel.Value);
+                    break;
+
+                case HistoryEventType.SkillExperienceGained:
+                    if (associatedEntityId.HasValue && gainedXp.HasValue)
+                    {
+                        skill = skillsRepository.Get(associatedEntityId.Value);
+                        additionalData.AppendFormat("Id:{0};Name:{1};Xp:{2}", skill.Id, skill.Name, gainedXp.Value);
+                    }
+                    break;
+
+                case HistoryEventType.SkillLevelGained:
+                    if (associatedEntityId.HasValue && gainedLevel.HasValue)
+                    {
+                        skill = skillsRepository.Get(associatedEntityId.Value);
+                        additionalData.AppendFormat("SkillId:{0};SkillName:{1};LevelReached:{2}", skill.Id, skill.Name, gainedLevel.Value);
+                    }
+                    break;
+            }
+
+            return additionalData.ToString();
         }
 
         private string GetDefaultDescription(HistoryEventType type, int? associatedEntityId, int? gainedXp = null, int? gainedLevel = null)
         {
             StringBuilder description = new StringBuilder();
+            StringBuilder additionalData = new StringBuilder();
             Task task = new Task();
             WorkUnit workUnit = new WorkUnit();
             Skill skill;
@@ -194,9 +267,6 @@ namespace DataAccessLayer.Services
             return description.ToString();
         }
 
-        public void AddHistoryEvent(HistoryEventType type, int associatedTaskId, int? xpForEvent = null, int? newLevel = null)
-        {
-            AddHistoryEvent(type, associatedTaskId, "", xpForEvent);
-        }
+        
     }
 }

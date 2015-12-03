@@ -67,10 +67,11 @@ namespace PresentationLayer.Forms
             this.contentTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentTabControl.Location = new System.Drawing.Point(20, 60);
             this.contentTabControl.Name = "contentTabControl";
-            this.contentTabControl.SelectedIndex = 1;
-            this.contentTabControl.Size = new System.Drawing.Size(1102, 484);
+            this.contentTabControl.SelectedIndex = 2;
+            this.contentTabControl.Size = new System.Drawing.Size(1102, 514);
             this.contentTabControl.TabIndex = 2;
             this.contentTabControl.UseSelectable = true;
+            this.contentTabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.contentTabControl_Selected);
             // 
             // dayTabPage
             // 
@@ -80,7 +81,7 @@ namespace PresentationLayer.Forms
             this.dayTabPage.HorizontalScrollbarSize = 10;
             this.dayTabPage.Location = new System.Drawing.Point(4, 38);
             this.dayTabPage.Name = "dayTabPage";
-            this.dayTabPage.Size = new System.Drawing.Size(1094, 442);
+            this.dayTabPage.Size = new System.Drawing.Size(1094, 472);
             this.dayTabPage.TabIndex = 4;
             this.dayTabPage.Text = "Day";
             this.dayTabPage.VerticalScrollbarBarColor = true;
@@ -94,7 +95,7 @@ namespace PresentationLayer.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dayControl.Location = new System.Drawing.Point(0, 0);
             this.dayControl.Name = "dayControl";
-            this.dayControl.Size = new System.Drawing.Size(1098, 443);
+            this.dayControl.Size = new System.Drawing.Size(1098, 473);
             this.dayControl.TabIndex = 2;
             this.dayControl.Thoughts = "[Thoughts]";
             this.dayControl.UseSelectable = true;
@@ -107,7 +108,7 @@ namespace PresentationLayer.Forms
             this.tasksTabPage.HorizontalScrollbarSize = 10;
             this.tasksTabPage.Location = new System.Drawing.Point(4, 38);
             this.tasksTabPage.Name = "tasksTabPage";
-            this.tasksTabPage.Size = new System.Drawing.Size(1094, 442);
+            this.tasksTabPage.Size = new System.Drawing.Size(1094, 472);
             this.tasksTabPage.TabIndex = 0;
             this.tasksTabPage.Text = "Tasks";
             this.tasksTabPage.VerticalScrollbarBarColor = true;
@@ -125,7 +126,7 @@ namespace PresentationLayer.Forms
             this.tasksControl.Name = "tasksControl";
             this.tasksControl.ParentTaskId = null;
             this.tasksControl.Priority = 0;
-            this.tasksControl.Size = new System.Drawing.Size(1087, 439);
+            this.tasksControl.Size = new System.Drawing.Size(1087, 469);
             this.tasksControl.SkillToTrainId = null;
             this.tasksControl.TabIndex = 0;
             this.tasksControl.TaskDescription = "Description";
@@ -141,7 +142,7 @@ namespace PresentationLayer.Forms
             this.profileTabPage.HorizontalScrollbarSize = 10;
             this.profileTabPage.Location = new System.Drawing.Point(4, 38);
             this.profileTabPage.Name = "profileTabPage";
-            this.profileTabPage.Size = new System.Drawing.Size(1165, 458);
+            this.profileTabPage.Size = new System.Drawing.Size(1094, 472);
             this.profileTabPage.TabIndex = 1;
             this.profileTabPage.Text = "Profile";
             this.profileTabPage.VerticalScrollbarBarColor = true;
@@ -153,8 +154,8 @@ namespace PresentationLayer.Forms
             this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.profileControl.BirthDate = new System.DateTime(2015, 9, 24, 15, 39, 16, 747);
-            this.profileControl.Experience = 0;
+            this.profileControl.BirthDate = new System.DateTime(2015, 12, 2, 21, 51, 18, 2);
+            this.profileControl.Experience = "(Experience Value)";
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
             this.profileControl.LevelProgress = 0;
@@ -162,7 +163,8 @@ namespace PresentationLayer.Forms
             this.profileControl.Name = "profileControl";
             this.profileControl.NewSkillName = "(New skil name)";
             this.profileControl.PlayerName = "profileControl";
-            this.profileControl.Size = new System.Drawing.Size(1165, 462);
+            this.profileControl.SelectedSkill = null;
+            this.profileControl.Size = new System.Drawing.Size(1079, 469);
             this.profileControl.TabIndex = 1;
             this.profileControl.UseSelectable = true;
             // 
@@ -174,7 +176,7 @@ namespace PresentationLayer.Forms
             this.historyTabPage.HorizontalScrollbarSize = 10;
             this.historyTabPage.Location = new System.Drawing.Point(4, 38);
             this.historyTabPage.Name = "historyTabPage";
-            this.historyTabPage.Size = new System.Drawing.Size(1094, 442);
+            this.historyTabPage.Size = new System.Drawing.Size(1094, 472);
             this.historyTabPage.TabIndex = 3;
             this.historyTabPage.Text = "History";
             this.historyTabPage.VerticalScrollbarBarColor = true;
@@ -192,7 +194,7 @@ namespace PresentationLayer.Forms
             this.historyControl2.DisplayWorkUnitEvents = true;
             this.historyControl2.Location = new System.Drawing.Point(0, 0);
             this.historyControl2.Name = "historyControl2";
-            this.historyControl2.Size = new System.Drawing.Size(1095, 446);
+            this.historyControl2.Size = new System.Drawing.Size(1095, 476);
             this.historyControl2.TabIndex = 2;
             this.historyControl2.UseSelectable = true;
             // 
@@ -204,7 +206,7 @@ namespace PresentationLayer.Forms
             this.optionsTabPage.HorizontalScrollbarSize = 10;
             this.optionsTabPage.Location = new System.Drawing.Point(4, 38);
             this.optionsTabPage.Name = "optionsTabPage";
-            this.optionsTabPage.Size = new System.Drawing.Size(1094, 442);
+            this.optionsTabPage.Size = new System.Drawing.Size(1094, 472);
             this.optionsTabPage.TabIndex = 2;
             this.optionsTabPage.Text = "Options";
             this.optionsTabPage.VerticalScrollbarBarColor = true;
@@ -219,7 +221,7 @@ namespace PresentationLayer.Forms
             this.optionsControl.Location = new System.Drawing.Point(0, 0);
             this.optionsControl.Name = "optionsControl";
             this.optionsControl.ShowFinishedTasks = null;
-            this.optionsControl.Size = new System.Drawing.Size(1095, 446);
+            this.optionsControl.Size = new System.Drawing.Size(1095, 476);
             this.optionsControl.StyleName = null;
             this.optionsControl.TabIndex = 5;
             this.optionsControl.ThemeName = "Light";
@@ -263,8 +265,8 @@ namespace PresentationLayer.Forms
             // 
             // profileControl1
             // 
-            this.profileControl1.BirthDate = new System.DateTime(2015, 9, 24, 15, 39, 16, 847);
-            this.profileControl1.Experience = 0;
+            this.profileControl1.BirthDate = new System.DateTime(2015, 12, 2, 21, 51, 18, 49);
+            this.profileControl1.Experience = "(Experience Value)";
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
             this.profileControl1.LevelProgress = 0;
@@ -272,6 +274,7 @@ namespace PresentationLayer.Forms
             this.profileControl1.Name = "profileControl1";
             this.profileControl1.NewSkillName = "(New skil name)";
             this.profileControl1.PlayerName = "profileControl1";
+            this.profileControl1.SelectedSkill = null;
             this.profileControl1.Size = new System.Drawing.Size(368, 418);
             this.profileControl1.TabIndex = 1;
             this.profileControl1.UseSelectable = true;
@@ -283,7 +286,7 @@ namespace PresentationLayer.Forms
             this.BackImagePadding = new System.Windows.Forms.Padding(0, 10, 20, 0);
             this.BackLocation = MetroFramework.Forms.BackLocation.TopRight;
             this.BackMaxSize = 50;
-            this.ClientSize = new System.Drawing.Size(1142, 564);
+            this.ClientSize = new System.Drawing.Size(1142, 594);
             this.Controls.Add(this.loggedUserControl);
             this.Controls.Add(this.contentTabControl);
             this.Controls.Add(this.loginControl);

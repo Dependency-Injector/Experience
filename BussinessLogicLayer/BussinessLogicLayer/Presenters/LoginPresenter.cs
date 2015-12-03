@@ -2,6 +2,7 @@
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
@@ -13,22 +14,33 @@ namespace BussinessLogicLayer.Presenters
     {
         private readonly ILoginView view;
         private readonly IProfileRepository profilesRepository;
+        private readonly IProfileService profilesService;
 
-        public LoginPresenter(ILoginView view, IProfileRepository profilesRepository)
+        public LoginPresenter(ILoginView view, IProfileRepository profilesRepository, IProfileService profilesService)
         {
             this.view = view;
             this.profilesRepository = profilesRepository;
-
-            Initialize();
+            this.profilesService = profilesService;
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {
                 AttachEvents();
 
-                // Last time user did not logged out - he is still logged in, here is code that lets him in
+                // Are there any users? If yes, display them in combo box, if no switch control to edit mode
+                if (profilesRepository.HasProfile())
+                {
+                     DisplayUserProfilesList();
+                     SetDisplayMode(DisplayMode.View);
+                }
+                else
+                {
+                    SetDisplayMode(DisplayMode.Edit);
+                }
+                
+                /*// Last time user did not logged out - he is still logged in, here is code that lets him in
                 if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
                     Profile currentUserProfile = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
@@ -39,7 +51,7 @@ namespace BussinessLogicLayer.Presenters
                 else
                 {
                     DisplayUserProfilesList();
-                }
+                }*/
             }
             catch (Exception e)
             {
@@ -49,17 +61,8 @@ namespace BussinessLogicLayer.Presenters
 
         private void DisplayUserProfilesList()
         {
-            // Are there any users? If yes, display them in combo box, if no switch control to edit mode
-            if (profilesRepository.HasProfile())
-            {
-                var profiles = profilesRepository.GetAll().ToList();
-                view.AvailableUsers = profiles;
-                SetDisplayMode(DisplayMode.View);
-            }
-            else
-            {
-                SetDisplayMode(DisplayMode.Edit);
-            }
+            var profiles = profilesRepository.GetAll().ToList();
+            view.AvailableUsers = profiles;
         }
 
         private void AttachEvents()
@@ -91,23 +94,14 @@ namespace BussinessLogicLayer.Presenters
             }
             else
             {
-                Profile newUser = CreateNewUser(view.UserNameToRegister);
+                Profile newUser = profilesService.CreateNewProfile(view.UserNameToRegister);
                 profilesRepository.Add(newUser);
                 SaveLoggedUserInfoToApplicationSettings(newUser);
             }
 
             SetDisplayMode(DisplayMode.View);
         }
-
-        private Profile CreateNewUser(string userNameToRegister)
-        {
-            Profile newProfile = new Profile();
-            newProfile.Name = userNameToRegister;
-            newProfile.JoinDate = DateTime.Now;
-            newProfile.BirthDate = null;
-            return newProfile;
-        }
-
+        
         private void SetDisplayMode(DisplayMode displayMode)
         {
             if (displayMode == DisplayMode.Edit)

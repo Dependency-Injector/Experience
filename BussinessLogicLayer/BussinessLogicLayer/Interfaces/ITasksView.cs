@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using BussinessLogicLayer.GridRowTemplates;
 
 namespace BussinessLogicLayer.Interfaces
 {
@@ -10,6 +12,7 @@ namespace BussinessLogicLayer.Interfaces
         String TaskDescription { get; set; }
         int Priority { get; set; }
         DateTime? DueDate { get; set; }
+        DateTime MinDueDate { get; set; }
         bool IsFinished { set; }
         DateTime? FinishDate { get; set; }
         String TotalWorkload { set; }
@@ -20,11 +23,13 @@ namespace BussinessLogicLayer.Interfaces
         int? ParentTaskId { get; set; }
         bool CanBeFinished { set; }
         String ParentTaskName { set; }
+        int SelectedTaskIndex { set; }
         ICollection WorkUnits { set; }
-        ICollection Tasks { set; }
+        Dictionary<int, string> Tasks { set; }
         ICollection SkillsAvailable { set; }
         ICollection ChildrenTasks { set; }
-        
+        IList<TaskGridItem> TasksGridItems { set; }
+             
         bool TaskListEnabled { set; }
         bool TaskDetailsPanelVisible { set; }
         bool TaskEditPanelVisible { set; }
@@ -43,6 +48,7 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> StopWorkingOnTask;
         event EventHandler<EventArgs> ParentTaskChanged;
         event EventHandler<int> SelectTask;
+
         event EventHandler<bool> ShowFinishedTasks;
     }
 }

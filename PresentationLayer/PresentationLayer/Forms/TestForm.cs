@@ -34,12 +34,13 @@ namespace PresentationLayer.Forms
 
             PrepareStyleManager();
             BuildAutofac();
-            BindLoginPresentersToControls();
+            CreatePresenters();
+            loginPresenter.Initialize();
             AttachEvents();
 
             if (ApplicationSettings.Current.IsAnyUserLoggedIn)
             {
-                BindContentPresentersToControls();
+                InitializePresenters();
                 UpdateUiForLoginState(LoginState.LoggedIn);
             }
             else
@@ -58,12 +59,13 @@ namespace PresentationLayer.Forms
 
         private void LoginControlOnLogin(object sender, EventArgs eventArgs)
         {
+            InitializePresenters();
             UpdateUiForLoginState(LoginState.LoggedIn);
-            BindContentPresentersToControls();
         }
 
         private void LoggedUserControl_Logout(object sender, EventArgs e)
         {
+            loginPresenter.Initialize();
             UpdateUiForLoginState(LoginState.LoggedOut);
         }
 
@@ -83,11 +85,17 @@ namespace PresentationLayer.Forms
             loggedUserControl.Logout += LoggedUserControl_Logout;
         }
 
-        private void BindLoginPresentersToControls()
+        private void CreatePresenters()
         {
             try
             {
                 loginPresenter = Container.Resolve<LoginPresenter>();
+                loggedUserPresenter = Container.Resolve<LoggedUserPresenter>();
+                taskPresenter = Container.Resolve<TaskPresenter>();
+                profilePresenter = Container.Resolve<ProfilePresenter>();
+                optionsPresenter = Container.Resolve<OptionsPresenter>();
+                historyPresenter = Container.Resolve<HistoryPresenter>();
+                dayPresenter = Container.Resolve<DayPresenter>();
             }
             catch (Exception e)
             {
@@ -95,16 +103,16 @@ namespace PresentationLayer.Forms
             }
         }
 
-        private void BindContentPresentersToControls()
+        private void InitializePresenters()
         {
             try
             {
-                loggedUserPresenter = Container.Resolve<LoggedUserPresenter>();
-                taskPresenter = Container.Resolve<TaskPresenter>();
-                profilePresenter = Container.Resolve<ProfilePresenter>();
-                optionsPresenter = Container.Resolve<OptionsPresenter>();
-                historyPresenter = Container.Resolve<HistoryPresenter>();
-                dayPresenter = Container.Resolve<DayPresenter>();
+                loggedUserPresenter.Initialize();
+                taskPresenter.Initialize();
+                profilePresenter.Initialize();
+                optionsPresenter.Initialize();
+                historyPresenter.Initialize();
+                dayPresenter.Initialize();
             }
             catch (Exception e)
             {
@@ -144,6 +152,7 @@ namespace PresentationLayer.Forms
             builder.RegisterType<SkillsService>().As<ISkillsService>();
             builder.RegisterType<ProfileService>().As<IProfileService>();
             builder.RegisterType<WorkUnitsService>().As<IWorkUnitsService>();
+            builder.RegisterType<PreferencesService>().As<IPreferencesService>();
 
             #endregion
 
@@ -169,7 +178,8 @@ namespace PresentationLayer.Forms
                 c =>
                     new LoginPresenter(
                         c.Resolve<ILoginView>(),
-                        c.Resolve<IProfileRepository>()));
+                        c.Resolve<IProfileRepository>(),
+                        c.Resolve<IProfileService>()));
 
             builder.Register(
                 c =>
@@ -195,7 +205,8 @@ namespace PresentationLayer.Forms
                 c =>
                     new OptionsPresenter(
                         c.Resolve<IOptionsView>(),
-                        c.Resolve<IPreferencesRepository>()));
+                        c.Resolve<IPreferencesRepository>(),
+                        c.Resolve<IPreferencesService>()));
 
             builder.Register(
                 c => 
@@ -241,12 +252,19 @@ namespace PresentationLayer.Forms
             builder.Register(
                 c => new ProfileService(
                     c.Resolve<IProfileRepository>(),
-                    c.Resolve<ISkillsRepository>()));
+                    c.Resolve<ISkillsRepository>(),
+                    c.Resolve<IHistoryService>()));
 
             builder.Register(
                 c => new WorkUnitsService(
                     c.Resolve<IWorkUnitsRepository>(),
                     c.Resolve<ITasksRepository>(),
+                    c.Resolve<IHistoryService>()));
+
+            builder.Register(
+                c => new PreferencesService(
+                    c.Resolve<IPreferencesRepository>(),
+                    c.Resolve<IProfileRepository>(),
                     c.Resolve<IHistoryService>()));
 
             #endregion
@@ -326,5 +344,29 @@ namespace PresentationLayer.Forms
         }
 
         #endregion
+
+        private void contentTabControl_Selected(object sender, System.Windows.Forms.TabControlEventArgs e)
+        {
+            if (this.contentTabControl.SelectedTab == profileTabPage)
+            {
+                profilePresenter.Displayed();
+            }
+            else if (this.contentTabControl.SelectedTab == tasksTabPage)
+            {
+                taskPresenter.Displayed();
+            }
+            else if (this.contentTabControl.SelectedTab == optionsTabPage)
+            {
+                optionsPresenter.Displayed();
+            }
+            else if (this.contentTabControl.SelectedTab == dayTabPage)
+            {
+                dayPresenter.Displayed();
+            }
+            else if (this.contentTabControl.SelectedTab == historyTabPage)
+            {
+                historyPresenter.Displayed();
+            }
+        }
     }
 }

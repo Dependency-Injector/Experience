@@ -25,6 +25,9 @@ namespace DataAccessLayer.Services
         {
             Skill skill = new Skill();
             skill.Name = name;
+            skill.Level = 1;
+            skill.Experience = 0;
+            skill.ExperienceWhenNextLevel = 100;
 
             if (ownerId.HasValue)
                 skill.Owner = profilesRepository.First(p => p.Id == ownerId.Value);
@@ -36,7 +39,7 @@ namespace DataAccessLayer.Services
         {
             skillsRepository.Add(skillToSave);
 
-            historyService.AddHistoryEvent(HistoryEventType.SkillCreated, skillToSave.Id);
+            historyService.AddHistoryEvent(HistoryEventType.SkillCreated, skillToSave.Id, description: "", xpGained: null, levelGained: null);
         }
 
         public void RemoveSkill(int skillToRemoveId)

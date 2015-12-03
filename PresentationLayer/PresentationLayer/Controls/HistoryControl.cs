@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
+using BussinessLogicLayer.Templates;
 using MetroFramework.Controls;
 
 namespace PresentationLayer.Controls
@@ -9,12 +12,12 @@ namespace PresentationLayer.Controls
     {
         #region Properties
 
-        public ICollection HistoryEventsRows
+        public IList<HistoryEventGridItem> HistoryEventsGridItems
         {
             set
             {
-                ClearHistoryEventsGrid();
-                FillHistoryGrid(value);
+                historyEventsGrid.DataSource = null;
+                historyEventsGrid.DataSource = value;
             }
         }
 
@@ -49,7 +52,10 @@ namespace PresentationLayer.Controls
 
         #endregion
 
-        #region Event handlers
+        public HistoryControl()
+        {
+            InitializeComponent();
+        }
 
         private void tasksEventsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -75,31 +81,11 @@ namespace PresentationLayer.Controls
                 ShowHideProfileAndSkillEvents(this, e);
         }
 
-        #endregion
-
-        public HistoryControl()
+        private void historyEventsGrid_DataBindingComplete(object sender, System.Windows.Forms.DataGridViewBindingCompleteEventArgs e)
         {
-            InitializeComponent();
-        }
-
-        private void ClearHistoryEventsGrid()
-        {
-            historyEventsGrid.Rows.Clear();
-        }
-
-        private void FillHistoryGrid(ICollection historyEventsData)
-        {
-            if (historyEventsData != null && historyEventsData.Count > 0)
-            {
-                foreach (var row in historyEventsData)
-                {
-                    if (row is string[])
-                    {
-                        string[] rowCells = (string[])row;
-                        historyEventsGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2]);
-                    }
-                }
-            }
+            this.historyEventsGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.historyEventsGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.historyEventsGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
     }
 }

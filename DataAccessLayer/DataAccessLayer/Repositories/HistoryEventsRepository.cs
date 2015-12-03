@@ -52,10 +52,12 @@ namespace DataAccessLayer.Repositories
                 context.HistoryEvents.Add(historyEvent);
                 context.Entry(historyEvent).State = EntityState.Added;
                 
+                if(historyEvent.Owner != null)
+                    context.Entry(historyEvent.Owner).State = EntityState.Unchanged;
+                
                 context.SaveChanges();
             }
-        
-    }
+        }
 
         public void Update(HistoryEvent HistoryEvent)
         {

@@ -133,6 +133,10 @@
     <Compile Include="Migrations\201509241148530_LanguagePreference.Designer.cs">
       <DependentUpon>201509241148530_LanguagePreference.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509290516276_AdditionalHistoryEventData.cs" />
+    <Compile Include="Migrations\201509290516276_AdditionalHistoryEventData.Designer.cs">
+      <DependentUpon>201509290516276_AdditionalHistoryEventData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -199,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509241148530_LanguagePreference.resx">
       <DependentUpon>201509241148530_LanguagePreference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509290516276_AdditionalHistoryEventData.resx">
+      <DependentUpon>201509290516276_AdditionalHistoryEventData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

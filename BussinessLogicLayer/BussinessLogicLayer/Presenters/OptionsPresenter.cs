@@ -1,6 +1,7 @@
 ﻿using System;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
 using Model.Enums;
@@ -8,37 +9,44 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class OptionsPresenter
+    public class OptionsPresenter : IPresenter
     {
         #region Private fields
         private readonly IOptionsView view;
         private readonly IPreferencesRepository preferencesRepository;
+        private readonly IPreferencesService preferencesService;
+
         private Preferences preferences;
         #endregion
 
-        public OptionsPresenter(IOptionsView view, IPreferencesRepository preferencesRepository)
+        public OptionsPresenter(IOptionsView view, IPreferencesRepository preferencesRepository, IPreferencesService preferencesService)
         {
             this.view = view;
             this.preferencesRepository = preferencesRepository;
-            
-            Initialize();
+            this.preferencesService = preferencesService;
         }
 
         #region Events
 
-        private void Initialize()
+        public void Initialize()
         {
             try
             {
                 if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
                 {
                     AttachEvents();
+                    SetAvailableStyles();
+
                     ObtainPreferencesForUser(ApplicationSettings.Current.CurrentUserId.Value);
 
                     if (preferences != null)
                     {
                         DisplayPreferences();
                         view.IsDirty = false;
+                    }
+                    else
+                    {
+                   //     preferences = new Preferences();
                     }
                 }
             }
@@ -48,9 +56,13 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
+        private void SetAvailableStyles()
+        {
+            view.Styles = Enum.GetValues(typeof (MetroFramework.MetroColorStyle));
+        }
+
         private void DisplayPreferences()
         {
-            view.Styles = Enum.GetValues(typeof(MetroFramework.MetroColorStyle));
             view.StyleName = preferences.StyleName;
             view.ThemeName = preferences.ThemeName;
 
@@ -106,6 +118,12 @@ namespace BussinessLogicLayer.Presenters
 
         private void View_SaveChanges(object sender, EventArgs e)
         {
+            if (preferences == null)
+            {
+                preferences = preferencesService.CreateNewPreferences(ApplicationSettings.Current.CurrentUserId);
+                preferencesRepository.Add(preferences);
+            }
+
             preferences.StyleName = view.StyleName;
             preferences.ThemeName = view.ThemeName;
 
@@ -124,5 +142,10 @@ namespace BussinessLogicLayer.Presenters
         }
         
         #endregion
+
+        public void Displayed()
+        {
+            
+        }
     }
 }

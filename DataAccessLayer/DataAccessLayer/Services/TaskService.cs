@@ -70,6 +70,10 @@ namespace DataAccessLayer.Services
             taskToFinish.IsFinished = true;
             taskToFinish.FinishedDate = DateTime.Now;
             tasksRepository.Update(taskToFinish);
+
+            int xpForTaskFinish = GetExperienceForCompletion(taskToFinish.Id);
+            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
+            
         }
 
         /// <summary>
@@ -162,7 +166,7 @@ namespace DataAccessLayer.Services
                     {
                         double experienceForWorkUnit =
                             ExperienceDefaultValues.GetExperienceForWork(workUnit.Duration.Value);
-                        experienceForWorkUnit += experienceForWorkUnit;
+                        experienceForWorkUnits += experienceForWorkUnit;
                     }
                 }
 

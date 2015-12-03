@@ -14,5 +14,6 @@ namespace DataAccessLayer.Repositories.Interfaces
         IEnumerable<Preferences> GetAll();
         Preferences Single(Expression<Func<Preferences, bool>> where);
         void Update(Preferences preferences);
+        Preferences Get(int preferencesId);
     }
 }
