@@ -22,7 +22,7 @@ namespace DataAccessLayer.Repositories
         public TasksRepository()
         {
             context = new EntitiesContext();
-            context.Database.Connection.Open();
+            //context.Database.Connection.Open();
         }
 
         public Task Get(int taskId)

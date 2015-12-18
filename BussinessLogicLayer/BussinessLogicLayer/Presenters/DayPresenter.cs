@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
@@ -15,16 +16,20 @@ namespace BussinessLogicLayer.Presenters
         private readonly IDaysRepository daysRepository;
         private readonly IProfileRepository profileRepository;
         private readonly IDaysService daysService;
+        private readonly IImprovementsService improvementsService;
+        private readonly IProfileService profileService;
 
         private Day dayBeingDisplayed;
         private Profile currentUser;
 
-        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService)
+        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService, IImprovementsService improvementsService, IProfileService profileService)
         {
             this.view = view;
             this.daysRepository = daysRepository;
             this.profileRepository = profileRepository;
             this.daysService = daysService;
+            this.improvementsService = improvementsService;
+            this.profileService = profileService;
         }
 
         public void Initialize()
@@ -173,15 +178,37 @@ namespace BussinessLogicLayer.Presenters
 
         private void SaveDayChanges(object sender, EventArgs e)
         {
+            int writtenWordsCount = view.Thoughts.Count(Char.IsWhiteSpace);
+            
+            // Diary entry for such day already exists - updating
             if (daysRepository.HasDay(currentUser.Id, dayBeingDisplayed.Date))
             {
+                Day dayBeforeEdit = daysRepository.Get(dayBeingDisplayed.Id);
+                int previousWordsCount = writtenWordsCount - dayBeforeEdit.Thoughts.Count(Char.IsWhiteSpace);
+                writtenWordsCount = previousWordsCount;
+
                 dayBeingDisplayed = daysService.UpdateExistingDay(dayBeingDisplayed.Id, view.Thoughts);
                 daysRepository.Update(dayBeingDisplayed);
             }
+            // Saving diary entry for the first time for such day
             else
             {
                 dayBeingDisplayed.Thoughts = view.Thoughts;
                 daysService.SaveDay(dayBeingDisplayed);
+            }
+
+            // If user wrote at least '20' words, give him XP for this
+            if (writtenWordsCount > ExperienceDefaultValues.MinimumDiaryEntryWords)
+            {
+                double baseXpForDiaryUpdate = (double)writtenWordsCount / ExperienceDefaultValues.DiaryEntryxWordsFor1XP;
+                double randomMultiplier = Dice.Roll(ExperienceDefaultValues.DiaryUpdateRandomMin, ExperienceDefaultValues.DiaryUpdateRandomMax);
+
+                int xpForDiaryUpdate = (int)(baseXpForDiaryUpdate*randomMultiplier);
+                int ownerId = dayBeingDisplayed.Owner.Id;
+
+                Improvement improvement = improvementsService.CreateNewImprovement(ownerId, ImprovementType.ExperienceGained, ImprovementOrigin.DiaryUpdate, xpForDiaryUpdate, dayBeingDisplayed.Id);
+                improvementsService.SaveImprovement(improvement);
+                profileService.UserGainedExperience(dayBeingDisplayed.Owner.Id, xpForDiaryUpdate);
             }
 
             SetDisplayMode(DisplayMode.View);

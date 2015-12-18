@@ -93,7 +93,7 @@ namespace DataAccessLayer.Services
                         Task createdTask = tasksRepository.Get(improvement.AssociatedEntityId.Value);
 
                         if (createdTask != null)
-                            description.AppendFormat(" creating task '{0}'", createdTask.Name);
+                            description.AppendFormat(" creating task '{0}'.", createdTask.Name);
                         else
                             description.Append("creating task.");
                     }
@@ -105,12 +105,16 @@ namespace DataAccessLayer.Services
                         Task createdTask = tasksRepository.Get(improvement.AssociatedEntityId.Value);
 
                         if (createdTask != null)
-                            description.AppendFormat(" completing task '{0}'", createdTask.Name);
+                            description.AppendFormat(" completing task '{0}'.", createdTask.Name);
                         else
                             description.Append("completing task.");
                     }
                     break;
 
+                case ImprovementOrigin.DiaryUpdate:
+                    description.AppendFormat(" updating diary.");
+                    break;
+            
                 default:
                     throw new ArgumentOutOfRangeException();
             }

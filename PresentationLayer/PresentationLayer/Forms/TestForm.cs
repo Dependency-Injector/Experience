@@ -31,6 +31,8 @@ namespace PresentationLayer.Forms
         {
             InitializeComponent();
 
+            GC.Collect();
+
             ApplicationSettings.Load();
 
             PrepareStyleManager();
@@ -167,7 +169,9 @@ namespace PresentationLayer.Forms
                         c.Resolve<IDayView>(),
                         c.Resolve<IDaysRepository>(),
                         c.Resolve<IProfileRepository>(),
-                        c.Resolve<IDaysService>()));
+                        c.Resolve<IDaysService>(),
+                        c.Resolve<IImprovementsService>(),
+                        c.Resolve<IProfileService>()));
 
             builder.Register(
                 c =>

@@ -43,6 +43,7 @@ namespace Model.Entities
     {
         TaskCreation,
         TaskCompletion,
+        DiaryUpdate
     }
 
     public enum ImprovementType

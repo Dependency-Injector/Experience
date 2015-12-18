@@ -21,7 +21,11 @@ namespace DataAccessLayer.Utilities
         public static int RandomMax = 13;
 
         public static int ExperiencePerHour = 100;
-        
+        public static int MinimumDiaryEntryWords = 20;
+        public static int DiaryEntryxWordsFor1XP = 10;
+        public static int DiaryUpdateRandomMin = 8;
+        public static int DiaryUpdateRandomMax = 12;
+
         public static double GetSeverityMultiplier(Severity taskSeverity)
         {
             double severityMultiplier = 1;

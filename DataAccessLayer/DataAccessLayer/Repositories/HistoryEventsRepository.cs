@@ -21,57 +21,58 @@ namespace DataAccessLayer.Repositories
 
         public HistoryEventsRepository()
         {
-            context = new EntitiesContext();
-            context.Database.Connection.Open();    
+                context = new EntitiesContext();
+                //context.Database.Connection.Open();
         }
-        
-        public IEnumerable<HistoryEvent> Find(Expression<Func<HistoryEvent, bool>> @where)
-        {
-            return context.HistoryEvents.AsNoTracking().Where(where);
-        }
+    
 
-        public HistoryEvent Single(Expression<Func<HistoryEvent, bool>> @where)
-        {
-            return context.HistoryEvents.AsNoTracking().Single(where);
-        }
+    public IEnumerable<HistoryEvent> Find(Expression<Func<HistoryEvent, bool>> @where)
+    {
+        return context.HistoryEvents.AsNoTracking().Where(where);
+    }
 
-        public HistoryEvent First(Expression<Func<HistoryEvent, bool>> @where)
-        {
-            return context.HistoryEvents.AsNoTracking().First(where);
-        }
+    public HistoryEvent Single(Expression<Func<HistoryEvent, bool>> @where)
+    {
+        return context.HistoryEvents.AsNoTracking().Single(where);
+    }
 
-        public void Delete(HistoryEvent day)
-        {
-            throw new NotImplementedException();
-        }
+    public HistoryEvent First(Expression<Func<HistoryEvent, bool>> @where)
+    {
+        return context.HistoryEvents.AsNoTracking().First(where);
+    }
 
-        public void Add(HistoryEvent historyEvent)
-        {
-            using (EntitiesContext context = new EntitiesContext())
-            {
-                context.HistoryEvents.Add(historyEvent);
-                context.Entry(historyEvent).State = EntityState.Added;
-                
-                if(historyEvent.Owner != null)
-                    context.Entry(historyEvent.Owner).State = EntityState.Unchanged;
-                
-                context.SaveChanges();
-            }
-        }
+    public void Delete(HistoryEvent day)
+    {
+        throw new NotImplementedException();
+    }
 
-        public void Update(HistoryEvent HistoryEvent)
+    public void Add(HistoryEvent historyEvent)
+    {
+        using (EntitiesContext context = new EntitiesContext())
         {
-            using (EntitiesContext context = new EntitiesContext())
-            {
-                context.HistoryEvents.Attach(HistoryEvent);
-                context.Entry(HistoryEvent).State = EntityState.Modified;
-                context.SaveChanges();
-            }
-        }
-        
-        public IEnumerable<HistoryEvent> GetAll()
-        {
-            return context.HistoryEvents.AsNoTracking();
+            context.HistoryEvents.Add(historyEvent);
+            context.Entry(historyEvent).State = EntityState.Added;
+
+            if (historyEvent.Owner != null)
+                context.Entry(historyEvent.Owner).State = EntityState.Unchanged;
+
+            context.SaveChanges();
         }
     }
+
+    public void Update(HistoryEvent HistoryEvent)
+    {
+        using (EntitiesContext context = new EntitiesContext())
+        {
+            context.HistoryEvents.Attach(HistoryEvent);
+            context.Entry(HistoryEvent).State = EntityState.Modified;
+            context.SaveChanges();
+        }
+    }
+
+    public IEnumerable<HistoryEvent> GetAll()
+    {
+        return context.HistoryEvents.AsNoTracking();
+    }
+}
 }
