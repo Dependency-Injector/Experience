@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using Autofac;
 using BussinessLogicLayer.Interfaces;
 using BussinessLogicLayer.Presenters;
@@ -145,6 +146,7 @@ namespace PresentationLayer.Forms
             builder.RegisterType<SkillsRepository>().As<ISkillsRepository>();
             builder.RegisterType<TasksRepository>().As<ITasksRepository>();
             builder.RegisterType<WorkUnitsRepository>().As<IWorkUnitsRepository>();
+            builder.RegisterType<ImprovementsRepository>().As<IImprovementsRepository>();
 
             builder.RegisterType<DaysService>().As<IDaysService>();
             builder.RegisterType<TaskService>().As<ITaskService>();
@@ -153,6 +155,7 @@ namespace PresentationLayer.Forms
             builder.RegisterType<ProfileService>().As<IProfileService>();
             builder.RegisterType<WorkUnitsService>().As<IWorkUnitsService>();
             builder.RegisterType<PreferencesService>().As<IPreferencesService>();
+            builder.RegisterType<ImprovementsService>().As<IImprovementsService>();
 
             #endregion
 
@@ -172,7 +175,9 @@ namespace PresentationLayer.Forms
                         c.Resolve<IProfileView>(),
                         c.Resolve<IProfileRepository>(),
                         c.Resolve<IHistoryEventsRepository>(),
-                        c.Resolve<ISkillsService>()));
+                        c.Resolve<ISkillsService>(),
+                        c.Resolve<IImprovementsRepository>(),
+                        c.Resolve<IImprovementsService>()));
 
             builder.Register(
                 c =>
@@ -192,7 +197,8 @@ namespace PresentationLayer.Forms
                         c.Resolve<IHistoryService>(),
                         c.Resolve<ITaskService>(),
                         c.Resolve<IProfileService>(),
-                        c.Resolve<IWorkUnitsService>()));
+                        c.Resolve<IWorkUnitsService>(),
+                        c.Resolve<IImprovementsService>()));
 
             builder.Register(
                 c =>
@@ -267,6 +273,13 @@ namespace PresentationLayer.Forms
                     c.Resolve<IProfileRepository>(),
                     c.Resolve<IHistoryService>()));
 
+            builder.Register(
+                c => new ImprovementsService(
+                    c.Resolve<IImprovementsRepository>(),
+                    c.Resolve<IProfileRepository>(),
+                    c.Resolve<IHistoryService>(),
+                    c.Resolve<ITasksRepository>(),
+                    c.Resolve<ISkillsRepository>()));
             #endregion
 
             Container = builder.Build();
@@ -349,24 +362,38 @@ namespace PresentationLayer.Forms
         {
             if (this.contentTabControl.SelectedTab == profileTabPage)
             {
-                profilePresenter.Displayed();
+                profilePresenter.OnViewDisplayed();
             }
             else if (this.contentTabControl.SelectedTab == tasksTabPage)
             {
-                taskPresenter.Displayed();
+                taskPresenter.OnViewDisplayed();
             }
             else if (this.contentTabControl.SelectedTab == optionsTabPage)
             {
-                optionsPresenter.Displayed();
+                optionsPresenter.OnViewDisplayed();
             }
             else if (this.contentTabControl.SelectedTab == dayTabPage)
             {
-                dayPresenter.Displayed();
+                dayPresenter.OnViewDisplayed();
             }
             else if (this.contentTabControl.SelectedTab == historyTabPage)
             {
-                historyPresenter.Displayed();
+                historyPresenter.OnViewDisplayed();
             }
+        }
+
+        private void TestForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            WindowState = FormWindowState.Normal;
         }
     }
 }

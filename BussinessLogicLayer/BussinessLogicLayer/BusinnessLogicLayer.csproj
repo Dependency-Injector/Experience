@@ -82,7 +82,7 @@
     </Compile>
     <Compile Include="GridRowTemplates\HistoryEventGridItem.cs" />
     <Compile Include="GridRowTemplates\SkillGridItem.cs" />
-    <Compile Include="GridRowTemplates\UserGrowthRelatedEventGridItem.cs" />
+    <Compile Include="GridRowTemplates\ImprovementGridItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

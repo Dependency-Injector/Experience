@@ -26,12 +26,13 @@ namespace DataAccessLayer.Services
         }
         
         public Task CreateNewTask(int? ownerId, String name, String description, DateTime dueDateTime, int priority,
-            int? parentTaskId, int? associatedSkillId)
+            int? parentTaskId, int? associatedSkillId, int difficulty)
         {
             Task task = new Task();
             task.Name = name;
             task.Description = description;
             task.Priority = TaskDefaults.Priorities[priority].Severity;
+            task.Difficulty = TaskDefaults.Difficulties[difficulty].Difficulty;
             task.DueDate = dueDateTime;
             task.CreationDate = DateTime.Now;
 
@@ -47,12 +48,13 @@ namespace DataAccessLayer.Services
             return task;
         }
 
-        public Task UpdateExistingTask(int taskId, string name, string description, DateTime dueDateTime, int priority, int? parentTaskId, int? associatedSkillId)
+        public Task UpdateExistingTask(int taskId, string name, string description, DateTime dueDateTime, int priority, int? parentTaskId, int? associatedSkillId, int difficulty)
         {
             Task task = tasksRepository.Get(taskId);
             task.Name = name;
             task.Description = description;
             task.Priority = TaskDefaults.Priorities[priority].Severity;
+            task.Difficulty = TaskDefaults.Difficulties[difficulty].Difficulty;
             task.DueDate = dueDateTime;
             task.CreationDate = DateTime.Now;
 
@@ -70,10 +72,6 @@ namespace DataAccessLayer.Services
             taskToFinish.IsFinished = true;
             taskToFinish.FinishedDate = DateTime.Now;
             tasksRepository.Update(taskToFinish);
-
-            int xpForTaskFinish = GetExperienceForCompletion(taskToFinish.Id);
-            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
-            
         }
 
         /// <summary>
@@ -134,10 +132,9 @@ namespace DataAccessLayer.Services
         /// <summary>
         /// Returns overall xp for completing the task. Experience is calculated as follows:
         /// 
-        ///     Experience = ([Base experience for completing task] + [Experience for spending time on task]) * [Task severity multiplier]
+        ///     Experience = ([Base experience for completing task] + [Experience for spending time on task]) * [Task severity multiplier] * [Task difficulty multiplier]
         ///     
         /// Severity multipliers are:
-        ///     Trivial priority - 0.2
         ///     Low priority - 0.5
         ///     Medium priority - 1
         ///     High priority - 1.5
@@ -158,6 +155,12 @@ namespace DataAccessLayer.Services
             {
                 int baseXpForTaskFinish = ExperienceDefaultValues.BaseExperienceForTaskCompletion;
                 double severityMultiplier = ExperienceDefaultValues.GetSeverityMultiplier(task.Priority);
+                double difficultyMultiplier = ExperienceDefaultValues.GetDifficultyMultiplier(task.Difficulty);
+                int random = GetRandomBetween(ExperienceDefaultValues.RandomMin, ExperienceDefaultValues.RandomMax);
+                double randomMultiplier = (double) ((double) random / 10);
+
+                Random rnd = new Random();
+                int month = rnd.Next(1, 13);
                 double experienceForWorkUnits = 0;
 
                 if (task.WorkUnits != null && task.WorkUnits.Count > 0)
@@ -170,11 +173,32 @@ namespace DataAccessLayer.Services
                     }
                 }
 
-                overallXpForTaskCompletion = (baseXpForTaskFinish + experienceForWorkUnits)*severityMultiplier;
+                overallXpForTaskCompletion = (baseXpForTaskFinish + experienceForWorkUnits)*severityMultiplier*difficultyMultiplier*randomMultiplier;
             }
 
             return (int)overallXpForTaskCompletion;
         }
 
+        public int GetRandomBetween(int min, int max)
+        {
+            Random rnd = new Random();
+            return rnd.Next(min, max);
+        }
+
+        public int GetExperienceForCreation(int taskId)
+        {
+            double xpForTaskCreation = ExperienceDefaultValues.CreatingTaskXp;
+
+            Task task = tasksRepository.Get(taskId);
+            if (task != null)
+            {
+                int baseXpForTaskCreation = ExperienceDefaultValues.CreatingTaskXp;
+                double severityMultiplier = ExperienceDefaultValues.GetSeverityMultiplier(task.Priority);
+                
+                xpForTaskCreation = baseXpForTaskCreation * severityMultiplier;
+            }
+
+            return (int)xpForTaskCreation;
+        }
     }
 }

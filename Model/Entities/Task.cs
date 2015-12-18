@@ -20,6 +20,7 @@ namespace Model.Entities
         public DateTime? DueDate { get; set; }
         public bool IsFinished { get; set; }
         public Severity Priority { get; set; }
+        public Difficulty Difficulty { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? FinishedDate { get; set; }
 

@@ -143,7 +143,7 @@ namespace BussinessLogicLayer.Presenters
         
         #endregion
 
-        public void Displayed()
+        public void OnViewDisplayed()
         {
             
         }

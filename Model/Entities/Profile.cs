@@ -37,7 +37,18 @@ namespace Model.Entities
 
         public int GetExperienceWhenNewLevel()
         {
-            return (Level * 100);
+            int experienceWhenNextLevel = Level*100;
+            
+            if (Level == 1)
+            {
+                return experienceWhenNextLevel;
+            }
+            else
+            {
+                float multiplier = 1.1f;
+                experienceWhenNextLevel = (int)(experienceWhenNextLevel * multiplier);
+                return experienceWhenNextLevel;
+            }
         }
 
         public int GetExperienceToGainLevel()

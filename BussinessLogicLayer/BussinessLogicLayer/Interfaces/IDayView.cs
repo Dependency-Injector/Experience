@@ -6,6 +6,8 @@ namespace BussinessLogicLayer.Interfaces
     {
         String Thoughts { get;  set; }
         DateTime Date { set; }
+        DateTime DaySelectorMinDate { set; }
+        DateTime DaySelectorMaxDate { set; }
         int DayNumber { set; }
 
         bool ShowNextDayButton { set; }
@@ -18,5 +20,6 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> EditDay;
         event EventHandler<EventArgs> ShowPreviousDay;
         event EventHandler<EventArgs> ShowNextDay;
+        event EventHandler<DateTime> DateChanged;
     }
 }

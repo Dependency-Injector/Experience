@@ -3,13 +3,6 @@ using System.Drawing;
 
 namespace Model.Enums
 {
-    public enum Severity
-    {
-        Low = 1,
-        Medium = 2,
-        High = 3,
-    }
-
     public class PriorityLevel
     {
         public PriorityLevel(Severity severity, String name, Color color, Color selectionColor)
@@ -25,5 +18,4 @@ namespace Model.Enums
         public Color SelectionColor { get; }
         public Severity Severity { get; }
     }
-
 }

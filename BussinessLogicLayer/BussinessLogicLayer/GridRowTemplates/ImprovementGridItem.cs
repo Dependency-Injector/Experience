@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace BussinessLogicLayer.GridRowTemplates
 {
-    public class UserGrowthRelatedEventGridItem
+    public class ImprovementGridItem
     {
         [DisplayName("When")]
         public String WhenLiteral { get; set; }
@@ -13,7 +13,7 @@ namespace BussinessLogicLayer.GridRowTemplates
         [Browsable(false)]
         public DateTime When { get; set; }
 
-        public UserGrowthRelatedEventGridItem(DateTime when, String whenLiteral, String description)
+        public ImprovementGridItem(DateTime when, String whenLiteral, String description)
         {
             When = when;
             WhenLiteral = whenLiteral;

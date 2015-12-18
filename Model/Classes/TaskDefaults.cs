@@ -19,8 +19,20 @@ namespace Model.Classes
                 { 2, mediumPriority},
                 { 3, highPriority}
             };
+
+            DifficultyLevel lowDifficulty = new DifficultyLevel(Difficulty.Easy, "Easy");
+            DifficultyLevel mediumDifficulty = new DifficultyLevel(Difficulty.Medium, "Medium");
+            DifficultyLevel highDifficulty = new DifficultyLevel(Difficulty.Hard, "Hard");
+
+            Difficulties = new Dictionary<int, DifficultyLevel>
+            {
+                { 1, lowDifficulty},
+                { 2, mediumDifficulty},
+                { 3, highDifficulty}
+            };
         }
 
         public static Dictionary<int, PriorityLevel> Priorities;
+        public static Dictionary<int, DifficultyLevel> Difficulties;
     }
 }

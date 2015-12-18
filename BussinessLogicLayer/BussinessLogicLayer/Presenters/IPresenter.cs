@@ -8,6 +8,6 @@ namespace BussinessLogicLayer.Presenters
 {
     public interface IPresenter
     {
-        void Displayed();
+        void OnViewDisplayed();
     }
 }

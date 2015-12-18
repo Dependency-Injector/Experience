@@ -175,6 +175,7 @@
     <None Include="Properties\DataSources\MetroFramework.MetroColors.datasource" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icons\Posthuman.ico" />
     <Content Include="Images\brain.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

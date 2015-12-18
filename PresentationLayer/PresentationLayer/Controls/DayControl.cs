@@ -6,6 +6,8 @@ namespace PresentationLayer.Controls
 {
     public partial class DayControl : MetroUserControl, IDayView
     {
+        private bool raiseDayChangedEvent = true;
+
         public string Thoughts
         {
             get { return thoughtsTextBox.Text; }
@@ -15,10 +17,25 @@ namespace PresentationLayer.Controls
         {
             set
             {
+                raiseDayChangedEvent = false;
+                selectedDayDateTime.Value = value;
+                raiseDayChangedEvent = true;
+
                 String dayDateText = value.ToString("dddd, d MMMM");
                 dateLabel.Text = dayDateText;
             }
         }
+
+        public DateTime DaySelectorMinDate
+        {
+            set { selectedDayDateTime.MinDate = value; }
+        }
+
+        public DateTime DaySelectorMaxDate
+        {
+            set { selectedDayDateTime.MaxDate = value; }
+        }
+
         public int DayNumber
         {
             set { dayNumberLabel.Text = $"Day {value.ToString()}"; }
@@ -50,6 +67,7 @@ namespace PresentationLayer.Controls
         public event EventHandler<EventArgs> EditDay;
         public event EventHandler<EventArgs> ShowPreviousDay;
         public event EventHandler<EventArgs> ShowNextDay;
+        public event EventHandler<DateTime> DateChanged;
 
         public DayControl()
         {
@@ -80,6 +98,12 @@ namespace PresentationLayer.Controls
         {
             if (SaveDayChanges != null)
                 SaveDayChanges(this, e);
+        }
+
+        private void selectedDayDateTime_ValueChanged(object sender, EventArgs e)
+        {
+            if (DateChanged != null && raiseDayChangedEvent)
+                DateChanged(this, selectedDayDateTime.Value);
         }
 
         #endregion Event handlers

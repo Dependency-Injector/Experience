@@ -5,7 +5,6 @@ using System.Linq;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
-using DataAccessLayer.Services;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
@@ -25,6 +24,7 @@ namespace BussinessLogicLayer.Presenters
         private readonly ITaskService tasksService;
         private readonly IProfileService profilesService;
         private readonly IWorkUnitsService workUnitsService;
+        private readonly IImprovementsService improvementsService;
 
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
@@ -33,7 +33,7 @@ namespace BussinessLogicLayer.Presenters
         private Profile currentUser;
 
         public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
-            IProfileRepository profilesRepository, IHistoryService historyService, ITaskService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService)
+            IProfileRepository profilesRepository, IHistoryService historyService, ITaskService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService, IImprovementsService improvementsService)
         {
             this.view = view;
 
@@ -45,6 +45,7 @@ namespace BussinessLogicLayer.Presenters
             this.historyService = historyService;
             this.profilesService = profilesService;
             this.workUnitsService = workUnitsService;
+            this.improvementsService = improvementsService;
         }
 
         #region Events
@@ -63,7 +64,7 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
-        public void Displayed()
+        public void OnViewDisplayed()
         {
             GetAndDisplayTasks();
         }
@@ -103,22 +104,25 @@ namespace BussinessLogicLayer.Presenters
             
             if (isTaskNew)
             {
-                taskToSave = tasksService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                taskToSave = tasksService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
                 tasksService.SaveTask(taskToSave);
+
+                //int xpForTaskCreation = tasksService.GetExperienceForCreation(taskToSave.Id);
+                //Improvement improvement = improvementsService.CreateNewImprovement(currentUser.Id,
+                //    ImprovementType.ExperienceGained, ImprovementOrigin.TaskCreation, xpForTaskCreation, taskToSave.Id);
+                //improvementsService.SaveImprovement(improvement);
             }
             else
             {
-                taskToSave = tasksService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId);
+                taskToSave = tasksService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
                 tasksService.UpdateTask(taskToSave);
             }
 
             isTaskNew = false;
             view.IsDirty = false;
-
-            //ObtainAndDisplayTasks();
+            
             GetAndDisplayTasks();
             SelectTask(taskToSave);
-
             SetDisplayMode(DisplayMode.View);
         }
 
@@ -154,7 +158,6 @@ namespace BussinessLogicLayer.Presenters
             }
 
             tasksRepository.Delete(task);
-
             historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
 
             tasks = ObtainTasksList();
@@ -175,6 +178,32 @@ namespace BussinessLogicLayer.Presenters
             DisplayTasks(tasks);
             SetDisplayMode(DisplayMode.View);
         }
+/*
+
+        private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
+        {
+            Task taskWorkedOn = tasksRepository.Get(workReported.Task.Id);
+
+            // Check if any skill is attached to task
+            if (taskWorkedOn.SkillToTrain != null && workReported.Duration.HasValue)
+            {
+                Skill skillToTrain = taskWorkedOn.SkillToTrain;
+
+                // Give xp to skill
+                int experienceForWorkUnit = (int)ExperienceDefaultValues.GetExperienceForWork(workReported.Duration.Value);
+                profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
+                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
+
+                /#1#/ Check if skill leveled up
+                if (skillToTrain.HasReachedNewLevel())
+                {
+                    // Give skill new level
+                    int skillNewLevel = skillToTrain.GetNewLevel();
+                    profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
+                    historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
+                }#1#
+            }
+*/
 
         private void Finish(object sender, EventArgs e)
         {
@@ -183,10 +212,53 @@ namespace BussinessLogicLayer.Presenters
 
             // Finish task and save info about this
             tasksService.FinishTask(taskToFinish);
-            //historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
+            historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
 
-            // Give user XP for task and save info about this 
+
+            Improvement improvement = improvementsService.CreateNewImprovement(currentUser.Id, ImprovementType.ExperienceGained, ImprovementOrigin.TaskCompletion, xpForTaskFinish, taskToFinish.Id);
+            improvementsService.SaveImprovement(improvement);
             profilesService.UserGainedExperience(taskToFinish.Owner.Id, xpForTaskFinish);
+
+            if (taskToFinish.SkillToTrain != null)
+            {
+                int experienceForTask = 0;
+
+                if (taskToFinish.WorkUnits != null && taskToFinish.WorkUnits.Count > 0)
+                {
+                    int experienceForWorkUnits = 0;
+
+                    foreach (var workUnit in taskToFinish.WorkUnits)
+                    {
+                        experienceForWorkUnits +=
+                            (int) ExperienceDefaultValues.GetExperienceForWork(workUnit.Duration.Value);
+                    }
+
+                    experienceForTask = experienceForWorkUnits;
+                }
+                else
+                {
+                    experienceForTask = xpForTaskFinish;
+                }
+
+                if (experienceForTask > 0)
+                {
+                    Improvement skillImprovement = improvementsService.CreateNewImprovement(currentUser.Id, ImprovementType.SkillExperienceGained, ImprovementOrigin.TaskCompletion, experienceForTask, taskToFinish.Id, taskToFinish.SkillToTrain.Id);
+                    improvementsService.SaveImprovement(skillImprovement);
+                    profilesService.UserSkillGainedExperience(taskToFinish.SkillToTrain.Id, experienceForTask);
+
+                    if (taskToFinish.SkillToTrain.HasReachedNewLevel())
+                    {
+                        // Give skill new level
+                        int skillNewLevel = taskToFinish.SkillToTrain.GetNewLevel();
+
+                        Improvement skillLevelUpImprovement = improvementsService.CreateNewImprovement(currentUser.Id, ImprovementType.SkillLevelUp, ImprovementOrigin.TaskCompletion, skillNewLevel, taskToFinish.Id, taskToFinish.SkillToTrain.Id);
+                        improvementsService.SaveImprovement(skillLevelUpImprovement);
+                        profilesService.UserSkillReachedNewLevel(taskToFinish.SkillToTrain.Id, skillNewLevel);
+
+                        historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, taskToFinish.SkillToTrain.Id, newLevel: skillNewLevel);
+                    }
+                }
+            }
            // historyService.AddHistoryEvent(HistoryEventType.ExperienceGained, taskToFinish.Id, xpForTaskFinish);
 /*
             Profile user = profilesRepository.Get(taskToFinish.Owner.Id);
@@ -249,9 +321,9 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
-        private void ShowFinishedTasks(object sender, bool e)
+        private void ShowFinishedTasks(object sender, bool showFinishedTasks)
         {
-            // TODO
+            GetAndDisplayTasks(showFinishedTasks);
         }
 
         #endregion
@@ -275,10 +347,10 @@ namespace BussinessLogicLayer.Presenters
             view.ParentTaskChanged += ParentTaskChanged;
         }
 
-        private void GetAndDisplayTasks()
+        private void GetAndDisplayTasks(bool includeFinishedTasks = false)
         {
             currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
-            tasks = ObtainTasksList();
+            tasks = ObtainTasksList(includeFinishedTasks);
             tasks = SortTasks(tasks);
 
             if (tasks != null && tasks.Count > 0)
@@ -292,14 +364,7 @@ namespace BussinessLogicLayer.Presenters
                 DisplayBlankTaskDetails();
             }
         }
-
-        private void ObtainAndDisplayTasks()
-        {
-            tasks = ObtainTasksList();
-            tasks = SortTasks(tasks);
-            DisplayTasks(tasks);
-        }
-
+        
         private void DisplayTasks(List<Task> tasksList)
         {
             view.Tasks = tasksList.ToDictionary(k => k.Id, val => val.Name);
@@ -347,16 +412,27 @@ namespace BussinessLogicLayer.Presenters
             return tasksGridItems;
         }
 
-        private List<Task> ObtainTasksList()
+        private List<Task> ObtainTasksList(bool includeFinishedTasks = false)
         {
-            return tasksRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn ? tasksRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId).ToList() : new List<Task>();
+            List<Task> tasks = new List<Task>();
+
+            if (tasksRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn)
+            {
+                var tasksQuery = tasksRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId);
+
+                if (!includeFinishedTasks)
+                    tasksQuery = tasksQuery.Where(t => t.IsFinished == false);
+
+                tasks = tasksQuery.ToList();
+            }
+
+            return tasks;
         }
 
-        private List<Task> SortTasks(List<Task> tasksUnsorted)
+        private List<Task> SortTasks(List<Task> tasksUnsorted, bool includeFinishedTasks = false)
         {
             return
-                tasksUnsorted.Where(t => t.IsFinished == false)
-                    .OrderBy(t => t.DueDate.Value.Date)
+                tasksUnsorted.OrderBy(t => t.DueDate.Value.Date)
                     .ThenByDescending(t => t.Priority)
                     .ToList();
         }
@@ -548,6 +624,7 @@ namespace BussinessLogicLayer.Presenters
             view.TaskName = task.Name;
             view.TaskDescription = task.Description;
             view.Priority = (int)task.Priority;
+            view.Difficulty = (int) task.Difficulty;
             view.MinDueDate = task.DueDate.Value.Date;
             view.DueDate = task.DueDate;
             view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";

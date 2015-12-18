@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\ImprovementsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IImprovementsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IHistoryEventsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDaysRepository.cs" />
     <Compile Include="Repositories\Interfaces\IProfileRepository.cs" />
@@ -58,6 +60,8 @@
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITasksRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWorkUnitsRepository.cs" />
+    <Compile Include="Services\ImprovementsService.cs" />
+    <Compile Include="Services\Interfaces\IImprovementService.cs" />
     <Compile Include="Services\Interfaces\IHistoryService.cs" />
     <Compile Include="Services\Interfaces\IDaysService.cs" />
     <Compile Include="Services\Interfaces\ITaskService.cs" />

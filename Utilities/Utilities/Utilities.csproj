@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="DisplaySettings.cs" />
+    <Compile Include="EnumExtensions.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Enums\LoginState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

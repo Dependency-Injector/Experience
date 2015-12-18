@@ -22,17 +22,21 @@ namespace BussinessLogicLayer.Presenters
         private readonly IProfileRepository profileRepository;
         private readonly IHistoryEventsRepository historyEventsRepository;
         private readonly ISkillsService skillsService;
+        private readonly IImprovementsRepository improvementsRepository;
+        private readonly IImprovementsService improvementsService;
 
         private List<String> newSkillsToAdd;
         private List<int> skillsIdsToRemove;
         private Profile currentUser;
 
-        public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService)
+        public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService, IImprovementsRepository improvementsRepository, IImprovementsService improvementsService)
         {
             this.view = view;
             this.profileRepository = profileRepository;
             this.historyEventsRepository = historyEventsRepository;
             this.skillsService = skillsService;
+            this.improvementsRepository = improvementsRepository;
+            this.improvementsService = improvementsService;
         }
 
         public void Initialize()
@@ -169,6 +173,9 @@ namespace BussinessLogicLayer.Presenters
                         he.Type == HistoryEventType.SkillExperienceGained ||
                         he.Type == HistoryEventType.SkillLevelGained).ToList();
 
+            var userImprovements = improvementsRepository.Find(i => i.Owner.Id == profile.Id).ToList();
+            var userImprovementsGridItems = GetImprovementsGridItems(userImprovements).OrderByDescending(ui => ui.When).ToList(); 
+
             view.PlayerName = profile.Name;
             view.History = profile.History;
             view.Age = profile.AgeInYears().HasValue ? profile.AgeInYears().Value.ToString() : "[birth date not set]";
@@ -182,7 +189,8 @@ namespace BussinessLogicLayer.Presenters
             var profileRelatedEventsItems =
                 GetProfileRelatedEventsGridItems(profileRelatedHistoryEvents).OrderByDescending(prei => prei.When).ToList();
 
-            view.ProfileRelatedEvents = MakeBindingSourceFromList(profileRelatedEventsItems);
+            //view.ProfileRelatedEvents = MakeBindingSourceFromList(profileRelatedEventsItems);
+            view.ProfileRelatedEvents = MakeBindingSourceFromList(userImprovementsGridItems);
         }
 
         private List<SkillGridItem> GetSkillsGridItems(ICollection<Skill> skills)
@@ -197,9 +205,9 @@ namespace BussinessLogicLayer.Presenters
             return skillGridViewItems;
         }
 
-        private List<UserGrowthRelatedEventGridItem> GetProfileRelatedEventsGridItems(List<HistoryEvent> historyEvents)
+        private List<ImprovementGridItem> GetProfileRelatedEventsGridItems(List<HistoryEvent> historyEvents)
         {
-            List<UserGrowthRelatedEventGridItem> profileRelatedEvents = new List<UserGrowthRelatedEventGridItem>();
+            List<ImprovementGridItem> profileRelatedEvents = new List<ImprovementGridItem>();
             
             foreach (var historyEvent in historyEvents)
             {
@@ -207,7 +215,23 @@ namespace BussinessLogicLayer.Presenters
                 String eventType = historyEvent.Type.ToString();
                 String eventTextForUser = GetEventTextForUser(historyEvent);
             
-                profileRelatedEvents.Add(new UserGrowthRelatedEventGridItem(historyEvent.Occured, occuredDate, eventTextForUser));
+                profileRelatedEvents.Add(new ImprovementGridItem(historyEvent.Occured, occuredDate, eventTextForUser));
+            }
+
+            return profileRelatedEvents;
+        }
+
+        private List<ImprovementGridItem> GetImprovementsGridItems(List<Improvement> improvements)
+        {
+            List<ImprovementGridItem> profileRelatedEvents = new List<ImprovementGridItem>();
+
+            foreach (var improvement in improvements)
+            {
+                String occuredDate = improvement.Occured.ToString("dddd, d MMMM HH:mm");
+                String eventType = improvement.Type.ToString();
+                String improvementDescription = improvementsService.GetImprovementDescription(improvement);
+
+                profileRelatedEvents.Add(new ImprovementGridItem(improvement.Occured, occuredDate, improvementDescription));
             }
 
             return profileRelatedEvents;
@@ -281,7 +305,7 @@ namespace BussinessLogicLayer.Presenters
             return source;
         }
         
-        public void Displayed()
+        public void OnViewDisplayed()
         {
             int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
             currentUser = ObtainProfile(currentUserId);

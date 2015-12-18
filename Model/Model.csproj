@@ -53,10 +53,14 @@
     <Compile Include="Classes\TaskDefaults.cs" />
     <Compile Include="EntitiesContext.cs" />
     <Compile Include="Entities\Day.cs" />
+    <Compile Include="Entities\Improvement.cs" />
+    <Compile Include="Enums\Difficulty.cs" />
+    <Compile Include="Enums\DifficultyLevel.cs" />
     <Compile Include="Enums\DisplayMode.cs" />
     <Compile Include="Enums\HistoryEventType.cs" />
     <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\PriorityLevel.cs" />
+    <Compile Include="Enums\Severity.cs" />
     <Compile Include="Migrations\201507260540194_InitialCreate.cs" />
     <Compile Include="Migrations\201507260540194_InitialCreate.Designer.cs">
       <DependentUpon>201507260540194_InitialCreate.cs</DependentUpon>
@@ -137,6 +141,22 @@
     <Compile Include="Migrations\201509290516276_AdditionalHistoryEventData.Designer.cs">
       <DependentUpon>201509290516276_AdditionalHistoryEventData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512030243379_Improvements.cs" />
+    <Compile Include="Migrations\201512030243379_Improvements.Designer.cs">
+      <DependentUpon>201512030243379_Improvements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512030259448_ImprovementsUpdated.cs" />
+    <Compile Include="Migrations\201512030259448_ImprovementsUpdated.Designer.cs">
+      <DependentUpon>201512030259448_ImprovementsUpdated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512030346567_ImprovementsUpdated2.cs" />
+    <Compile Include="Migrations\201512030346567_ImprovementsUpdated2.Designer.cs">
+      <DependentUpon>201512030346567_ImprovementsUpdated2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512161433024_TaskDifficulty.cs" />
+    <Compile Include="Migrations\201512161433024_TaskDifficulty.Designer.cs">
+      <DependentUpon>201512161433024_TaskDifficulty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -206,6 +226,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509290516276_AdditionalHistoryEventData.resx">
       <DependentUpon>201509290516276_AdditionalHistoryEventData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512030243379_Improvements.resx">
+      <DependentUpon>201512030243379_Improvements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512030259448_ImprovementsUpdated.resx">
+      <DependentUpon>201512030259448_ImprovementsUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512030346567_ImprovementsUpdated2.resx">
+      <DependentUpon>201512030346567_ImprovementsUpdated2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512161433024_TaskDifficulty.resx">
+      <DependentUpon>201512161433024_TaskDifficulty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

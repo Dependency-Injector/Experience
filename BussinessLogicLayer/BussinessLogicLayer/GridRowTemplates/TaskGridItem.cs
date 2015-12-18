@@ -15,6 +15,7 @@ namespace BussinessLogicLayer.GridRowTemplates
 
         public String Deadline { get; set; }
 
+        [Browsable(false)]
         [DisplayName("Reported work")]
         public String TimeSpent { get; set; }
 

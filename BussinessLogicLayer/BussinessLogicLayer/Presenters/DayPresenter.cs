@@ -34,6 +34,8 @@ namespace BussinessLogicLayer.Presenters
                 AttachEvents();
 
                 currentUser = GetCurrentUser();
+                view.DaySelectorMinDate = currentUser.JoinDate.Date;
+                view.DaySelectorMaxDate = DateTime.Now.Date.AddDays(1).AddMilliseconds(-1);
 
                 dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, DateTime.Now);
                 if (dayBeingDisplayed == null)
@@ -67,6 +69,7 @@ namespace BussinessLogicLayer.Presenters
             view.ShowNextDay += ShowNextDay;
             view.SaveDayChanges += SaveDayChanges;
             view.EditDay += EditDay;
+            view.DateChanged += SelectedDateChanged;
         }
 
         private void SetDisplayMode(DisplayMode displayMode)
@@ -125,15 +128,24 @@ namespace BussinessLogicLayer.Presenters
             return (int)daysBetweenDates;
         }
 
+        private Day GetDayOrCreateNew(DateTime date)
+        {
+            Day day = null;
+
+            if (daysRepository.HasDay(currentUser.Id, date))
+                day = daysRepository.GetByDate(currentUser.Id, date);
+            else
+                day = daysService.CreateNewDay(currentUser.Id, date);
+
+            return day;
+        }
+
         #region Events
 
         private void ShowNextDay(object sender, EventArgs e)
         {
             DateTime dateOfDayAhead = dayBeingDisplayed.Date.AddDays(1);
-            if (daysRepository.HasDay(currentUser.Id, dateOfDayAhead))
-                dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, dateOfDayAhead);
-            else
-                dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, dateOfDayAhead);
+            dayBeingDisplayed = GetDayOrCreateNew(dateOfDayAhead);
             int daysSinceDayAhead = GetDaysBetweenDates(dateOfDayAhead, currentUser.JoinDate);
 
             DisplayDayData(dayBeingDisplayed, daysSinceDayAhead);
@@ -143,14 +155,20 @@ namespace BussinessLogicLayer.Presenters
         private void ShowPreviousDay(object sender, EventArgs e)
         {
             DateTime dateOfDayBefore = dayBeingDisplayed.Date.AddDays(-1);
-            if (daysRepository.HasDay(currentUser.Id, dateOfDayBefore))
-                dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, dateOfDayBefore);
-            else
-                dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, dateOfDayBefore);
+            dayBeingDisplayed = GetDayOrCreateNew(dateOfDayBefore);
             int daysSinceDayBefore = GetDaysBetweenDates(dateOfDayBefore, currentUser.JoinDate);
 
             DisplayDayData(dayBeingDisplayed, daysSinceDayBefore);
             ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dateOfDayBefore));
+        }
+
+        private void SelectedDateChanged(object sender, DateTime selectedDate)
+        {
+            dayBeingDisplayed = GetDayOrCreateNew(selectedDate);
+            int dayNumber = GetDaysBetweenDates(selectedDate, currentUser.JoinDate);
+
+            DisplayDayData(dayBeingDisplayed, dayNumber);
+            ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(selectedDate));
         }
 
         private void SaveDayChanges(object sender, EventArgs e)
@@ -177,7 +195,7 @@ namespace BussinessLogicLayer.Presenters
 
         #endregion
 
-        public void Displayed()
+        public void OnViewDisplayed()
         {
             // TODO
         }

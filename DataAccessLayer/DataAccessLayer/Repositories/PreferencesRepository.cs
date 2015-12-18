@@ -36,7 +36,7 @@ namespace DataAccessLayer.Repositories
 
         public Preferences First(Expression<Func<Preferences, bool>> @where)
         {
-            return context.Preferences.AsNoTracking().First(where);
+            return context.Preferences.AsNoTracking().FirstOrDefault(where);
         }
 
         public void Delete(Preferences day)

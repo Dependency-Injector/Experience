@@ -11,6 +11,7 @@ namespace BussinessLogicLayer.Interfaces
         String TaskName { get; set; }
         String TaskDescription { get; set; }
         int Priority { get; set; }
+        int Difficulty { get; set; }
         DateTime? DueDate { get; set; }
         DateTime MinDueDate { get; set; }
         bool IsFinished { set; }

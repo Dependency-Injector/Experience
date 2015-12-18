@@ -50,6 +50,9 @@ namespace PresentationLayer.Controls
 
             set { SelectPriority(value); }
         }
+
+        public int Difficulty { get { return GetSelectedDifficulty(); } set { SelectDifficulty(value); } }
+
         public DateTime? DueDate
         {
             get { return dueDateTime.Value; }
@@ -172,7 +175,6 @@ namespace PresentationLayer.Controls
                 selectionByCode = true;
                 DeselectAllTasksRows();
                 
-
                 tasksListGrid.Rows[value].Selected = true;
                 selectionByCode = false;
             }
@@ -374,7 +376,7 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.tasksListGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             this.tasksListGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            this.tasksListGrid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //this.tasksListGrid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             
             if (e.ListChangedType != ListChangedType.ItemDeleted)
             {
@@ -489,6 +491,31 @@ namespace PresentationLayer.Controls
                 priorityLabel.BackColor = priority.Color;
             }
         }
+        
+        private void SelectDifficulty(int value)
+        {
+            if (TaskDefaults.Difficulties.ContainsKey(value))
+            {
+                DifficultyLevel difficulty = TaskDefaults.Difficulties[value];
+
+                switch (difficulty.Difficulty)
+                {
+
+                    case Model.Enums.Difficulty.Easy:
+                        easyTaskRadioButton.Checked = true;
+                        break;
+                    case Model.Enums.Difficulty.Medium:
+                        normalTaskRadioButton.Checked = true;
+                        break;
+                    case Model.Enums.Difficulty.Hard:
+                        hardTaskRadioButton.Checked = true;
+                        break;
+                }
+
+                //priorityLabel.Text = difficulty.Name;
+                //priorityLabel.BackColor = difficulty.Color;
+            }
+        }
 
         private int GetSelectedPriority()
         {
@@ -498,6 +525,18 @@ namespace PresentationLayer.Controls
             else if (mediumPriorityRadioButton.Checked)
                 return 2;
             else if (highPriorityRadioButton.Checked)
+                return 3;
+            else
+                return 0;
+        }
+
+        private int GetSelectedDifficulty()
+        {
+            if (easyTaskRadioButton.Checked)
+                return 1;
+            else if (normalTaskRadioButton.Checked)
+                return 2;
+            else if (hardTaskRadioButton.Checked)
                 return 3;
             else
                 return 0;

@@ -222,7 +222,7 @@
             this.skillsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.skillsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.skillsGrid.Size = new System.Drawing.Size(469, 103);
+            this.skillsGrid.Size = new System.Drawing.Size(469, 144);
             this.skillsGrid.TabIndex = 2;
             this.skillsGrid.SelectionChanged += new System.EventHandler(this.skillsGrid_SelectionChanged);
             // 
