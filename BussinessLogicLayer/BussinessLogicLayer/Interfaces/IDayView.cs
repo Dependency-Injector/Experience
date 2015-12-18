@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BussinessLogicLayer.Interfaces
 {
@@ -9,6 +11,9 @@ namespace BussinessLogicLayer.Interfaces
         DateTime DaySelectorMinDate { set; }
         DateTime DaySelectorMaxDate { set; }
         int DayNumber { set; }
+        int? ChoosenEntryId { get; set; }
+
+        Dictionary<int, string> Entries { set; }
 
         bool ShowNextDayButton { set; }
         bool ShowPreviousDayButton { set; }
@@ -21,5 +26,6 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> ShowPreviousDay;
         event EventHandler<EventArgs> ShowNextDay;
         event EventHandler<DateTime> DateChanged;
+        event EventHandler<int> EntrySelected;
     }
 }

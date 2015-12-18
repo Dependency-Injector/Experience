@@ -171,7 +171,8 @@ namespace PresentationLayer.Forms
                         c.Resolve<IProfileRepository>(),
                         c.Resolve<IDaysService>(),
                         c.Resolve<IImprovementsService>(),
-                        c.Resolve<IProfileService>()));
+                        c.Resolve<IProfileService>(),
+                        c.Resolve<IHistoryService>()));
 
             builder.Register(
                 c =>

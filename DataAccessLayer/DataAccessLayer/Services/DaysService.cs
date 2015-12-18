@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
@@ -54,17 +55,18 @@ namespace DataAccessLayer.Services
         public void SaveDay(Day dayToSave)
         {
             daysRepository.Add(dayToSave);
-            historyService.AddHistoryEvent(HistoryEventType.DaySaved, dayToSave.Id);
         }
 
         public Day UpdateExistingDay(int dayId, string thoughts)
         {
             Day day = daysRepository.Get(dayId);
             day.Thoughts = thoughts;
-
-            historyService.AddHistoryEvent(HistoryEventType.DayUpdated, day.Id);
-
             return day;
+        }
+
+        public IEnumerable<Day> GetDaysForUser(int id)
+        {
+            return daysRepository.Find(d => d.Owner.Id == id);
         }
     }
 }

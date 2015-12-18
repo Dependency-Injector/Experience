@@ -75,6 +75,7 @@ namespace PresentationLayer.Controls
             this.stopWorkingButton = new MetroFramework.Controls.MetroButton();
             this.startWorkButton = new MetroFramework.Controls.MetroButton();
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
+            this.hardnessTextLabel = new MetroFramework.Controls.MetroLabel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.parentTaskTextLabel = new MetroFramework.Controls.MetroLabel();
             this.deadlineTextLabel = new MetroFramework.Controls.MetroLabel();
@@ -84,6 +85,10 @@ namespace PresentationLayer.Controls
             this.removeButton = new MetroFramework.Controls.MetroButton();
             this.cancelButton = new MetroFramework.Controls.MetroButton();
             this.saveButton = new MetroFramework.Controls.MetroButton();
+            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.hardTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
+            this.normalTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
+            this.easyTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
             this.descriptionTextBox = new MetroFramework.Controls.MetroTextBox();
             this.priorityPanel = new MetroFramework.Controls.MetroPanel();
             this.highPriorityRadioButton = new MetroFramework.Controls.MetroRadioButton();
@@ -98,11 +103,6 @@ namespace PresentationLayer.Controls
             this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.metroToolTip1 = new MetroFramework.Components.MetroToolTip();
             this.rightPanel = new MetroFramework.Controls.MetroPanel();
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-            this.hardTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.normalTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.easyTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
-            this.hardnessTextLabel = new MetroFramework.Controls.MetroLabel();
             this.buttonsPanel.SuspendLayout();
             this.taskDetailsPanel.SuspendLayout();
             this.taskInfoPanel.SuspendLayout();
@@ -110,6 +110,7 @@ namespace PresentationLayer.Controls
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).BeginInit();
             this.taskActionButtonsPanel.SuspendLayout();
             this.taskEditPanel.SuspendLayout();
+            this.metroPanel1.SuspendLayout();
             this.priorityPanel.SuspendLayout();
             this.tasksListPanel.SuspendLayout();
             this.tasksPanel.SuspendLayout();
@@ -117,7 +118,6 @@ namespace PresentationLayer.Controls
             ((System.ComponentModel.ISupportInitialize)(this.workUnitBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).BeginInit();
             this.rightPanel.SuspendLayout();
-            this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonsPanel
@@ -589,6 +589,15 @@ namespace PresentationLayer.Controls
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.VerticalScrollbarSize = 10;
             // 
+            // hardnessTextLabel
+            // 
+            this.hardnessTextLabel.AutoSize = true;
+            this.hardnessTextLabel.Location = new System.Drawing.Point(253, 289);
+            this.hardnessTextLabel.Name = "hardnessTextLabel";
+            this.hardnessTextLabel.Size = new System.Drawing.Size(62, 19);
+            this.hardnessTextLabel.TabIndex = 16;
+            this.hardnessTextLabel.Text = "Hardness";
+            // 
             // metroLabel2
             // 
             this.metroLabel2.AutoSize = true;
@@ -686,6 +695,54 @@ namespace PresentationLayer.Controls
             this.saveButton.Text = "Save";
             this.saveButton.UseSelectable = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // metroPanel1
+            // 
+            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.metroPanel1.Controls.Add(this.hardTaskRadioButton);
+            this.metroPanel1.Controls.Add(this.normalTaskRadioButton);
+            this.metroPanel1.Controls.Add(this.easyTaskRadioButton);
+            this.metroPanel1.HorizontalScrollbarBarColor = true;
+            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.Location = new System.Drawing.Point(348, 289);
+            this.metroPanel1.Name = "metroPanel1";
+            this.metroPanel1.Size = new System.Drawing.Size(161, 69);
+            this.metroPanel1.TabIndex = 11;
+            this.metroPanel1.VerticalScrollbarBarColor = true;
+            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // hardTaskRadioButton
+            // 
+            this.hardTaskRadioButton.AutoSize = true;
+            this.hardTaskRadioButton.Location = new System.Drawing.Point(4, 46);
+            this.hardTaskRadioButton.Name = "hardTaskRadioButton";
+            this.hardTaskRadioButton.Size = new System.Drawing.Size(87, 15);
+            this.hardTaskRadioButton.TabIndex = 2;
+            this.hardTaskRadioButton.Text = "Hard / Long";
+            this.hardTaskRadioButton.UseSelectable = true;
+            // 
+            // normalTaskRadioButton
+            // 
+            this.normalTaskRadioButton.AutoSize = true;
+            this.normalTaskRadioButton.Location = new System.Drawing.Point(4, 25);
+            this.normalTaskRadioButton.Name = "normalTaskRadioButton";
+            this.normalTaskRadioButton.Size = new System.Drawing.Size(134, 15);
+            this.normalTaskRadioButton.TabIndex = 2;
+            this.normalTaskRadioButton.Text = "Normal / Below hour";
+            this.normalTaskRadioButton.UseSelectable = true;
+            // 
+            // easyTaskRadioButton
+            // 
+            this.easyTaskRadioButton.AutoSize = true;
+            this.easyTaskRadioButton.Location = new System.Drawing.Point(4, 4);
+            this.easyTaskRadioButton.Name = "easyTaskRadioButton";
+            this.easyTaskRadioButton.Size = new System.Drawing.Size(89, 15);
+            this.easyTaskRadioButton.TabIndex = 2;
+            this.easyTaskRadioButton.Text = "Easy / Trivial";
+            this.easyTaskRadioButton.UseSelectable = true;
             // 
             // descriptionTextBox
             // 
@@ -889,63 +946,6 @@ namespace PresentationLayer.Controls
             this.rightPanel.VerticalScrollbarHighlightOnWheel = false;
             this.rightPanel.VerticalScrollbarSize = 10;
             // 
-            // metroPanel1
-            // 
-            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroPanel1.Controls.Add(this.hardTaskRadioButton);
-            this.metroPanel1.Controls.Add(this.normalTaskRadioButton);
-            this.metroPanel1.Controls.Add(this.easyTaskRadioButton);
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(348, 289);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(161, 69);
-            this.metroPanel1.TabIndex = 11;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
-            // 
-            // hardTaskRadioButton
-            // 
-            this.hardTaskRadioButton.AutoSize = true;
-            this.hardTaskRadioButton.Location = new System.Drawing.Point(4, 46);
-            this.hardTaskRadioButton.Name = "hardTaskRadioButton";
-            this.hardTaskRadioButton.Size = new System.Drawing.Size(87, 15);
-            this.hardTaskRadioButton.TabIndex = 2;
-            this.hardTaskRadioButton.Text = "Hard / Long";
-            this.hardTaskRadioButton.UseSelectable = true;
-            // 
-            // normalTaskRadioButton
-            // 
-            this.normalTaskRadioButton.AutoSize = true;
-            this.normalTaskRadioButton.Location = new System.Drawing.Point(4, 25);
-            this.normalTaskRadioButton.Name = "normalTaskRadioButton";
-            this.normalTaskRadioButton.Size = new System.Drawing.Size(134, 15);
-            this.normalTaskRadioButton.TabIndex = 2;
-            this.normalTaskRadioButton.Text = "Normal / Below hour";
-            this.normalTaskRadioButton.UseSelectable = true;
-            // 
-            // easyTaskRadioButton
-            // 
-            this.easyTaskRadioButton.AutoSize = true;
-            this.easyTaskRadioButton.Location = new System.Drawing.Point(4, 4);
-            this.easyTaskRadioButton.Name = "easyTaskRadioButton";
-            this.easyTaskRadioButton.Size = new System.Drawing.Size(89, 15);
-            this.easyTaskRadioButton.TabIndex = 2;
-            this.easyTaskRadioButton.Text = "Easy / Trivial";
-            this.easyTaskRadioButton.UseSelectable = true;
-            // 
-            // hardnessTextLabel
-            // 
-            this.hardnessTextLabel.AutoSize = true;
-            this.hardnessTextLabel.Location = new System.Drawing.Point(253, 289);
-            this.hardnessTextLabel.Name = "hardnessTextLabel";
-            this.hardnessTextLabel.Size = new System.Drawing.Size(62, 19);
-            this.hardnessTextLabel.TabIndex = 16;
-            this.hardnessTextLabel.Text = "Hardness";
-            // 
             // TasksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -966,6 +966,8 @@ namespace PresentationLayer.Controls
             this.taskActionButtonsPanel.ResumeLayout(false);
             this.taskEditPanel.ResumeLayout(false);
             this.taskEditPanel.PerformLayout();
+            this.metroPanel1.ResumeLayout(false);
+            this.metroPanel1.PerformLayout();
             this.priorityPanel.ResumeLayout(false);
             this.priorityPanel.PerformLayout();
             this.tasksListPanel.ResumeLayout(false);
@@ -974,8 +976,6 @@ namespace PresentationLayer.Controls
             ((System.ComponentModel.ISupportInitialize)(this.workUnitBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).EndInit();
             this.rightPanel.ResumeLayout(false);
-            this.metroPanel1.ResumeLayout(false);
-            this.metroPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

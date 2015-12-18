@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
@@ -25,20 +26,56 @@ namespace PresentationLayer.Controls
                 dateLabel.Text = dayDateText;
             }
         }
+        public int DayNumber
+        {
+            set { dayNumberLabel.Text = $"Day {value.ToString()}"; }
+        }
+        public int? ChoosenEntryId
+        {
+            get
+            {
+                if (choosenDiaryEntryComboBox.SelectedItem != null)
+                {
+                    var selectedDay = (KeyValuePair<int, string>)choosenDiaryEntryComboBox.SelectedItem;
+                    if (selectedDay.Key > 0)
+                        return selectedDay.Key;
+                }
+
+                return null;
+            }
+            set
+            {
+                raiseDayChangedEvent = false;
+                if (choosenDiaryEntryComboBox.Items.Count > 0)
+                {
+                    if (value.HasValue)
+                    {
+                        choosenDiaryEntryComboBox.SelectItemByValue(value.Value);
+                    }
+                    else
+                    {
+                        choosenDiaryEntryComboBox.SelectedIndex = 0;
+                    }
+                }
+                raiseDayChangedEvent = false;
+            }
+        }
+        public Dictionary<int, string> Entries
+        {
+            set
+            {
+                ClearEntriesComboBox();
+                FillEntriesList(value);
+            }
+        }
 
         public DateTime DaySelectorMinDate
         {
             set { selectedDayDateTime.MinDate = value; }
         }
-
         public DateTime DaySelectorMaxDate
         {
             set { selectedDayDateTime.MaxDate = value; }
-        }
-
-        public int DayNumber
-        {
-            set { dayNumberLabel.Text = $"Day {value.ToString()}"; }
         }
 
         public bool ShowNextDayButton
@@ -61,17 +98,36 @@ namespace PresentationLayer.Controls
         {
             set { thoughtsTextBox.Enabled = value; }
         }
-        
+
         public event EventHandler<EventArgs> SaveDayChanges;
-        public event EventHandler<EventArgs> CancelDayChanges;
         public event EventHandler<EventArgs> EditDay;
         public event EventHandler<EventArgs> ShowPreviousDay;
         public event EventHandler<EventArgs> ShowNextDay;
         public event EventHandler<DateTime> DateChanged;
+        public event EventHandler<int> EntrySelected;
 
         public DayControl()
         {
             InitializeComponent();
+        }
+        
+        private void ClearEntriesComboBox()
+        {
+            choosenDiaryEntryComboBox.Items.Clear();
+        }
+
+        private void FillEntriesList(Dictionary<int, string> entries)
+        {
+            if (entries != null && entries.Count > 0)
+            {
+                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
+                choosenDiaryEntryComboBox.Items.Add(emptyItem);
+
+                foreach (var entry in entries)
+                {
+                    choosenDiaryEntryComboBox.Items.Add(entry);
+                }
+            }
         }
 
         #region Event handlers
@@ -106,6 +162,14 @@ namespace PresentationLayer.Controls
                 DateChanged(this, selectedDayDateTime.Value);
         }
 
+        private void choosenDiaryEntryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (EntrySelected != null && raiseDayChangedEvent)
+                EntrySelected(this, 5);
+        }
+        
         #endregion Event handlers
+
+
     }
 }

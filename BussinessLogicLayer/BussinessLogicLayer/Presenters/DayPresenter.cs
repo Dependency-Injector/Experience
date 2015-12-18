@@ -18,11 +18,12 @@ namespace BussinessLogicLayer.Presenters
         private readonly IDaysService daysService;
         private readonly IImprovementsService improvementsService;
         private readonly IProfileService profileService;
+        private readonly IHistoryService historyService;
 
         private Day dayBeingDisplayed;
         private Profile currentUser;
 
-        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService, IImprovementsService improvementsService, IProfileService profileService)
+        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService, IImprovementsService improvementsService, IProfileService profileService, IHistoryService historyService)
         {
             this.view = view;
             this.daysRepository = daysRepository;
@@ -30,6 +31,7 @@ namespace BussinessLogicLayer.Presenters
             this.daysService = daysService;
             this.improvementsService = improvementsService;
             this.profileService = profileService;
+            this.historyService = historyService;
         }
 
         public void Initialize()
@@ -75,6 +77,7 @@ namespace BussinessLogicLayer.Presenters
             view.SaveDayChanges += SaveDayChanges;
             view.EditDay += EditDay;
             view.DateChanged += SelectedDateChanged;
+            view.EntrySelected += EntrySelected;
         }
 
         private void SetDisplayMode(DisplayMode displayMode)
@@ -125,6 +128,15 @@ namespace BussinessLogicLayer.Presenters
             view.DayNumber = (int)dayNumber;
             view.Date = day.Date;
             view.Thoughts = day.Thoughts;
+
+            // For having entries list
+            var userDiaryEntries = daysService.GetDaysForUser(day.Owner.Id);
+            view.Entries = userDiaryEntries.ToDictionary(
+                k => k.Id, 
+                val => $"Day {val.Number}: {val.Thoughts.Substring(0, 15)}...");
+
+
+            view.ChoosenEntryId = day.Id;
         }
 
         private int GetDaysBetweenDates(DateTime newerDate, DateTime olderDate)
@@ -176,6 +188,16 @@ namespace BussinessLogicLayer.Presenters
             ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(selectedDate));
         }
 
+        private void EntrySelected(object sender, int id)
+        {
+            int selectedEntryId = view.ChoosenEntryId.Value;
+            dayBeingDisplayed = daysRepository.Get(selectedEntryId);
+            int daysSinceDaySelected = GetDaysBetweenDates(dayBeingDisplayed.Date, currentUser.JoinDate);
+
+            DisplayDayData(dayBeingDisplayed, daysSinceDaySelected);
+            ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dayBeingDisplayed.Date));
+        }
+
         private void SaveDayChanges(object sender, EventArgs e)
         {
             int writtenWordsCount = view.Thoughts.Count(Char.IsWhiteSpace);
@@ -189,12 +211,14 @@ namespace BussinessLogicLayer.Presenters
 
                 dayBeingDisplayed = daysService.UpdateExistingDay(dayBeingDisplayed.Id, view.Thoughts);
                 daysRepository.Update(dayBeingDisplayed);
+                historyService.AddHistoryEvent(HistoryEventType.DayUpdated, dayBeingDisplayed.Id);
             }
             // Saving diary entry for the first time for such day
             else
             {
                 dayBeingDisplayed.Thoughts = view.Thoughts;
                 daysService.SaveDay(dayBeingDisplayed);
+                historyService.AddHistoryEvent(HistoryEventType.DaySaved, dayBeingDisplayed.Id);
             }
 
             // If user wrote at least '20' words, give him XP for this
