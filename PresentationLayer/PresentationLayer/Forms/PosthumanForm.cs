@@ -254,8 +254,7 @@ namespace PresentationLayer.Forms
             builder.Register(
                 c => new DaysService(
                     c.Resolve<IDaysRepository>(),
-                    c.Resolve<IProfileRepository>(),
-                    c.Resolve<IHistoryService>()));
+                    c.Resolve<IProfileRepository>()));
 
             builder.Register(
                 c => new SkillsService(
