@@ -27,7 +27,6 @@ namespace DataAccessLayer.Services
             skill.Name = name;
             skill.Level = 1;
             skill.Experience = 0;
-            skill.ExperienceWhenNextLevel = 100;
 
             if (ownerId.HasValue)
                 skill.Owner = profilesRepository.First(p => p.Id == ownerId.Value);

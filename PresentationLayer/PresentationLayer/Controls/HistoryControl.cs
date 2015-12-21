@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
-using BussinessLogicLayer.Templates;
 using MetroFramework.Controls;
 
 namespace PresentationLayer.Controls

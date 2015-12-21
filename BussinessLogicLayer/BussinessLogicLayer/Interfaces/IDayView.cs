@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace BussinessLogicLayer.Interfaces
@@ -20,6 +19,7 @@ namespace BussinessLogicLayer.Interfaces
         bool ShowEditButton { set; }
         bool ShowSaveChangesButton { set; }
         bool ThoughtsTextBoxEnabled { set; }
+        bool SelectingControlsEnabled { set; }
 
         event EventHandler<EventArgs> SaveDayChanges;
         event EventHandler<EventArgs> EditDay;

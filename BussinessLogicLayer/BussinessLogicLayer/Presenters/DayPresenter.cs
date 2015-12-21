@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
@@ -46,9 +47,7 @@ namespace BussinessLogicLayer.Presenters
 
                 dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, DateTime.Now);
                 if (dayBeingDisplayed == null)
-                {
                     dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, DateTime.Now, view.Thoughts);
-                }
 
                 DisplayDayData(dayBeingDisplayed, currentUser.GetDaysSinceFirstDay());
 
@@ -87,6 +86,7 @@ namespace BussinessLogicLayer.Presenters
                 view.ShowEditButton = false;
                 view.ShowSaveChangesButton = true;
                 view.ThoughtsTextBoxEnabled = true;
+                view.SelectingControlsEnabled = false;
                 ShowPreviousDayButton(false);
                 ShowNextDayButton(false);
             }
@@ -95,6 +95,7 @@ namespace BussinessLogicLayer.Presenters
                 view.ShowEditButton = true;
                 view.ShowSaveChangesButton = false;
                 view.ThoughtsTextBoxEnabled = false;
+                view.SelectingControlsEnabled = true;
                 ShowPreviousDayButton(true);
                 ShowNextDayButton(true);
             }
@@ -128,15 +129,32 @@ namespace BussinessLogicLayer.Presenters
             view.DayNumber = (int)dayNumber;
             view.Date = day.Date;
             view.Thoughts = day.Thoughts;
-
-            // For having entries list
-            var userDiaryEntries = daysService.GetDaysForUser(day.Owner.Id);
-            view.Entries = userDiaryEntries.ToDictionary(
-                k => k.Id, 
-                val => $"Day {val.Number}: {val.Thoughts.Substring(0, 15)}...");
-
-
+            view.Entries = GetUserDiaryEntriesTitles(day.Owner.Id);
             view.ChoosenEntryId = day.Id;
+        }
+
+        private Dictionary<int, string> GetUserDiaryEntriesTitles(int userId)
+        {
+            // For having diary entries list
+            var userDiaryEntries = daysService.GetDaysForUser(userId);
+            var userDiaryEntriesTitles = new Dictionary<int, string>();
+
+            foreach (var diaryEntry in userDiaryEntries)
+            {
+                if (!String.IsNullOrEmpty(diaryEntry.Thoughts.Trim()))
+                {
+                    // If longer than 15 characters then crop to 15 characters
+                    String titleAbbreviation = diaryEntry.Thoughts.Length > 15
+                        ? diaryEntry.Thoughts.Substring(0, 15) + "..."
+                        : diaryEntry.Thoughts;
+
+                    // Example: "Day 3: Today i was jerki..."
+                    String value = $"Day {diaryEntry.Number}: {titleAbbreviation}";
+                    userDiaryEntriesTitles.Add(diaryEntry.Id, value);
+                }
+            }
+
+            return userDiaryEntriesTitles;
         }
 
         private int GetDaysBetweenDates(DateTime newerDate, DateTime olderDate)
@@ -147,7 +165,7 @@ namespace BussinessLogicLayer.Presenters
 
         private Day GetDayOrCreateNew(DateTime date)
         {
-            Day day = null;
+            Day day;
 
             if (daysRepository.HasDay(currentUser.Id, date))
                 day = daysRepository.GetByDate(currentUser.Id, date);
@@ -190,19 +208,22 @@ namespace BussinessLogicLayer.Presenters
 
         private void EntrySelected(object sender, int id)
         {
-            int selectedEntryId = view.ChoosenEntryId.Value;
-            dayBeingDisplayed = daysRepository.Get(selectedEntryId);
-            int daysSinceDaySelected = GetDaysBetweenDates(dayBeingDisplayed.Date, currentUser.JoinDate);
+            if (view.ChoosenEntryId.HasValue)
+            {
+                int selectedEntryId = view.ChoosenEntryId.Value;
+                dayBeingDisplayed = daysRepository.Get(selectedEntryId);
+                int daysSinceDaySelected = GetDaysBetweenDates(dayBeingDisplayed.Date, currentUser.JoinDate);
 
-            DisplayDayData(dayBeingDisplayed, daysSinceDaySelected);
-            ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dayBeingDisplayed.Date));
+                DisplayDayData(dayBeingDisplayed, daysSinceDaySelected);
+                ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dayBeingDisplayed.Date));
+            }
         }
 
         private void SaveDayChanges(object sender, EventArgs e)
         {
             int writtenWordsCount = view.Thoughts.Count(Char.IsWhiteSpace);
             
-            // Diary entry for such day already exists - updating
+            // Diary entry for such day already exists - updating diary entry
             if (daysRepository.HasDay(currentUser.Id, dayBeingDisplayed.Date))
             {
                 Day dayBeforeEdit = daysRepository.Get(dayBeingDisplayed.Id);
@@ -244,11 +265,10 @@ namespace BussinessLogicLayer.Presenters
             SetDisplayMode(DisplayMode.Edit);
         }
 
-        #endregion
-
         public void OnViewDisplayed()
         {
-            // TODO
         }
+
+        #endregion
     }
 }

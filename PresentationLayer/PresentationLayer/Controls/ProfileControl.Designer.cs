@@ -164,6 +164,8 @@
             // 
             // skillsPanel
             // 
+            this.skillsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.skillsPanel.Controls.Add(this.skillsTextLabel);
             this.skillsPanel.Controls.Add(this.skillsGrid);
             this.skillsPanel.Controls.Add(this.addNewSkillPanel);
@@ -172,7 +174,7 @@
             this.skillsPanel.HorizontalScrollbarSize = 10;
             this.skillsPanel.Location = new System.Drawing.Point(3, 211);
             this.skillsPanel.Name = "skillsPanel";
-            this.skillsPanel.Size = new System.Drawing.Size(479, 209);
+            this.skillsPanel.Size = new System.Drawing.Size(479, 223);
             this.skillsPanel.TabIndex = 2;
             this.skillsPanel.VerticalScrollbarBarColor = true;
             this.skillsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -183,6 +185,8 @@
             this.skillsGrid.AllowUserToAddRows = false;
             this.skillsGrid.AllowUserToDeleteRows = false;
             this.skillsGrid.AllowUserToResizeRows = false;
+            this.skillsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.skillsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.skillsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.skillsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -222,19 +226,20 @@
             this.skillsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.skillsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.skillsGrid.Size = new System.Drawing.Size(469, 144);
+            this.skillsGrid.Size = new System.Drawing.Size(469, 158);
             this.skillsGrid.TabIndex = 2;
+            this.skillsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.skillsGrid_DataBindingComplete);
             this.skillsGrid.SelectionChanged += new System.EventHandler(this.skillsGrid_SelectionChanged);
             // 
             // addNewSkillPanel
             // 
-            this.addNewSkillPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.addNewSkillPanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.addNewSkillPanel.Controls.Add(this.addNewSkillButton);
             this.addNewSkillPanel.Controls.Add(this.newSkillNameTextBox);
             this.addNewSkillPanel.HorizontalScrollbarBarColor = true;
             this.addNewSkillPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.addNewSkillPanel.HorizontalScrollbarSize = 10;
-            this.addNewSkillPanel.Location = new System.Drawing.Point(3, 176);
+            this.addNewSkillPanel.Location = new System.Drawing.Point(3, 190);
             this.addNewSkillPanel.Name = "addNewSkillPanel";
             this.addNewSkillPanel.Size = new System.Drawing.Size(473, 30);
             this.addNewSkillPanel.TabIndex = 6;
@@ -270,7 +275,7 @@
             // editProfileButton
             // 
             this.editProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.editProfileButton.Location = new System.Drawing.Point(3, 423);
+            this.editProfileButton.Location = new System.Drawing.Point(3, 440);
             this.editProfileButton.Name = "editProfileButton";
             this.editProfileButton.Size = new System.Drawing.Size(106, 30);
             this.editProfileButton.TabIndex = 2;
@@ -281,7 +286,7 @@
             // saveChangesButton
             // 
             this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.saveChangesButton.Location = new System.Drawing.Point(373, 423);
+            this.saveChangesButton.Location = new System.Drawing.Point(373, 440);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(106, 30);
             this.saveChangesButton.TabIndex = 2;
@@ -322,7 +327,7 @@
             this.profileRelatedEventsGrid.EnableHeadersVisualStyles = false;
             this.profileRelatedEventsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.profileRelatedEventsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.profileRelatedEventsGrid.Location = new System.Drawing.Point(488, 9);
+            this.profileRelatedEventsGrid.Location = new System.Drawing.Point(504, 9);
             this.profileRelatedEventsGrid.Name = "profileRelatedEventsGrid";
             this.profileRelatedEventsGrid.ReadOnly = true;
             this.profileRelatedEventsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -336,14 +341,14 @@
             this.profileRelatedEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.profileRelatedEventsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.profileRelatedEventsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(471, 440);
+            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(513, 425);
             this.profileRelatedEventsGrid.TabIndex = 3;
             this.profileRelatedEventsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.profileRelatedEventsGrid_DataBindingComplete);
             // 
             // cancelChangesButton
             // 
             this.cancelChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cancelChangesButton.Location = new System.Drawing.Point(261, 423);
+            this.cancelChangesButton.Location = new System.Drawing.Point(261, 440);
             this.cancelChangesButton.Name = "cancelChangesButton";
             this.cancelChangesButton.Size = new System.Drawing.Size(106, 30);
             this.cancelChangesButton.TabIndex = 2;
@@ -385,7 +390,7 @@
             this.Controls.Add(this.editProfileButton);
             this.Controls.Add(this.skillsPanel);
             this.Name = "ProfileControl";
-            this.Size = new System.Drawing.Size(962, 455);
+            this.Size = new System.Drawing.Size(1031, 472);
             this.skillsPanel.ResumeLayout(false);
             this.skillsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).EndInit();

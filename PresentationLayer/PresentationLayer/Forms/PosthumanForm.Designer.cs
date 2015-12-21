@@ -3,7 +3,7 @@ using PresentationLayer.Controls;
 
 namespace PresentationLayer.Forms
 {
-    partial class TestForm
+    partial class PosthumanForm
     {
         /// <summary>
         /// Required designer variable.
@@ -32,21 +32,21 @@ namespace PresentationLayer.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PosthumanForm));
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.dayControl = new PresentationLayer.Controls.DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.tasksControl = new PresentationLayer.Controls.TasksControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.profileControl = new PresentationLayer.Controls.ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.historyControl2 = new PresentationLayer.Controls.HistoryControl();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.optionsControl = new PresentationLayer.Controls.OptionsControl();
             this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.loggedUserControl = new PresentationLayer.Controls.LoggedUserControl();
-            this.dayControl = new PresentationLayer.Controls.DayControl();
-            this.tasksControl = new PresentationLayer.Controls.TasksControl();
-            this.profileControl = new PresentationLayer.Controls.ProfileControl();
-            this.historyControl2 = new PresentationLayer.Controls.HistoryControl();
-            this.optionsControl = new PresentationLayer.Controls.OptionsControl();
             this.loginControl = new PresentationLayer.Controls.LoginControl();
             this.historyControl1 = new PresentationLayer.Controls.HistoryControl();
             this.profileControl1 = new PresentationLayer.Controls.ProfileControl();
@@ -70,7 +70,7 @@ namespace PresentationLayer.Forms
             this.contentTabControl.Location = new System.Drawing.Point(20, 60);
             this.contentTabControl.Name = "contentTabControl";
             this.contentTabControl.SelectedIndex = 1;
-            this.contentTabControl.Size = new System.Drawing.Size(1177, 514);
+            this.contentTabControl.Size = new System.Drawing.Size(1186, 524);
             this.contentTabControl.TabIndex = 2;
             this.contentTabControl.UseSelectable = true;
             this.contentTabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.contentTabControl_Selected);
@@ -83,12 +83,25 @@ namespace PresentationLayer.Forms
             this.dayTabPage.HorizontalScrollbarSize = 10;
             this.dayTabPage.Location = new System.Drawing.Point(4, 38);
             this.dayTabPage.Name = "dayTabPage";
-            this.dayTabPage.Size = new System.Drawing.Size(1169, 472);
+            this.dayTabPage.Size = new System.Drawing.Size(1178, 482);
             this.dayTabPage.TabIndex = 4;
-            this.dayTabPage.Text = "Day";
+            this.dayTabPage.Text = "Memories";
             this.dayTabPage.VerticalScrollbarBarColor = true;
             this.dayTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.dayTabPage.VerticalScrollbarSize = 10;
+            // 
+            // dayControl
+            // 
+            this.dayControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dayControl.ChoosenEntryId = null;
+            this.dayControl.Location = new System.Drawing.Point(3, 3);
+            this.dayControl.Name = "dayControl";
+            this.dayControl.Size = new System.Drawing.Size(1182, 411);
+            this.dayControl.TabIndex = 2;
+            this.dayControl.Thoughts = "[Thoughts]";
+            this.dayControl.UseSelectable = true;
             // 
             // tasksTabPage
             // 
@@ -98,12 +111,33 @@ namespace PresentationLayer.Forms
             this.tasksTabPage.HorizontalScrollbarSize = 10;
             this.tasksTabPage.Location = new System.Drawing.Point(4, 38);
             this.tasksTabPage.Name = "tasksTabPage";
-            this.tasksTabPage.Size = new System.Drawing.Size(1169, 472);
+            this.tasksTabPage.Size = new System.Drawing.Size(1178, 482);
             this.tasksTabPage.TabIndex = 0;
             this.tasksTabPage.Text = "Tasks";
             this.tasksTabPage.VerticalScrollbarBarColor = true;
             this.tasksTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.tasksTabPage.VerticalScrollbarSize = 10;
+            // 
+            // tasksControl
+            // 
+            this.tasksControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tasksControl.Difficulty = 0;
+            this.tasksControl.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
+            this.tasksControl.FinishDate = null;
+            this.tasksControl.Location = new System.Drawing.Point(0, 7);
+            this.tasksControl.MinDueDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+            this.tasksControl.Name = "tasksControl";
+            this.tasksControl.ParentTaskId = null;
+            this.tasksControl.Priority = 0;
+            this.tasksControl.Size = new System.Drawing.Size(1177, 479);
+            this.tasksControl.SkillToTrainId = null;
+            this.tasksControl.TabIndex = 0;
+            this.tasksControl.TaskDescription = "Description";
+            this.tasksControl.TaskId = 0;
+            this.tasksControl.TaskName = "Name";
+            this.tasksControl.UseSelectable = true;
             // 
             // profileTabPage
             // 
@@ -113,12 +147,31 @@ namespace PresentationLayer.Forms
             this.profileTabPage.HorizontalScrollbarSize = 10;
             this.profileTabPage.Location = new System.Drawing.Point(4, 38);
             this.profileTabPage.Name = "profileTabPage";
-            this.profileTabPage.Size = new System.Drawing.Size(1169, 472);
+            this.profileTabPage.Size = new System.Drawing.Size(1178, 482);
             this.profileTabPage.TabIndex = 1;
             this.profileTabPage.Text = "Profile";
             this.profileTabPage.VerticalScrollbarBarColor = true;
             this.profileTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.profileTabPage.VerticalScrollbarSize = 10;
+            // 
+            // profileControl
+            // 
+            this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.profileControl.BirthDate = new System.DateTime(2015, 12, 19, 19, 25, 56, 407);
+            this.profileControl.Experience = "(Experience Value)";
+            this.profileControl.History = "(History Value)";
+            this.profileControl.Level = 0;
+            this.profileControl.LevelProgress = 0;
+            this.profileControl.Location = new System.Drawing.Point(0, 3);
+            this.profileControl.Name = "profileControl";
+            this.profileControl.NewSkillName = "(New skil name)";
+            this.profileControl.PlayerName = "profileControl";
+            this.profileControl.SelectedSkill = null;
+            this.profileControl.Size = new System.Drawing.Size(1169, 485);
+            this.profileControl.TabIndex = 1;
+            this.profileControl.UseSelectable = true;
             // 
             // historyTabPage
             // 
@@ -128,12 +181,27 @@ namespace PresentationLayer.Forms
             this.historyTabPage.HorizontalScrollbarSize = 10;
             this.historyTabPage.Location = new System.Drawing.Point(4, 38);
             this.historyTabPage.Name = "historyTabPage";
-            this.historyTabPage.Size = new System.Drawing.Size(1169, 472);
+            this.historyTabPage.Size = new System.Drawing.Size(1178, 482);
             this.historyTabPage.TabIndex = 3;
             this.historyTabPage.Text = "History";
             this.historyTabPage.VerticalScrollbarBarColor = true;
             this.historyTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.historyTabPage.VerticalScrollbarSize = 10;
+            // 
+            // historyControl2
+            // 
+            this.historyControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.historyControl2.DisplayExperienceEvents = true;
+            this.historyControl2.DisplayProfileAndSkillsEvents = true;
+            this.historyControl2.DisplayTaskEvents = true;
+            this.historyControl2.DisplayWorkUnitEvents = true;
+            this.historyControl2.Location = new System.Drawing.Point(3, 3);
+            this.historyControl2.Name = "historyControl2";
+            this.historyControl2.Size = new System.Drawing.Size(1182, 486);
+            this.historyControl2.TabIndex = 2;
+            this.historyControl2.UseSelectable = true;
             // 
             // optionsTabPage
             // 
@@ -143,12 +211,26 @@ namespace PresentationLayer.Forms
             this.optionsTabPage.HorizontalScrollbarSize = 10;
             this.optionsTabPage.Location = new System.Drawing.Point(4, 38);
             this.optionsTabPage.Name = "optionsTabPage";
-            this.optionsTabPage.Size = new System.Drawing.Size(1094, 472);
+            this.optionsTabPage.Size = new System.Drawing.Size(1178, 482);
             this.optionsTabPage.TabIndex = 2;
             this.optionsTabPage.Text = "Options";
             this.optionsTabPage.VerticalScrollbarBarColor = true;
             this.optionsTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.optionsTabPage.VerticalScrollbarSize = 10;
+            // 
+            // optionsControl
+            // 
+            this.optionsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionsControl.Location = new System.Drawing.Point(3, 3);
+            this.optionsControl.Name = "optionsControl";
+            this.optionsControl.ShowFinishedTasks = null;
+            this.optionsControl.Size = new System.Drawing.Size(1107, 486);
+            this.optionsControl.StyleName = null;
+            this.optionsControl.TabIndex = 5;
+            this.optionsControl.ThemeName = "Light";
+            this.optionsControl.UseSelectable = true;
             // 
             // metroColorsBindingSource
             // 
@@ -166,98 +248,18 @@ namespace PresentationLayer.Forms
             // loggedUserControl
             // 
             this.loggedUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.loggedUserControl.Location = new System.Drawing.Point(1004, 24);
+            this.loggedUserControl.Location = new System.Drawing.Point(1013, 24);
             this.loggedUserControl.LoggedUserName = "[User name]";
             this.loggedUserControl.Name = "loggedUserControl";
             this.loggedUserControl.Size = new System.Drawing.Size(189, 30);
             this.loggedUserControl.TabIndex = 3;
             this.loggedUserControl.UseSelectable = true;
             // 
-            // dayControl
-            // 
-            this.dayControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dayControl.Location = new System.Drawing.Point(3, 3);
-            this.dayControl.Name = "dayControl";
-            this.dayControl.Size = new System.Drawing.Size(1173, 473);
-            this.dayControl.TabIndex = 2;
-            this.dayControl.Thoughts = "[Thoughts]";
-            this.dayControl.UseSelectable = true;
-            // 
-            // tasksControl
-            // 
-            this.tasksControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tasksControl.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
-            this.tasksControl.FinishDate = null;
-            this.tasksControl.Location = new System.Drawing.Point(0, 7);
-            this.tasksControl.MinDueDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
-            this.tasksControl.Name = "tasksControl";
-            this.tasksControl.ParentTaskId = null;
-            this.tasksControl.Priority = 0;
-            this.tasksControl.Size = new System.Drawing.Size(1162, 469);
-            this.tasksControl.SkillToTrainId = null;
-            this.tasksControl.TabIndex = 0;
-            this.tasksControl.TaskDescription = "Description";
-            this.tasksControl.TaskId = 0;
-            this.tasksControl.TaskName = "Name";
-            this.tasksControl.UseSelectable = true;
-            // 
-            // profileControl
-            // 
-            this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.profileControl.BirthDate = new System.DateTime(2015, 12, 16, 14, 55, 46, 521);
-            this.profileControl.Experience = "(Experience Value)";
-            this.profileControl.History = "(History Value)";
-            this.profileControl.Level = 0;
-            this.profileControl.LevelProgress = 0;
-            this.profileControl.Location = new System.Drawing.Point(0, 3);
-            this.profileControl.Name = "profileControl";
-            this.profileControl.NewSkillName = "(New skil name)";
-            this.profileControl.PlayerName = "profileControl";
-            this.profileControl.SelectedSkill = null;
-            this.profileControl.Size = new System.Drawing.Size(1154, 469);
-            this.profileControl.TabIndex = 1;
-            this.profileControl.UseSelectable = true;
-            // 
-            // historyControl2
-            // 
-            this.historyControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.historyControl2.DisplayExperienceEvents = true;
-            this.historyControl2.DisplayProfileAndSkillsEvents = true;
-            this.historyControl2.DisplayTaskEvents = true;
-            this.historyControl2.DisplayWorkUnitEvents = true;
-            this.historyControl2.Location = new System.Drawing.Point(3, 3);
-            this.historyControl2.Name = "historyControl2";
-            this.historyControl2.Size = new System.Drawing.Size(1167, 470);
-            this.historyControl2.TabIndex = 2;
-            this.historyControl2.UseSelectable = true;
-            // 
-            // optionsControl
-            // 
-            this.optionsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.optionsControl.Location = new System.Drawing.Point(3, 3);
-            this.optionsControl.Name = "optionsControl";
-            this.optionsControl.ShowFinishedTasks = null;
-            this.optionsControl.Size = new System.Drawing.Size(1092, 470);
-            this.optionsControl.StyleName = null;
-            this.optionsControl.TabIndex = 5;
-            this.optionsControl.ThemeName = "Light";
-            this.optionsControl.UseSelectable = true;
-            // 
             // loginControl
             // 
             this.loginControl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.loginControl.IsNew = false;
-            this.loginControl.Location = new System.Drawing.Point(449, 110);
+            this.loginControl.Location = new System.Drawing.Point(454, 110);
             this.loginControl.Name = "loginControl";
             this.loginControl.Size = new System.Drawing.Size(319, 430);
             this.loginControl.TabIndex = 2;
@@ -277,7 +279,7 @@ namespace PresentationLayer.Forms
             // 
             // profileControl1
             // 
-            this.profileControl1.BirthDate = new System.DateTime(2015, 12, 16, 14, 51, 3, 911);
+            this.profileControl1.BirthDate = new System.DateTime(2015, 12, 19, 19, 25, 56, 454);
             this.profileControl1.Experience = "(Experience Value)";
             this.profileControl1.History = "(History Value)";
             this.profileControl1.Level = 0;
@@ -291,19 +293,20 @@ namespace PresentationLayer.Forms
             this.profileControl1.TabIndex = 1;
             this.profileControl1.UseSelectable = true;
             // 
-            // TestForm
+            // PosthumanForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackImagePadding = new System.Windows.Forms.Padding(0, 10, 20, 0);
             this.BackLocation = MetroFramework.Forms.BackLocation.TopRight;
             this.BackMaxSize = 50;
-            this.ClientSize = new System.Drawing.Size(1217, 594);
+            this.ClientSize = new System.Drawing.Size(1226, 604);
             this.Controls.Add(this.loggedUserControl);
             this.Controls.Add(this.contentTabControl);
             this.Controls.Add(this.loginControl);
-            this.Name = "TestForm";
+            this.Name = "PosthumanForm";
             this.Text = "POSTHUMAN";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PosthumanForm_FormClosing);
             this.Load += new System.EventHandler(this.TestForm_Load);
             this.Resize += new System.EventHandler(this.TestForm_Resize);
             this.contentTabControl.ResumeLayout(false);

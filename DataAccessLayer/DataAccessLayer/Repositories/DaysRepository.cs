@@ -22,7 +22,6 @@ namespace DataAccessLayer.Repositories
         public DaysRepository()
         {
             context = new EntitiesContext();
-            //context.Database.Connection.Open();
         }
 
         public void Add(Day day)

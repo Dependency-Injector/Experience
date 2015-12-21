@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BussinessLogicLayer.Templates;
+using BussinessLogicLayer.GridRowTemplates;
 
 namespace BussinessLogicLayer.Interfaces
 {

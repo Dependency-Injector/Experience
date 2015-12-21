@@ -26,7 +26,7 @@ namespace BussinessLogicLayer.Presenters
             this.preferencesService = preferencesService;
         }
 
-        #region Events
+        #region Helper methods
 
         public void Initialize()
         {
@@ -90,7 +90,7 @@ namespace BussinessLogicLayer.Presenters
 
         #endregion
 
-        #region Helper methods
+        #region Events
 
         private void AttachEvents()
         {
@@ -140,12 +140,12 @@ namespace BussinessLogicLayer.Presenters
         {
             view.IsDirty = true;
         }
-        
-        #endregion
 
         public void OnViewDisplayed()
         {
-            
+
         }
+
+        #endregion
     }
 }

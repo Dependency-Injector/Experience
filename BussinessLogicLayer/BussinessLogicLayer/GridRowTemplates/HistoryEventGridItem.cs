@@ -1,7 +1,10 @@
 ﻿using System;
 
-namespace BussinessLogicLayer.Templates
+namespace BussinessLogicLayer.GridRowTemplates
 {
+    /// <summary>
+    /// Representation of history event on grid row, displayed on History tab 
+    /// </summary>
     public class HistoryEventGridItem
     {
         public String Occured { get; set; }

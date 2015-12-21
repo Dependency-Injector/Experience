@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Forms;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
-using BussinessLogicLayer.Templates;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Utilities;
@@ -77,45 +76,6 @@ namespace BussinessLogicLayer.Presenters
             int? selectedSkillId = view.SelectedSkill;
         }
 
-        private void EditProfile(object sender, EventArgs e)
-        {
-            SetDisplayMode(DisplayMode.Edit);
-        }
-
-        private void AddNewSkill(object sender, EventArgs e)
-        {
-            if (newSkillsToAdd == null)
-                newSkillsToAdd = new List<string>();
-
-            newSkillsToAdd.Add(view.NewSkillName);
-            view.NewSkillName = "(New skill name)";
-        }
-
-        private void RemoveSkill(object sender, int skillToRemoveId)
-        {
-            if (skillsIdsToRemove == null)
-                skillsIdsToRemove = new List<int>();
-
-            skillsIdsToRemove.Add(skillToRemoveId);
-        }
-
-        private void CancelChanges(object sender, EventArgs e)
-        {
-            SetDisplayMode(DisplayMode.View);
-        }
-
-        private void SaveChanges(object sender, EventArgs e)
-        {
-            String saveChangesWarning = getSaveChangesWarning();
-            DialogResult saveConfirmation = MessageBox.Show(saveChangesWarning, "Confirm save changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (saveConfirmation == DialogResult.Yes)
-            {
-                AddNewSkills();
-                RemoveSelectedSkills();
-                SetDisplayMode(DisplayMode.View);
-            }
-        }
-
         private String getSaveChangesWarning()
         {
             StringBuilder saveChangesWarning = new StringBuilder();
@@ -165,31 +125,16 @@ namespace BussinessLogicLayer.Presenters
 
         private void DisplayProfileInfo(Profile profile)
         {
-            var profileRelatedHistoryEvents =
-                historyEventsRepository.Find(
-                    he =>
-                        he.Type == HistoryEventType.ExperienceGained ||
-                        he.Type == HistoryEventType.LevelGained ||
-                        he.Type == HistoryEventType.SkillExperienceGained ||
-                        he.Type == HistoryEventType.SkillLevelGained).ToList();
-
             var userImprovements = improvementsRepository.Find(i => i.Owner.Id == profile.Id).ToList();
             var userImprovementsGridItems = GetImprovementsGridItems(userImprovements).OrderByDescending(ui => ui.When).ToList(); 
 
             view.PlayerName = profile.Name;
             view.History = profile.History;
             view.Age = profile.AgeInYears().HasValue ? profile.AgeInYears().Value.ToString() : "[birth date not set]";
-
-            
             view.Experience = $"{profile.Experience} / {profile.GetExperienceWhenNewLevel()}"; 
             view.Level = profile.Level;
             view.LevelProgress = profile.LevelProgressInPercent();
             view.Skills = MakeBindingSourceFromList(GetSkillsGridItems(profile.Skills));
-
-            var profileRelatedEventsItems =
-                GetProfileRelatedEventsGridItems(profileRelatedHistoryEvents).OrderByDescending(prei => prei.When).ToList();
-
-            //view.ProfileRelatedEvents = MakeBindingSourceFromList(profileRelatedEventsItems);
             view.ProfileRelatedEvents = MakeBindingSourceFromList(userImprovementsGridItems);
         }
 
@@ -199,28 +144,13 @@ namespace BussinessLogicLayer.Presenters
 
             foreach (Skill skill in skills)
             {
-                skillGridViewItems.Add(new SkillGridItem(skill.Id, skill.Name, skill.Level.ToString(), skill.Experience.ToString()));    
+                String experienceLiteral = $"{skill.Experience} / {skill.GetExperienceWhenNewLevel()} ({skill.GetNewLevelProgress()})";
+                skillGridViewItems.Add(new SkillGridItem(skill.Id, skill.Name, skill.Level.ToString(), experienceLiteral));    
             }
 
             return skillGridViewItems;
         }
-
-        private List<ImprovementGridItem> GetProfileRelatedEventsGridItems(List<HistoryEvent> historyEvents)
-        {
-            List<ImprovementGridItem> profileRelatedEvents = new List<ImprovementGridItem>();
-            
-            foreach (var historyEvent in historyEvents)
-            {
-                String occuredDate = historyEvent.Occured.ToString("dddd, d MMMM HH:mm");
-                String eventType = historyEvent.Type.ToString();
-                String eventTextForUser = GetEventTextForUser(historyEvent);
-            
-                profileRelatedEvents.Add(new ImprovementGridItem(historyEvent.Occured, occuredDate, eventTextForUser));
-            }
-
-            return profileRelatedEvents;
-        }
-
+        
         private List<ImprovementGridItem> GetImprovementsGridItems(List<Improvement> improvements)
         {
             List<ImprovementGridItem> profileRelatedEvents = new List<ImprovementGridItem>();
@@ -236,45 +166,7 @@ namespace BussinessLogicLayer.Presenters
 
             return profileRelatedEvents;
         }
-
-        private string GetEventTextForUser(HistoryEvent historyEvent)
-        {
-            String eventTextForUser = String.Empty;
-            Dictionary<String, String> additionalInfo = new Dictionary<string, string>();
-
-            if (!String.IsNullOrEmpty(historyEvent.AdditionalInfo))
-            {
-                List<String> keyValues = historyEvent.AdditionalInfo.Split(';').ToList();
-                foreach (var keyValue in keyValues)
-                {
-                    String[] keyValueSplitted = keyValue.Split(':');
-                    additionalInfo.Add(keyValueSplitted[0], keyValueSplitted[1]);
-                }
-
-
-                switch (historyEvent.Type)
-                {
-                    case HistoryEventType.SkillExperienceGained:
-                        eventTextForUser = $"+{additionalInfo["Xp"]} XP  {additionalInfo["Name"]}";
-                        break;
-
-                    case HistoryEventType.ExperienceGained:
-                        eventTextForUser = $"+{additionalInfo["Xp"]} XP";
-                        break;
-
-                    case HistoryEventType.SkillLevelGained:
-                        eventTextForUser = $"{additionalInfo["Name"]} reached {additionalInfo["LevelReached"]} level";
-                        break;
-
-                    case HistoryEventType.LevelGained:
-                        eventTextForUser = $"You reached {additionalInfo["LevelReached"]} level";
-                        break;
-                }
-            }
-
-            return eventTextForUser;
-        }
-
+        
         private Profile ObtainProfile(int profileId)
         {
             return profileRepository.HasProfile() ? profileRepository.First(p => p.Id == profileId) : null;
@@ -304,7 +196,48 @@ namespace BussinessLogicLayer.Presenters
             source.DataSource = list;
             return source;
         }
-        
+
+        #region Events
+
+        private void EditProfile(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.Edit);
+        }
+
+        private void AddNewSkill(object sender, EventArgs e)
+        {
+            if (newSkillsToAdd == null)
+                newSkillsToAdd = new List<string>();
+
+            newSkillsToAdd.Add(view.NewSkillName);
+            view.NewSkillName = "(New skill name)";
+        }
+
+        private void RemoveSkill(object sender, int skillToRemoveId)
+        {
+            if (skillsIdsToRemove == null)
+                skillsIdsToRemove = new List<int>();
+
+            skillsIdsToRemove.Add(skillToRemoveId);
+        }
+
+        private void CancelChanges(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.View);
+        }
+
+        private void SaveChanges(object sender, EventArgs e)
+        {
+            String saveChangesWarning = getSaveChangesWarning();
+            DialogResult saveConfirmation = MessageBox.Show(saveChangesWarning, "Confirm save changes", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (saveConfirmation == DialogResult.Yes)
+            {
+                AddNewSkills();
+                RemoveSelectedSkills();
+                SetDisplayMode(DisplayMode.View);
+            }
+        }
+
         public void OnViewDisplayed()
         {
             int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
@@ -314,6 +247,10 @@ namespace BussinessLogicLayer.Presenters
                 DisplayProfileInfo(currentUser);
                 SetDisplayMode(DisplayMode.View);
             }
+
+            view.ProfileDisplayed = true;
         }
+
+        #endregion
     }
 }

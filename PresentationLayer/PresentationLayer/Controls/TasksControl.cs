@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework;
 using MetroFramework.Controls;
 using Model.Classes;
 using Model.Enums;
-using Utilities;
 
 namespace PresentationLayer.Controls
 {
     public partial class TasksControl : MetroUserControl, ITasksView
     {
+        private static Color BasicColor;
+        private bool selectionByCode = false;
+
         public TasksControl()
         {
             InitializeComponent();
@@ -51,7 +53,11 @@ namespace PresentationLayer.Controls
             set { SelectPriority(value); }
         }
 
-        public int Difficulty { get { return GetSelectedDifficulty(); } set { SelectDifficulty(value); } }
+        public int Difficulty
+        {
+            get { return GetSelectedDifficulty(); }
+            set { SelectDifficulty(value); }
+        }
 
         public DateTime? DueDate
         {
@@ -180,17 +186,6 @@ namespace PresentationLayer.Controls
             }
         }
 
-        private void DeselectAllTasksRows()
-        {
-            if (tasksListGrid.Rows != null && tasksListGrid.Rows.Count > 0)
-            {
-                for (int i = 0; i < tasksListGrid.Rows.Count; i++)
-                {
-                    tasksListGrid.Rows[i].Selected = false;
-                }
-            }
-        }
-
         public bool CanBeFinished
         {
             set { finishedButton.Enabled = value; }
@@ -218,8 +213,6 @@ namespace PresentationLayer.Controls
         {
             set { workUnitsPanel.Visible = value; }
         }
-
-        private bool selectionByCode = false;
 
         public ICollection WorkUnits
         {
@@ -289,6 +282,9 @@ namespace PresentationLayer.Controls
         private void TasksControl_Load(object sender, EventArgs e)
         {
             IsDirty = true;
+
+
+            BasicColor = tasksListGrid.DefaultCellStyle.ForeColor;
             //metroToolTip1.SetToolTip(this.lowPriorityRadioButton, "Rather unimportant");
             //metroToolTip1.SetToolTip(this.mediumPriorityRadioButton, "Standard priority");
             //metroToolTip1.SetToolTip(this.highPriorityRadioButton, "Urgent and important");
@@ -376,52 +372,6 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.tasksListGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             this.tasksListGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            //this.tasksListGrid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            
-            if (e.ListChangedType != ListChangedType.ItemDeleted)
-            {
-                /* DataGridViewCellStyle lowPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
-                 DataGridViewCellStyle mediumPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
-                 DataGridViewCellStyle highPriorityStyle = tasksListGrid.DefaultCellStyle.Clone();
-
-                 lowPriorityStyle.BackColor = TaskDefaults.Priorities[1].Color;
-                 lowPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[1].SelectionColor;
-                 mediumPriorityStyle.BackColor = TaskDefaults.Priorities[2].Color;
-                 mediumPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[2].SelectionColor;
-                 highPriorityStyle.BackColor = TaskDefaults.Priorities[3].Color;
-                 highPriorityStyle.SelectionBackColor = TaskDefaults.Priorities[3].SelectionColor;
-
-                 var dataGridViewColumn = tasksListGrid.Columns["Priority"];
-                 if (dataGridViewColumn == null)
-                 {
-                     SetColumnNames();
-                     dataGridViewColumn = tasksListGrid.Columns["Priority"];
-                 }
-
-                 if (dataGridViewColumn != null)
-                 {
-                     int priorityColumnIndex = dataGridViewColumn.Index;
-
-                     foreach (DataGridViewRow row in tasksListGrid.Rows)
-                     {
-                         if (row.Cells[priorityColumnIndex].Value.ToString() == "1")
-                         {
-                             row.DefaultCellStyle = lowPriorityStyle;
-
-                         }
-                         else if (row.Cells[priorityColumnIndex].Value.ToString() == "2")
-                         {
-                             row.DefaultCellStyle = mediumPriorityStyle;
-                         }
-                         else if (row.Cells[priorityColumnIndex].Value.ToString() == "3")
-                         {
-                             row.DefaultCellStyle = highPriorityStyle;
-                         }
-
-                     }
-                 }*/
-            }
-
         }
 
         private void startWorkButton_Click(object sender, EventArgs e)
@@ -453,15 +403,36 @@ namespace PresentationLayer.Controls
             if (ParentTaskChanged != null)
                 ParentTaskChanged(this, e);
         }
+
+        private void tasksListGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            for (int i = e.RowIndex; i <= e.RowIndex + e.RowCount - 1; i++)
+            {
+                DataGridViewRow row = tasksListGrid.Rows[i];
+                if (row.DataBoundItem is TaskGridItem)
+                {
+                    TaskGridItem task = row.DataBoundItem as TaskGridItem;
+                    switch (task.TaskTextColor)
+                    {
+                        case TaskTextColor.Red:
+                            row.DefaultCellStyle.ForeColor = Color.Red;
+                            break;
+                        case TaskTextColor.Yellow:
+                            row.DefaultCellStyle.ForeColor = Color.DarkOrange;
+                            break;
+                        case TaskTextColor.Normal:
+                            row.DefaultCellStyle.ForeColor = BasicColor;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
+        }
+
         #endregion Events
 
         #region Private methods
-
-        public void SetColumnNames()
-        {
-            //taskIdColumn.Name = "Id";
-           // taskPriorityColumn.Name = "Priority";
-        }
 
         private void ShowActionButtons(bool show)
         {
@@ -541,12 +512,7 @@ namespace PresentationLayer.Controls
             else
                 return 0;
         }
-
-        private void ClearTasksGrid()
-        {
-            tasksListGrid.Rows.Clear();
-        }
-
+        
         private void ClearParentTaskComboBox()
         {
             parentTaskComboBox.Items.Clear();
@@ -615,28 +581,7 @@ namespace PresentationLayer.Controls
                 }
             }
         }
-
-
-        private void FillTasksGrid(ICollection tasksRowData)
-        {
-            if (tasksRowData != null && tasksRowData.Count > 0)
-            {
-                foreach (var row in tasksRowData)
-                {
-                    if (row is string[])
-                    {
-                        string[] rowCells = (string[])row;
-                        tasksListGrid.Rows.Add(rowCells[0], rowCells[1], rowCells[2], rowCells[3], rowCells[4],
-                            rowCells[5]);
-
-                    }
-                }
-
-            }
-
-        }
-
-
+        
         private void FillParentTasksComboBox(Dictionary<int, String> parentTasks)
         {
             if (parentTasks != null && parentTasks.Count > 0)
@@ -648,28 +593,6 @@ namespace PresentationLayer.Controls
                 {
                     parentTaskComboBox.Items.Add(parentTask);
                 }
-            }
-        }
-
-        private void FillParentTasksComboBox(ICollection tasksRowData)
-        {
-            if (tasksRowData != null && tasksRowData.Count > 0)
-            {
-                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
-                parentTaskComboBox.Items.Add(emptyItem);
-
-                foreach (var row in tasksRowData)
-                {
-                    var cells = row as string[];
-                    if (cells != null)
-                    {
-                        string[] rowCells = cells;
-
-                        KeyValuePair<int, string> comboItem = new KeyValuePair<int, string>(int.Parse(rowCells[0]), rowCells[1]);
-                        parentTaskComboBox.Items.Add(comboItem);
-                    }
-                }
-
             }
         }
 
@@ -690,8 +613,17 @@ namespace PresentationLayer.Controls
             }
         }
 
+        private void DeselectAllTasksRows()
+        {
+            if (tasksListGrid.Rows != null && tasksListGrid.Rows.Count > 0)
+            {
+                for (int i = 0; i < tasksListGrid.Rows.Count; i++)
+                {
+                    tasksListGrid.Rows[i].Selected = false;
+                }
+            }
+        }
+
         #endregion
-
-
     }
 }

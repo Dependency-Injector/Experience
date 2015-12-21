@@ -106,7 +106,7 @@
             // 
             // nextDayButton
             // 
-            this.nextDayButton.Location = new System.Drawing.Point(209, 185);
+            this.nextDayButton.Location = new System.Drawing.Point(209, 187);
             this.nextDayButton.Name = "nextDayButton";
             this.nextDayButton.Size = new System.Drawing.Size(39, 29);
             this.nextDayButton.TabIndex = 3;
@@ -116,7 +116,7 @@
             // 
             // previousDayButton
             // 
-            this.previousDayButton.Location = new System.Drawing.Point(16, 185);
+            this.previousDayButton.Location = new System.Drawing.Point(16, 187);
             this.previousDayButton.Name = "previousDayButton";
             this.previousDayButton.Size = new System.Drawing.Size(40, 29);
             this.previousDayButton.TabIndex = 3;
@@ -126,7 +126,7 @@
             // 
             // selectedDayDateTime
             // 
-            this.selectedDayDateTime.Location = new System.Drawing.Point(62, 185);
+            this.selectedDayDateTime.Location = new System.Drawing.Point(62, 187);
             this.selectedDayDateTime.MinimumSize = new System.Drawing.Size(0, 29);
             this.selectedDayDateTime.Name = "selectedDayDateTime";
             this.selectedDayDateTime.Size = new System.Drawing.Size(141, 29);
@@ -136,7 +136,7 @@
             // selectDayTextLabel
             // 
             this.selectDayTextLabel.AutoSize = true;
-            this.selectDayTextLabel.Location = new System.Drawing.Point(91, 163);
+            this.selectDayTextLabel.Location = new System.Drawing.Point(91, 165);
             this.selectDayTextLabel.Name = "selectDayTextLabel";
             this.selectDayTextLabel.Size = new System.Drawing.Size(73, 19);
             this.selectDayTextLabel.TabIndex = 5;
@@ -145,7 +145,7 @@
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(52, 235);
+            this.metroLabel1.Location = new System.Drawing.Point(52, 237);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(151, 19);
             this.metroLabel1.TabIndex = 5;
@@ -156,7 +156,7 @@
             this.choosenDiaryEntryComboBox.DisplayMember = "Value";
             this.choosenDiaryEntryComboBox.FormattingEnabled = true;
             this.choosenDiaryEntryComboBox.ItemHeight = 23;
-            this.choosenDiaryEntryComboBox.Location = new System.Drawing.Point(16, 257);
+            this.choosenDiaryEntryComboBox.Location = new System.Drawing.Point(16, 259);
             this.choosenDiaryEntryComboBox.Name = "choosenDiaryEntryComboBox";
             this.choosenDiaryEntryComboBox.Size = new System.Drawing.Size(232, 29);
             this.choosenDiaryEntryComboBox.TabIndex = 6;
@@ -167,7 +167,7 @@
             // metroLabel2
             // 
             this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel2.Location = new System.Drawing.Point(7, 126);
+            this.metroLabel2.Location = new System.Drawing.Point(6, 125);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(241, 26);
             this.metroLabel2.TabIndex = 0;

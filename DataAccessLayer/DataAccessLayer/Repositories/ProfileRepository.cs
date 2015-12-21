@@ -22,7 +22,6 @@ namespace DataAccessLayer.Repositories
         public ProfileRepository()
         {
             context = new EntitiesContext();
-            context.Database.Connection.Open();    
         }
 
         public IEnumerable<Profile> GetAll()

@@ -13,11 +13,6 @@ namespace DataAccessLayer.Repositories
     {
         private readonly EntitiesContext context;
         
-        public WorkUnitsRepository()
-        {
-            context = new EntitiesContext();
-            context.Database.Connection.Open();
-        }
         public WorkUnitsRepository(string connectionString)
         {
             context = new EntitiesContext(connectionString);
@@ -28,33 +23,33 @@ namespace DataAccessLayer.Repositories
         {
             return context.WorkUnits.AsNoTracking().FirstOrDefault(t => t.Id == workUnitId);
         }
+
         public IEnumerable<WorkUnit> GetAll()
         {
             return context.WorkUnits.AsNoTracking();
         }
+
         public IEnumerable<WorkUnit> Find(Expression<Func<WorkUnit, bool>> @where)
         {
             return context.WorkUnits.AsNoTracking().Where(where);
         }
+
         public WorkUnit Single(Expression<Func<WorkUnit, bool>> @where)
         {
             return context.WorkUnits.AsNoTracking().Single(where);
         }
+
         public WorkUnit First(Expression<Func<WorkUnit, bool>> @where)
         {
             return context.WorkUnits.AsNoTracking().First(where);
         }
+
         public void Add(WorkUnit workUnit)
         {
             using (EntitiesContext entities = new EntitiesContext())
             {
                 entities.WorkUnits.Add(workUnit);
                 entities.Entry(workUnit).State = EntityState.Added;
-
-                /*for (int i = 0; i < workUnit.Task.WorkUnits.Count; i++)
-                {
-                    entities.Entry(workUnit.Task.WorkUnits.ElementAt(i)).State = EntityState.Unchanged;
-                }*/
                 
                 if(workUnit.Task != null)
                     entities.Entry(workUnit.Task).State = EntityState.Unchanged;
@@ -62,6 +57,7 @@ namespace DataAccessLayer.Repositories
                 entities.SaveChanges();
             }
         }
+
         public void Update(WorkUnit workUnit)
         {
             using (EntitiesContext entities = new EntitiesContext())
@@ -72,6 +68,7 @@ namespace DataAccessLayer.Repositories
                 entities.SaveChanges();
             }
         }
+
         public void Delete(WorkUnit day)
         {
             using (EntitiesContext entities = new EntitiesContext())

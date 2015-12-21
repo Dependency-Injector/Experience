@@ -18,61 +18,59 @@ namespace DataAccessLayer.Repositories
             context = new EntitiesContext(connectionString);
             context.Database.Connection.Open();
         }
-
-        public HistoryEventsRepository()
+        
+        public IEnumerable<HistoryEvent> Find(Expression<Func<HistoryEvent, bool>> @where)
         {
-                context = new EntitiesContext();
-                //context.Database.Connection.Open();
+            return context.HistoryEvents.AsNoTracking().Where(where);
         }
-    
 
-    public IEnumerable<HistoryEvent> Find(Expression<Func<HistoryEvent, bool>> @where)
-    {
-        return context.HistoryEvents.AsNoTracking().Where(where);
-    }
-
-    public HistoryEvent Single(Expression<Func<HistoryEvent, bool>> @where)
-    {
-        return context.HistoryEvents.AsNoTracking().Single(where);
-    }
-
-    public HistoryEvent First(Expression<Func<HistoryEvent, bool>> @where)
-    {
-        return context.HistoryEvents.AsNoTracking().First(where);
-    }
-
-    public void Delete(HistoryEvent day)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Add(HistoryEvent historyEvent)
-    {
-        using (EntitiesContext context = new EntitiesContext())
+        public HistoryEvent Single(Expression<Func<HistoryEvent, bool>> @where)
         {
-            context.HistoryEvents.Add(historyEvent);
-            context.Entry(historyEvent).State = EntityState.Added;
-
-            if (historyEvent.Owner != null)
-                context.Entry(historyEvent.Owner).State = EntityState.Unchanged;
-
-            context.SaveChanges();
+            return context.HistoryEvents.AsNoTracking().Single(where);
         }
-    }
 
-    public void Update(HistoryEvent HistoryEvent)
-    {
-        using (EntitiesContext context = new EntitiesContext())
+        public HistoryEvent First(Expression<Func<HistoryEvent, bool>> @where)
         {
-            context.HistoryEvents.Attach(HistoryEvent);
-            context.Entry(HistoryEvent).State = EntityState.Modified;
-            context.SaveChanges();
+            return context.HistoryEvents.AsNoTracking().First(where);
+        }
+
+        public void Delete(HistoryEvent historyEvent)
+        {
+            using (var entities = new EntitiesContext())
+            {
+                entities.HistoryEvents.Remove(historyEvent);
+                entities.Entry(historyEvent).State = EntityState.Deleted;
+                entities.SaveChanges();
+            }
+        }
+
+        public void Add(HistoryEvent historyEvent)
+        {
+            using (EntitiesContext context = new EntitiesContext())
+            {
+                context.HistoryEvents.Add(historyEvent);
+                context.Entry(historyEvent).State = EntityState.Added;
+
+                if (historyEvent.Owner != null)
+                    context.Entry(historyEvent.Owner).State = EntityState.Unchanged;
+
+                context.SaveChanges();
+            }
+        }
+
+        public void Update(HistoryEvent HistoryEvent)
+        {
+            using (EntitiesContext context = new EntitiesContext())
+            {
+                context.HistoryEvents.Attach(HistoryEvent);
+                context.Entry(HistoryEvent).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<HistoryEvent> GetAll()
+        {
+            return context.HistoryEvents.AsNoTracking();
         }
     }
-
-    public IEnumerable<HistoryEvent> GetAll()
-    {
-        return context.HistoryEvents.AsNoTracking();
-    }
-}
 }

@@ -1,0 +1,18 @@
+namespace Model.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class RemovedExpToNextLvl : DbMigration
+    {
+        public override void Up()
+        {
+            DropColumn("dbo.Skills", "ExperienceWhenNextLevel");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.Skills", "ExperienceWhenNextLevel", c => c.Int(nullable: false));
+        }
+    }
+}

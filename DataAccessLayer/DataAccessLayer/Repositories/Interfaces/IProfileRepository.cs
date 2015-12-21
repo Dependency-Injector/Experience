@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Model.Entities;
+﻿using Model.Entities;
 
 namespace DataAccessLayer.Repositories.Interfaces
 {

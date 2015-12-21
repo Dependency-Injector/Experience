@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace BussinessLogicLayer.Templates
+namespace BussinessLogicLayer.GridRowTemplates
 {
+    /// <summary>
+    /// Representation of player skill on grid row, displayed on Profile tab 
+    /// </summary>
     public class SkillGridItem
     {
         [Browsable(false)]
@@ -11,8 +14,9 @@ namespace BussinessLogicLayer.Templates
         [DisplayName("Skill name")]
         public String Name { get; set; }
 
-        public String Level { get; set; }
         public String Experience { get; set; }
+
+        public String Level { get; set; }
 
         public SkillGridItem(int id, String name, String level, String experience)
         {

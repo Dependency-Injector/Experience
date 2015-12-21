@@ -3,6 +3,9 @@ using System.ComponentModel;
 
 namespace BussinessLogicLayer.GridRowTemplates
 {
+    /// <summary>
+    /// Representation of player improvement on grid row, displayed on Profile tab 
+    /// </summary>
     public class ImprovementGridItem
     {
         [DisplayName("When")]

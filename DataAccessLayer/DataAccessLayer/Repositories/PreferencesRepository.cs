@@ -39,9 +39,14 @@ namespace DataAccessLayer.Repositories
             return context.Preferences.AsNoTracking().FirstOrDefault(where);
         }
 
-        public void Delete(Preferences day)
+        public void Delete(Preferences preferences)
         {
-            throw new NotImplementedException();
+            using (EntitiesContext entities = new EntitiesContext())
+            {
+                entities.Preferences.Remove(preferences);
+                entities.Entry(preferences).State = EntityState.Deleted;
+                entities.SaveChanges();
+            }
         }
 
         public void Add(Preferences preferences)

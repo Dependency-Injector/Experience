@@ -13,7 +13,6 @@ namespace BussinessLogicLayer.Interfaces
         bool NewUserNameTextBoxVisible { set; }
 
         event EventHandler<EventArgs> Login;
-        event EventHandler<EventArgs> SaveUser;
         event EventHandler<EventArgs> NewUser;
     }
 }

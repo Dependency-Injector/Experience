@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace PresentationLayer.Forms
 {
-    public partial class TestForm : MetroForm
+    public partial class PosthumanForm : MetroForm
     {
         private TaskPresenter taskPresenter;
         private ProfilePresenter profilePresenter;
@@ -26,8 +26,9 @@ namespace PresentationLayer.Forms
         private LoggedUserPresenter loggedUserPresenter;
 
         private static IContainer Container { get; set; }
-
-        public TestForm()
+        
+        
+        public PosthumanForm()
         {
             InitializeComponent();
 
@@ -37,6 +38,7 @@ namespace PresentationLayer.Forms
 
             PrepareStyleManager();
             BuildAutofac();
+            
             CreatePresenters();
             loginPresenter.Initialize();
             AttachEvents();
@@ -50,13 +52,14 @@ namespace PresentationLayer.Forms
             {
                 UpdateUiForLoginState(LoginState.LoggedOut);
             }
+            
+            contentTabControl.SelectedIndex = ApplicationSettings.Current.LastlyViewedTab;
         }
 
         #region Events
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            this.tasksControl.SetColumnNames();
             this.contentTabControl.SelectedTab = tasksTabPage;
         }
 
@@ -399,6 +402,12 @@ namespace PresentationLayer.Forms
         {
             this.Show();
             WindowState = FormWindowState.Normal;
+        }
+
+        private void PosthumanForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ApplicationSettings.Current.LastlyViewedTab = contentTabControl.SelectedIndex;
+            ApplicationSettings.Save();
         }
     }
 }

@@ -157,6 +157,10 @@
     <Compile Include="Migrations\201512161433024_TaskDifficulty.Designer.cs">
       <DependentUpon>201512161433024_TaskDifficulty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512190610301_RemovedExpToNextLvl.cs" />
+    <Compile Include="Migrations\201512190610301_RemovedExpToNextLvl.Designer.cs">
+      <DependentUpon>201512190610301_RemovedExpToNextLvl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -238,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512161433024_TaskDifficulty.resx">
       <DependentUpon>201512161433024_TaskDifficulty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512190610301_RemovedExpToNextLvl.resx">
+      <DependentUpon>201512190610301_RemovedExpToNextLvl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

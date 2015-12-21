@@ -57,7 +57,7 @@ namespace PresentationLayer.Controls
                         choosenDiaryEntryComboBox.SelectedIndex = 0;
                     }
                 }
-                raiseDayChangedEvent = false;
+                raiseDayChangedEvent = true;
             }
         }
         public Dictionary<int, string> Entries
@@ -97,6 +97,16 @@ namespace PresentationLayer.Controls
         public bool ThoughtsTextBoxEnabled
         {
             set { thoughtsTextBox.Enabled = value; }
+        }
+        public bool SelectingControlsEnabled
+        {
+            set
+            {
+                previousDayButton.Enabled = value;
+                nextDayButton.Enabled = value;
+                choosenDiaryEntryComboBox.Enabled = value;
+                selectedDayDateTime.Enabled = value;
+            }
         }
 
         public event EventHandler<EventArgs> SaveDayChanges;

@@ -20,6 +20,8 @@ namespace BussinessLogicLayer.Interfaces
         bool CancelChangesButtonVisible { set; }
         bool SaveChangesButtonVisible { set; }
 
+        bool ProfileDisplayed { set; }
+
         event EventHandler<EventArgs> AddNewSkill;
         event EventHandler<int> RemoveSkill;
         event EventHandler<EventArgs> EditProfile;

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
@@ -50,20 +51,6 @@ namespace BussinessLogicLayer.Presenters
 
         #region Events
 
-        public void Initialize()
-        {
-            try
-            {
-                AttachEvents();
-                GetAndDisplayTasks();
-                SetDisplayMode(DisplayMode.View);
-            }
-            catch (Exception e)
-            {
-                Logger.Exception(e);
-            }
-        }
-
         public void OnViewDisplayed()
         {
             GetAndDisplayTasks();
@@ -106,11 +93,6 @@ namespace BussinessLogicLayer.Presenters
             {
                 taskToSave = tasksService.CreateNewTask(currentUser.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
                 tasksService.SaveTask(taskToSave);
-
-                //int xpForTaskCreation = tasksService.GetExperienceForCreation(taskToSave.Id);
-                //Improvement improvement = improvementsService.CreateNewImprovement(currentUser.Id,
-                //    ImprovementType.ExperienceGained, ImprovementOrigin.TaskCreation, xpForTaskCreation, taskToSave.Id);
-                //improvementsService.SaveImprovement(improvement);
             }
             else
             {
@@ -178,32 +160,6 @@ namespace BussinessLogicLayer.Presenters
             DisplayTasks(tasks);
             SetDisplayMode(DisplayMode.View);
         }
-/*
-
-        private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
-        {
-            Task taskWorkedOn = tasksRepository.Get(workReported.Task.Id);
-
-            // Check if any skill is attached to task
-            if (taskWorkedOn.SkillToTrain != null && workReported.Duration.HasValue)
-            {
-                Skill skillToTrain = taskWorkedOn.SkillToTrain;
-
-                // Give xp to skill
-                int experienceForWorkUnit = (int)ExperienceDefaultValues.GetExperienceForWork(workReported.Duration.Value);
-                profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
-                historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
-
-                /#1#/ Check if skill leveled up
-                if (skillToTrain.HasReachedNewLevel())
-                {
-                    // Give skill new level
-                    int skillNewLevel = skillToTrain.GetNewLevel();
-                    profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
-                    historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
-                }#1#
-            }
-*/
 
         private void Finish(object sender, EventArgs e)
         {
@@ -259,17 +215,7 @@ namespace BussinessLogicLayer.Presenters
                     }
                 }
             }
-           // historyService.AddHistoryEvent(HistoryEventType.ExperienceGained, taskToFinish.Id, xpForTaskFinish);
-/*
-            Profile user = profilesRepository.Get(taskToFinish.Owner.Id);
-            if (user.HasReachedNewLevel())
-            {
-                int newLevel = user.GetNewLevel();
-                profilesService.UserReachedNewLevel(taskToFinish.Owner.Id, newLevel);
-                historyService.AddHistoryEvent(HistoryEventType.LevelGained, taskToFinish.Owner.Id, "", levelGained: newLevel);
-            }*/
 
-            //ObtainAndDisplayTasks();
             GetAndDisplayTasks();
             DisplayTaskDetails(taskToFinish);
             SetDisplayMode(DisplayMode.View);
@@ -329,6 +275,20 @@ namespace BussinessLogicLayer.Presenters
         #endregion
 
         #region Helper methods
+
+        public void Initialize()
+        {
+            try
+            {
+                AttachEvents();
+                GetAndDisplayTasks();
+                SetDisplayMode(DisplayMode.View);
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+            }
+        }
 
         private void AttachEvents()
         {
@@ -403,9 +363,16 @@ namespace BussinessLogicLayer.Presenters
                         name = $"[Goal] {task.Name}";
                     else
                         name = task.Name;
-                    
+
+                    TaskTextColor color;
+                    if(task.Priority == Severity.High || task.DueDate.Value.Date < DateTime.Now.Date)
+                         color = TaskTextColor.Red;
+                    else if(task.DueDate.Value.Date == DateTime.Now.Date)
+                        color = TaskTextColor.Yellow;
+                    else
+                        color = TaskTextColor.Normal;
                    
-                    tasksGridItems.Add(new TaskGridItem(task.Id, name, deadlineLiteral, timeSpent, priority));
+                    tasksGridItems.Add(new TaskGridItem(task.Id, name, deadlineLiteral, timeSpent, priority, color));
                 }
             }
 
@@ -437,56 +404,6 @@ namespace BussinessLogicLayer.Presenters
                     .ToList();
         }
         
-        private ICollection GetTasksRows(List<Task> tasksToGetRowsFrom)
-        {
-            List<string[]> taskRows = new List<string[]>();
-
-            foreach (var task in tasksToGetRowsFrom)
-            {
-                if (task.DueDate.HasValue)
-                {
-                    int daysToDeadline = (int)(task.DueDate.Value.Date - DateTime.Now.Date).TotalDays;
-                    string deadlineLiteral = String.Empty;
-                    if (daysToDeadline < 0)
-                        deadlineLiteral = $"Overdue {Math.Abs(daysToDeadline)} days!";
-                    else if (daysToDeadline == 0)
-                        deadlineLiteral = "Today";
-                    else if (daysToDeadline == 1)
-                        deadlineLiteral = "Tomorrow";
-                    else if (daysToDeadline > 1)
-                        deadlineLiteral = task.DueDate.Value.ToString("M");
-
-                    string timeSpent = task.GetTotalWorkloadLiteral();
-
-                    String priority = task.GetPriorityLiteral();
-
-                    String name = String.Empty;
-                    /* if (task.Parent != null)
-                         name = GetTaskNameForNestedTask(task);
-                     else
-                         name = task.Name;*/
-                    if (task.Tasks != null && task.Tasks.Count > 0)
-                        name = $"[Goal] {task.Name}";
-                    else
-                        name = task.Name;
-
-                    string[] taskRow = new string[]
-                    {
-                        $"{task.Id}",
-                        $"{name}",
-                        $"{deadlineLiteral}",
-                        $"{timeSpent}",
-                        $"{priority}",
-                        $"{task.IsFinished}"
-                    };
-
-                    taskRows.Add(taskRow);
-                }
-            }
-
-            return taskRows;
-        }
-
         private ICollection GetWorkUnitsRows(List<WorkUnit> unitsOfWork)
         {
             List<string[]> workUnitsRows = new List<string[]>();
@@ -603,7 +520,8 @@ namespace BussinessLogicLayer.Presenters
         private void DisplayBlankTaskDetails()
         {
             view.TaskName = "[Name something to be done]";
-            view.Priority = 1;
+            view.Priority = 2;
+            view.Difficulty = 2;
             view.TaskDescription = "[Describe your task]";
             view.MinDueDate = DateTime.Today;
             view.DueDate = DateTime.Now.AddDays(1);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
-using BussinessLogicLayer.Templates;
 using MetroFramework.Controls;
 
 namespace PresentationLayer.Controls
@@ -13,6 +12,9 @@ namespace PresentationLayer.Controls
         public ProfileControl()
         {
             InitializeComponent();
+
+            skillsGrid.Refresh();
+            profileRelatedEventsGrid.Refresh();
         }
 
         public String PlayerName
@@ -141,6 +143,20 @@ namespace PresentationLayer.Controls
             set { saveChangesButton.Visible = value; }
         }
 
+        public bool ProfileDisplayed
+        {
+            set
+            {
+                if (true)
+                {
+                    skillsGrid.FirstDisplayedScrollingRowIndex = 0;
+                    profileRelatedEventsGrid.FirstDisplayedScrollingRowIndex =
+                        profileRelatedEventsGrid.FirstDisplayedScrollingRowIndex + 1;
+                    profileRelatedEventsGrid.HorizontalScrollingOffset = profileRelatedEventsGrid.HorizontalScrollingOffset + 10;
+                }
+            }
+        }
+
         public string NewSkillName
         {
             get { return newSkillNameTextBox.Text; }
@@ -188,6 +204,13 @@ namespace PresentationLayer.Controls
         {
             this.profileRelatedEventsGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             this.profileRelatedEventsGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        private void skillsGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            this.skillsGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            this.skillsGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.skillsGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
     }
 }

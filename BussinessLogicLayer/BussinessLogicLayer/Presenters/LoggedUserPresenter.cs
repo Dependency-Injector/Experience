@@ -16,8 +16,6 @@ namespace BussinessLogicLayer.Presenters
         {
             this.view = view;
             this.profilesRepository = profilesRepository;
-
-            //Initialize();
         }
 
         public void Initialize()

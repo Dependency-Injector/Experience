@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
-using BussinessLogicLayer.Templates;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Utilities;
 using Model.Entities;
@@ -112,7 +112,6 @@ namespace BussinessLogicLayer.Presenters
         private void DisplayHistoryEvents(List<HistoryEvent> historyEvents)
         {
             view.HistoryEventsGridItems = GetHistoryEventsGridItems(historyEvents);
-            //view.HistoryEventsRows = ConvertHistoryEventsToRows(historyEvents);
         }
 
         private IList<HistoryEventGridItem> GetHistoryEventsGridItems(List<HistoryEvent> historyEvents)
@@ -129,29 +128,6 @@ namespace BussinessLogicLayer.Presenters
             }
 
             return historyEventsGridItems;
-        }
-
-        private ICollection ConvertHistoryEventsToRows(List<HistoryEvent> historyEvents)
-        {
-            List<string[]> historyEventsInRows = new List<string[]>();
-
-            foreach (var historyEvent in historyEvents)
-            {
-                String whenOccured = historyEvent.Occured.ToString("M");
-                String whatHappened = historyEvent.Type.ToString();
-                String description = historyEvent.Description;
-
-                string[] historyEventRow = new string[]
-                {
-                    $"{whenOccured}",
-                    $"{whatHappened}",
-                    $"{description}"
-                };
-
-                historyEventsInRows.Add(historyEventRow);
-            }
-
-            return historyEventsInRows;
         }
 
         #endregion
@@ -178,11 +154,12 @@ namespace BussinessLogicLayer.Presenters
             GetAndDisplayHistoryEventsList();
         }
 
-        #endregion
-
         public void OnViewDisplayed()
         {
             GetAndDisplayHistoryEventsList();
         }
+
+        #endregion
+
     }
 }

@@ -18,13 +18,7 @@ namespace DataAccessLayer.Repositories
             context = new EntitiesContext(connectionString);
             context.Database.Connection.Open();
         }
-
-        public TasksRepository()
-        {
-            context = new EntitiesContext();
-            //context.Database.Connection.Open();
-        }
-
+        
         public Task Get(int taskId)
         {
             return context.Tasks.AsNoTracking().FirstOrDefault(t => t.Id == taskId);
@@ -106,6 +100,5 @@ namespace DataAccessLayer.Repositories
         {
             return context.Tasks.Any();
         }
-        
     }
 }

@@ -49,7 +49,6 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> StopWorkingOnTask;
         event EventHandler<EventArgs> ParentTaskChanged;
         event EventHandler<int> SelectTask;
-
         event EventHandler<bool> ShowFinishedTasks;
     }
 }

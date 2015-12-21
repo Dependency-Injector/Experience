@@ -18,13 +18,7 @@ namespace DataAccessLayer.Repositories
             context = new EntitiesContext(connectionString);
             context.Database.Connection.Open();
         }
-
-        public ImprovementsRepository()
-        {
-            context = new EntitiesContext();
-            context.Database.Connection.Open();
-        }
-
+        
         public void Add(Improvement improvement)
         {
             using (EntitiesContext entities = new EntitiesContext())
