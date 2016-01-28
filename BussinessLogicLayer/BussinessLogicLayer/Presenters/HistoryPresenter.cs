@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
@@ -19,7 +20,8 @@ namespace BussinessLogicLayer.Presenters
         private readonly IProfileRepository profilesRepository;
 
         private Profile currentUser;
-         
+        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+
         public HistoryPresenter(IHistoryView view, IHistoryEventsRepository historyEventsRepository, IProfileRepository profilesRepository)
         {
             this.view = view;

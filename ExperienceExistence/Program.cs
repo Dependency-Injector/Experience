@@ -14,7 +14,7 @@ namespace ExperienceExistence
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PosthumanForm());
+            Application.Run(new PosthumanFormNew());
         }
     }
 }

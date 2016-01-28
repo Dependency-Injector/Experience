@@ -13,6 +13,11 @@ namespace DataAccessLayer.Repositories
     {
         private readonly EntitiesContext context;
 
+        public ImprovementsRepository()
+        {
+            context = new EntitiesContext();
+        }
+
         public ImprovementsRepository(String connectionString)
         {
             context = new EntitiesContext(connectionString);

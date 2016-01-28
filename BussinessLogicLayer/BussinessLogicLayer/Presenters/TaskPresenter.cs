@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BussinessLogicLayer.Enums;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
@@ -32,6 +33,7 @@ namespace BussinessLogicLayer.Presenters
         private int selectedTaskIndex;
         private bool isTaskNew = true;
         private Profile currentUser;
+        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
 
         public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
             IProfileRepository profilesRepository, IHistoryService historyService, ITaskService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService, IImprovementsService improvementsService)

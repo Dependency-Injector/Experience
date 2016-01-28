@@ -17,8 +17,8 @@ namespace Model.Entities
         public String GetNewLevelProgress()
         {
             float experienceGainedInThisLevel = Experience - ((Level - 1)*100);
-            float percentCompleted = experienceGainedInThisLevel / GetExperienceWhenNewLevel();
-            int percentInt = Convert.ToInt32(percentCompleted*100);
+            float percentCompleted = (experienceGainedInThisLevel / GetExperienceWhenNewLevel()) * 100;
+            int percentInt = Convert.ToInt32(percentCompleted);
             return $"{percentInt}%";
         }
 
@@ -38,8 +38,9 @@ namespace Model.Entities
 
         public bool HasReachedNewLevel()
         {
-            float experienceToNewLevel = (Level + 1) * 100;
-            if (Experience > experienceToNewLevel)
+            float experienceGainedInThisLevel = Experience - ((Level - 1) * 100);
+            float percentCompleted = (experienceGainedInThisLevel / GetExperienceWhenNewLevel()) * 100;
+            if (percentCompleted >= 100)
             {
                 return true;
             }
@@ -49,9 +50,10 @@ namespace Model.Entities
             }
         }
 
+        // TODO
         public int GetNewLevel()
         {
-            int newLevel = Experience / 100;
+            int newLevel = (Experience / 100) + 1;
             return newLevel;
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
@@ -27,6 +28,7 @@ namespace BussinessLogicLayer.Presenters
         private List<String> newSkillsToAdd;
         private List<int> skillsIdsToRemove;
         private Profile currentUser;
+        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
 
         public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService, IImprovementsRepository improvementsRepository, IImprovementsService improvementsService)
         {

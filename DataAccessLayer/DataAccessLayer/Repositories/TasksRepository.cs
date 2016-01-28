@@ -13,6 +13,11 @@ namespace DataAccessLayer.Repositories
     {
         private readonly EntitiesContext context;
 
+        public TasksRepository()
+        {
+            context = new EntitiesContext();
+        }
+
         public TasksRepository(String connectionString)
         {
             context = new EntitiesContext(connectionString);

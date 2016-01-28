@@ -1,4 +1,5 @@
 ﻿using System;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
@@ -17,6 +18,8 @@ namespace BussinessLogicLayer.Presenters
         private readonly IPreferencesService preferencesService;
 
         private Preferences preferences;
+        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+
         #endregion
 
         public OptionsPresenter(IOptionsView view, IPreferencesRepository preferencesRepository, IPreferencesService preferencesService)
@@ -25,6 +28,7 @@ namespace BussinessLogicLayer.Presenters
             this.preferencesRepository = preferencesRepository;
             this.preferencesService = preferencesService;
         }
+        
 
         #region Helper methods
 
@@ -146,6 +150,10 @@ namespace BussinessLogicLayer.Presenters
 
         }
 
+        public object GetStyleManager()
+        {
+            return view.StyleManager;
+        }
         #endregion
     }
 }

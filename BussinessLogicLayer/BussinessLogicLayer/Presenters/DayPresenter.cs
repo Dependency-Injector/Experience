@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
 using DataAccessLayer.Services.Interfaces;
@@ -23,6 +24,8 @@ namespace BussinessLogicLayer.Presenters
 
         private Day dayBeingDisplayed;
         private Profile currentUser;
+
+        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
 
         public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService, IImprovementsService improvementsService, IProfileService profileService, IHistoryService historyService)
         {
@@ -263,12 +266,15 @@ namespace BussinessLogicLayer.Presenters
         private void EditDay(object sender, EventArgs e)
         {
             SetDisplayMode(DisplayMode.Edit);
+
+            //if (NotificationAppeared != null)
+            //    NotificationAppeared(this, new ShowNotificationEventArgs("Day edited", "You have edited a day!"));
         }
 
         public void OnViewDisplayed()
         {
         }
-
+        
         #endregion
     }
 }

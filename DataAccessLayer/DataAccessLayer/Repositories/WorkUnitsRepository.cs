@@ -12,7 +12,12 @@ namespace DataAccessLayer.Repositories
     public class WorkUnitsRepository : IWorkUnitsRepository
     {
         private readonly EntitiesContext context;
-        
+
+        public WorkUnitsRepository()
+        {
+            context = new EntitiesContext();
+        }
+
         public WorkUnitsRepository(string connectionString)
         {
             context = new EntitiesContext(connectionString);

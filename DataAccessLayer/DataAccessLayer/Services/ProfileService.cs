@@ -11,7 +11,7 @@ namespace DataAccessLayer.Services
         private ISkillsRepository skillsRepository;
         private IProfileRepository profileRepository;
         private IHistoryService historyService;
-
+     
         public ProfileService(IProfileRepository profileRepository, ISkillsRepository skillsRepository, IHistoryService historyService)
         {
             this.skillsRepository = skillsRepository;

@@ -61,7 +61,7 @@ namespace Model.Entities
         public int LevelProgressInPercent()
         {
             int experienceToGainLevel = GetExperienceToGainLevel();
-            float levelCompletion = (float) (100 - experienceToGainLevel)/100;
+            float levelCompletion = (float) (GetExperienceToGainLevel() - experienceToGainLevel)/GetExperienceWhenNewLevel();
             int levelCompletionPercent = (int) (levelCompletion*100);
             return levelCompletionPercent;
         }

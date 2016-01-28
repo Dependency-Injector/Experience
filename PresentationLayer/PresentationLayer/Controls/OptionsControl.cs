@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework;
 using MetroFramework.Components;
@@ -12,6 +13,8 @@ namespace PresentationLayer.Controls
         public OptionsControl()
         {
             InitializeComponent();
+
+            styleManager.Owner = ParentForm;
         }
 
         public string ShowFinishedTasks { get; set; }
@@ -89,12 +92,14 @@ namespace PresentationLayer.Controls
             set { englishLanguageButton.Enabled = value; }
         }
 
+        public object StyleManager { get { return styleManager; } }
+
         public event EventHandler<String> ChangeTheme;
         public event EventHandler<String> ChangeStyle;
         public event EventHandler<EventArgs> SaveChanges;
         public event EventHandler<string> ChangeLanguage;
 
-
+        
         public MetroStyleManager GetStyleManager()
         {
             return styleManager;

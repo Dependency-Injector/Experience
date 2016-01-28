@@ -13,6 +13,10 @@ namespace DataAccessLayer.Repositories
     {
         private readonly EntitiesContext context;
 
+        public HistoryEventsRepository()
+        {
+            context = new EntitiesContext();
+        }
         public HistoryEventsRepository(String connectionString)
         {
             context = new EntitiesContext(connectionString);

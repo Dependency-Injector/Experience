@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -57,11 +61,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\TaskTextColor.cs" />
+    <Compile Include="Events\ShowNotificationEventArgs.cs" />
     <Compile Include="GridRowTemplates\TaskGridItem.cs" />
     <Compile Include="Interfaces\IDayView.cs" />
     <Compile Include="Interfaces\ILoggedUserView.cs" />
     <Compile Include="Interfaces\ILoginView.cs" />
+    <Compile Include="Interfaces\IMainView.cs" />
+    <Compile Include="Interfaces\INotificationView.cs" />
     <Compile Include="Interfaces\IOptionsView.cs" />
     <Compile Include="Interfaces\IHistoryView.cs" />
     <Compile Include="Interfaces\IProfileView.cs" />
@@ -70,6 +78,8 @@
     <Compile Include="Presenters\IPresenter.cs" />
     <Compile Include="Presenters\LoggedUserPresenter.cs" />
     <Compile Include="Presenters\LoginPresenter.cs" />
+    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Presenters\NotificationPresenter.cs" />
     <Compile Include="Presenters\OptionsPresenter.cs" />
     <Compile Include="Presenters\DayPresenter.cs" />
     <Compile Include="Presenters\ProfilePresenter.cs" />

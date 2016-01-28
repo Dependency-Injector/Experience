@@ -11,6 +11,7 @@ namespace BussinessLogicLayer.Interfaces
         ICollection Styles { set; }
         bool PolishLanguageButtonEnabled { set; }
         bool EnglishLanguageButtonEnabled { set; }
+        object StyleManager { get; }
 
         event EventHandler<String> ChangeTheme;
         event EventHandler<String> ChangeStyle;
