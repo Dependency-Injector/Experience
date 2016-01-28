@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="AutofacResolver.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="DisplaySettings.cs" />
     <Compile Include="EnumExtensions.cs" />
