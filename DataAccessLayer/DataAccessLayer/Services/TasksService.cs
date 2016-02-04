@@ -8,7 +8,7 @@ using Model.Enums;
 
 namespace DataAccessLayer.Services
 {
-    public class TaskService : ITaskService
+    public class TasksService : ITasksService
     {
         private ITasksRepository tasksRepository;
         private ISkillsRepository skillsRepository;
@@ -16,7 +16,7 @@ namespace DataAccessLayer.Services
         private IWorkUnitsRepository workUnitsRepository;
         private IProfileRepository profileRepository;
 
-        public TaskService(ITasksRepository tasksRepository, ISkillsRepository skillsRepository, IWorkUnitsRepository workUnitsRepository, IProfileRepository profileRepository, IHistoryService historyService)
+        public TasksService(ITasksRepository tasksRepository, ISkillsRepository skillsRepository, IWorkUnitsRepository workUnitsRepository, IProfileRepository profileRepository, IHistoryService historyService)
         {
             this.tasksRepository = tasksRepository;
             this.skillsRepository = skillsRepository;

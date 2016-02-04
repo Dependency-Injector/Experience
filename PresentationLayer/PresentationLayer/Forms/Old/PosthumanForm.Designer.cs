@@ -37,7 +37,7 @@ namespace PresentationLayer.Forms
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
             this.dayControl = new PresentationLayer.Controls.DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.tasksControl = new PresentationLayer.Controls.TasksControl();
+            this.tasksListControl = new PresentationLayer.Controls.TasksListControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
             this.profileControl = new PresentationLayer.Controls.ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
@@ -105,7 +105,7 @@ namespace PresentationLayer.Forms
             // 
             // tasksTabPage
             // 
-            this.tasksTabPage.Controls.Add(this.tasksControl);
+            this.tasksTabPage.Controls.Add(this.tasksListControl);
             this.tasksTabPage.HorizontalScrollbarBarColor = true;
             this.tasksTabPage.HorizontalScrollbarHighlightOnWheel = false;
             this.tasksTabPage.HorizontalScrollbarSize = 10;
@@ -120,24 +120,24 @@ namespace PresentationLayer.Forms
             // 
             // tasksControl
             // 
-            this.tasksControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tasksListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tasksControl.Difficulty = 0;
-            this.tasksControl.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
-            this.tasksControl.FinishDate = null;
-            this.tasksControl.Location = new System.Drawing.Point(0, 7);
-            this.tasksControl.MinDueDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
-            this.tasksControl.Name = "tasksControl";
-            this.tasksControl.ParentTaskId = null;
-            this.tasksControl.Priority = 0;
-            this.tasksControl.Size = new System.Drawing.Size(1177, 479);
-            this.tasksControl.SkillToTrainId = null;
-            this.tasksControl.TabIndex = 0;
-            this.tasksControl.TaskDescription = "Description";
-            this.tasksControl.TaskId = 0;
-            this.tasksControl.TaskName = "Name";
-            this.tasksControl.UseSelectable = true;
+            this.tasksListControl.Difficulty = 0;
+            this.tasksListControl.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
+            this.tasksListControl.FinishDate = null;
+            this.tasksListControl.Location = new System.Drawing.Point(0, 7);
+            this.tasksListControl.MinDueDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+            this.tasksListControl.Name = "tasksListControl";
+            this.tasksListControl.ParentTaskId = null;
+            this.tasksListControl.Priority = 0;
+            this.tasksListControl.Size = new System.Drawing.Size(1177, 479);
+            this.tasksListControl.SkillToTrainId = null;
+            this.tasksListControl.TabIndex = 0;
+            this.tasksListControl.TaskDescription = "Description";
+            this.tasksListControl.TaskId = 0;
+            this.tasksListControl.TaskName = "Name";
+            this.tasksListControl.UseSelectable = true;
             // 
             // profileTabPage
             // 
@@ -322,7 +322,7 @@ namespace PresentationLayer.Forms
 
         #endregion
 
-        private TasksControl tasksControl;
+        private TasksListControl tasksListControl;
         private ProfileControl profileControl;
         private ProfileControl profileControl1;
         private MetroFramework.Controls.MetroTabControl contentTabControl;

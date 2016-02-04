@@ -3,7 +3,7 @@ using Model.Entities;
 
 namespace DataAccessLayer.Services.Interfaces
 {
-    public interface ITaskService
+    public interface ITasksService
     {
         Task CreateNewTask(int? ownerId, string name, string description, DateTime dueDateTime, int priority, int? parentTaskId, int? associatedSkillId, int difficulty);
         void FinishTask(Task taskToFinish);

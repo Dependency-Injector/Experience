@@ -4,7 +4,7 @@ using Model.Entities;
 
 namespace PresentationLayer.Controls
 {
-    partial class TasksControl
+    partial class TasksListControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -99,10 +99,11 @@ namespace PresentationLayer.Controls
             this.tasksListPanel = new MetroFramework.Controls.MetroPanel();
             this.tasksPanel = new MetroFramework.Controls.MetroPanel();
             this.tasksListGrid = new MetroFramework.Controls.MetroGrid();
-            this.workUnitBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.metroToolTip1 = new MetroFramework.Components.MetroToolTip();
             this.rightPanel = new MetroFramework.Controls.MetroPanel();
+            this.addTaskMetroLink = new MetroFramework.Controls.MetroLink();
+            this.workUnitBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.buttonsPanel.SuspendLayout();
             this.taskDetailsPanel.SuspendLayout();
             this.taskInfoPanel.SuspendLayout();
@@ -115,13 +116,14 @@ namespace PresentationLayer.Controls
             this.tasksListPanel.SuspendLayout();
             this.tasksPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tasksListGrid)).BeginInit();
+            this.rightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).BeginInit();
-            this.rightPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonsPanel
             // 
+            this.buttonsPanel.Controls.Add(this.addTaskMetroLink);
             this.buttonsPanel.Controls.Add(this.showFinishedTasksCheckBox);
             this.buttonsPanel.Controls.Add(this.newTaskButton);
             this.buttonsPanel.Controls.Add(this.nextTaskButton);
@@ -518,6 +520,7 @@ namespace PresentationLayer.Controls
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.finishedButton.Highlight = true;
             this.finishedButton.Location = new System.Drawing.Point(490, 3);
             this.finishedButton.Name = "finishedButton";
             this.finishedButton.Size = new System.Drawing.Size(84, 26);
@@ -746,6 +749,18 @@ namespace PresentationLayer.Controls
             // 
             this.descriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
+            this.descriptionTextBox.CustomButton.Image = null;
+            this.descriptionTextBox.CustomButton.Location = new System.Drawing.Point(466, 2);
+            this.descriptionTextBox.CustomButton.Name = "";
+            this.descriptionTextBox.CustomButton.Size = new System.Drawing.Size(83, 83);
+            this.descriptionTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.descriptionTextBox.CustomButton.TabIndex = 1;
+            this.descriptionTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.descriptionTextBox.CustomButton.UseSelectable = true;
+            this.descriptionTextBox.CustomButton.Visible = false;
             this.descriptionTextBox.Lines = new string[] {
         "Description"};
             this.descriptionTextBox.Location = new System.Drawing.Point(10, 51);
@@ -755,10 +770,14 @@ namespace PresentationLayer.Controls
             this.descriptionTextBox.PasswordChar = '\0';
             this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.descriptionTextBox.SelectedText = "";
+            this.descriptionTextBox.SelectionLength = 0;
+            this.descriptionTextBox.SelectionStart = 0;
             this.descriptionTextBox.Size = new System.Drawing.Size(552, 88);
             this.descriptionTextBox.TabIndex = 12;
             this.descriptionTextBox.Text = "Description";
             this.descriptionTextBox.UseSelectable = true;
+            this.descriptionTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.descriptionTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // priorityPanel
             // 
@@ -813,7 +832,7 @@ namespace PresentationLayer.Controls
             this.dueDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dueDateTime.Location = new System.Drawing.Point(253, 159);
-            this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dueDateTime.MinimumSize = new System.Drawing.Size(4, 29);
             this.dueDateTime.Name = "dueDateTime";
             this.dueDateTime.Size = new System.Drawing.Size(309, 29);
             this.dueDateTime.TabIndex = 10;
@@ -822,6 +841,18 @@ namespace PresentationLayer.Controls
             // 
             this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
+            this.nameTextBox.CustomButton.Image = null;
+            this.nameTextBox.CustomButton.Location = new System.Drawing.Point(531, 2);
+            this.nameTextBox.CustomButton.Name = "";
+            this.nameTextBox.CustomButton.Size = new System.Drawing.Size(17, 17);
+            this.nameTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.nameTextBox.CustomButton.TabIndex = 1;
+            this.nameTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.nameTextBox.CustomButton.UseSelectable = true;
+            this.nameTextBox.CustomButton.Visible = false;
             this.nameTextBox.Lines = new string[] {
         "Name"};
             this.nameTextBox.Location = new System.Drawing.Point(11, 11);
@@ -830,10 +861,14 @@ namespace PresentationLayer.Controls
             this.nameTextBox.PasswordChar = '\0';
             this.nameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.nameTextBox.SelectedText = "";
+            this.nameTextBox.SelectionLength = 0;
+            this.nameTextBox.SelectionStart = 0;
             this.nameTextBox.Size = new System.Drawing.Size(551, 22);
             this.nameTextBox.TabIndex = 14;
             this.nameTextBox.Text = "Name";
             this.nameTextBox.UseSelectable = true;
+            this.nameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.nameTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // tasksListPanel
             // 
@@ -883,7 +918,7 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
@@ -892,7 +927,7 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
             dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(3);
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
@@ -909,12 +944,13 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.tasksListGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.tasksListGrid.RowHeadersVisible = false;
             this.tasksListGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tasksListGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tasksListGrid.Size = new System.Drawing.Size(565, 481);
@@ -922,6 +958,7 @@ namespace PresentationLayer.Controls
             this.tasksListGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tasksListGrid_DataBindingComplete);
             this.tasksListGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.tasksListGrid_RowsAdded);
             this.tasksListGrid.SelectionChanged += new System.EventHandler(this.tasksListGrid_SelectionChanged);
+            this.tasksListGrid.DoubleClick += new System.EventHandler(this.tasksListGrid_DoubleClick);
             // 
             // metroToolTip1
             // 
@@ -945,13 +982,27 @@ namespace PresentationLayer.Controls
             this.rightPanel.VerticalScrollbarHighlightOnWheel = false;
             this.rightPanel.VerticalScrollbarSize = 10;
             // 
-            // TasksControl
+            // addTaskMetroLink
+            // 
+            this.addTaskMetroLink.Image = global::PresentationLayer.Properties.Resources.add_icon;
+            this.addTaskMetroLink.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addTaskMetroLink.ImageSize = 32;
+            this.addTaskMetroLink.Location = new System.Drawing.Point(374, 1);
+            this.addTaskMetroLink.Name = "addTaskMetroLink";
+            this.addTaskMetroLink.NoFocusImage = global::PresentationLayer.Properties.Resources.add_icon_hover;
+            this.addTaskMetroLink.Size = new System.Drawing.Size(143, 28);
+            this.addTaskMetroLink.TabIndex = 4;
+            this.addTaskMetroLink.Text = "Add";
+            this.addTaskMetroLink.UseSelectable = true;
+            this.addTaskMetroLink.Click += new System.EventHandler(this.addTaskMetroLink_Click);
+            // 
+            // TasksListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.rightPanel);
             this.Controls.Add(this.tasksListPanel);
-            this.Name = "TasksControl";
+            this.Name = "TasksListControl";
             this.Size = new System.Drawing.Size(1210, 522);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.buttonsPanel.ResumeLayout(false);
@@ -972,9 +1023,9 @@ namespace PresentationLayer.Controls
             this.tasksListPanel.ResumeLayout(false);
             this.tasksPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tasksListGrid)).EndInit();
+            this.rightPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.workUnitBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).EndInit();
-            this.rightPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1049,5 +1100,6 @@ namespace PresentationLayer.Controls
         private MetroRadioButton hardTaskRadioButton;
         private MetroRadioButton normalTaskRadioButton;
         private MetroRadioButton easyTaskRadioButton;
+        private MetroLink addTaskMetroLink;
     }
 }

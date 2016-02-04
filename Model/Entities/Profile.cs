@@ -60,8 +60,8 @@ namespace Model.Entities
 
         public int LevelProgressInPercent()
         {
-            int experienceToGainLevel = GetExperienceToGainLevel();
-            float levelCompletion = (float) (GetExperienceToGainLevel() - experienceToGainLevel)/GetExperienceWhenNewLevel();
+            //int experienceToGainLevel = GetExperienceToGainLevel();
+            float levelCompletion = (float)((float)Experience/(float)GetExperienceWhenNewLevel());; //(float) (GetExperienceToGainLevel() - experienceToGainLevel)/GetExperienceWhenNewLevel();
             int levelCompletionPercent = (int) (levelCompletion*100);
             return levelCompletionPercent;
         }

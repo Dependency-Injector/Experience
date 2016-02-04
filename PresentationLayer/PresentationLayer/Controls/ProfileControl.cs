@@ -196,6 +196,7 @@ namespace PresentationLayer.Controls
 
         private void skillsGrid_SelectionChanged(object sender, EventArgs e)
         {
+            skillsGrid.ClearSelection();
             if (SkillSelected != null)
                 SkillSelected();
         }

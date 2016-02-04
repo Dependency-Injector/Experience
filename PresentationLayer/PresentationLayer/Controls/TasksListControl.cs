@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using BussinessLogicLayer.Enums;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework;
@@ -14,12 +15,12 @@ using Model.Enums;
 
 namespace PresentationLayer.Controls
 {
-    public partial class TasksControl : MetroUserControl, ITasksView
+    public partial class TasksListControl : MetroUserControl, ITasksListView
     {
         private static Color BasicColor;
         private bool selectionByCode = false;
 
-        public TasksControl()
+        public TasksListControl()
         {
             InitializeComponent();
         }
@@ -120,7 +121,7 @@ namespace PresentationLayer.Controls
             {
                 if (skillToTrainComboBox.SelectedItem != null)
                 {
-                    var selectedSkill = (KeyValuePair<int, string>) skillToTrainComboBox.SelectedItem;
+                    var selectedSkill = (KeyValuePair<int, string>)skillToTrainComboBox.SelectedItem;
 
                     // To avoid returning empty item as skill to train (no task has id = 0)
                     if (selectedSkill.Key > 0)
@@ -180,7 +181,6 @@ namespace PresentationLayer.Controls
             {
                 selectionByCode = true;
                 DeselectAllTasksRows();
-                
                 tasksListGrid.Rows[value].Selected = true;
                 selectionByCode = false;
             }
@@ -253,11 +253,13 @@ namespace PresentationLayer.Controls
         {
             set
             {
+                selectionByCode = true;
                 tasksListGrid.DataSource = null;
                 tasksListGrid.DataSource = value;
+                selectionByCode = false;
             }
         }
-        
+
         public event EventHandler<EventArgs> NewTask;
         public event EventHandler<EventArgs> SaveTask;
         public event EventHandler<EventArgs> EditTask;
@@ -269,6 +271,7 @@ namespace PresentationLayer.Controls
         public event EventHandler<EventArgs> NextTask;
         public event EventHandler<EventArgs> ParentTaskChanged;
         public event EventHandler<int> SelectTask;
+        public event EventHandler<int> TaskDoubleClick;
 
         public event EventHandler<EventArgs> StartWorkingOnTask;
         public event EventHandler<EventArgs> StopWorkingOnTask;
@@ -349,20 +352,6 @@ namespace PresentationLayer.Controls
                 {
                     TaskGridItem selectedItem = (TaskGridItem) tasksListGrid.CurrentRow.DataBoundItem;
                     SelectTask(tasksListGrid, selectedItem.Id);
-
-                   // foreach (var row in tasksListGrid.SelectedRows)
-                  //  {
-                        
-                   // }
-                    /*var selectedRow = tasksListGrid.SelectedRows[0];// as TaskGridItem;
-                    if (selectedRow.Cells[0].Value != null)
-                    {
-                        var cellValue = selectedRow.Cells[0].Value;
-
-                        int selectedTaskId;
-                        if (int.TryParse(cellValue.ToString(), out selectedTaskId))
-                            SelectTask(tasksListGrid, selectedTaskId);
-                    }*/
                 }
             }
         }
@@ -462,7 +451,7 @@ namespace PresentationLayer.Controls
                 priorityLabel.BackColor = priority.Color;
             }
         }
-        
+
         private void SelectDifficulty(int value)
         {
             if (TaskDefaults.Difficulties.ContainsKey(value))
@@ -512,7 +501,7 @@ namespace PresentationLayer.Controls
             else
                 return 0;
         }
-        
+
         private void ClearParentTaskComboBox()
         {
             parentTaskComboBox.Items.Clear();
@@ -581,7 +570,7 @@ namespace PresentationLayer.Controls
                 }
             }
         }
-        
+
         private void FillParentTasksComboBox(Dictionary<int, String> parentTasks)
         {
             if (parentTasks != null && parentTasks.Count > 0)
@@ -625,5 +614,23 @@ namespace PresentationLayer.Controls
         }
 
         #endregion
+
+        private void tasksListGrid_DoubleClick(object sender, EventArgs e)
+        {
+            if (tasksListGrid.SelectedRows.Count > 0)
+            {
+                if (TaskDoubleClick != null)
+                {
+                    TaskGridItem selectedItem = (TaskGridItem) tasksListGrid.CurrentRow.DataBoundItem;
+                    TaskDoubleClick(this, selectedItem.Id);
+                }
+            }
+        }
+
+        private void addTaskMetroLink_Click(object sender, EventArgs e)
+        {
+            if (NewTask != null)
+                NewTask(this, e);
+        }
     }
 }

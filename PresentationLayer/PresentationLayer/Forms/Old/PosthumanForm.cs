@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Autofac;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 using BussinessLogicLayer.Presenters;
 using DataAccessLayer.Repositories;
@@ -17,7 +18,7 @@ namespace PresentationLayer.Forms
 {
     public partial class PosthumanForm : MetroForm
     {
-        private TaskPresenter taskPresenter;
+        private TasksListPresenter tasksListPresenter;
         private ProfilePresenter profilePresenter;
         private OptionsPresenter optionsPresenter;
         private HistoryPresenter historyPresenter;
@@ -97,7 +98,7 @@ namespace PresentationLayer.Forms
             {
                 loginPresenter = Container.Resolve<LoginPresenter>();
                 loggedUserPresenter = Container.Resolve<LoggedUserPresenter>();
-                taskPresenter = Container.Resolve<TaskPresenter>();
+                tasksListPresenter = Container.Resolve<TasksListPresenter>();
                 profilePresenter = Container.Resolve<ProfilePresenter>();
                 optionsPresenter = Container.Resolve<OptionsPresenter>();
                 historyPresenter = Container.Resolve<HistoryPresenter>();
@@ -114,7 +115,7 @@ namespace PresentationLayer.Forms
             try
             {
                 loggedUserPresenter.Initialize();
-                taskPresenter.Initialize();
+                tasksListPresenter.Initialize();
                 profilePresenter.Initialize();
                 optionsPresenter.Initialize();
                 historyPresenter.Initialize();
@@ -134,7 +135,7 @@ namespace PresentationLayer.Forms
 
             builder.RegisterInstance(this.dayControl).As<IDayView>();
             builder.RegisterInstance(this.profileControl).As<IProfileView>();
-            builder.RegisterInstance(this.tasksControl).As<ITasksView>();
+            builder.RegisterInstance(this.tasksListControl).As<ITasksListView>();
             builder.RegisterInstance(this.historyControl2).As<IHistoryView>();
             builder.RegisterInstance(this.loginControl).As<ILoginView>();
             builder.RegisterInstance(this.optionsControl).As<IOptionsView>();
@@ -154,7 +155,7 @@ namespace PresentationLayer.Forms
             builder.RegisterType<ImprovementsRepository>().As<IImprovementsRepository>();
 
             builder.RegisterType<DaysService>().As<IDaysService>();
-            builder.RegisterType<TaskService>().As<ITaskService>();
+            builder.RegisterType<TasksService>().As<ITasksService>();
             builder.RegisterType<HistoryService>().As<IHistoryService>();
             builder.RegisterType<SkillsService>().As<ISkillsService>();
             builder.RegisterType<ProfileService>().As<IProfileService>();
@@ -196,17 +197,18 @@ namespace PresentationLayer.Forms
 
             builder.Register(
                 c =>
-                    new TaskPresenter(
-                        c.Resolve<ITasksView>(),
+                    new TasksListPresenter(
+                        c.Resolve<ITasksListView>(),
                         c.Resolve<ITasksRepository>(),
                         c.Resolve<IWorkUnitsRepository>(),
                         c.Resolve<ISkillsRepository>(),
                         c.Resolve<IProfileRepository>(),
                         c.Resolve<IHistoryService>(),
-                        c.Resolve<ITaskService>(),
+                        c.Resolve<ITasksService>(),
                         c.Resolve<IProfileService>(),
                         c.Resolve<IWorkUnitsService>(),
-                        c.Resolve<IImprovementsService>()));
+                        c.Resolve<IImprovementsService>(),
+                        c.Resolve<IPublisher>()));
 
             builder.Register(
                 c =>
@@ -234,7 +236,7 @@ namespace PresentationLayer.Forms
 
             builder.Register(
                 c =>
-                    new TaskService(
+                    new TasksService(
                         c.Resolve<ITasksRepository>(),
                         c.Resolve<ISkillsRepository>(),
                         c.Resolve<IWorkUnitsRepository>(),
@@ -373,7 +375,7 @@ namespace PresentationLayer.Forms
             }
             else if (this.contentTabControl.SelectedTab == tasksTabPage)
             {
-                taskPresenter.OnViewDisplayed();
+                tasksListPresenter.OnViewDisplayed();
             }
             else if (this.contentTabControl.SelectedTab == optionsTabPage)
             {

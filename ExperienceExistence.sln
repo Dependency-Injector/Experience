@@ -16,7 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{238ACADB-D8A7-4572-BD0E-E4EFC4F45BFC}"
 	ProjectSection(SolutionItems) = preProject
 		Libraries\MetroFramework.Design.dll = Libraries\MetroFramework.Design.dll
-		Libraries\MetroFramework.dll = Libraries\MetroFramework.dll
+		..\..\Downloads\metroframework-modern-ui-master\MetroFramework\bin\Release\MetroFramework.dll = ..\..\Downloads\metroframework-modern-ui-master\MetroFramework\bin\Release\MetroFramework.dll
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{410149D5-4981-4E6D-AF23-25798C3E4422}"

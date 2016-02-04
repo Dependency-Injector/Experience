@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.GridRowTemplates;
 
 namespace BussinessLogicLayer.Interfaces
 {
-    public interface ITasksView
+    public interface ITasksListView
     {
+        
         int TaskId { get; set; }
         String TaskName { get; set; }
         String TaskDescription { get; set; }
@@ -49,6 +51,7 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> StopWorkingOnTask;
         event EventHandler<EventArgs> ParentTaskChanged;
         event EventHandler<int> SelectTask;
+        event EventHandler<int> TaskDoubleClick;
         event EventHandler<bool> ShowFinishedTasks;
     }
 }

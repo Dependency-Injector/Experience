@@ -5,7 +5,7 @@ namespace BussinessLogicLayer.Interfaces
     public interface IMainView
     {
         IDayView DayView { get; }
-        ITasksView TasksView { get; }
+        ITasksListView TasksListView { get; }
         IProfileView ProfileView { get; }
         IHistoryView HistoryView { get; }
         IOptionsView OptionsView { get; }

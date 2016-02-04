@@ -64,7 +64,7 @@
     <Compile Include="Services\Interfaces\IImprovementService.cs" />
     <Compile Include="Services\Interfaces\IHistoryService.cs" />
     <Compile Include="Services\Interfaces\IDaysService.cs" />
-    <Compile Include="Services\Interfaces\ITaskService.cs" />
+    <Compile Include="Services\Interfaces\ITasksService.cs" />
     <Compile Include="Services\Interfaces\ISkillsService.cs" />
     <Compile Include="Services\Interfaces\IProfileService.cs" />
     <Compile Include="Services\Interfaces\IWorkUnitsService.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DaysService.cs" />
     <Compile Include="Services\HistoryService.cs" />
-    <Compile Include="Services\TaskService.cs" />
+    <Compile Include="Services\TasksService.cs" />
     <Compile Include="Utilities\SkillTrainer.cs" />
     <Compile Include="Utilities\Logger.cs" />
   </ItemGroup>

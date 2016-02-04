@@ -267,8 +267,8 @@ namespace BussinessLogicLayer.Presenters
         {
             SetDisplayMode(DisplayMode.Edit);
 
-            //if (NotificationAppeared != null)
-            //    NotificationAppeared(this, new ShowNotificationEventArgs("Day edited", "You have edited a day!"));
+            if (NotificationAppeared != null)
+                NotificationAppeared(this, new ShowNotificationEventArgs("Day edited", "You have edited a day!"));
         }
 
         public void OnViewDisplayed()

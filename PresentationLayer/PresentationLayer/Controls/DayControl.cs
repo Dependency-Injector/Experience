@@ -158,6 +158,8 @@ namespace PresentationLayer.Controls
         {
             if (EditDay != null)
                 EditDay(this, e);
+
+            
         }
 
         private void saveChangesButton_Click(object sender, EventArgs e)

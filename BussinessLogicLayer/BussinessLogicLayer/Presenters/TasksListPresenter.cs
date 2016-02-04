@@ -15,18 +15,19 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class TaskPresenter : IPresenter
+    public class TasksListPresenter : IPresenter
     {
-        private readonly ITasksView view;
+        private readonly ITasksListView view;
         private readonly ITasksRepository tasksRepository;
         private readonly IWorkUnitsRepository workUnitsRepository;
         private readonly ISkillsRepository skillsRepository;
         private readonly IProfileRepository profilesRepository;
         private readonly IHistoryService historyService;
-        private readonly ITaskService tasksService;
+        private readonly ITasksService tasksService;
         private readonly IProfileService profilesService;
         private readonly IWorkUnitsService workUnitsService;
         private readonly IImprovementsService improvementsService;
+        private readonly IPublisher publisher;
 
         private List<Task> tasks;
         private WorkUnit currentWorkUnit;
@@ -35,8 +36,10 @@ namespace BussinessLogicLayer.Presenters
         private Profile currentUser;
         public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
 
-        public TaskPresenter(ITasksView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
-            IProfileRepository profilesRepository, IHistoryService historyService, ITaskService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService, IImprovementsService improvementsService)
+        public EventHandler<int> ViewEditTask;
+
+        public TasksListPresenter(ITasksListView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
+            IProfileRepository profilesRepository, IHistoryService historyService, ITasksService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService, IImprovementsService improvementsService, IPublisher publisher)
         {
             this.view = view;
 
@@ -49,6 +52,8 @@ namespace BussinessLogicLayer.Presenters
             this.profilesService = profilesService;
             this.workUnitsService = workUnitsService;
             this.improvementsService = improvementsService;
+
+            this.publisher = publisher;
         }
 
         #region Events
@@ -80,11 +85,13 @@ namespace BussinessLogicLayer.Presenters
 
         private void New(object sender, EventArgs e)
         {
-            DisplayBlankTaskDetails();
+            publisher.Publish(new OpenTaskDetailsWindow(DisplayMode.Edit, null));
+
+            /*DisplayBlankTaskDetails();
             isTaskNew = true;
             view.IsDirty = false;
             selectedTaskIndex = tasks.Count - 1;
-            SetDisplayMode(DisplayMode.Edit);
+            SetDisplayMode(DisplayMode.Edit);*/
         }
 
         private void Save(object sender, EventArgs e)
@@ -113,6 +120,8 @@ namespace BussinessLogicLayer.Presenters
         private void Edit(object sender, EventArgs e)
         {
             SetDisplayMode(DisplayMode.Edit);
+
+            publisher.Publish(new OpenTaskDetailsWindow(DisplayMode.Edit, view.TaskId));
         }
 
         private void CancelTaskEditing(object sender, EventArgs e)
@@ -307,6 +316,15 @@ namespace BussinessLogicLayer.Presenters
             view.StopWorkingOnTask += StopWorkingOnTask;
             view.ShowFinishedTasks += ShowFinishedTasks;
             view.ParentTaskChanged += ParentTaskChanged;
+
+            view.TaskDoubleClick += View_TaskDoubleClick;
+        }
+
+        private void View_TaskDoubleClick(object sender, int e)
+        {
+            publisher.Publish(new OpenTaskDetailsWindow(DisplayMode.View, e));
+            //if (ViewEditTask != null)
+            //    ViewEditTask(this, e);
         }
 
         private void GetAndDisplayTasks(bool includeFinishedTasks = false)
@@ -498,6 +516,9 @@ namespace BussinessLogicLayer.Presenters
             selectedTaskIndex = indexOfTask;
             view.SelectedTaskIndex = selectedTaskIndex;
 
+            //if(TaskSelected != null)
+            //    TaskSelected(this, selectedTask);
+
             DisplayTaskDetails(selectedTask);
         }
 
@@ -620,4 +641,6 @@ namespace BussinessLogicLayer.Presenters
         
         #endregion
     }
+
+    
 }

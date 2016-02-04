@@ -1,13 +1,16 @@
 ﻿using System;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
+using DataAccessLayer.Utilities;
+using Model.Entities;
 
 namespace BussinessLogicLayer.Presenters
 {
     public class MainPresenter
     {
         private DayPresenter dayPresenter;
-        private TaskPresenter tasksPresenter;
+        private TasksListPresenter tasksListsPresenter;
         private ProfilePresenter profilePresenter;
         private HistoryPresenter historyPresenter;
         private OptionsPresenter optionsPresenter;
@@ -15,17 +18,21 @@ namespace BussinessLogicLayer.Presenters
         private LoggedUserPresenter loggedUserPresenter;
         private NotificationPresenter notificationPresenter;
 
+        private TaskEditPresenter taskEditPresenter;
+
         private IMainView mainView;
         
-        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TaskPresenter tasksPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter)
+        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TasksListPresenter tasksListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskEditPresenter taskEditPresenter)
         {
             this.mainView = mainView;
             this.dayPresenter = dayPresenter;
-            this.tasksPresenter = tasksPresenter;
+            this.tasksListsPresenter = tasksListsPresenter;
             this.profilePresenter = profilePresenter;
             this.historyPresenter = historyPresenter;
             this.optionsPresenter = optionsPresenter;
             this.notificationPresenter = notificationPresenter;
+
+            this.taskEditPresenter = taskEditPresenter;
         }
         
         public void Initialize()
@@ -33,27 +40,36 @@ namespace BussinessLogicLayer.Presenters
             AttachEvents();
 
             dayPresenter.Initialize();
-            tasksPresenter.Initialize();
+            tasksListsPresenter.Initialize();
             profilePresenter.Initialize();
             historyPresenter.Initialize();
             optionsPresenter.Initialize();
             notificationPresenter.Initialize();
+
+            taskEditPresenter.Initialize();
         }
 
         private void AttachEvents()
         {
             mainView.SubViewDisplayed += SubViewDisplayed;
             dayPresenter.NotificationAppeared += NotificationAppeared;
-            tasksPresenter.NotificationAppeared += NotificationAppeared;
+            tasksListsPresenter.NotificationAppeared += NotificationAppeared;
             profilePresenter.NotificationAppeared += NotificationAppeared;
             historyPresenter.NotificationAppeared += NotificationAppeared;
             optionsPresenter.NotificationAppeared += NotificationAppeared;
+
+            tasksListsPresenter.ViewEditTask += ViewEditTask;
         }
 
-        
+        private void ViewEditTask(object sender, int taskId)
+        {
+            taskEditPresenter.EditTask(taskId);
+        }
+
 
         private void NotificationAppeared(object sender, ShowNotificationEventArgs eventArgs)
         {
+
             notificationPresenter.ShowNotification(eventArgs.Title, eventArgs.Text);
         }
 
@@ -74,7 +90,7 @@ namespace BussinessLogicLayer.Presenters
                     profilePresenter.OnViewDisplayed();
                     break;
                 case SubViewType.Tasks:
-                    tasksPresenter.OnViewDisplayed();
+                    tasksListsPresenter.OnViewDisplayed();
                     break;
                 case SubViewType.Unknown:
                     break;
@@ -86,4 +102,6 @@ namespace BussinessLogicLayer.Presenters
             return this.optionsPresenter.GetStyleManager();
         }
     }
+
+    
 }

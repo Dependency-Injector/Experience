@@ -17,7 +17,7 @@ namespace PresentationLayer.Controls
         }
 
         public IDayView DayView { get { return dayControl; } }
-        public ITasksView TasksView { get { return tasksControl; } }
+        public ITasksListView TasksListView { get { return tasksListControl; } }
         public IProfileView ProfileView { get { return profileControl; } }
         public IHistoryView HistoryView { get { return historyControl; } }
         public IOptionsView OptionsView { get { return optionsControl; } }

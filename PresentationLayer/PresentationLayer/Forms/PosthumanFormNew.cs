@@ -1,5 +1,7 @@
 ﻿using System;
 using Autofac;
+using BussinessLogicLayer.Enums;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 using BussinessLogicLayer.Presenters;
 using DataAccessLayer.Repositories;
@@ -14,28 +16,31 @@ using IContainer = Autofac.IContainer;
 namespace PresentationLayer.Forms
 {
     
-    public partial class PosthumanFormNew : MetroForm
+    public partial class PosthumanFormNew : MetroForm, ICanHandle<WindowClosed>, ICanHandle<OpenTaskDetailsWindow>
     {
         private MainPresenter mainPresenter;
-        private NotificationForm notificationForm;
+        private NotificationForm notificationForm = new NotificationForm();
+        private TaskEditForm taskEditForm = new TaskEditForm();
+
+        EventBroker broker = new EventBroker();
+        private IPublisher Publisher;
+        private ISubscriber subscriber;
 
         public static IContainer Container { get; set; }
 
         public PosthumanFormNew()
         {
             InitializeComponent();
-
             GC.Collect();
-
             ApplicationSettings.Load();
-
-            notificationForm = new NotificationForm();
-
             BuildAutofac();
+
+            subscriber = Container.Resolve<ISubscriber>();
+            subscriber.Subscribe(this);
 
             mainPresenter = Container.Resolve<MainPresenter>();
             mainPresenter.Initialize();
-            
+
             PrepareStyleManager();
         }
 
@@ -48,10 +53,16 @@ namespace PresentationLayer.Forms
             builder.RegisterInstance(this.mainControl1).As<IMainView>();
             builder.RegisterInstance(this.mainControl1.DayView).As<IDayView>();
             builder.RegisterInstance(this.mainControl1.ProfileView).As<IProfileView>();
-            builder.RegisterInstance(this.mainControl1.TasksView).As<ITasksView>();
+            builder.RegisterInstance(this.mainControl1.TasksListView).As<ITasksListView>();
             builder.RegisterInstance(this.mainControl1.HistoryView).As<IHistoryView>();
             builder.RegisterInstance(this.mainControl1.OptionsView).As<IOptionsView>();
             builder.RegisterInstance(this.notificationForm).As<INotificationView>();
+
+            builder.RegisterInstance(this.taskEditForm).As<ITaskEditView>();
+
+            builder.RegisterInstance(this.broker).As<IPublisher>();
+            builder.RegisterInstance(this.broker).As<ISubscriber>();
+            //builder.RegisterInstance()
 
             #endregion
 
@@ -67,7 +78,7 @@ namespace PresentationLayer.Forms
             builder.RegisterType<ImprovementsRepository>().As<IImprovementsRepository>();
 
             builder.RegisterType<DaysService>().As<IDaysService>();
-            builder.RegisterType<TaskService>().As<ITaskService>();
+            builder.RegisterType<TasksService>().As<ITasksService>();
             builder.RegisterType<HistoryService>().As<IHistoryService>();
             builder.RegisterType<SkillsService>().As<ISkillsService>();
             builder.RegisterType<ProfileService>().As<IProfileService>();
@@ -109,17 +120,18 @@ namespace PresentationLayer.Forms
 
             builder.Register(
                 c =>
-                    new TaskPresenter(
-                        c.Resolve<ITasksView>(),
+                    new TasksListPresenter(
+                        c.Resolve<ITasksListView>(),
                         c.Resolve<ITasksRepository>(),
                         c.Resolve<IWorkUnitsRepository>(),
                         c.Resolve<ISkillsRepository>(),
                         c.Resolve<IProfileRepository>(),
                         c.Resolve<IHistoryService>(),
-                        c.Resolve<ITaskService>(),
+                        c.Resolve<ITasksService>(),
                         c.Resolve<IProfileService>(),
                         c.Resolve<IWorkUnitsService>(),
-                        c.Resolve<IImprovementsService>()));
+                        c.Resolve<IImprovementsService>(),
+                        c.Resolve<IPublisher>()));
 
             builder.Register(
                 c =>
@@ -146,14 +158,29 @@ namespace PresentationLayer.Forms
                     c.Resolve<INotificationView>()));
 
             builder.Register(
+                c => new TaskEditPresenter(
+                    c.Resolve<ITaskEditView>(),
+                    c.Resolve<ITasksRepository>(),
+                    c.Resolve<IWorkUnitsRepository>(),
+                    c.Resolve<ISkillsRepository>(),
+                    c.Resolve<IHistoryService>(),
+                    c.Resolve<ITasksService>(),
+                    c.Resolve<IProfileService>(),
+                    c.Resolve<IWorkUnitsService>(),
+                    c.Resolve<IImprovementsService>(),
+                    c.Resolve<IPublisher>(),
+                    c.Resolve<ISubscriber>()));
+
+            builder.Register(
                 c => new MainPresenter(
                     c.Resolve<IMainView>(), 
                     c.Resolve<DayPresenter>(),
-                    c.Resolve<TaskPresenter>(),
+                    c.Resolve<TasksListPresenter>(),
                     c.Resolve<ProfilePresenter>(),
                     c.Resolve<HistoryPresenter>(),
                     c.Resolve<OptionsPresenter>(),
-                    c.Resolve<NotificationPresenter>()));
+                    c.Resolve<NotificationPresenter>(),
+                    c.Resolve<TaskEditPresenter>()));
             
             #endregion
 
@@ -161,7 +188,7 @@ namespace PresentationLayer.Forms
 
             builder.Register(
                 c =>
-                    new TaskService(
+                    new TasksService(
                         c.Resolve<ITasksRepository>(),
                         c.Resolve<ISkillsRepository>(),
                         c.Resolve<IWorkUnitsRepository>(),
@@ -222,8 +249,30 @@ namespace PresentationLayer.Forms
         private void PrepareStyleManager()
         {
             this.StyleManager = (MetroStyleManager)mainPresenter.GetStyleManager();
-            this.notificationForm.StyleManager = (MetroStyleManager) mainPresenter.GetStyleManager();
             this.StyleManager.Owner = this;
+
+            notificationForm.Theme = this.Theme;
+            notificationForm.Style = this.Style;
+            notificationForm.StyleManager = this.StyleManager.Clone(notificationForm) as MetroStyleManager;
+
+            taskEditForm.Theme = this.Theme;
+            taskEditForm.Style = this.Style;
+            taskEditForm.StyleManager = this.StyleManager.Clone(taskEditForm) as MetroStyleManager;
+        }
+
+        public void Handle(WindowClosed data)
+        {
+            switch (data.Type)
+            {
+                case WindowType.TaskViewEdit:
+                    taskEditForm.Close();
+                    break;
+            }
+        }
+
+        public void Handle(OpenTaskDetailsWindow eventData)
+        {
+              taskEditForm.Show();
         }
     }
 }
