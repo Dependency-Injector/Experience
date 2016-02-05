@@ -10,7 +10,7 @@ namespace BussinessLogicLayer.Presenters
     public class MainPresenter
     {
         private DayPresenter dayPresenter;
-        private TasksListPresenter tasksListsPresenter;
+        private TodoListPresenter todoListsPresenter;
         private ProfilePresenter profilePresenter;
         private HistoryPresenter historyPresenter;
         private OptionsPresenter optionsPresenter;
@@ -22,11 +22,11 @@ namespace BussinessLogicLayer.Presenters
 
         private IMainView mainView;
         
-        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TasksListPresenter tasksListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskEditPresenter taskEditPresenter)
+        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskEditPresenter taskEditPresenter)
         {
             this.mainView = mainView;
             this.dayPresenter = dayPresenter;
-            this.tasksListsPresenter = tasksListsPresenter;
+            this.todoListsPresenter = todoListsPresenter;
             this.profilePresenter = profilePresenter;
             this.historyPresenter = historyPresenter;
             this.optionsPresenter = optionsPresenter;
@@ -40,7 +40,7 @@ namespace BussinessLogicLayer.Presenters
             AttachEvents();
 
             dayPresenter.Initialize();
-            tasksListsPresenter.Initialize();
+            todoListsPresenter.Initialize();
             profilePresenter.Initialize();
             historyPresenter.Initialize();
             optionsPresenter.Initialize();
@@ -53,23 +53,15 @@ namespace BussinessLogicLayer.Presenters
         {
             mainView.SubViewDisplayed += SubViewDisplayed;
             dayPresenter.NotificationAppeared += NotificationAppeared;
-            tasksListsPresenter.NotificationAppeared += NotificationAppeared;
+            todoListsPresenter.NotificationAppeared += NotificationAppeared;
             profilePresenter.NotificationAppeared += NotificationAppeared;
             historyPresenter.NotificationAppeared += NotificationAppeared;
             optionsPresenter.NotificationAppeared += NotificationAppeared;
-
-            tasksListsPresenter.ViewEditTask += ViewEditTask;
+            
         }
-
-        private void ViewEditTask(object sender, int taskId)
-        {
-            taskEditPresenter.EditTask(taskId);
-        }
-
-
+        
         private void NotificationAppeared(object sender, ShowNotificationEventArgs eventArgs)
         {
-
             notificationPresenter.ShowNotification(eventArgs.Title, eventArgs.Text);
         }
 
@@ -90,7 +82,7 @@ namespace BussinessLogicLayer.Presenters
                     profilePresenter.OnViewDisplayed();
                     break;
                 case SubViewType.Tasks:
-                    tasksListsPresenter.OnViewDisplayed();
+                    todoListsPresenter.OnViewDisplayed();
                     break;
                 case SubViewType.Unknown:
                     break;

@@ -20,7 +20,7 @@ namespace PresentationLayer.Forms
     {
         private MainPresenter mainPresenter;
         private NotificationForm notificationForm = new NotificationForm();
-        private TaskEditForm taskEditForm = new TaskEditForm();
+        private TaskCompositeForm taskEditForm = new TaskCompositeForm();
 
         EventBroker broker = new EventBroker();
         private IPublisher Publisher;
@@ -53,12 +53,15 @@ namespace PresentationLayer.Forms
             builder.RegisterInstance(this.mainControl1).As<IMainView>();
             builder.RegisterInstance(this.mainControl1.DayView).As<IDayView>();
             builder.RegisterInstance(this.mainControl1.ProfileView).As<IProfileView>();
-            builder.RegisterInstance(this.mainControl1.TasksListView).As<ITasksListView>();
+            builder.RegisterInstance(this.mainControl1.TodoListView).As<ITodoListView>();
             builder.RegisterInstance(this.mainControl1.HistoryView).As<IHistoryView>();
             builder.RegisterInstance(this.mainControl1.OptionsView).As<IOptionsView>();
             builder.RegisterInstance(this.notificationForm).As<INotificationView>();
 
             builder.RegisterInstance(this.taskEditForm).As<ITaskEditView>();
+            builder.RegisterInstance(this.taskEditForm.TaskDetailsView).As<ITaskDisplayView>();
+            builder.RegisterInstance(this.taskEditForm.TaskDetailsView).As<ITaskCompositeView>();
+            
 
             builder.RegisterInstance(this.broker).As<IPublisher>();
             builder.RegisterInstance(this.broker).As<ISubscriber>();
@@ -120,17 +123,9 @@ namespace PresentationLayer.Forms
 
             builder.Register(
                 c =>
-                    new TasksListPresenter(
-                        c.Resolve<ITasksListView>(),
+                    new TodoListPresenter(
+                        c.Resolve<ITodoListView>(),
                         c.Resolve<ITasksRepository>(),
-                        c.Resolve<IWorkUnitsRepository>(),
-                        c.Resolve<ISkillsRepository>(),
-                        c.Resolve<IProfileRepository>(),
-                        c.Resolve<IHistoryService>(),
-                        c.Resolve<ITasksService>(),
-                        c.Resolve<IProfileService>(),
-                        c.Resolve<IWorkUnitsService>(),
-                        c.Resolve<IImprovementsService>(),
                         c.Resolve<IPublisher>()));
 
             builder.Register(
@@ -158,6 +153,11 @@ namespace PresentationLayer.Forms
                     c.Resolve<INotificationView>()));
 
             builder.Register(
+                c => new TaskDisplayPresenter(
+                    c.Resolve<ITaskDisplayView>(),
+                    c.Resolve<ITasksRepository>()));
+
+            builder.Register(
                 c => new TaskEditPresenter(
                     c.Resolve<ITaskEditView>(),
                     c.Resolve<ITasksRepository>(),
@@ -172,10 +172,20 @@ namespace PresentationLayer.Forms
                     c.Resolve<ISubscriber>()));
 
             builder.Register(
+                c => new TaskCompositePresenter(
+                    c.Resolve<ITaskDisplayView>(),
+                    c.Resolve<ITaskEditView>(),
+                    c.Resolve<ITasksRepository>(),                    
+                    c.Resolve<IPublisher>(),
+                    c.Resolve<ISubscriber>(),
+                    c.Resolve<TaskDisplayPresenter>(),
+                    c.Resolve<TaskEditPresenter>()));
+
+            builder.Register(
                 c => new MainPresenter(
                     c.Resolve<IMainView>(), 
                     c.Resolve<DayPresenter>(),
-                    c.Resolve<TasksListPresenter>(),
+                    c.Resolve<TodoListPresenter>(),
                     c.Resolve<ProfilePresenter>(),
                     c.Resolve<HistoryPresenter>(),
                     c.Resolve<OptionsPresenter>(),

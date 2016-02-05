@@ -37,7 +37,7 @@ namespace PresentationLayer.Forms
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
             this.dayControl = new PresentationLayer.Controls.DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.tasksListControl = new PresentationLayer.Controls.TasksListControl();
+            this.todoListControl = new PresentationLayer.Controls.TodoListControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
             this.profileControl = new PresentationLayer.Controls.ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
@@ -92,8 +92,8 @@ namespace PresentationLayer.Forms
             // 
             // dayControl
             // 
-            this.dayControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dayControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dayControl.ChoosenEntryId = null;
             this.dayControl.Location = new System.Drawing.Point(3, 3);
@@ -105,7 +105,7 @@ namespace PresentationLayer.Forms
             // 
             // tasksTabPage
             // 
-            this.tasksTabPage.Controls.Add(this.tasksListControl);
+            this.tasksTabPage.Controls.Add(this.todoListControl);
             this.tasksTabPage.HorizontalScrollbarBarColor = true;
             this.tasksTabPage.HorizontalScrollbarHighlightOnWheel = false;
             this.tasksTabPage.HorizontalScrollbarSize = 10;
@@ -120,24 +120,24 @@ namespace PresentationLayer.Forms
             // 
             // tasksControl
             // 
-            this.tasksListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.todoListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tasksListControl.Difficulty = 0;
-            this.tasksListControl.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
-            this.tasksListControl.FinishDate = null;
-            this.tasksListControl.Location = new System.Drawing.Point(0, 7);
-            this.tasksListControl.MinDueDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
-            this.tasksListControl.Name = "tasksListControl";
-            this.tasksListControl.ParentTaskId = null;
-            this.tasksListControl.Priority = 0;
-            this.tasksListControl.Size = new System.Drawing.Size(1177, 479);
-            this.tasksListControl.SkillToTrainId = null;
-            this.tasksListControl.TabIndex = 0;
-            this.tasksListControl.TaskDescription = "Description";
-            this.tasksListControl.TaskId = 0;
-            this.tasksListControl.TaskName = "Name";
-            this.tasksListControl.UseSelectable = true;
+            /* this.tasksListControl.Difficulty = 0;
+             this.tasksListControl.DueDate = new System.DateTime(2015, 8, 11, 6, 25, 43, 330);
+             this.tasksListControl.FinishDate = null;*/
+            this.todoListControl.Location = new System.Drawing.Point(0, 7);
+            //this.tasksListControl.MinDueDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+            this.todoListControl.Name = "todoListControl";
+            //this.tasksListControl.ParentTaskId = null;
+            //this.tasksListControl.Priority = 0;
+            this.todoListControl.Size = new System.Drawing.Size(1177, 479);
+            // this.tasksListControl.SkillToTrainId = null;
+            this.todoListControl.TabIndex = 0;
+            // this.tasksListControl.TaskDescription = "Description";
+            //this.todoListControl.TaskId = 0;
+            // this.tasksListControl.TaskName = "Name";
+            this.todoListControl.UseSelectable = true;
             // 
             // profileTabPage
             // 
@@ -156,8 +156,8 @@ namespace PresentationLayer.Forms
             // 
             // profileControl
             // 
-            this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.profileControl.BirthDate = new System.DateTime(2015, 12, 19, 19, 25, 56, 407);
             this.profileControl.Experience = "(Experience Value)";
@@ -190,8 +190,8 @@ namespace PresentationLayer.Forms
             // 
             // historyControl2
             // 
-            this.historyControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.historyControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.historyControl2.DisplayExperienceEvents = true;
             this.historyControl2.DisplayProfileAndSkillsEvents = true;
@@ -220,8 +220,8 @@ namespace PresentationLayer.Forms
             // 
             // optionsControl
             // 
-            this.optionsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.optionsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.optionsControl.Location = new System.Drawing.Point(3, 3);
             this.optionsControl.Name = "optionsControl";
@@ -322,7 +322,7 @@ namespace PresentationLayer.Forms
 
         #endregion
 
-        private TasksListControl tasksListControl;
+        private TodoListControl todoListControl;
         private ProfileControl profileControl;
         private ProfileControl profileControl1;
         private MetroFramework.Controls.MetroTabControl contentTabControl;

@@ -1,6 +1,6 @@
 ﻿namespace PresentationLayer.Forms
 {
-    partial class TaskEditForm
+    partial class TaskCompositeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.taskEditPanel = new MetroFramework.Controls.MetroPanel();
             this.hardnessTextLabel = new MetroFramework.Controls.MetroLabel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
@@ -79,11 +79,13 @@
             this.workEndedTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.workDurationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskActionButtonsPanel = new MetroFramework.Controls.MetroPanel();
+            this.closeEditFormButton = new MetroFramework.Controls.MetroButton();
             this.finishedButton = new MetroFramework.Controls.MetroButton();
             this.editButton = new MetroFramework.Controls.MetroButton();
             this.stopWorkingButton = new MetroFramework.Controls.MetroButton();
             this.startWorkButton = new MetroFramework.Controls.MetroButton();
-            this.closeEditFormButton = new MetroFramework.Controls.MetroButton();
+            this.taskDetailsControl = new PresentationLayer.Controls.TaskDisplayControl();
+            this.contentPanel = new MetroFramework.Controls.MetroPanel();
             this.taskEditPanel.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             this.priorityPanel.SuspendLayout();
@@ -92,6 +94,7 @@
             this.workUnitsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).BeginInit();
             this.taskActionButtonsPanel.SuspendLayout();
+            this.contentPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // taskEditPanel
@@ -122,6 +125,7 @@
             this.taskEditPanel.VerticalScrollbarBarColor = true;
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.VerticalScrollbarSize = 10;
+            this.taskEditPanel.Visible = false;
             // 
             // hardnessTextLabel
             // 
@@ -205,7 +209,7 @@
             this.removeButton.TabIndex = 13;
             this.removeButton.Text = "Remove";
             this.removeButton.UseSelectable = true;
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            //this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // cancelButton
             // 
@@ -216,7 +220,7 @@
             this.cancelButton.TabIndex = 13;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseSelectable = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            //this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // saveButton
             // 
@@ -227,7 +231,7 @@
             this.saveButton.TabIndex = 13;
             this.saveButton.Text = "Save";
             this.saveButton.UseSelectable = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            //this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // metroPanel1
             // 
@@ -364,7 +368,7 @@
             this.dueDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dueDateTime.Location = new System.Drawing.Point(253, 159);
-            this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
+            this.dueDateTime.MinimumSize = new System.Drawing.Size(4, 29);
             this.dueDateTime.Name = "dueDateTime";
             this.dueDateTime.Size = new System.Drawing.Size(309, 29);
             this.dueDateTime.TabIndex = 10;
@@ -418,6 +422,7 @@
             this.taskDetailsPanel.VerticalScrollbarBarColor = true;
             this.taskDetailsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskDetailsPanel.VerticalScrollbarSize = 10;
+            this.taskDetailsPanel.Visible = false;
             // 
             // taskInfoPanel
             // 
@@ -658,27 +663,27 @@
             this.workUnitsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.workUnitsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.workUnitsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.workUnitsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.workUnitsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.workUnitsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.workUnitsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.workStartTimeColumn,
             this.workEndedTimeColumn,
             this.workDurationColumn});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.workUnitsGrid.EnableHeadersVisualStyles = false;
             this.workUnitsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.workUnitsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -686,14 +691,14 @@
             this.workUnitsGrid.Name = "workUnitsGrid";
             this.workUnitsGrid.ReadOnly = true;
             this.workUnitsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.workUnitsGrid.Size = new System.Drawing.Size(706, 277);
@@ -736,6 +741,16 @@
             this.taskActionButtonsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskActionButtonsPanel.VerticalScrollbarSize = 10;
             // 
+            // closeEditFormButton
+            // 
+            this.closeEditFormButton.Location = new System.Drawing.Point(105, 3);
+            this.closeEditFormButton.Name = "closeEditFormButton";
+            this.closeEditFormButton.Size = new System.Drawing.Size(102, 26);
+            this.closeEditFormButton.TabIndex = 8;
+            this.closeEditFormButton.Text = "Close";
+            this.closeEditFormButton.UseSelectable = true;
+            //this.closeEditFormButton.Click += new System.EventHandler(this.closeEditFormButton_Click);
+            // 
             // finishedButton
             // 
             this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -746,7 +761,7 @@
             this.finishedButton.TabIndex = 10;
             this.finishedButton.Text = "Finished!";
             this.finishedButton.UseSelectable = true;
-            this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
+            //this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
             // 
             // editButton
             // 
@@ -756,7 +771,7 @@
             this.editButton.TabIndex = 9;
             this.editButton.Text = "Edit";
             this.editButton.UseSelectable = true;
-            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            //this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
             // stopWorkingButton
             // 
@@ -767,7 +782,7 @@
             this.stopWorkingButton.TabIndex = 11;
             this.stopWorkingButton.Text = "Stop working";
             this.stopWorkingButton.UseSelectable = true;
-            this.stopWorkingButton.Click += new System.EventHandler(this.stopWorkingButton_Click);
+            //this.stopWorkingButton.Click += new System.EventHandler(this.stopWorkingButton_Click);
             // 
             // startWorkButton
             // 
@@ -778,28 +793,43 @@
             this.startWorkButton.TabIndex = 11;
             this.startWorkButton.Text = "Start working";
             this.startWorkButton.UseSelectable = true;
-            this.startWorkButton.Click += new System.EventHandler(this.startWorkButton_Click);
+            //this.startWorkButton.Click += new System.EventHandler(this.startWorkButton_Click);
             // 
-            // closeEditFormButton
+            // taskDetailsControl
             // 
-            this.closeEditFormButton.Location = new System.Drawing.Point(105, 3);
-            this.closeEditFormButton.Name = "closeEditFormButton";
-            this.closeEditFormButton.Size = new System.Drawing.Size(102, 26);
-            this.closeEditFormButton.TabIndex = 8;
-            this.closeEditFormButton.Text = "Close";
-            this.closeEditFormButton.UseSelectable = true;
-            this.closeEditFormButton.Click += new System.EventHandler(this.closeEditFormButton_Click);
+            this.taskDetailsControl.FinishDate = null;
+            this.taskDetailsControl.Location = new System.Drawing.Point(0, 0);
+            this.taskDetailsControl.Name = "taskDetailsControl";
+            this.taskDetailsControl.Size = new System.Drawing.Size(643, 339);
+            this.taskDetailsControl.TabIndex = 4;
+            this.taskDetailsControl.UseSelectable = true;
+            // 
+            // contentPanel
+            // 
+//            this.contentPanel.Controls.Add(this.taskDetailsControl);
+            this.contentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contentPanel.HorizontalScrollbarBarColor = true;
+            this.contentPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.contentPanel.HorizontalScrollbarSize = 10;
+            this.contentPanel.Location = new System.Drawing.Point(20, 60);
+            this.contentPanel.Name = "contentPanel";
+            this.contentPanel.Size = new System.Drawing.Size(723, 588);
+            this.contentPanel.TabIndex = 4;
+            this.contentPanel.VerticalScrollbarBarColor = true;
+            this.contentPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.contentPanel.VerticalScrollbarSize = 10;
             // 
             // TaskEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(763, 668);
+            this.Controls.Add(this.contentPanel);
             this.Controls.Add(this.taskDetailsPanel);
             this.Controls.Add(this.taskEditPanel);
             this.Name = "TaskEditForm";
             this.Text = "TaskEditForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskEditForm_FormClosing);
+            //this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskEditForm_FormClosing);
             this.taskEditPanel.ResumeLayout(false);
             this.taskEditPanel.PerformLayout();
             this.metroPanel1.ResumeLayout(false);
@@ -813,6 +843,7 @@
             this.workUnitsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.workUnitsGrid)).EndInit();
             this.taskActionButtonsPanel.ResumeLayout(false);
+            this.contentPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -872,5 +903,7 @@
         private MetroFramework.Controls.MetroButton stopWorkingButton;
         private MetroFramework.Controls.MetroButton startWorkButton;
         private MetroFramework.Controls.MetroButton closeEditFormButton;
+        private Controls.TaskDisplayControl taskDetailsControl;
+        private MetroFramework.Controls.MetroPanel contentPanel;
     }
 }

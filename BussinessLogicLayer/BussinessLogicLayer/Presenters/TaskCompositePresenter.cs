@@ -15,18 +15,16 @@ using Task = Model.Entities.Task;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class TaskEditPresenter : ICanHandle<OpenTaskDetailsWindow>
+    public class TaskCompositePresenter : ICanHandle<OpenTaskDetailsWindow>
     {
-        private readonly ITaskEditView view;
+        private readonly ITaskEditView editView;
+        private readonly ITaskDisplayView displayView;
+
+        private TaskDisplayPresenter taskDisplayPresenter;
+        private TaskEditPresenter taskEditPresenter;
 
         private readonly ITasksRepository tasksRepository;
-        private readonly IWorkUnitsRepository workUnitsRepository;
-        private readonly ISkillsRepository skillsRepository;
-        private readonly IHistoryService historyService;
-        private readonly ITasksService tasksService;
-        private readonly IProfileService profilesService;
-        private readonly IWorkUnitsService workUnitsService;
-        private readonly IImprovementsService improvementsService;
+       
         private readonly IPublisher publisher;
         private readonly ISubscriber subscriber;
 
@@ -34,23 +32,19 @@ namespace BussinessLogicLayer.Presenters
         private Task task;
         private WorkUnit currentWorkUnit;
 
-        public TaskEditPresenter(ITaskEditView view, ITasksRepository tasksRepository, IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
-            IHistoryService historyService, ITasksService tasksService, IProfileService profilesService, IWorkUnitsService workUnitsService, IImprovementsService improvementsService,
-            IPublisher publisher, ISubscriber subscriber)
+        public TaskCompositePresenter(ITaskDisplayView displayView, ITaskEditView editView, ITasksRepository tasksRepository,
+            IPublisher publisher, ISubscriber subscriber, TaskDisplayPresenter taskDisplayPresenter, TaskEditPresenter taskEditPresenter)
         {
-            this.view = view;
+            this.displayView = displayView;
+            this.editView = editView;
+
             this.tasksRepository = tasksRepository;
-            this.workUnitsRepository = workUnitsRepository;
-            this.skillsRepository = skillsRepository;
-            this.tasksService = tasksService;
-            this.historyService = historyService;
-            this.profilesService = profilesService;
-            this.workUnitsService = workUnitsService;
-            this.improvementsService = improvementsService;
 
             this.publisher = publisher;
             this.subscriber = subscriber;
-            
+
+            this.taskDisplayPresenter = taskDisplayPresenter;
+            this.taskEditPresenter = taskEditPresenter;
         }
 
         public void Initialize()
@@ -60,7 +54,7 @@ namespace BussinessLogicLayer.Presenters
                 subscriber.Subscribe(this);
                 AttachEvents();
 
-                //taskDisplayPresenter.Initialize();
+                taskDisplayPresenter.Initialize();
 
                 SetDisplayMode(DisplayMode.View);
             }
@@ -72,15 +66,15 @@ namespace BussinessLogicLayer.Presenters
 
         private void AttachEvents()
         {
-            this.view.SaveTask += View_SaveTask;
-            //view.EditTask += Edit;
+            /*this.view.SaveTask += View_SaveTask;
+            view.EditTask += Edit;
             view.CancelTaskEditing += CancelTaskEditing;
             view.RemoveTask += Remove;
             view.FinishTask += Finish;
             view.StartWorkingOnTask += StartWorkingOnTask;
             view.StopWorkingOnTask += StopWorkingOnTask;
             view.ParentTaskChanged += ParentTaskChanged;
-            view.CloseViewEditWindow += CloseViewEditWindow;
+            view.CloseViewEditWindow += CloseViewEditWindow;*/
         }
 
         private void CancelTaskEditing(object sender, EventArgs e)
@@ -122,14 +116,14 @@ namespace BussinessLogicLayer.Presenters
             }
 
             tasksRepository.Delete(task);
-            historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
+            //historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
 
-            view.IsVisible = false;
+            //view.IsVisible = false;
         }
 
 
 
-        private void Save(object sender, EventArgs e)
+        /*private void Save(object sender, EventArgs e)
         {
             Task taskToSave = isTaskNew ? new Task() : task;
 
@@ -146,7 +140,7 @@ namespace BussinessLogicLayer.Presenters
 
             isTaskNew = false;
             view.IsDirty = false;
-            
+
             SetDisplayMode(DisplayMode.View);
         }
 
@@ -158,7 +152,7 @@ namespace BussinessLogicLayer.Presenters
             isTaskNew = true;
             view.IsDirty = false;
             selectedTaskIndex = tasks.Count - 1;
-            SetDisplayMode(DisplayMode.Edit);*/
+            SetDisplayMode(DisplayMode.Edit);#1#
         }
 
         private void Finish(object sender, EventArgs e)
@@ -247,11 +241,11 @@ namespace BussinessLogicLayer.Presenters
             if (workUnits != null && workUnits.Count > 0)
             {
                 view.WorkUnits = GetWorkUnitsRows(workUnits);
-                //view.WorkUnitsPanelVisible = true;
+                view.WorkUnitsPanelVisible = true;
             }
             else
             {
-                //view.WorkUnitsPanelVisible = false;
+                view.WorkUnitsPanelVisible = false;
             }
         }
 
@@ -327,7 +321,11 @@ namespace BussinessLogicLayer.Presenters
             view.TaskDescription = "[Describe your task]";
             view.MinDueDate = DateTime.Today;
             view.DueDate = DateTime.Now.AddDays(1);
+            view.AssociatedSkillName = "-";
+            view.TotalWorkload = "-";
+            view.TotalExperienceGained = "-";
             view.IsFinished = false;
+            view.ActionButtonsVisible = true;
             view.FinishDate = null;
             view.WorkUnits = null;
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
@@ -343,6 +341,10 @@ namespace BussinessLogicLayer.Presenters
             view.Difficulty = (int)task.Difficulty;
             view.MinDueDate = task.DueDate.Value.Date;
             view.DueDate = task.DueDate;
+            view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
+            view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
+            view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGainedLiteral() : "-";
+            view.ActionButtonsVisible = !task.IsFinished;
             view.FinishDate = task.FinishedDate;
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
@@ -353,22 +355,20 @@ namespace BussinessLogicLayer.Presenters
             view.IsVisible = true;
 
             DisplayWorkUnitsList(task.WorkUnits.ToList());
-        }
+        }*/
 
         private void SetDisplayMode(DisplayMode displayMode)
         {
             if (displayMode == DisplayMode.Edit)
             {
-                //taskDisplayPresenter.HideView();
-                //view.TaskDetailsPanelVisible = false;
-                //view.TaskEditPanelVisible = true;
+                taskDisplayPresenter.HideView();
+                taskEditPresenter.ShowView();
             }
             else if (displayMode == DisplayMode.View)
             {
 
-                //taskDisplayPresenter.ShowView();
-                //view.TaskDetailsPanelVisible = true;
-                //view.TaskEditPanelVisible = false;
+                taskDisplayPresenter.ShowView();
+                taskEditPresenter.HideView();
             }
         }
 
@@ -474,30 +474,15 @@ namespace BussinessLogicLayer.Presenters
         {
             if (eventData.EntityId.HasValue)
             {
-                task = tasksRepository.Get(eventData.EntityId.Value);
-                DisplayTaskDetails(task);
+                taskDisplayPresenter.DisplayTaskDetails(eventData.EntityId.Value);
+                taskEditPresenter.EditTask(eventData.EntityId.Value);
             }
-            else if (eventData.EntityId.HasValue)
+            else if (!eventData.EntityId.HasValue)
             {
-                DisplayBlankTaskDetails();
+                taskEditPresenter.NewTask();
             }
 
             SetDisplayMode(eventData.DisplayMode);
-        }
-
-        public void ShowView()
-        {
-            view.IsVisible = true;
-        }
-
-        public void HideView()
-        {
-            view.IsVisible = false;
-        }
-
-        public void NewTask()
-        {
-            throw new NotImplementedException();
         }
     }
 }

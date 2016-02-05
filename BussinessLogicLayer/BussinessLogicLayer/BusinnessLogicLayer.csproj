@@ -80,7 +80,9 @@
     <Compile Include="Interfaces\IOptionsView.cs" />
     <Compile Include="Interfaces\IHistoryView.cs" />
     <Compile Include="Interfaces\IProfileView.cs" />
-    <Compile Include="Interfaces\ITasksListView.cs" />
+    <Compile Include="Interfaces\ITaskDisplayView.cs" />
+    <Compile Include="Interfaces\ITaskCompositeView.cs" />
+    <Compile Include="Interfaces\ITodoListView.cs" />
     <Compile Include="Interfaces\ITaskEditView.cs" />
     <Compile Include="Presenters\HistoryPresenter.cs" />
     <Compile Include="Presenters\IPresenter.cs" />
@@ -91,8 +93,10 @@
     <Compile Include="Presenters\OptionsPresenter.cs" />
     <Compile Include="Presenters\DayPresenter.cs" />
     <Compile Include="Presenters\ProfilePresenter.cs" />
+    <Compile Include="Presenters\TaskCompositePresenter.cs" />
+    <Compile Include="Presenters\TaskDisplayPresenter.cs" />
     <Compile Include="Presenters\TaskEditPresenter.cs" />
-    <Compile Include="Presenters\TasksListPresenter.cs" />
+    <Compile Include="Presenters\TodoListPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -18,7 +18,7 @@ namespace PresentationLayer.Forms
 {
     public partial class PosthumanForm : MetroForm
     {
-        private TasksListPresenter tasksListPresenter;
+        private TodoListPresenter todoListPresenter;
         private ProfilePresenter profilePresenter;
         private OptionsPresenter optionsPresenter;
         private HistoryPresenter historyPresenter;
@@ -98,7 +98,7 @@ namespace PresentationLayer.Forms
             {
                 loginPresenter = Container.Resolve<LoginPresenter>();
                 loggedUserPresenter = Container.Resolve<LoggedUserPresenter>();
-                tasksListPresenter = Container.Resolve<TasksListPresenter>();
+                todoListPresenter = Container.Resolve<TodoListPresenter>();
                 profilePresenter = Container.Resolve<ProfilePresenter>();
                 optionsPresenter = Container.Resolve<OptionsPresenter>();
                 historyPresenter = Container.Resolve<HistoryPresenter>();
@@ -115,7 +115,7 @@ namespace PresentationLayer.Forms
             try
             {
                 loggedUserPresenter.Initialize();
-                tasksListPresenter.Initialize();
+                todoListPresenter.Initialize();
                 profilePresenter.Initialize();
                 optionsPresenter.Initialize();
                 historyPresenter.Initialize();
@@ -135,7 +135,7 @@ namespace PresentationLayer.Forms
 
             builder.RegisterInstance(this.dayControl).As<IDayView>();
             builder.RegisterInstance(this.profileControl).As<IProfileView>();
-            builder.RegisterInstance(this.tasksListControl).As<ITasksListView>();
+            builder.RegisterInstance(this.todoListControl).As<ITodoListView>();
             builder.RegisterInstance(this.historyControl2).As<IHistoryView>();
             builder.RegisterInstance(this.loginControl).As<ILoginView>();
             builder.RegisterInstance(this.optionsControl).As<IOptionsView>();
@@ -197,17 +197,9 @@ namespace PresentationLayer.Forms
 
             builder.Register(
                 c =>
-                    new TasksListPresenter(
-                        c.Resolve<ITasksListView>(),
+                    new TodoListPresenter(
+                        c.Resolve<ITodoListView>(),
                         c.Resolve<ITasksRepository>(),
-                        c.Resolve<IWorkUnitsRepository>(),
-                        c.Resolve<ISkillsRepository>(),
-                        c.Resolve<IProfileRepository>(),
-                        c.Resolve<IHistoryService>(),
-                        c.Resolve<ITasksService>(),
-                        c.Resolve<IProfileService>(),
-                        c.Resolve<IWorkUnitsService>(),
-                        c.Resolve<IImprovementsService>(),
                         c.Resolve<IPublisher>()));
 
             builder.Register(
@@ -375,7 +367,7 @@ namespace PresentationLayer.Forms
             }
             else if (this.contentTabControl.SelectedTab == tasksTabPage)
             {
-                tasksListPresenter.OnViewDisplayed();
+                todoListPresenter.OnViewDisplayed();
             }
             else if (this.contentTabControl.SelectedTab == optionsTabPage)
             {

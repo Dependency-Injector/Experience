@@ -37,7 +37,7 @@
             this.mainControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainControl1.Location = new System.Drawing.Point(20, 60);
             this.mainControl1.Name = "mainControl1";
-            this.mainControl1.Size = new System.Drawing.Size(1235, 582);
+            this.mainControl1.Size = new System.Drawing.Size(580, 582);
             this.mainControl1.TabIndex = 0;
             this.mainControl1.UseSelectable = true;
             // 
@@ -59,7 +59,7 @@
             this.BackImage = global::PresentationLayer.Properties.Resources.GitHub_Mark;
             this.BackImagePadding = new System.Windows.Forms.Padding(210, 10, 0, 0);
             this.BackMaxSize = 50;
-            this.ClientSize = new System.Drawing.Size(1275, 662);
+            this.ClientSize = new System.Drawing.Size(620, 662);
             this.Controls.Add(this.mainControl1);
             this.Name = "PosthumanFormNew";
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;

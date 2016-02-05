@@ -15,7 +15,7 @@ using Model.Enums;
 
 namespace PresentationLayer.Controls
 {
-    public partial class TasksListControl : MetroUserControl, ITasksListView
+    /*public partial class TasksListControl : MetroUserControl, ITasksListView
     {
         private static Color BasicColor;
         private bool selectionByCode = false;
@@ -350,7 +350,7 @@ namespace PresentationLayer.Controls
             {
                 if (tasksListGrid.SelectedRows.Count > 0)
                 {
-                    TaskGridItem selectedItem = (TaskGridItem) tasksListGrid.CurrentRow.DataBoundItem;
+                    TaskGridItem selectedItem = (TaskGridItem)tasksListGrid.CurrentRow.DataBoundItem;
                     SelectTask(tasksListGrid, selectedItem.Id);
                 }
             }
@@ -621,7 +621,7 @@ namespace PresentationLayer.Controls
             {
                 if (TaskDoubleClick != null)
                 {
-                    TaskGridItem selectedItem = (TaskGridItem) tasksListGrid.CurrentRow.DataBoundItem;
+                    TaskGridItem selectedItem = (TaskGridItem)tasksListGrid.CurrentRow.DataBoundItem;
                     TaskDoubleClick(this, selectedItem.Id);
                 }
             }
@@ -632,5 +632,5 @@ namespace PresentationLayer.Controls
             if (NewTask != null)
                 NewTask(this, e);
         }
-    }
+    }*/
 }

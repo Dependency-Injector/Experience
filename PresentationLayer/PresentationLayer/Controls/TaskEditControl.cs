@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
-using MetroFramework.Forms;
+using MetroFramework.Controls;
 using Model.Classes;
 using Model.Enums;
 
-namespace PresentationLayer.Forms
+namespace PresentationLayer.Controls
 {
-    
-
-    public partial class TaskEditForm : MetroForm, ITaskEditView
+    public partial class TaskEditControl : MetroUserControl, ITaskEditView
     {
-        public TaskEditForm()
+        public TaskEditControl()
         {
             InitializeComponent();
         }
@@ -27,13 +32,7 @@ namespace PresentationLayer.Forms
 
         public bool IsVisible
         {
-            set
-            {
-                if (value)
-                    Show();
-                else
-                    Hide();
-            }
+            set { this.Visible = value; }
         }
 
         public DisplayMode DisplayMode { get; set; }
@@ -45,7 +44,6 @@ namespace PresentationLayer.Forms
             get { return nameTextBox.Text; }
             set
             {
-                nameLabel.Text = value;
                 nameTextBox.Text = value;
             }
         }
@@ -54,7 +52,6 @@ namespace PresentationLayer.Forms
             get { return descriptionTextBox.Text; }
             set
             {
-                descriptionLabel.Text = value;
                 descriptionTextBox.Text = value;
             }
         }
@@ -78,7 +75,6 @@ namespace PresentationLayer.Forms
             {
                 if (value.HasValue)
                 {
-                    startAndDueDate.Text = value.Value.ToString("M");
                     dueDateTime.Value = value.Value;
                 }
             }
@@ -101,23 +97,7 @@ namespace PresentationLayer.Forms
             }
         }
         public DateTime? FinishDate { get; set; }
-        public string TotalWorkload
-        {
-            set
-            {
-                totalWorkloadLabel.Text = value;
-            }
-        }
-        public string TotalExperienceGained
-        {
-            set { totalExpGainedLabel.Text = value; }
-        }
-        public string AssociatedSkillName
-        {
-            set { attachedSkillNameLabel.Text = value; }
-        }
-
-
+        
         public bool IsDirty
         {
             set { bool x = false; }
@@ -198,36 +178,14 @@ namespace PresentationLayer.Forms
         public ICollection WorkUnits { get; set; }
         public ICollection SkillsAvailable { get; set; }
         public ICollection ChildrenTasks { get; set; }
-        public bool TaskDetailsPanelVisible
-        {
-            set { taskDetailsPanel.Visible = value; }
-        }
-        public bool TaskEditPanelVisible
-        {
-            set { taskEditPanel.Visible = value; }
-        }
-        public bool ActionButtonsVisible
-        {
-            set { taskActionButtonsPanel.Visible = value; }
-        }
-        public bool WorkUnitsPanelVisible
-        {
-            set { workUnitsPanel.Visible = value; }
-        }
-
-        private void TaskEditForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
-        {
-            this.Hide();
-            e.Cancel = true;
-        }
-
+        
+        
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (SaveTask != null)
                 SaveTask(this, e);
         }
-
-      
+        
         private void removeButton_Click(object sender, EventArgs e)
         {
             if (RemoveTask != null)
@@ -319,18 +277,14 @@ namespace PresentationLayer.Forms
         {
             if (StartWorkingOnTask != null)
                 StartWorkingOnTask(this, e);
-
-            stopWorkingButton.Enabled = true;
-            startWorkButton.Enabled = false;
+            
         }
 
         private void stopWorkingButton_Click(object sender, EventArgs e)
         {
             if (StopWorkingOnTask != null)
                 StopWorkingOnTask(this, e);
-
-            startWorkButton.Enabled = true;
-            stopWorkingButton.Enabled = false;
+            
         }
 
         private void editButton_Click(object sender, EventArgs e)
@@ -343,9 +297,6 @@ namespace PresentationLayer.Forms
         {
             if (CancelTaskEditing != null)
                 CancelTaskEditing(this, e);
-            //if (Cancel)
-            //if(CancelTaskEditing)
-            //if(CloseEdi)
         }
 
         private void closeEditFormButton_Click(object sender, EventArgs e)
