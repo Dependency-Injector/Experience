@@ -2,7 +2,7 @@
 using System.Linq;
 using MetroFramework.Controls;
 
-namespace PresentationLayer
+namespace View
 {
     public static class ExtensionMethods
     {

@@ -40,7 +40,7 @@ namespace BussinessLogicLayer.Presenters
         
         private void New(object sender, EventArgs e)
         {
-            publisher.Publish(new OpenTaskDetailsWindow(DisplayMode.Edit, null));
+            publisher.Publish(new OpenTaskCompositeWindow(DisplayMode.Edit, null));
         }
         
         private void ShowFinishedTasks(object sender, bool showFinishedTasks)
@@ -142,9 +142,9 @@ namespace BussinessLogicLayer.Presenters
         {
             List<Task> tasks = new List<Task>();
 
-            if (tasksRepository.HasTasks() && ApplicationSettings.Current.IsAnyUserLoggedIn)
+            if (tasksRepository.HasTasks()) //&& ApplicationSettings.Current.IsAnyUserLoggedIn)
             {
-                var tasksQuery = tasksRepository.Find(t => t.Owner.Id == ApplicationSettings.Current.CurrentUserId);
+                var tasksQuery = tasksRepository.Find(t => t.Owner.Id == Globals.DmitruUserId);
 
                 if (!includeFinishedTasks)
                     tasksQuery = tasksQuery.Where(t => t.IsFinished == false);
@@ -166,7 +166,7 @@ namespace BussinessLogicLayer.Presenters
 
         private void ShowTaskDetails(object sender, int taskId)
         {
-            publisher.Publish(new OpenTaskDetailsWindow(DisplayMode.View, taskId));
+            publisher.Publish(new OpenTaskCompositeWindow(DisplayMode.View, taskId));
         }
 
         #endregion

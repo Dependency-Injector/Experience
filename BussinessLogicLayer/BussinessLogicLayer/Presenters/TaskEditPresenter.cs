@@ -15,7 +15,7 @@ using Task = Model.Entities.Task;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class TaskEditPresenter : ICanHandle<OpenTaskDetailsWindow>
+    public class TaskEditPresenter : ICanHandle<OpenTaskCompositeWindow>
     {
         private readonly ITaskEditView view;
 
@@ -47,22 +47,15 @@ namespace BussinessLogicLayer.Presenters
             this.profilesService = profilesService;
             this.workUnitsService = workUnitsService;
             this.improvementsService = improvementsService;
-
             this.publisher = publisher;
             this.subscriber = subscriber;
-            
         }
 
         public void Initialize()
         {
             try
             {
-                subscriber.Subscribe(this);
                 AttachEvents();
-
-                //taskDisplayPresenter.Initialize();
-
-                SetDisplayMode(DisplayMode.View);
             }
             catch (Exception ex)
             {
@@ -72,34 +65,13 @@ namespace BussinessLogicLayer.Presenters
 
         private void AttachEvents()
         {
-            this.view.SaveTask += View_SaveTask;
-            //view.EditTask += Edit;
-            view.CancelTaskEditing += CancelTaskEditing;
+            view.SaveTask += Save;
             view.RemoveTask += Remove;
-            view.FinishTask += Finish;
-            view.StartWorkingOnTask += StartWorkingOnTask;
-            view.StopWorkingOnTask += StopWorkingOnTask;
             view.ParentTaskChanged += ParentTaskChanged;
-            view.CloseViewEditWindow += CloseViewEditWindow;
+
+            subscriber.Subscribe(this);
         }
-
-        private void CancelTaskEditing(object sender, EventArgs e)
-        {
-            SetDisplayMode(DisplayMode.View);
-        }
-
-        private void Edit(object sender, EventArgs e)
-        {
-            SetDisplayMode(DisplayMode.Edit);
-        }
-
-        private void CloseViewEditWindow(object sender, EventArgs e)
-        {
-            //SetDisplayMode(DisplayMode.View);
-
-            publisher.Publish(new WindowClosed(WindowType.TaskViewEdit));
-        }
-
+        
         private void Remove(object sender, EventArgs e)
         {
             if (isTaskNew)
@@ -107,8 +79,7 @@ namespace BussinessLogicLayer.Presenters
                 //MessageBox.Show("This task is not saved yet, so it can't be deleted");
                 return;
             }
-
-
+            
             if (task == null)
             {
                 // MessageBox.Show("No task to remove");
@@ -126,9 +97,7 @@ namespace BussinessLogicLayer.Presenters
 
             view.IsVisible = false;
         }
-
-
-
+        
         private void Save(object sender, EventArgs e)
         {
             Task taskToSave = isTaskNew ? new Task() : task;
@@ -146,13 +115,11 @@ namespace BussinessLogicLayer.Presenters
 
             isTaskNew = false;
             view.IsDirty = false;
-            
-            SetDisplayMode(DisplayMode.View);
         }
 
         private void New(object sender, EventArgs e)
         {
-            publisher.Publish(new OpenTaskDetailsWindow(DisplayMode.Edit, null));
+            publisher.Publish(new OpenTaskCompositeWindow(DisplayMode.Edit, null));
 
             /*DisplayBlankTaskDetails();
             isTaskNew = true;
@@ -161,7 +128,7 @@ namespace BussinessLogicLayer.Presenters
             SetDisplayMode(DisplayMode.Edit);*/
         }
 
-        private void Finish(object sender, EventArgs e)
+        /*private void Finish(object sender, EventArgs e)
         {
             var taskToFinish = task;
             int xpForTaskFinish = tasksService.GetExperienceForCompletion(taskToFinish.Id);
@@ -261,7 +228,7 @@ namespace BussinessLogicLayer.Presenters
             currentWorkUnit = workUnitsService.CreateNewWorkUnit(selectedTask.Id, DateTime.Now);
             historyService.AddHistoryEvent(HistoryEventType.WorkStarted, currentWorkUnit.Id);
         }
-
+*/
         private void ParentTaskChanged(object sender, EventArgs e)
         {
             // Change task max due date when it exceeds parent task due date
@@ -277,28 +244,7 @@ namespace BussinessLogicLayer.Presenters
                 }
             }
         }
-
-        private void View_SaveTask(object sender, EventArgs e)
-        {
-            //Task taskToSave = isTaskNew ? new Task() : GetSelectedTask();
-
-            Task taskToSave = task;
-
-            if (isTaskNew)
-            {
-                taskToSave = tasksService.CreateNewTask(Globals.DmitruUserId, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
-                tasksService.SaveTask(taskToSave);
-            }
-            else
-            {
-                taskToSave = tasksService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
-                tasksService.UpdateTask(taskToSave);
-            }
-
-            isTaskNew = false;
-            view.IsVisible = false;
-        }
-
+        
         public void OnViewDisplayed()
         {
         }
@@ -328,7 +274,7 @@ namespace BussinessLogicLayer.Presenters
             view.MinDueDate = DateTime.Today;
             view.DueDate = DateTime.Now.AddDays(1);
             view.IsFinished = false;
-            view.FinishDate = null;
+            //view.FinishDate = null;
             view.WorkUnits = null;
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
             view.SkillToTrainId = null;
@@ -337,40 +283,21 @@ namespace BussinessLogicLayer.Presenters
 
         private void DisplayTaskDetails(Task task)
         {
-            view.Title = task.Name;
+            view.TaskName = task.Name;
             view.TaskDescription = task.Description;
             view.Priority = (int)task.Priority;
             view.Difficulty = (int)task.Difficulty;
             view.MinDueDate = task.DueDate.Value.Date;
             view.DueDate = task.DueDate;
-            view.FinishDate = task.FinishedDate;
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;
-            view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";
             view.CanBeFinished = tasksService.IsFinishingAllowed(task.Id);
-            view.ChildrenTasks = GetChildrenTasksRows(task.Tasks);
             view.IsVisible = true;
 
-            DisplayWorkUnitsList(task.WorkUnits.ToList());
+            //DisplayWorkUnitsList(task.WorkUnits.ToList());
         }
-
-        private void SetDisplayMode(DisplayMode displayMode)
-        {
-            if (displayMode == DisplayMode.Edit)
-            {
-                //taskDisplayPresenter.HideView();
-                //view.TaskDetailsPanelVisible = false;
-                //view.TaskEditPanelVisible = true;
-            }
-            else if (displayMode == DisplayMode.View)
-            {
-
-                //taskDisplayPresenter.ShowView();
-                //view.TaskDetailsPanelVisible = true;
-                //view.TaskEditPanelVisible = false;
-            }
-        }
+/*
 
         private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
         {
@@ -386,14 +313,14 @@ namespace BussinessLogicLayer.Presenters
                 //profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
                 //historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
 
-                /*// Check if skill leveled up
+                /#1#/ Check if skill leveled up
                 if (skillToTrain.HasReachedNewLevel())
                 {
                     // Give skill new level
                     int skillNewLevel = skillToTrain.GetNewLevel();
                     profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
                     historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
-                }*/
+                }#1#
             }
 
         }
@@ -432,6 +359,7 @@ namespace BussinessLogicLayer.Presenters
 
             return workUnitsRows;
         }
+*/
 
         private ICollection GetSkillsRows(List<Skill> skills)
         {
@@ -470,9 +398,9 @@ namespace BussinessLogicLayer.Presenters
             return childrenTasksRows;
         }
 
-        public void Handle(OpenTaskDetailsWindow eventData)
+        public void Handle(OpenTaskCompositeWindow eventData)
         {
-            if (eventData.EntityId.HasValue)
+            /*if (eventData.EntityId.HasValue)
             {
                 task = tasksRepository.Get(eventData.EntityId.Value);
                 DisplayTaskDetails(task);
@@ -480,9 +408,9 @@ namespace BussinessLogicLayer.Presenters
             else if (eventData.EntityId.HasValue)
             {
                 DisplayBlankTaskDetails();
-            }
+            }*/
 
-            SetDisplayMode(eventData.DisplayMode);
+            //SetDisplayMode(eventData.DisplayMode);
         }
 
         public void ShowView()
@@ -497,7 +425,7 @@ namespace BussinessLogicLayer.Presenters
 
         public void NewTask()
         {
-            throw new NotImplementedException();
+            DisplayBlankTaskDetails();
         }
     }
 }

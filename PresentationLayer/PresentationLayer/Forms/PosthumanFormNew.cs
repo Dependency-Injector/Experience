@@ -13,14 +13,14 @@ using MetroFramework.Forms;
 using Utilities;
 using IContainer = Autofac.IContainer;
 
-namespace PresentationLayer.Forms
+namespace View.Forms
 {
     
-    public partial class PosthumanFormNew : MetroForm, ICanHandle<WindowClosed>, ICanHandle<OpenTaskDetailsWindow>
+    public partial class PosthumanFormNew : MetroForm, ICanHandle<WindowClosed>, ICanHandle<OpenTaskCompositeWindow>
     {
         private MainPresenter mainPresenter;
         private NotificationForm notificationForm = new NotificationForm();
-        private TaskCompositeForm taskEditForm = new TaskCompositeForm();
+        private TaskCompositeForm taskCompositeForm = new TaskCompositeForm();
 
         EventBroker broker = new EventBroker();
         private IPublisher Publisher;
@@ -50,17 +50,18 @@ namespace PresentationLayer.Forms
 
             #region Instance (interfaces) registration
 
-            builder.RegisterInstance(this.mainControl1).As<IMainView>();
-            builder.RegisterInstance(this.mainControl1.DayView).As<IDayView>();
-            builder.RegisterInstance(this.mainControl1.ProfileView).As<IProfileView>();
-            builder.RegisterInstance(this.mainControl1.TodoListView).As<ITodoListView>();
-            builder.RegisterInstance(this.mainControl1.HistoryView).As<IHistoryView>();
-            builder.RegisterInstance(this.mainControl1.OptionsView).As<IOptionsView>();
+            builder.RegisterInstance(this.mainControl).As<IMainView>();
+            builder.RegisterInstance(this.mainControl.DayView).As<IDayView>();
+            builder.RegisterInstance(this.mainControl.ProfileView).As<IProfileView>();
+            builder.RegisterInstance(this.mainControl.TodoListView).As<ITodoListView>();
+            builder.RegisterInstance(this.mainControl.HistoryView).As<IHistoryView>();
+            builder.RegisterInstance(this.mainControl.OptionsView).As<IOptionsView>();
             builder.RegisterInstance(this.notificationForm).As<INotificationView>();
 
-            builder.RegisterInstance(this.taskEditForm).As<ITaskEditView>();
-            builder.RegisterInstance(this.taskEditForm.TaskDetailsView).As<ITaskDisplayView>();
-            builder.RegisterInstance(this.taskEditForm.TaskDetailsView).As<ITaskCompositeView>();
+
+            builder.RegisterInstance(this.taskCompositeForm).As<ITaskCompositeView>();
+            builder.RegisterInstance(this.taskCompositeForm.TaskEditView).As<ITaskEditView>();
+            builder.RegisterInstance(this.taskCompositeForm.TaskDisplayView).As<ITaskDisplayView>();
             
 
             builder.RegisterInstance(this.broker).As<IPublisher>();
@@ -190,7 +191,7 @@ namespace PresentationLayer.Forms
                     c.Resolve<HistoryPresenter>(),
                     c.Resolve<OptionsPresenter>(),
                     c.Resolve<NotificationPresenter>(),
-                    c.Resolve<TaskEditPresenter>()));
+                    c.Resolve<TaskCompositePresenter>()));
             
             #endregion
 
@@ -265,9 +266,9 @@ namespace PresentationLayer.Forms
             notificationForm.Style = this.Style;
             notificationForm.StyleManager = this.StyleManager.Clone(notificationForm) as MetroStyleManager;
 
-            taskEditForm.Theme = this.Theme;
-            taskEditForm.Style = this.Style;
-            taskEditForm.StyleManager = this.StyleManager.Clone(taskEditForm) as MetroStyleManager;
+            taskCompositeForm.Theme = this.Theme;
+            taskCompositeForm.Style = this.Style;
+            taskCompositeForm.StyleManager = this.StyleManager.Clone(taskCompositeForm) as MetroStyleManager;
         }
 
         public void Handle(WindowClosed data)
@@ -275,14 +276,17 @@ namespace PresentationLayer.Forms
             switch (data.Type)
             {
                 case WindowType.TaskViewEdit:
-                    taskEditForm.Close();
+                    taskCompositeForm.Hide();
                     break;
             }
         }
 
-        public void Handle(OpenTaskDetailsWindow eventData)
+        public void Handle(OpenTaskCompositeWindow eventData)
         {
-              taskEditForm.Show();
+            if(taskCompositeForm.IsDisposed)
+                taskCompositeForm = new TaskCompositeForm();
+
+            taskCompositeForm.Show();
         }
     }
 }

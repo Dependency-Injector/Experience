@@ -2,7 +2,7 @@
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Forms;
 
-namespace PresentationLayer.Forms
+namespace View.Forms
 {
     public partial class NotificationForm : MetroForm, INotificationView
     {

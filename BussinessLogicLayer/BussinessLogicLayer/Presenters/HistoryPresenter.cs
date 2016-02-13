@@ -36,7 +36,7 @@ namespace BussinessLogicLayer.Presenters
             try
             {
                 AttachEvents();
-                currentUser = profilesRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
+                currentUser = profilesRepository.Get(Globals.DmitruUserId);
                 GetAndDisplayHistoryEventsList();
             }
             catch (Exception e)

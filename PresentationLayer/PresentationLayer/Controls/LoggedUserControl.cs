@@ -2,7 +2,7 @@
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     public partial class LoggedUserControl : MetroUserControl, ILoggedUserView
     {

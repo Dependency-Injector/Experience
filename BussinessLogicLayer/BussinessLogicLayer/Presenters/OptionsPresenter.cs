@@ -36,12 +36,12 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
-                {
+                /*if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
+                {*/
                     AttachEvents();
                     SetAvailableStyles();
 
-                    ObtainPreferencesForUser(ApplicationSettings.Current.CurrentUserId.Value);
+                    ObtainPreferencesForUser(Globals.DmitruUserId);
 
                     if (preferences != null)
                     {
@@ -52,7 +52,7 @@ namespace BussinessLogicLayer.Presenters
                     {
                    //     preferences = new Preferences();
                     }
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -124,7 +124,7 @@ namespace BussinessLogicLayer.Presenters
         {
             if (preferences == null)
             {
-                preferences = preferencesService.CreateNewPreferences(ApplicationSettings.Current.CurrentUserId);
+                preferences = preferencesService.CreateNewPreferences(Globals.DmitruUserId);
                 preferencesRepository.Add(preferences);
             }
 

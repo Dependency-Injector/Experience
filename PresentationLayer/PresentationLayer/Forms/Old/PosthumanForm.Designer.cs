@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using PresentationLayer.Controls;
+using View.Controls;
 
-namespace PresentationLayer.Forms
+namespace View.Forms.Old
 {
     partial class PosthumanForm
     {
@@ -35,21 +35,21 @@ namespace PresentationLayer.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PosthumanForm));
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.dayControl = new PresentationLayer.Controls.DayControl();
+            this.dayControl = new DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.todoListControl = new PresentationLayer.Controls.TodoListControl();
+            this.todoListControl = new TodoListControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.profileControl = new PresentationLayer.Controls.ProfileControl();
+            this.profileControl = new ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.historyControl2 = new PresentationLayer.Controls.HistoryControl();
+            this.historyControl2 = new HistoryControl();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.optionsControl = new PresentationLayer.Controls.OptionsControl();
+            this.optionsControl = new OptionsControl();
             this.metroColorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.loggedUserControl = new PresentationLayer.Controls.LoggedUserControl();
-            this.loginControl = new PresentationLayer.Controls.LoginControl();
-            this.historyControl1 = new PresentationLayer.Controls.HistoryControl();
-            this.profileControl1 = new PresentationLayer.Controls.ProfileControl();
+            this.loggedUserControl = new LoggedUserControl();
+            this.loginControl = new LoginControl();
+            this.historyControl1 = new HistoryControl();
+            this.profileControl1 = new ProfileControl();
             this.contentTabControl.SuspendLayout();
             this.dayTabPage.SuspendLayout();
             this.tasksTabPage.SuspendLayout();

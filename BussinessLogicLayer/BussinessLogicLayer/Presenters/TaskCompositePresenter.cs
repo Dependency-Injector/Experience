@@ -15,7 +15,7 @@ using Task = Model.Entities.Task;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class TaskCompositePresenter : ICanHandle<OpenTaskDetailsWindow>
+    public class TaskCompositePresenter : ICanHandle<OpenTaskCompositeWindow>
     {
         private readonly ITaskEditView editView;
         private readonly ITaskDisplayView displayView;
@@ -30,6 +30,7 @@ namespace BussinessLogicLayer.Presenters
 
         private bool isTaskNew = true;
         private Task task;
+        private int taskId = 0;
         private WorkUnit currentWorkUnit;
 
         public TaskCompositePresenter(ITaskDisplayView displayView, ITaskEditView editView, ITasksRepository tasksRepository,
@@ -55,6 +56,7 @@ namespace BussinessLogicLayer.Presenters
                 AttachEvents();
 
                 taskDisplayPresenter.Initialize();
+                taskEditPresenter.Initialize();
 
                 SetDisplayMode(DisplayMode.View);
             }
@@ -66,26 +68,21 @@ namespace BussinessLogicLayer.Presenters
 
         private void AttachEvents()
         {
-            /*this.view.SaveTask += View_SaveTask;
-            view.EditTask += Edit;
-            view.CancelTaskEditing += CancelTaskEditing;
-            view.RemoveTask += Remove;
-            view.FinishTask += Finish;
-            view.StartWorkingOnTask += StartWorkingOnTask;
-            view.StopWorkingOnTask += StopWorkingOnTask;
-            view.ParentTaskChanged += ParentTaskChanged;
-            view.CloseViewEditWindow += CloseViewEditWindow;*/
+            this.displayView.EditTask += EditTask;
+            this.editView.CancelTaskEditing += CancelTaskEditing;
+        }
+
+        private void EditTask(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.Edit);
         }
 
         private void CancelTaskEditing(object sender, EventArgs e)
         {
             SetDisplayMode(DisplayMode.View);
         }
-
-        private void Edit(object sender, EventArgs e)
-        {
-            SetDisplayMode(DisplayMode.Edit);
-        }
+        
+/*
 
         private void CloseViewEditWindow(object sender, EventArgs e)
         {
@@ -121,6 +118,7 @@ namespace BussinessLogicLayer.Presenters
             //view.IsVisible = false;
         }
 
+*/
 
 
         /*private void Save(object sender, EventArgs e)
@@ -470,12 +468,13 @@ namespace BussinessLogicLayer.Presenters
             return childrenTasksRows;
         }
 
-        public void Handle(OpenTaskDetailsWindow eventData)
+        public void Handle(OpenTaskCompositeWindow eventData)
         {
             if (eventData.EntityId.HasValue)
             {
-                taskDisplayPresenter.DisplayTaskDetails(eventData.EntityId.Value);
-                taskEditPresenter.EditTask(eventData.EntityId.Value);
+                taskId = eventData.EntityId.Value;
+                taskDisplayPresenter.DisplayTaskDetails(taskId);
+                taskEditPresenter.EditTask(taskId);
             }
             else if (!eventData.EntityId.HasValue)
             {

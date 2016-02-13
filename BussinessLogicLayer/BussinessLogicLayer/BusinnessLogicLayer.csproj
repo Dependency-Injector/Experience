@@ -73,6 +73,7 @@
     <Compile Include="Events\WindowClosed.cs" />
     <Compile Include="GridRowTemplates\TaskGridItem.cs" />
     <Compile Include="Interfaces\IDayView.cs" />
+    <Compile Include="Interfaces\IHideable.cs" />
     <Compile Include="Interfaces\ILoggedUserView.cs" />
     <Compile Include="Interfaces\ILoginView.cs" />
     <Compile Include="Interfaces\IMainView.cs" />

@@ -66,8 +66,8 @@ namespace BussinessLogicLayer.Presenters
         private Profile GetCurrentUser()
         {
             Profile user = null;
-            if (ApplicationSettings.Current.CurrentUserId.HasValue)
-                user = profileRepository.Get(ApplicationSettings.Current.CurrentUserId.Value);
+            //if (ApplicationSettings.Current.CurrentUserId.HasValue)
+                user = profileRepository.Get(Globals.DmitruUserId);
 
             return user;
         }

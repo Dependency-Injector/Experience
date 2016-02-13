@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     public partial class HistoryControl : MetroUserControl, IHistoryView
     {

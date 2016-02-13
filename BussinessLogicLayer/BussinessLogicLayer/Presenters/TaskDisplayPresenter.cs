@@ -26,11 +26,11 @@ namespace BussinessLogicLayer.Presenters
         {
             try
             {
-                int taskId = 7001;
+                /*int taskId = 7001;
                 task = tasksRepository.Get(taskId);
 
                 if(task != null)
-                    DisplayTaskDetails(task);
+                    DisplayTaskDetails(task);*/
             }
             catch (Exception ex)
             {
@@ -40,25 +40,27 @@ namespace BussinessLogicLayer.Presenters
 
         public void DisplayTaskDetails(Task task)
         {
-            //view.Title = task.Name;
+            view.TaskName = task.Name;
             view.TaskDescription = task.Description;
+            view.Deadline = task.DueDate.Value;
+            view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
+            view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";
+            view.ChildrenTasks = GetChildrenTasksRows(task.Tasks);
+            view.Priority = task.GetPriorityLiteral();
+            
             /*view.Priority = (int)task.Priority;
             view.Difficulty = (int)task.Difficulty;
             view.MinDueDate = task.DueDate.Value.Date;
             view.DueDate = task.DueDate;*/
-            view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
-            view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
-            view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGainedLiteral() : "-";
+            //view.TotalWorkload = task.WorkUnits != null ? task.GetTotalWorkloadLiteral() : "-";
+            //view.TotalExperienceGained = task.WorkUnits != null ? task.GetTotalExperienceGainedLiteral() : "-";
             //view.ActionButtonsVisible = !task.IsFinished;
             view.FinishDate = task.FinishedDate;
             /*view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
             view.ParentTaskId = task.Parent?.Id;*/
-            view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";
             //view.CanBeFinished = tasksService.IsFinishingAllowed(task.Id);
-            view.ChildrenTasks = GetChildrenTasksRows(task.Tasks);
             //view.IsVisible = true;
-
             //DisplayWorkUnitsList(task.WorkUnits.ToList());
         }
 

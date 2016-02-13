@@ -3,7 +3,7 @@ using System.Collections;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     public partial class TaskDisplayControl : MetroUserControl, ITaskDisplayView
     {
@@ -12,7 +12,6 @@ namespace PresentationLayer.Controls
             InitializeComponent();
         }
 
-
         public string TaskName
         {
             set
@@ -20,6 +19,7 @@ namespace PresentationLayer.Controls
                 nameLabel.Text = value;
             }
         }
+
         public string TaskDescription
         {
             set
@@ -28,55 +28,42 @@ namespace PresentationLayer.Controls
             }
         }
 
-        public DateTime? DueDate
+        public DateTime Deadline
         {
-            set
-            {
-                if (value.HasValue)
-                {
-                    startAndDueDate.Text = value.Value.ToString("M");
-                }
-            }
+            set { deadlineDate.Text = value.ToString("d"); }
         }
         
-        public bool IsFinished
-        {
-            set
-            {
-                //if(value)
-                //    ShowActionButtons(false);
-                //else
-                //    ShowActionButtons(true);
-            }
-        }
-
         public DateTime? FinishDate { get; set; }
-
-        public string TotalWorkload
-        {
-            set
-            {
-                totalWorkloadLabel.Text = value;
-            }
-        }
-
-        public string TotalExperienceGained
-        {
-            set { totalExpGainedLabel.Text = value; }
-        }
 
         public string AssociatedSkillName
         {
             set { attachedSkillNameLabel.Text = value; }
         }
 
-        public string ParentTaskName { set {} }
-        public ICollection WorkUnits { set {} }
-        public ICollection ChildrenTasks { set {} }
+        public string Priority { set { priorityLabel.Text = value; } }
+
+        public string ParentTaskName { set { parentTaskLabel.Text = value; } }
+
+        public ICollection ChildrenTasks
+        {
+            set
+            {
+                //childrenTasksPanel
+            }
+        }
+
+        public EventHandler<EventArgs> EditTask { get; set; }
+
 
         public bool IsVisible
         {
             set { this.Visible = value; }
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if (EditTask != null)
+                EditTask(this, e);
         }
     }
 }

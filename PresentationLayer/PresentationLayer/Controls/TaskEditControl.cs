@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BussinessLogicLayer.Interfaces;
+using MetroFramework;
 using MetroFramework.Controls;
 using Model.Classes;
 using Model.Enums;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     public partial class TaskEditControl : MetroUserControl, ITaskEditView
     {
@@ -22,23 +19,12 @@ namespace PresentationLayer.Controls
             InitializeComponent();
         }
 
-        public string Title
-        {
-            get { return nameTextBox.Text; }
-            set { nameTextBox.Text = value; }
-        }
-
         public bool CanBeFinished { get; set; }
-
         public bool IsVisible
         {
             set { this.Visible = value; }
         }
-
-        public DisplayMode DisplayMode { get; set; }
-
         public int TaskId { get; set; }
-
         public string TaskName
         {
             get { return nameTextBox.Text; }
@@ -58,16 +44,13 @@ namespace PresentationLayer.Controls
         public int Priority
         {
             get { return GetSelectedPriority(); }
-
             set { SelectPriority(value); }
         }
-
         public int Difficulty
         {
             get { return GetSelectedDifficulty(); }
             set { SelectDifficulty(value); }
         }
-
         public DateTime? DueDate
         {
             get { return dueDateTime.Value; }
@@ -79,13 +62,11 @@ namespace PresentationLayer.Controls
                 }
             }
         }
-
         public DateTime MinDueDate
         {
             get { return dueDateTime.MinDate; }
             set { dueDateTime.MinDate = value; }
         }
-
         public bool IsFinished
         {
             set
@@ -96,13 +77,10 @@ namespace PresentationLayer.Controls
                 //    ShowActionButtons(true);
             }
         }
-        public DateTime? FinishDate { get; set; }
-        
         public bool IsDirty
         {
             set { bool x = false; }
         }
-
         public int? SkillToTrainId
         {
             get
@@ -163,33 +141,43 @@ namespace PresentationLayer.Controls
             }
         }
 
-        public string ParentTaskName { get; set; }
-
         public event EventHandler SaveTask;
         public event EventHandler RemoveTask;
-        public event EventHandler<EventArgs> NewTask;
-        public event EventHandler<EventArgs> EditTask;
         public event EventHandler<EventArgs> CancelTaskEditing;
-        public event EventHandler<EventArgs> FinishTask;
-        public event EventHandler<EventArgs> StartWorkingOnTask;
-        public event EventHandler<EventArgs> StopWorkingOnTask;
         public event EventHandler<EventArgs> ParentTaskChanged;
-        public event EventHandler<EventArgs> CloseViewEditWindow;
         public ICollection WorkUnits { get; set; }
-        public ICollection SkillsAvailable { get; set; }
-        public ICollection ChildrenTasks { get; set; }
-        
-        
+
+        public ICollection SkillsAvailable
+        {
+            set
+            {
+                ClearSkillsComboBox();
+                FillSkillsComboBox(value);
+            }
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (SaveTask != null)
                 SaveTask(this, e);
         }
-        
+
         private void removeButton_Click(object sender, EventArgs e)
         {
             if (RemoveTask != null)
                 RemoveTask(this, e);
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            if (CancelTaskEditing != null)
+                CancelTaskEditing(this, e);
+        }
+
+        private void parentTaskComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ParentTaskChanged != null)
+                ParentTaskChanged(this, e);
         }
 
         private void SelectPriority(int value)
@@ -210,9 +198,6 @@ namespace PresentationLayer.Controls
                         highPriorityRadioButton.Checked = true;
                         break;
                 }
-
-                //priorityLabel.Text = priority.Name;
-                //priorityLabel.BackColor = priority.Color;
             }
         }
 
@@ -235,16 +220,11 @@ namespace PresentationLayer.Controls
                         hardTaskRadioButton.Checked = true;
                         break;
                 }
-
-                //priorityLabel.Text = difficulty.Name;
-                //priorityLabel.BackColor = difficulty.Color;
             }
         }
 
-
         private int GetSelectedPriority()
         {
-
             if (lowPriorityRadioButton.Checked)
                 return 1;
             else if (mediumPriorityRadioButton.Checked)
@@ -267,42 +247,72 @@ namespace PresentationLayer.Controls
                 return 0;
         }
 
-        private void finishedButton_Click(object sender, EventArgs e)
+        private void ClearSkillsComboBox()
         {
-            if (FinishTask != null)
-                FinishTask(this, e);
+            skillToTrainComboBox.Items.Clear();
+        }
+        
+        private void FillSkillsComboBox(ICollection skillRowData)
+        {
+            if (skillRowData != null && skillRowData.Count > 0)
+            {
+                KeyValuePair<int, string> emptyComboItem = new KeyValuePair<int, string>(0, "");
+                skillToTrainComboBox.Items.Add(emptyComboItem);
+
+                foreach (var row in skillRowData)
+                {
+                    var cells = row as string[];
+                    if (cells != null)
+                    {
+                        string[] rowCells = cells;
+                        KeyValuePair<int, string> comboItem = new KeyValuePair<int, string>(int.Parse(rowCells[0]), rowCells[1]);
+                        skillToTrainComboBox.Items.Add(comboItem);
+                    }
+                }
+            }
         }
 
-        private void startWorkButton_Click(object sender, EventArgs e)
+        private void FillChildrenTasksList(ICollection childrenTasksRowData)
         {
-            if (StartWorkingOnTask != null)
-                StartWorkingOnTask(this, e);
-            
+            if (childrenTasksRowData != null && childrenTasksRowData.Count > 0)
+            {
+                foreach (var row in childrenTasksRowData)
+                {
+                    var rowData = row as string[];
+                    if (rowData != null && rowData.Any())
+                    {
+                        bool finished;
+                        if (rowData.Count() > 0 && bool.TryParse(rowData[1], out finished))
+                        {
+                            MetroCheckBox childTaskCheckBox = new MetroCheckBox();
+                            childTaskCheckBox.Text = rowData[0];
+                            childTaskCheckBox.Checked = finished;
+                            childTaskCheckBox.Theme = MetroThemeStyle.Dark;
+                            childTaskCheckBox.Dock = DockStyle.Top;
+                            childTaskCheckBox.Enabled = false;
+
+                            if (finished)
+                                childTaskCheckBox.Font = new Font(childTaskCheckBox.Font, FontStyle.Strikeout);
+
+                            //childrenTasksPanel.Controls.Add(childTaskCheckBox);
+                        }
+                    }
+                }
+            }
         }
 
-        private void stopWorkingButton_Click(object sender, EventArgs e)
+        private void FillParentTasksComboBox(Dictionary<int, String> parentTasks)
         {
-            if (StopWorkingOnTask != null)
-                StopWorkingOnTask(this, e);
-            
-        }
+            if (parentTasks != null && parentTasks.Count > 0)
+            {
+                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
+                parentTaskComboBox.Items.Add(emptyItem);
 
-        private void editButton_Click(object sender, EventArgs e)
-        {
-            if (EditTask != null)
-                EditTask(this, e);
-        }
-
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            if (CancelTaskEditing != null)
-                CancelTaskEditing(this, e);
-        }
-
-        private void closeEditFormButton_Click(object sender, EventArgs e)
-        {
-            if (CloseViewEditWindow != null)
-                CloseViewEditWindow(this, e);
+                foreach (var parentTask in parentTasks)
+                {
+                    parentTaskComboBox.Items.Add(parentTask);
+                }
+            }
         }
     }
 }

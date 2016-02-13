@@ -46,16 +46,16 @@ namespace BussinessLogicLayer.Presenters
             {
                 AttachEvents();
 
-                if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
-                {
-                    int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
+                //if (ApplicationSettings.Current.IsAnyUserLoggedIn && ApplicationSettings.Current.CurrentUserId.HasValue)
+                //{
+                    int currentUserId = Globals.DmitruUserId;
                     currentUser = ObtainProfile(currentUserId);
                     if (currentUser != null)
                     {
                         DisplayProfileInfo(currentUser);
                         SetDisplayMode(DisplayMode.View);
                     }
-                }
+                //}
             }
             catch (Exception e)
             {
@@ -242,7 +242,7 @@ namespace BussinessLogicLayer.Presenters
 
         public void OnViewDisplayed()
         {
-            int currentUserId = ApplicationSettings.Current.CurrentUserId.Value;
+            int currentUserId = Globals.DmitruUserId;//ApplicationSettings.Current.CurrentUserId.Value;
             currentUser = ObtainProfile(currentUserId);
             if (currentUser != null)
             {

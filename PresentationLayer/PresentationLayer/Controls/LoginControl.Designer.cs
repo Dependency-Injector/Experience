@@ -1,4 +1,4 @@
-﻿namespace PresentationLayer.Controls
+﻿namespace View.Controls
 {
     partial class LoginControl
     {

@@ -1,4 +1,4 @@
-﻿namespace PresentationLayer.Controls
+﻿namespace View.Controls
 {
     partial class MainControl
     {
@@ -30,15 +30,15 @@
         {
             this.subViewsTabControl = new MetroFramework.Controls.MetroTabControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.dayControl = new PresentationLayer.Controls.DayControl();
+            this.dayControl = new DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.todoListControl = new PresentationLayer.Controls.TodoListControl();
+            this.todoListControl = new TodoListControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.profileControl = new PresentationLayer.Controls.ProfileControl();
+            this.profileControl = new ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.historyControl = new PresentationLayer.Controls.HistoryControl();
+            this.historyControl = new HistoryControl();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.optionsControl = new PresentationLayer.Controls.OptionsControl();
+            this.optionsControl = new OptionsControl();
             this.subViewsTabControl.SuspendLayout();
             this.dayTabPage.SuspendLayout();
             this.tasksTabPage.SuspendLayout();

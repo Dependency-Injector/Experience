@@ -1,4 +1,4 @@
-﻿namespace PresentationLayer.Forms
+﻿namespace View.Forms
 {
     partial class NotificationForm
     {

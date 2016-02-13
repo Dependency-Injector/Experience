@@ -7,8 +7,8 @@
     <ProjectGuid>{25D6690D-EC3A-45B3-B23E-B8DEDF696ADE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PresentationLayer</RootNamespace>
-    <AssemblyName>PresentationLayer</AssemblyName>
+    <RootNamespace>View</RootNamespace>
+    <AssemblyName>View</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -1,19 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using BussinessLogicLayer.Enums;
-using BussinessLogicLayer.Events;
-using BussinessLogicLayer.GridRowTemplates;
-using BussinessLogicLayer.Interfaces;
-using MetroFramework;
-using MetroFramework.Controls;
-using Model.Classes;
-using Model.Enums;
-
-namespace PresentationLayer.Controls
+﻿namespace View.Forms.Old
 {
     /*public partial class TasksListControl : MetroUserControl, ITasksListView
     {

@@ -1,4 +1,4 @@
-﻿namespace PresentationLayer.Controls
+﻿namespace View.Controls
 {
     partial class TaskEditControl
     {
@@ -83,7 +83,6 @@
             this.taskEditPanel.VerticalScrollbarBarColor = true;
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskEditPanel.VerticalScrollbarSize = 10;
-            this.taskEditPanel.Visible = false;
             // 
             // hardnessTextLabel
             // 
@@ -143,6 +142,7 @@
             this.parentTaskComboBox.TabIndex = 15;
             this.parentTaskComboBox.UseSelectable = true;
             this.parentTaskComboBox.ValueMember = "Key";
+            this.parentTaskComboBox.SelectedIndexChanged += new System.EventHandler(this.parentTaskComboBox_SelectedIndexChanged);
             // 
             // skillToTrainComboBox
             // 
@@ -161,7 +161,7 @@
             // removeButton
             // 
             this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeButton.Location = new System.Drawing.Point(5, 534);
+            this.removeButton.Location = new System.Drawing.Point(11, 534);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(72, 29);
             this.removeButton.TabIndex = 13;
@@ -172,7 +172,7 @@
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(463, 534);
+            this.cancelButton.Location = new System.Drawing.Point(468, 534);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 29);
             this.cancelButton.TabIndex = 13;
@@ -183,7 +183,7 @@
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(544, 534);
+            this.saveButton.Location = new System.Drawing.Point(549, 534);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(77, 29);
             this.saveButton.TabIndex = 13;

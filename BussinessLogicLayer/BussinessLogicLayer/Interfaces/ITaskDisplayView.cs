@@ -3,23 +3,17 @@ using System.Collections;
 
 namespace BussinessLogicLayer.Interfaces
 {
-    public interface IHideable
-    {
-        bool IsVisible { set; }
-    }
-
     public interface ITaskDisplayView : IHideable
     {
         String TaskName { set; }
         String TaskDescription { set; }
-        
+        DateTime Deadline { set; }
         DateTime? FinishDate { set; }
-        String TotalWorkload { set; }
-        String TotalExperienceGained { set; }
         String AssociatedSkillName { set; }
         String ParentTaskName { set; }
-
-        ICollection WorkUnits { set; }
+        String Priority { set; }
         ICollection ChildrenTasks { set; }
+        EventHandler<EventArgs> EditTask { get; set; }
+
     }
 }

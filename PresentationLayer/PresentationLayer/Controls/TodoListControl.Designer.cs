@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using MetroFramework.Controls;
-using Model.Entities;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     partial class TodoListControl
     {
@@ -65,11 +64,11 @@ namespace PresentationLayer.Controls
             // 
             // addTaskMetroLink
             // 
-            this.addTaskMetroLink.Image = global::PresentationLayer.Properties.Resources.add_icon;
+            this.addTaskMetroLink.Image = global::View.Properties.Resources.add_icon;
             this.addTaskMetroLink.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.addTaskMetroLink.Location = new System.Drawing.Point(111, 9);
             this.addTaskMetroLink.Name = "addTaskMetroLink";
-            this.addTaskMetroLink.NoFocusImage = global::PresentationLayer.Properties.Resources.add_icon_hover;
+            this.addTaskMetroLink.NoFocusImage = global::View.Properties.Resources.add_icon_hover;
             this.addTaskMetroLink.Size = new System.Drawing.Size(91, 28);
             this.addTaskMetroLink.TabIndex = 4;
             this.addTaskMetroLink.Text = "Add";

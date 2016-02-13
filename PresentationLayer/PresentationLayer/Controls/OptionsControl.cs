@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Controls;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     public partial class OptionsControl : MetroUserControl, IOptionsView
     {

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
-namespace PresentationLayer.Controls
+namespace View.Controls
 {
     public partial class ProfileControl : MetroUserControl, IProfileView
     {

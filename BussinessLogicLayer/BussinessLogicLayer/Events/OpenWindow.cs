@@ -2,9 +2,9 @@
 
 namespace BussinessLogicLayer.Events
 {
-    public class OpenTaskDetailsWindow
+    public class OpenTaskCompositeWindow
     {
-        public OpenTaskDetailsWindow(DisplayMode displayMode, int? entityId = null)
+        public OpenTaskCompositeWindow(DisplayMode displayMode, int? entityId = null)
         {
             DisplayMode = displayMode;
             EntityId = entityId;
