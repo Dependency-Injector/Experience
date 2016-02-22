@@ -277,6 +277,7 @@ namespace BussinessLogicLayer.Presenters
             //view.FinishDate = null;
             view.WorkUnits = null;
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
+            
             view.SkillToTrainId = null;
             view.ParentTaskId = null;
         }
@@ -291,75 +292,95 @@ namespace BussinessLogicLayer.Presenters
             view.DueDate = task.DueDate;
             view.SkillsAvailable = GetSkillsRows(skillsRepository.Find(s => s.Owner.Id == Globals.DmitruUserId).ToList());
             view.SkillToTrainId = task.SkillToTrain?.Id;
+            view.ParentTasks = GetPossibleParentTasks(tasksRepository.Find(t => t.Owner.Id == Globals.DmitruUserId).ToList());
             view.ParentTaskId = task.Parent?.Id;
             view.CanBeFinished = tasksService.IsFinishingAllowed(task.Id);
             view.IsVisible = true;
 
             //DisplayWorkUnitsList(task.WorkUnits.ToList());
         }
-/*
 
-        private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
-        {
-            Task taskWorkedOn = tasksRepository.Get(workReported.Task.Id);
+        private ICollection GetPossibleParentTasks(List<Task> tasks)
+        {            
+            List<string[]> taskRows = new List<string[]>();
 
-            // Check if any skill is attached to task
-            if (taskWorkedOn.SkillToTrain != null && workReported.Duration.HasValue)
+            foreach (var task in tasks)
             {
-                Skill skillToTrain = taskWorkedOn.SkillToTrain;
-
-                // Give xp to skill TODO
-                int experienceForWorkUnit = (int)ExperienceDefaultValues.GetExperienceForWork(workReported.Duration.Value);
-                //profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
-                //historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
-
-                /#1#/ Check if skill leveled up
-                if (skillToTrain.HasReachedNewLevel())
+                string[] taskRow = new string[]
                 {
-                    // Give skill new level
-                    int skillNewLevel = skillToTrain.GetNewLevel();
-                    profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
-                    historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
-                }#1#
+                    $"{task.Id}",
+                    $"{task.Name}"
+                };
+
+                taskRows.Add(taskRow);
             }
 
+            return taskRows;
         }
 
-        private ICollection GetWorkUnitsRows(List<WorkUnit> unitsOfWork)
-        {
-            List<string[]> workUnitsRows = new List<string[]>();
+        /*
 
-            foreach (var unitOfWork in unitsOfWork)
-            {
-                if (unitOfWork.StartTime.HasValue && unitOfWork.EndTime.HasValue)
+                private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
                 {
-                    String startDate = unitOfWork.StartTime.Value.ToString("dddd, d MMMM HH:mm");
-                    String endDate = unitOfWork.EndTime.Value.ToString("dddd, d MMMM HH:mm");
-                    TimeSpan duration = new TimeSpan(0, 0, 0, unitOfWork.Duration.Value);
+                    Task taskWorkedOn = tasksRepository.Get(workReported.Task.Id);
 
-                    //if (duration.TotalMinutes < 5)
-                    //    continue;
-
-                    String durationLiteral;
-                    if (duration.TotalHours < 1)
-                        durationLiteral = $"{duration.Minutes}m";
-                    else
-                        durationLiteral = $"{duration.Hours}h {duration.Minutes}min";
-
-                    string[] taskRow = new string[]
+                    // Check if any skill is attached to task
+                    if (taskWorkedOn.SkillToTrain != null && workReported.Duration.HasValue)
                     {
-                        $"{startDate}",
-                        $"{endDate}",
-                        $"{durationLiteral}"
-                    };
+                        Skill skillToTrain = taskWorkedOn.SkillToTrain;
 
-                    workUnitsRows.Add(taskRow);
+                        // Give xp to skill TODO
+                        int experienceForWorkUnit = (int)ExperienceDefaultValues.GetExperienceForWork(workReported.Duration.Value);
+                        //profilesService.UserSkillGainedExperience(skillToTrain.Id, experienceForWorkUnit);
+                        //historyService.AddHistoryEvent(HistoryEventType.SkillExperienceGained, skillToTrain.Id, experienceForWorkUnit);
+
+                        /#1#/ Check if skill leveled up
+                        if (skillToTrain.HasReachedNewLevel())
+                        {
+                            // Give skill new level
+                            int skillNewLevel = skillToTrain.GetNewLevel();
+                            profilesService.UserSkillReachedNewLevel(skillToTrain.Id, skillNewLevel);
+                            historyService.AddHistoryEvent(HistoryEventType.SkillLevelGained, skillToTrain.Id, newLevel: skillNewLevel);
+                        }#1#
+                    }
+
                 }
-            }
 
-            return workUnitsRows;
-        }
-*/
+                private ICollection GetWorkUnitsRows(List<WorkUnit> unitsOfWork)
+                {
+                    List<string[]> workUnitsRows = new List<string[]>();
+
+                    foreach (var unitOfWork in unitsOfWork)
+                    {
+                        if (unitOfWork.StartTime.HasValue && unitOfWork.EndTime.HasValue)
+                        {
+                            String startDate = unitOfWork.StartTime.Value.ToString("dddd, d MMMM HH:mm");
+                            String endDate = unitOfWork.EndTime.Value.ToString("dddd, d MMMM HH:mm");
+                            TimeSpan duration = new TimeSpan(0, 0, 0, unitOfWork.Duration.Value);
+
+                            //if (duration.TotalMinutes < 5)
+                            //    continue;
+
+                            String durationLiteral;
+                            if (duration.TotalHours < 1)
+                                durationLiteral = $"{duration.Minutes}m";
+                            else
+                                durationLiteral = $"{duration.Hours}h {duration.Minutes}min";
+
+                            string[] taskRow = new string[]
+                            {
+                                $"{startDate}",
+                                $"{endDate}",
+                                $"{durationLiteral}"
+                            };
+
+                            workUnitsRows.Add(taskRow);
+                        }
+                    }
+
+                    return workUnitsRows;
+                }
+        */
 
         private ICollection GetSkillsRows(List<Skill> skills)
         {

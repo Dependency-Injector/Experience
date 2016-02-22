@@ -57,16 +57,13 @@ namespace View.Forms
             builder.RegisterInstance(this.mainControl.HistoryView).As<IHistoryView>();
             builder.RegisterInstance(this.mainControl.OptionsView).As<IOptionsView>();
             builder.RegisterInstance(this.notificationForm).As<INotificationView>();
-
-
+            
             builder.RegisterInstance(this.taskCompositeForm).As<ITaskCompositeView>();
             builder.RegisterInstance(this.taskCompositeForm.TaskEditView).As<ITaskEditView>();
             builder.RegisterInstance(this.taskCompositeForm.TaskDisplayView).As<ITaskDisplayView>();
             
-
             builder.RegisterInstance(this.broker).As<IPublisher>();
             builder.RegisterInstance(this.broker).As<ISubscriber>();
-            //builder.RegisterInstance()
 
             #endregion
 
@@ -174,6 +171,7 @@ namespace View.Forms
 
             builder.Register(
                 c => new TaskCompositePresenter(
+                    c.Resolve<ITaskCompositeView>(),
                     c.Resolve<ITaskDisplayView>(),
                     c.Resolve<ITaskEditView>(),
                     c.Resolve<ITasksRepository>(),                    

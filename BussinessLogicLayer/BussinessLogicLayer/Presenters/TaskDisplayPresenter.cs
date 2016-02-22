@@ -38,10 +38,10 @@ namespace BussinessLogicLayer.Presenters
             }
         }
 
-        public void DisplayTaskDetails(Task task)
+        private void DisplayTaskDetails(Task task)
         {
             view.TaskName = task.Name;
-            view.TaskDescription = task.Description;
+            view.TaskDescription = !String.IsNullOrEmpty(task.Description) ? task.Description : "-";
             view.Deadline = task.DueDate.Value;
             view.AssociatedSkillName = task.SkillToTrain != null ? task.SkillToTrain.Name : "-";
             view.ParentTaskName = task.Parent != null ? task.Parent.Name : "-";

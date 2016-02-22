@@ -68,7 +68,7 @@ namespace View.Forms
             //this.taskEditControl.ParentTaskName = null;
             this.taskEditControl.Priority = 0;
             this.taskEditControl.Size = new System.Drawing.Size(723, 588);
-            this.taskEditControl.SkillsAvailable = null;
+            //this.taskEditControl.SkillsAvailable = null;
             this.taskEditControl.SkillToTrainId = null;
             this.taskEditControl.TabIndex = 3;
             this.taskEditControl.TaskDescription = "Description";

@@ -24,5 +24,6 @@ namespace BussinessLogicLayer.Interfaces
 
         ICollection WorkUnits { set; }
         ICollection SkillsAvailable { set; }
+        ICollection ParentTasks { set; }
     }
 }

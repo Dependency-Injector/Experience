@@ -19,6 +19,7 @@ namespace BussinessLogicLayer.Presenters
     {
         private readonly ITaskEditView editView;
         private readonly ITaskDisplayView displayView;
+        private readonly ITaskCompositeView compositeView;
 
         private TaskDisplayPresenter taskDisplayPresenter;
         private TaskEditPresenter taskEditPresenter;
@@ -28,14 +29,12 @@ namespace BussinessLogicLayer.Presenters
         private readonly IPublisher publisher;
         private readonly ISubscriber subscriber;
 
-        private bool isTaskNew = true;
-        private Task task;
         private int taskId = 0;
-        private WorkUnit currentWorkUnit;
 
-        public TaskCompositePresenter(ITaskDisplayView displayView, ITaskEditView editView, ITasksRepository tasksRepository,
+        public TaskCompositePresenter(ITaskCompositeView compositeView, ITaskDisplayView displayView, ITaskEditView editView, ITasksRepository tasksRepository,
             IPublisher publisher, ISubscriber subscriber, TaskDisplayPresenter taskDisplayPresenter, TaskEditPresenter taskEditPresenter)
         {
+            this.compositeView = compositeView;
             this.displayView = displayView;
             this.editView = editView;
 
@@ -81,44 +80,60 @@ namespace BussinessLogicLayer.Presenters
         {
             SetDisplayMode(DisplayMode.View);
         }
-        
-/*
 
-        private void CloseViewEditWindow(object sender, EventArgs e)
+        private void SetDisplayMode(DisplayMode displayMode)
         {
-            //SetDisplayMode(DisplayMode.View);
-
-            publisher.Publish(new WindowClosed(WindowType.TaskViewEdit));
+            if (displayMode == DisplayMode.Edit)
+            {
+                compositeView.Title = "Edit task";
+                taskDisplayPresenter.HideView();
+                taskEditPresenter.ShowView();
+            }
+            else if (displayMode == DisplayMode.View)
+            {
+                compositeView.Title = "Task details";
+                taskDisplayPresenter.ShowView();
+                taskEditPresenter.HideView();
+            }
         }
 
-        private void Remove(object sender, EventArgs e)
-        {
-            if (isTaskNew)
-            {
-                //MessageBox.Show("This task is not saved yet, so it can't be deleted");
-                return;
-            }
+        /*
+
+                private void CloseViewEditWindow(object sender, EventArgs e)
+                {
+                    //SetDisplayMode(DisplayMode.View);
+
+                    publisher.Publish(new WindowClosed(WindowType.TaskViewEdit));
+                }
+
+                private void Remove(object sender, EventArgs e)
+                {
+                    if (isTaskNew)
+                    {
+                        //MessageBox.Show("This task is not saved yet, so it can't be deleted");
+                        return;
+                    }
 
 
-            if (task == null)
-            {
-                // MessageBox.Show("No task to remove");
-                return;
-            }
-            else
-            {
-                // DialogResult taskDeleteConfirmation = MessageBox.Show("Delete task '{0}'?", "Confirm deletion", MessageBoxButtons.YesNo);
-                //if (taskDeleteConfirmation == DialogResult.No)
-                //     return;
-            }
+                    if (task == null)
+                    {
+                        // MessageBox.Show("No task to remove");
+                        return;
+                    }
+                    else
+                    {
+                        // DialogResult taskDeleteConfirmation = MessageBox.Show("Delete task '{0}'?", "Confirm deletion", MessageBoxButtons.YesNo);
+                        //if (taskDeleteConfirmation == DialogResult.No)
+                        //     return;
+                    }
 
-            tasksRepository.Delete(task);
-            //historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
+                    tasksRepository.Delete(task);
+                    //historyService.AddHistoryEvent(HistoryEventType.TaskRemoved, task.Id);
 
-            //view.IsVisible = false;
-        }
+                    //view.IsVisible = false;
+                }
 
-*/
+        */
 
 
         /*private void Save(object sender, EventArgs e)
@@ -355,20 +370,7 @@ namespace BussinessLogicLayer.Presenters
             DisplayWorkUnitsList(task.WorkUnits.ToList());
         }*/
 
-        private void SetDisplayMode(DisplayMode displayMode)
-        {
-            if (displayMode == DisplayMode.Edit)
-            {
-                taskDisplayPresenter.HideView();
-                taskEditPresenter.ShowView();
-            }
-            else if (displayMode == DisplayMode.View)
-            {
 
-                taskDisplayPresenter.ShowView();
-                taskEditPresenter.HideView();
-            }
-        }
 
         private void DevelopPlayerSkillByWorkingOnTask(WorkUnit workReported)
         {

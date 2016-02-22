@@ -156,6 +156,21 @@ namespace View.Controls
             }
         }
 
+        public ICollection ParentTasks
+        {
+            set
+            {
+                ClearParentTasksComboBox();
+                FillParentTasksComboBox(value);
+            }
+        }
+
+        private void ClearParentTasksComboBox()
+        {
+            parentTaskComboBox.Items.Clear();
+
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (SaveTask != null)
@@ -301,14 +316,14 @@ namespace View.Controls
             }
         }
 
-        private void FillParentTasksComboBox(Dictionary<int, String> parentTasks)
+        private void FillParentTasksComboBox(ICollection parentTasksData)
         {
-            if (parentTasks != null && parentTasks.Count > 0)
+            if (parentTasksData != null && parentTasksData.Count > 0)
             {
                 KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
                 parentTaskComboBox.Items.Add(emptyItem);
 
-                foreach (var parentTask in parentTasks)
+                foreach (var parentTask in parentTasksData)
                 {
                     parentTaskComboBox.Items.Add(parentTask);
                 }
