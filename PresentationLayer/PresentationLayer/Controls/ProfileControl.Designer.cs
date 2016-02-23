@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.nameLabel = new MetroFramework.Controls.MetroLabel();
             this.ageTextLabel = new MetroFramework.Controls.MetroLabel();
             this.historyTextLabel = new MetroFramework.Controls.MetroLabel();
@@ -55,6 +55,7 @@
             this.profileRelatedEventsGrid = new MetroFramework.Controls.MetroGrid();
             this.cancelChangesButton = new MetroFramework.Controls.MetroButton();
             this.profileInfoPanel = new MetroFramework.Controls.MetroPanel();
+            this.showProfileHistoryButton = new MetroFramework.Controls.MetroButton();
             this.skillsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).BeginInit();
             this.addNewSkillPanel.SuspendLayout();
@@ -123,7 +124,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.experienceProgressBar.Location = new System.Drawing.Point(7, 171);
             this.experienceProgressBar.Name = "experienceProgressBar";
-            this.experienceProgressBar.Size = new System.Drawing.Size(469, 23);
+            this.experienceProgressBar.Size = new System.Drawing.Size(533, 23);
             this.experienceProgressBar.TabIndex = 1;
             // 
             // historyLabel
@@ -164,8 +165,8 @@
             // 
             // skillsPanel
             // 
-            this.skillsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.skillsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.skillsPanel.Controls.Add(this.skillsTextLabel);
             this.skillsPanel.Controls.Add(this.skillsGrid);
             this.skillsPanel.Controls.Add(this.addNewSkillPanel);
@@ -174,7 +175,7 @@
             this.skillsPanel.HorizontalScrollbarSize = 10;
             this.skillsPanel.Location = new System.Drawing.Point(3, 211);
             this.skillsPanel.Name = "skillsPanel";
-            this.skillsPanel.Size = new System.Drawing.Size(479, 308);
+            this.skillsPanel.Size = new System.Drawing.Size(543, 219);
             this.skillsPanel.TabIndex = 2;
             this.skillsPanel.VerticalScrollbarBarColor = true;
             this.skillsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -185,31 +186,32 @@
             this.skillsGrid.AllowUserToAddRows = false;
             this.skillsGrid.AllowUserToDeleteRows = false;
             this.skillsGrid.AllowUserToResizeRows = false;
-            this.skillsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.skillsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.skillsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.skillsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.skillsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.skillsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.skillsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.skillsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.skillsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.skillsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.skillsGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle20.Padding = new System.Windows.Forms.Padding(5);
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.skillsGrid.DefaultCellStyle = dataGridViewCellStyle20;
             this.skillsGrid.EnableHeadersVisualStyles = false;
             this.skillsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.skillsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -217,33 +219,34 @@
             this.skillsGrid.Name = "skillsGrid";
             this.skillsGrid.ReadOnly = true;
             this.skillsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.skillsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.skillsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.skillsGrid.RowHeadersVisible = false;
             this.skillsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.skillsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.skillsGrid.Size = new System.Drawing.Size(469, 243);
+            this.skillsGrid.Size = new System.Drawing.Size(533, 154);
             this.skillsGrid.TabIndex = 2;
             this.skillsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.skillsGrid_DataBindingComplete);
             this.skillsGrid.SelectionChanged += new System.EventHandler(this.skillsGrid_SelectionChanged);
             // 
             // addNewSkillPanel
             // 
-            this.addNewSkillPanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.addNewSkillPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.addNewSkillPanel.Controls.Add(this.addNewSkillButton);
             this.addNewSkillPanel.Controls.Add(this.newSkillNameTextBox);
             this.addNewSkillPanel.HorizontalScrollbarBarColor = true;
             this.addNewSkillPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.addNewSkillPanel.HorizontalScrollbarSize = 10;
-            this.addNewSkillPanel.Location = new System.Drawing.Point(3, 275);
+            this.addNewSkillPanel.Location = new System.Drawing.Point(3, 186);
             this.addNewSkillPanel.Name = "addNewSkillPanel";
-            this.addNewSkillPanel.Size = new System.Drawing.Size(473, 30);
+            this.addNewSkillPanel.Size = new System.Drawing.Size(537, 30);
             this.addNewSkillPanel.TabIndex = 6;
             this.addNewSkillPanel.VerticalScrollbarBarColor = true;
             this.addNewSkillPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -251,7 +254,8 @@
             // 
             // addNewSkillButton
             // 
-            this.addNewSkillButton.Location = new System.Drawing.Point(360, 3);
+            this.addNewSkillButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.addNewSkillButton.Location = new System.Drawing.Point(424, 3);
             this.addNewSkillButton.Name = "addNewSkillButton";
             this.addNewSkillButton.Size = new System.Drawing.Size(113, 23);
             this.addNewSkillButton.TabIndex = 5;
@@ -261,11 +265,13 @@
             // 
             // newSkillNameTextBox
             // 
+            this.newSkillNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
             this.newSkillNameTextBox.CustomButton.Image = null;
-            this.newSkillNameTextBox.CustomButton.Location = new System.Drawing.Point(331, 1);
+            this.newSkillNameTextBox.CustomButton.Location = new System.Drawing.Point(395, 1);
             this.newSkillNameTextBox.CustomButton.Name = "";
             this.newSkillNameTextBox.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.newSkillNameTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -283,7 +289,7 @@
             this.newSkillNameTextBox.SelectedText = "";
             this.newSkillNameTextBox.SelectionLength = 0;
             this.newSkillNameTextBox.SelectionStart = 0;
-            this.newSkillNameTextBox.Size = new System.Drawing.Size(353, 23);
+            this.newSkillNameTextBox.Size = new System.Drawing.Size(417, 23);
             this.newSkillNameTextBox.TabIndex = 4;
             this.newSkillNameTextBox.Text = "(New skil name)";
             this.newSkillNameTextBox.UseSelectable = true;
@@ -303,8 +309,8 @@
             // 
             // saveChangesButton
             // 
-            this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.saveChangesButton.Location = new System.Drawing.Point(373, 525);
+            this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveChangesButton.Location = new System.Drawing.Point(437, 525);
             this.saveChangesButton.Name = "saveChangesButton";
             this.saveChangesButton.Size = new System.Drawing.Size(106, 30);
             this.saveChangesButton.TabIndex = 2;
@@ -325,48 +331,48 @@
             this.profileRelatedEventsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.profileRelatedEventsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.profileRelatedEventsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.profileRelatedEventsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.profileRelatedEventsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.profileRelatedEventsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.profileRelatedEventsGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.profileRelatedEventsGrid.DefaultCellStyle = dataGridViewCellStyle23;
             this.profileRelatedEventsGrid.EnableHeadersVisualStyles = false;
             this.profileRelatedEventsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.profileRelatedEventsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.profileRelatedEventsGrid.Location = new System.Drawing.Point(504, 9);
+            this.profileRelatedEventsGrid.Location = new System.Drawing.Point(6, 433);
             this.profileRelatedEventsGrid.Name = "profileRelatedEventsGrid";
             this.profileRelatedEventsGrid.ReadOnly = true;
             this.profileRelatedEventsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.profileRelatedEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.profileRelatedEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.profileRelatedEventsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.profileRelatedEventsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(513, 510);
+            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(537, 86);
             this.profileRelatedEventsGrid.TabIndex = 3;
             this.profileRelatedEventsGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.profileRelatedEventsGrid_DataBindingComplete);
             // 
             // cancelChangesButton
             // 
-            this.cancelChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cancelChangesButton.Location = new System.Drawing.Point(261, 525);
+            this.cancelChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelChangesButton.Location = new System.Drawing.Point(325, 525);
             this.cancelChangesButton.Name = "cancelChangesButton";
             this.cancelChangesButton.Size = new System.Drawing.Size(106, 30);
             this.cancelChangesButton.TabIndex = 2;
@@ -376,6 +382,8 @@
             // 
             // profileInfoPanel
             // 
+            this.profileInfoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.profileInfoPanel.Controls.Add(this.ageLabel);
             this.profileInfoPanel.Controls.Add(this.nameLabel);
             this.profileInfoPanel.Controls.Add(this.ageTextLabel);
@@ -391,24 +399,36 @@
             this.profileInfoPanel.HorizontalScrollbarSize = 10;
             this.profileInfoPanel.Location = new System.Drawing.Point(3, 3);
             this.profileInfoPanel.Name = "profileInfoPanel";
-            this.profileInfoPanel.Size = new System.Drawing.Size(479, 202);
+            this.profileInfoPanel.Size = new System.Drawing.Size(543, 202);
             this.profileInfoPanel.TabIndex = 7;
             this.profileInfoPanel.VerticalScrollbarBarColor = true;
             this.profileInfoPanel.VerticalScrollbarHighlightOnWheel = false;
             this.profileInfoPanel.VerticalScrollbarSize = 10;
             // 
+            // showProfileHistoryButton
+            // 
+            this.showProfileHistoryButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.showProfileHistoryButton.Location = new System.Drawing.Point(116, 525);
+            this.showProfileHistoryButton.Name = "showProfileHistoryButton";
+            this.showProfileHistoryButton.Size = new System.Drawing.Size(106, 30);
+            this.showProfileHistoryButton.TabIndex = 2;
+            this.showProfileHistoryButton.Text = "Show history";
+            this.showProfileHistoryButton.UseSelectable = true;
+            this.showProfileHistoryButton.Click += new System.EventHandler(this.showProfileHistoryButton_Click);
+            // 
             // ProfileControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.profileInfoPanel);
             this.Controls.Add(this.profileRelatedEventsGrid);
+            this.Controls.Add(this.profileInfoPanel);
             this.Controls.Add(this.cancelChangesButton);
             this.Controls.Add(this.saveChangesButton);
+            this.Controls.Add(this.showProfileHistoryButton);
             this.Controls.Add(this.editProfileButton);
             this.Controls.Add(this.skillsPanel);
             this.Name = "ProfileControl";
-            this.Size = new System.Drawing.Size(1031, 557);
+            this.Size = new System.Drawing.Size(550, 557);
             this.skillsPanel.ResumeLayout(false);
             this.skillsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.skillsGrid)).EndInit();
@@ -443,5 +463,6 @@
         private MetroFramework.Controls.MetroPanel addNewSkillPanel;
         private MetroFramework.Controls.MetroButton cancelChangesButton;
         private MetroFramework.Controls.MetroPanel profileInfoPanel;
+        private MetroFramework.Controls.MetroButton showProfileHistoryButton;
     }
 }

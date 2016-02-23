@@ -70,6 +70,7 @@
     <Compile Include="Events\ISubscriber.cs" />
     <Compile Include="Events\OpenWindow.cs" />
     <Compile Include="Events\ShowNotificationEventArgs.cs" />
+    <Compile Include="Events\ViewHidden.cs" />
     <Compile Include="Events\WindowClosed.cs" />
     <Compile Include="GridRowTemplates\TaskGridItem.cs" />
     <Compile Include="Interfaces\IDayView.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Interfaces\INotificationView.cs" />
     <Compile Include="Interfaces\IOptionsView.cs" />
     <Compile Include="Interfaces\IHistoryView.cs" />
+    <Compile Include="Interfaces\IProfileHistoryView.cs" />
     <Compile Include="Interfaces\IProfileView.cs" />
     <Compile Include="Interfaces\ITaskDisplayView.cs" />
     <Compile Include="Interfaces\ITaskCompositeView.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Presenters\NotificationPresenter.cs" />
     <Compile Include="Presenters\OptionsPresenter.cs" />
     <Compile Include="Presenters\DayPresenter.cs" />
+    <Compile Include="Presenters\ProfileHistoryPresenter.cs" />
     <Compile Include="Presenters\ProfilePresenter.cs" />
     <Compile Include="Presenters\TaskCompositePresenter.cs" />
     <Compile Include="Presenters\TaskDisplayPresenter.cs" />

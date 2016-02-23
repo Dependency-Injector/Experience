@@ -1,9 +1,8 @@
 
 namespace BussinessLogicLayer.Interfaces
 {
-    public interface ITaskCompositeView
+    public interface ITaskCompositeView : IHideable
     {
         string Title { set; }
-        //EventHandler 
     }
 }

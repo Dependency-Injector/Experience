@@ -6,6 +6,6 @@
     /// <typeparam name="T"></typeparam>
     public interface ICanHandle<in T>
     {
-        void Handle(T eventData);
+        void Handle(T openCompositeTaskWindowEventArgs);
     }
 }

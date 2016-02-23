@@ -39,7 +39,7 @@
             this.removeButton = new MetroFramework.Controls.MetroButton();
             this.cancelButton = new MetroFramework.Controls.MetroButton();
             this.saveButton = new MetroFramework.Controls.MetroButton();
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.hardnessPanel = new MetroFramework.Controls.MetroPanel();
             this.hardTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
             this.normalTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
             this.easyTaskRadioButton = new MetroFramework.Controls.MetroRadioButton();
@@ -51,7 +51,7 @@
             this.dueDateTime = new MetroFramework.Controls.MetroDateTime();
             this.nameTextBox = new MetroFramework.Controls.MetroTextBox();
             this.taskEditPanel.SuspendLayout();
-            this.metroPanel1.SuspendLayout();
+            this.hardnessPanel.SuspendLayout();
             this.priorityPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +67,7 @@
             this.taskEditPanel.Controls.Add(this.removeButton);
             this.taskEditPanel.Controls.Add(this.cancelButton);
             this.taskEditPanel.Controls.Add(this.saveButton);
-            this.taskEditPanel.Controls.Add(this.metroPanel1);
+            this.taskEditPanel.Controls.Add(this.hardnessPanel);
             this.taskEditPanel.Controls.Add(this.descriptionTextBox);
             this.taskEditPanel.Controls.Add(this.priorityPanel);
             this.taskEditPanel.Controls.Add(this.dueDateTime);
@@ -78,7 +78,7 @@
             this.taskEditPanel.HorizontalScrollbarSize = 10;
             this.taskEditPanel.Location = new System.Drawing.Point(0, 0);
             this.taskEditPanel.Name = "taskEditPanel";
-            this.taskEditPanel.Size = new System.Drawing.Size(644, 570);
+            this.taskEditPanel.Size = new System.Drawing.Size(577, 438);
             this.taskEditPanel.TabIndex = 7;
             this.taskEditPanel.VerticalScrollbarBarColor = true;
             this.taskEditPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -138,7 +138,7 @@
             this.parentTaskComboBox.ItemHeight = 23;
             this.parentTaskComboBox.Location = new System.Drawing.Point(253, 245);
             this.parentTaskComboBox.Name = "parentTaskComboBox";
-            this.parentTaskComboBox.Size = new System.Drawing.Size(373, 29);
+            this.parentTaskComboBox.Size = new System.Drawing.Size(306, 29);
             this.parentTaskComboBox.TabIndex = 15;
             this.parentTaskComboBox.UseSelectable = true;
             this.parentTaskComboBox.ValueMember = "Key";
@@ -153,7 +153,7 @@
             this.skillToTrainComboBox.ItemHeight = 23;
             this.skillToTrainComboBox.Location = new System.Drawing.Point(253, 202);
             this.skillToTrainComboBox.Name = "skillToTrainComboBox";
-            this.skillToTrainComboBox.Size = new System.Drawing.Size(373, 29);
+            this.skillToTrainComboBox.Size = new System.Drawing.Size(306, 29);
             this.skillToTrainComboBox.TabIndex = 15;
             this.skillToTrainComboBox.UseSelectable = true;
             this.skillToTrainComboBox.ValueMember = "Key";
@@ -161,7 +161,7 @@
             // removeButton
             // 
             this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeButton.Location = new System.Drawing.Point(11, 534);
+            this.removeButton.Location = new System.Drawing.Point(11, 402);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(72, 29);
             this.removeButton.TabIndex = 13;
@@ -172,7 +172,7 @@
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(468, 534);
+            this.cancelButton.Location = new System.Drawing.Point(401, 402);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 29);
             this.cancelButton.TabIndex = 13;
@@ -183,7 +183,7 @@
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(549, 534);
+            this.saveButton.Location = new System.Drawing.Point(482, 402);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(77, 29);
             this.saveButton.TabIndex = 13;
@@ -191,23 +191,23 @@
             this.saveButton.UseSelectable = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // metroPanel1
+            // hardnessPanel
             // 
-            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.hardnessPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroPanel1.Controls.Add(this.hardTaskRadioButton);
-            this.metroPanel1.Controls.Add(this.normalTaskRadioButton);
-            this.metroPanel1.Controls.Add(this.easyTaskRadioButton);
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(337, 289);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(227, 69);
-            this.metroPanel1.TabIndex = 11;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.hardnessPanel.Controls.Add(this.hardTaskRadioButton);
+            this.hardnessPanel.Controls.Add(this.normalTaskRadioButton);
+            this.hardnessPanel.Controls.Add(this.easyTaskRadioButton);
+            this.hardnessPanel.HorizontalScrollbarBarColor = true;
+            this.hardnessPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.hardnessPanel.HorizontalScrollbarSize = 10;
+            this.hardnessPanel.Location = new System.Drawing.Point(337, 289);
+            this.hardnessPanel.Name = "hardnessPanel";
+            this.hardnessPanel.Size = new System.Drawing.Size(222, 69);
+            this.hardnessPanel.TabIndex = 11;
+            this.hardnessPanel.VerticalScrollbarBarColor = true;
+            this.hardnessPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.hardnessPanel.VerticalScrollbarSize = 10;
             // 
             // hardTaskRadioButton
             // 
@@ -247,7 +247,7 @@
             // 
             // 
             this.descriptionTextBox.CustomButton.Image = null;
-            this.descriptionTextBox.CustomButton.Location = new System.Drawing.Point(530, 2);
+            this.descriptionTextBox.CustomButton.Location = new System.Drawing.Point(463, 2);
             this.descriptionTextBox.CustomButton.Name = "";
             this.descriptionTextBox.CustomButton.Size = new System.Drawing.Size(83, 83);
             this.descriptionTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -266,7 +266,7 @@
             this.descriptionTextBox.SelectedText = "";
             this.descriptionTextBox.SelectionLength = 0;
             this.descriptionTextBox.SelectionStart = 0;
-            this.descriptionTextBox.Size = new System.Drawing.Size(616, 88);
+            this.descriptionTextBox.Size = new System.Drawing.Size(549, 88);
             this.descriptionTextBox.TabIndex = 12;
             this.descriptionTextBox.Text = "Description";
             this.descriptionTextBox.UseSelectable = true;
@@ -275,8 +275,6 @@
             // 
             // priorityPanel
             // 
-            this.priorityPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.priorityPanel.Controls.Add(this.highPriorityRadioButton);
             this.priorityPanel.Controls.Add(this.mediumPriorityRadioButton);
             this.priorityPanel.Controls.Add(this.lowPriorityRadioButton);
@@ -285,7 +283,7 @@
             this.priorityPanel.HorizontalScrollbarSize = 10;
             this.priorityPanel.Location = new System.Drawing.Point(105, 289);
             this.priorityPanel.Name = "priorityPanel";
-            this.priorityPanel.Size = new System.Drawing.Size(63, 69);
+            this.priorityPanel.Size = new System.Drawing.Size(142, 69);
             this.priorityPanel.TabIndex = 11;
             this.priorityPanel.VerticalScrollbarBarColor = true;
             this.priorityPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -328,7 +326,7 @@
             this.dueDateTime.Location = new System.Drawing.Point(253, 159);
             this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
             this.dueDateTime.Name = "dueDateTime";
-            this.dueDateTime.Size = new System.Drawing.Size(230, 29);
+            this.dueDateTime.Size = new System.Drawing.Size(306, 29);
             this.dueDateTime.TabIndex = 10;
             // 
             // nameTextBox
@@ -339,7 +337,7 @@
             // 
             // 
             this.nameTextBox.CustomButton.Image = null;
-            this.nameTextBox.CustomButton.Location = new System.Drawing.Point(595, 2);
+            this.nameTextBox.CustomButton.Location = new System.Drawing.Point(528, 2);
             this.nameTextBox.CustomButton.Name = "";
             this.nameTextBox.CustomButton.Size = new System.Drawing.Size(17, 17);
             this.nameTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -357,7 +355,7 @@
             this.nameTextBox.SelectedText = "";
             this.nameTextBox.SelectionLength = 0;
             this.nameTextBox.SelectionStart = 0;
-            this.nameTextBox.Size = new System.Drawing.Size(615, 22);
+            this.nameTextBox.Size = new System.Drawing.Size(548, 22);
             this.nameTextBox.TabIndex = 14;
             this.nameTextBox.Text = "Name";
             this.nameTextBox.UseSelectable = true;
@@ -370,11 +368,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.taskEditPanel);
             this.Name = "TaskEditControl";
-            this.Size = new System.Drawing.Size(644, 570);
+            this.Size = new System.Drawing.Size(577, 438);
             this.taskEditPanel.ResumeLayout(false);
             this.taskEditPanel.PerformLayout();
-            this.metroPanel1.ResumeLayout(false);
-            this.metroPanel1.PerformLayout();
+            this.hardnessPanel.ResumeLayout(false);
+            this.hardnessPanel.PerformLayout();
             this.priorityPanel.ResumeLayout(false);
             this.priorityPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -394,7 +392,7 @@
         private MetroFramework.Controls.MetroButton removeButton;
         private MetroFramework.Controls.MetroButton cancelButton;
         private MetroFramework.Controls.MetroButton saveButton;
-        private MetroFramework.Controls.MetroPanel metroPanel1;
+        private MetroFramework.Controls.MetroPanel hardnessPanel;
         private MetroFramework.Controls.MetroRadioButton hardTaskRadioButton;
         private MetroFramework.Controls.MetroRadioButton normalTaskRadioButton;
         private MetroFramework.Controls.MetroRadioButton easyTaskRadioButton;

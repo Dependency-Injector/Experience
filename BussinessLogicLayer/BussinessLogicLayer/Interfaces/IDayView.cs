@@ -18,6 +18,7 @@ namespace BussinessLogicLayer.Interfaces
         bool ShowPreviousDayButton { set; }
         bool ShowEditButton { set; }
         bool ShowSaveChangesButton { set; }
+        bool ShowCancelChangesButton { set; }
         bool ThoughtsTextBoxEnabled { set; }
         bool SelectingControlsEnabled { set; }
 
@@ -25,6 +26,7 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> EditDay;
         event EventHandler<EventArgs> ShowPreviousDay;
         event EventHandler<EventArgs> ShowNextDay;
+        event EventHandler<EventArgs> CancelChanges;
         event EventHandler<DateTime> DateChanged;
         event EventHandler<int> EntrySelected;
     }

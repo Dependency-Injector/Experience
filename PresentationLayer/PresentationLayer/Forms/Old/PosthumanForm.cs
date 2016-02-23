@@ -186,7 +186,8 @@ namespace View.Forms.Old
                         c.Resolve<IHistoryEventsRepository>(),
                         c.Resolve<ISkillsService>(),
                         c.Resolve<IImprovementsRepository>(),
-                        c.Resolve<IImprovementsService>()));
+                        c.Resolve<IImprovementsService>(),
+                        c.Resolve<IPublisher>()));
 
             builder.Register(
                 c =>

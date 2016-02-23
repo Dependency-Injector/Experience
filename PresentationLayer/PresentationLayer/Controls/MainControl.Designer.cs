@@ -30,15 +30,15 @@
         {
             this.subViewsTabControl = new MetroFramework.Controls.MetroTabControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.dayControl = new DayControl();
+            this.dayControl = new View.Controls.DayControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.todoListControl = new TodoListControl();
+            this.todoListControl = new View.Controls.TodoListControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.profileControl = new ProfileControl();
+            this.profileControl = new View.Controls.ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.historyControl = new HistoryControl();
+            this.historyControl = new View.Controls.HistoryControl();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.optionsControl = new OptionsControl();
+            this.optionsControl = new View.Controls.OptionsControl();
             this.subViewsTabControl.SuspendLayout();
             this.dayTabPage.SuspendLayout();
             this.tasksTabPage.SuspendLayout();
@@ -57,7 +57,7 @@
             this.subViewsTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.subViewsTabControl.Location = new System.Drawing.Point(0, 0);
             this.subViewsTabControl.Name = "subViewsTabControl";
-            this.subViewsTabControl.SelectedIndex = 1;
+            this.subViewsTabControl.SelectedIndex = 2;
             this.subViewsTabControl.Size = new System.Drawing.Size(720, 600);
             this.subViewsTabControl.TabIndex = 2;
             this.subViewsTabControl.UseSelectable = true;
@@ -74,7 +74,7 @@
             this.dayTabPage.Location = new System.Drawing.Point(4, 38);
             this.dayTabPage.Name = "dayTabPage";
             this.dayTabPage.Padding = new System.Windows.Forms.Padding(25);
-            this.dayTabPage.Size = new System.Drawing.Size(678, 558);
+            this.dayTabPage.Size = new System.Drawing.Size(712, 558);
             this.dayTabPage.TabIndex = 4;
             this.dayTabPage.Text = "Memories";
             this.dayTabPage.VerticalScrollbar = true;
@@ -88,9 +88,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dayControl.ChoosenEntryId = null;
-            this.dayControl.Location = new System.Drawing.Point(28, 28);
+            this.dayControl.Location = new System.Drawing.Point(10, 10);
             this.dayControl.Name = "dayControl";
-            this.dayControl.Size = new System.Drawing.Size(611, 505);
+            this.dayControl.Size = new System.Drawing.Size(692, 538);
             this.dayControl.TabIndex = 2;
             this.dayControl.Thoughts = "[Thoughts]";
             this.dayControl.UseSelectable = true;
@@ -116,7 +116,9 @@
             // 
             // todoListControl
             // 
-            this.todoListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.todoListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.todoListControl.Location = new System.Drawing.Point(10, 10);
             this.todoListControl.Name = "todoListControl";
             this.todoListControl.Size = new System.Drawing.Size(692, 538);
@@ -134,7 +136,7 @@
             this.profileTabPage.Location = new System.Drawing.Point(4, 38);
             this.profileTabPage.Name = "profileTabPage";
             this.profileTabPage.Padding = new System.Windows.Forms.Padding(5);
-            this.profileTabPage.Size = new System.Drawing.Size(678, 558);
+            this.profileTabPage.Size = new System.Drawing.Size(712, 558);
             this.profileTabPage.TabIndex = 1;
             this.profileTabPage.Text = "Profile";
             this.profileTabPage.VerticalScrollbar = true;
@@ -147,17 +149,17 @@
             this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.profileControl.BirthDate = new System.DateTime(2016, 2, 5, 0, 58, 21, 108);
+            this.profileControl.BirthDate = new System.DateTime(2016, 2, 23, 3, 6, 49, 478);
             this.profileControl.Experience = "(Experience Value)";
             this.profileControl.History = "(History Value)";
             this.profileControl.Level = 0;
             this.profileControl.LevelProgress = 0;
-            this.profileControl.Location = new System.Drawing.Point(5, 8);
+            this.profileControl.Location = new System.Drawing.Point(10, 10);
             this.profileControl.Name = "profileControl";
             this.profileControl.NewSkillName = "(New skil name)";
             this.profileControl.PlayerName = "profileControl";
             this.profileControl.SelectedSkill = null;
-            this.profileControl.Size = new System.Drawing.Size(670, 542);
+            this.profileControl.Size = new System.Drawing.Size(692, 538);
             this.profileControl.TabIndex = 1;
             this.profileControl.UseSelectable = true;
             // 
@@ -170,7 +172,7 @@
             this.historyTabPage.Location = new System.Drawing.Point(4, 38);
             this.historyTabPage.Name = "historyTabPage";
             this.historyTabPage.Padding = new System.Windows.Forms.Padding(25);
-            this.historyTabPage.Size = new System.Drawing.Size(678, 558);
+            this.historyTabPage.Size = new System.Drawing.Size(712, 558);
             this.historyTabPage.TabIndex = 3;
             this.historyTabPage.Text = "History";
             this.historyTabPage.VerticalScrollbarBarColor = true;
@@ -186,9 +188,9 @@
             this.historyControl.DisplayProfileAndSkillsEvents = true;
             this.historyControl.DisplayTaskEvents = true;
             this.historyControl.DisplayWorkUnitEvents = true;
-            this.historyControl.Location = new System.Drawing.Point(28, 28);
+            this.historyControl.Location = new System.Drawing.Point(10, 10);
             this.historyControl.Name = "historyControl";
-            this.historyControl.Size = new System.Drawing.Size(231, 343);
+            this.historyControl.Size = new System.Drawing.Size(692, 538);
             this.historyControl.TabIndex = 2;
             this.historyControl.UseSelectable = true;
             // 
@@ -203,7 +205,7 @@
             this.optionsTabPage.Location = new System.Drawing.Point(4, 38);
             this.optionsTabPage.Name = "optionsTabPage";
             this.optionsTabPage.Padding = new System.Windows.Forms.Padding(25);
-            this.optionsTabPage.Size = new System.Drawing.Size(678, 558);
+            this.optionsTabPage.Size = new System.Drawing.Size(712, 558);
             this.optionsTabPage.TabIndex = 2;
             this.optionsTabPage.Text = "Options";
             this.optionsTabPage.VerticalScrollbar = true;
@@ -217,10 +219,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.optionsControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.optionsControl.Location = new System.Drawing.Point(28, 28);
+            this.optionsControl.Location = new System.Drawing.Point(10, 10);
             this.optionsControl.Name = "optionsControl";
             this.optionsControl.ShowFinishedTasks = null;
-            this.optionsControl.Size = new System.Drawing.Size(431, 362);
+            this.optionsControl.Size = new System.Drawing.Size(692, 538);
             this.optionsControl.StyleName = null;
             this.optionsControl.TabIndex = 5;
             this.optionsControl.ThemeName = "Light";

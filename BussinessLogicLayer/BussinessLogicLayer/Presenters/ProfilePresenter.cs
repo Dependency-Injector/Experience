@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.Events;
 using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
@@ -25,12 +26,14 @@ namespace BussinessLogicLayer.Presenters
         private readonly IImprovementsRepository improvementsRepository;
         private readonly IImprovementsService improvementsService;
 
+        private readonly IPublisher publisher;
+
         private List<String> newSkillsToAdd;
         private List<int> skillsIdsToRemove;
         private Profile currentUser;
         public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
 
-        public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService, IImprovementsRepository improvementsRepository, IImprovementsService improvementsService)
+        public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService, IImprovementsRepository improvementsRepository, IImprovementsService improvementsService, IPublisher publisher)
         {
             this.view = view;
             this.profileRepository = profileRepository;
@@ -38,6 +41,7 @@ namespace BussinessLogicLayer.Presenters
             this.skillsService = skillsService;
             this.improvementsRepository = improvementsRepository;
             this.improvementsService = improvementsService;
+            this.publisher = publisher;
         }
 
         public void Initialize()
@@ -71,6 +75,12 @@ namespace BussinessLogicLayer.Presenters
             view.CancelChanges += CancelChanges;
             view.SaveChanges += SaveChanges;
             view.SkillSelected += ViewOnSkillSelected;
+            view.ShowProfileHistory += ShowProfileHistory;
+        }
+
+        private void ShowProfileHistory(object sender, EventArgs e)
+        {
+            publisher.Publish(new OpenWindow(WindowType.ProfileHistory));
         }
 
         private void ViewOnSkillSelected()

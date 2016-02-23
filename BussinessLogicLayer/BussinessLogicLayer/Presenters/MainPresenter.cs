@@ -1,9 +1,10 @@
 ﻿using System;
+using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class MainPresenter
+    public class MainPresenter : ICanHandle<ViewHidden>
     {
         private DayPresenter dayPresenter;
         private TodoListPresenter todoListsPresenter;
@@ -14,10 +15,13 @@ namespace BussinessLogicLayer.Presenters
         private LoggedUserPresenter loggedUserPresenter;
         private NotificationPresenter notificationPresenter;
         private TaskCompositePresenter taskCompositePresenter;
+        private ProfileHistoryPresenter profileHistoryPresenter;
 
         private IMainView mainView;
-        
-        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskCompositePresenter taskCompositePresenter)
+
+        private ISubscriber subscriber;
+
+        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskCompositePresenter taskCompositePresenter, ProfileHistoryPresenter profileHistoryPresenter, ISubscriber subscriber)
         {
             this.mainView = mainView;
             this.dayPresenter = dayPresenter;
@@ -27,12 +31,16 @@ namespace BussinessLogicLayer.Presenters
             this.optionsPresenter = optionsPresenter;
             this.notificationPresenter = notificationPresenter;
             this.taskCompositePresenter = taskCompositePresenter;
+            this.profileHistoryPresenter = profileHistoryPresenter;
+            this.subscriber = subscriber;
         }
         
         public void Initialize()
         {
             AttachEvents();
             InitializeSubpresenters();
+
+            subscriber.Subscribe(this);
         }
 
         private void InitializeSubpresenters()
@@ -44,6 +52,7 @@ namespace BussinessLogicLayer.Presenters
             optionsPresenter.Initialize();
             notificationPresenter.Initialize();
             taskCompositePresenter.Initialize();
+            profileHistoryPresenter.Initialize();
         }
 
         private void AttachEvents()
@@ -89,7 +98,26 @@ namespace BussinessLogicLayer.Presenters
         {
             return this.optionsPresenter.GetStyleManager();
         }
-    }
 
-    
+        public void Handle(ViewHidden viewHiddenEventArgs)
+        {
+            switch (viewHiddenEventArgs.ViewType)
+            {
+                case SubViewType.Day:
+                    break;
+                case SubViewType.History:
+                    break;
+                case SubViewType.Options:
+                    break;
+                case SubViewType.Profile:
+                    break;
+                case SubViewType.Tasks:
+                    break;
+                case SubViewType.Unknown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 }

@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.taskInfoPanel = new MetroFramework.Controls.MetroPanel();
-            this.finishedButton = new MetroFramework.Controls.MetroButton();
             this.childrenTasksPanel = new MetroFramework.Controls.MetroPanel();
             this.descriptionLabel = new MetroFramework.Controls.MetroLabel();
             this.attachedSkillNameLabel = new MetroFramework.Controls.MetroLabel();
@@ -46,6 +45,7 @@
             this.priorityLabel = new MetroFramework.Controls.MetroLabel();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.priorityTextLabel = new MetroFramework.Controls.MetroLabel();
+            this.finishedButton = new MetroFramework.Controls.MetroButton();
             this.workUnitsPanel = new MetroFramework.Controls.MetroPanel();
             this.workUnitsGrid = new MetroFramework.Controls.MetroGrid();
             this.workStartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -83,22 +83,11 @@
             this.taskInfoPanel.HorizontalScrollbarSize = 10;
             this.taskInfoPanel.Location = new System.Drawing.Point(0, 0);
             this.taskInfoPanel.Name = "taskInfoPanel";
-            this.taskInfoPanel.Size = new System.Drawing.Size(464, 269);
+            this.taskInfoPanel.Size = new System.Drawing.Size(567, 402);
             this.taskInfoPanel.TabIndex = 13;
             this.taskInfoPanel.VerticalScrollbarBarColor = true;
             this.taskInfoPanel.VerticalScrollbarHighlightOnWheel = false;
             this.taskInfoPanel.VerticalScrollbarSize = 10;
-            // 
-            // finishedButton
-            // 
-            this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.finishedButton.Highlight = true;
-            this.finishedButton.Location = new System.Drawing.Point(360, 3);
-            this.finishedButton.Name = "finishedButton";
-            this.finishedButton.Size = new System.Drawing.Size(101, 30);
-            this.finishedButton.TabIndex = 10;
-            this.finishedButton.Text = "Finished!";
-            this.finishedButton.UseSelectable = true;
             // 
             // childrenTasksPanel
             // 
@@ -112,7 +101,7 @@
             this.childrenTasksPanel.HorizontalScrollbarSize = 10;
             this.childrenTasksPanel.Location = new System.Drawing.Point(123, 166);
             this.childrenTasksPanel.Name = "childrenTasksPanel";
-            this.childrenTasksPanel.Size = new System.Drawing.Size(338, 97);
+            this.childrenTasksPanel.Size = new System.Drawing.Size(441, 230);
             this.childrenTasksPanel.TabIndex = 17;
             this.childrenTasksPanel.VerticalScrollbar = true;
             this.childrenTasksPanel.VerticalScrollbarBarColor = true;
@@ -125,7 +114,7 @@
             this.descriptionLabel.Location = new System.Drawing.Point(123, 85);
             this.descriptionLabel.Margin = new System.Windows.Forms.Padding(3);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(217, 21);
+            this.descriptionLabel.Size = new System.Drawing.Size(441, 21);
             this.descriptionLabel.TabIndex = 6;
             this.descriptionLabel.Text = "[Task description]";
             this.descriptionLabel.WrapToLine = true;
@@ -158,7 +147,7 @@
             this.nameLabel.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.nameLabel.Location = new System.Drawing.Point(5, 5);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(456, 25);
+            this.nameLabel.Size = new System.Drawing.Size(559, 25);
             this.nameLabel.TabIndex = 4;
             this.nameLabel.Text = "Name";
             this.nameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -248,6 +237,18 @@
             this.priorityTextLabel.Text = "Priority";
             this.priorityTextLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // finishedButton
+            // 
+            this.finishedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.finishedButton.Highlight = true;
+            this.finishedButton.Location = new System.Drawing.Point(463, 3);
+            this.finishedButton.Name = "finishedButton";
+            this.finishedButton.Size = new System.Drawing.Size(101, 30);
+            this.finishedButton.TabIndex = 10;
+            this.finishedButton.Text = "Finished!";
+            this.finishedButton.UseSelectable = true;
+            this.finishedButton.Click += new System.EventHandler(this.finishedButton_Click);
+            // 
             // workUnitsPanel
             // 
             this.workUnitsPanel.Controls.Add(this.workUnitsGrid);
@@ -277,27 +278,27 @@
             this.workUnitsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.workUnitsGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.workUnitsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.workUnitsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.workUnitsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.workUnitsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.workUnitsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.workStartTimeColumn,
             this.workEndedTimeColumn,
             this.workDurationColumn});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.workUnitsGrid.DefaultCellStyle = dataGridViewCellStyle5;
             this.workUnitsGrid.EnableHeadersVisualStyles = false;
             this.workUnitsGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.workUnitsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -305,14 +306,14 @@
             this.workUnitsGrid.Name = "workUnitsGrid";
             this.workUnitsGrid.ReadOnly = true;
             this.workUnitsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.workUnitsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.workUnitsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.workUnitsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.workUnitsGrid.Size = new System.Drawing.Size(582, 214);
@@ -356,9 +357,9 @@
             this.taskActionButtonsPanel.HorizontalScrollbarBarColor = true;
             this.taskActionButtonsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.taskActionButtonsPanel.HorizontalScrollbarSize = 10;
-            this.taskActionButtonsPanel.Location = new System.Drawing.Point(0, 269);
+            this.taskActionButtonsPanel.Location = new System.Drawing.Point(0, 402);
             this.taskActionButtonsPanel.Name = "taskActionButtonsPanel";
-            this.taskActionButtonsPanel.Size = new System.Drawing.Size(464, 36);
+            this.taskActionButtonsPanel.Size = new System.Drawing.Size(567, 36);
             this.taskActionButtonsPanel.TabIndex = 13;
             this.taskActionButtonsPanel.VerticalScrollbarBarColor = true;
             this.taskActionButtonsPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -368,7 +369,7 @@
             // 
             this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.editButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.editButton.Location = new System.Drawing.Point(265, 3);
+            this.editButton.Location = new System.Drawing.Point(368, 3);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(89, 30);
             this.editButton.TabIndex = 9;
@@ -406,7 +407,7 @@
             this.Controls.Add(this.taskActionButtonsPanel);
             this.Controls.Add(this.workUnitsPanel);
             this.Name = "TaskDisplayControl";
-            this.Size = new System.Drawing.Size(464, 305);
+            this.Size = new System.Drawing.Size(567, 438);
             this.taskInfoPanel.ResumeLayout(false);
             this.taskInfoPanel.PerformLayout();
             this.workUnitsPanel.ResumeLayout(false);

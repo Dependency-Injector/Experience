@@ -1,16 +1,27 @@
-﻿using Model.Enums;
+﻿using BussinessLogicLayer.Enums;
+using Model.Enums;
 
 namespace BussinessLogicLayer.Events
 {
     public class OpenTaskCompositeWindow
     {
-        public OpenTaskCompositeWindow(DisplayMode displayMode, int? entityId = null)
+        public OpenTaskCompositeWindow(DisplayMode displayMode, int? taskId = null)
         {
             DisplayMode = displayMode;
-            EntityId = entityId;
+            TaskId = taskId;
         }
 
         public DisplayMode DisplayMode;
-        public int? EntityId;
+        public int? TaskId;
+    }
+
+    public class OpenWindow
+    {
+        public WindowType WindowType;
+
+        public OpenWindow(WindowType type)
+        {
+            WindowType = type;
+        }
     }
 }

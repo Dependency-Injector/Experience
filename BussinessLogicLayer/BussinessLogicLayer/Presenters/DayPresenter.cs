@@ -77,6 +77,7 @@ namespace BussinessLogicLayer.Presenters
             view.ShowPreviousDay += ShowPreviousDay;
             view.ShowNextDay += ShowNextDay;
             view.SaveDayChanges += SaveDayChanges;
+            view.CancelChanges += CancelDayChanges;
             view.EditDay += EditDay;
             view.DateChanged += SelectedDateChanged;
             view.EntrySelected += EntrySelected;
@@ -88,19 +89,21 @@ namespace BussinessLogicLayer.Presenters
             {
                 view.ShowEditButton = false;
                 view.ShowSaveChangesButton = true;
+                view.ShowCancelChangesButton = true;
                 view.ThoughtsTextBoxEnabled = true;
                 view.SelectingControlsEnabled = false;
-                ShowPreviousDayButton(false);
-                ShowNextDayButton(false);
+                //ShowPreviousDayButton(false);
+                //ShowNextDayButton(false);
             }
             else if (displayMode == DisplayMode.View)
             {
                 view.ShowEditButton = true;
                 view.ShowSaveChangesButton = false;
+                view.ShowCancelChangesButton = false;
                 view.ThoughtsTextBoxEnabled = false;
                 view.SelectingControlsEnabled = true;
-                ShowPreviousDayButton(true);
-                ShowNextDayButton(true);
+                //ShowPreviousDayButton(true);
+                //ShowNextDayButton(true);
             }
         }
 
@@ -261,6 +264,11 @@ namespace BussinessLogicLayer.Presenters
 
             SetDisplayMode(DisplayMode.View);
             ShowNextPreviousDayButtons(currentUser.GetDaysSinceFirstDay(dayBeingDisplayed.Date));
+        }
+
+        private void CancelDayChanges(object sender, EventArgs e)
+        {
+            SetDisplayMode(DisplayMode.View);
         }
 
         private void EditDay(object sender, EventArgs e)

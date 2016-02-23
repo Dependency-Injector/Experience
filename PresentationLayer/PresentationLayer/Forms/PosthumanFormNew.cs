@@ -16,11 +16,12 @@ using IContainer = Autofac.IContainer;
 namespace View.Forms
 {
     
-    public partial class PosthumanFormNew : MetroForm, ICanHandle<WindowClosed>, ICanHandle<OpenTaskCompositeWindow>
+    public partial class PosthumanFormNew : MetroForm, ICanHandle<WindowClosed>, ICanHandle<OpenTaskCompositeWindow>, ICanHandle<OpenWindow>
     {
         private MainPresenter mainPresenter;
         private NotificationForm notificationForm = new NotificationForm();
         private TaskCompositeForm taskCompositeForm = new TaskCompositeForm();
+        private ProfileHistoryForm profileHistoryForm = new ProfileHistoryForm();
 
         EventBroker broker = new EventBroker();
         private IPublisher Publisher;
@@ -57,6 +58,7 @@ namespace View.Forms
             builder.RegisterInstance(this.mainControl.HistoryView).As<IHistoryView>();
             builder.RegisterInstance(this.mainControl.OptionsView).As<IOptionsView>();
             builder.RegisterInstance(this.notificationForm).As<INotificationView>();
+            builder.RegisterInstance(this.profileHistoryForm).As<IProfileHistoryView>();
             
             builder.RegisterInstance(this.taskCompositeForm).As<ITaskCompositeView>();
             builder.RegisterInstance(this.taskCompositeForm.TaskEditView).As<ITaskEditView>();
@@ -110,6 +112,15 @@ namespace View.Forms
                         c.Resolve<IHistoryEventsRepository>(),
                         c.Resolve<ISkillsService>(),
                         c.Resolve<IImprovementsRepository>(),
+                        c.Resolve<IImprovementsService>(), 
+                        c.Resolve<IPublisher>()));
+
+            builder.Register(
+                c =>
+                    new ProfileHistoryPresenter(
+                        c.Resolve<IProfileHistoryView>(),
+                        c.Resolve<IProfileRepository>(),
+                        c.Resolve<IImprovementsRepository>(),
                         c.Resolve<IImprovementsService>()));
 
             builder.Register(
@@ -153,21 +164,19 @@ namespace View.Forms
             builder.Register(
                 c => new TaskDisplayPresenter(
                     c.Resolve<ITaskDisplayView>(),
-                    c.Resolve<ITasksRepository>()));
+                    c.Resolve<ITasksRepository>(),
+                    c.Resolve<IHistoryService>(),
+                    c.Resolve<ITasksService>(),
+                    c.Resolve<IProfileService>(),
+                    c.Resolve<IImprovementsService>()));
 
             builder.Register(
                 c => new TaskEditPresenter(
                     c.Resolve<ITaskEditView>(),
                     c.Resolve<ITasksRepository>(),
-                    c.Resolve<IWorkUnitsRepository>(),
                     c.Resolve<ISkillsRepository>(),
                     c.Resolve<IHistoryService>(),
-                    c.Resolve<ITasksService>(),
-                    c.Resolve<IProfileService>(),
-                    c.Resolve<IWorkUnitsService>(),
-                    c.Resolve<IImprovementsService>(),
-                    c.Resolve<IPublisher>(),
-                    c.Resolve<ISubscriber>()));
+                    c.Resolve<ITasksService>()));
 
             builder.Register(
                 c => new TaskCompositePresenter(
@@ -189,7 +198,9 @@ namespace View.Forms
                     c.Resolve<HistoryPresenter>(),
                     c.Resolve<OptionsPresenter>(),
                     c.Resolve<NotificationPresenter>(),
-                    c.Resolve<TaskCompositePresenter>()));
+                    c.Resolve<TaskCompositePresenter>(),
+                    c.Resolve<ProfileHistoryPresenter>(),
+                    c.Resolve<ISubscriber>()));
             
             #endregion
 
@@ -269,9 +280,9 @@ namespace View.Forms
             taskCompositeForm.StyleManager = this.StyleManager.Clone(taskCompositeForm) as MetroStyleManager;
         }
 
-        public void Handle(WindowClosed data)
+        public void Handle(WindowClosed openCompositeTaskWindowEventArgs)
         {
-            switch (data.Type)
+            switch (openCompositeTaskWindowEventArgs.Type)
             {
                 case WindowType.TaskViewEdit:
                     taskCompositeForm.Hide();
@@ -279,12 +290,23 @@ namespace View.Forms
             }
         }
 
-        public void Handle(OpenTaskCompositeWindow eventData)
+        public void Handle(OpenTaskCompositeWindow openCompositeTaskWindowEventArgs)
         {
             if(taskCompositeForm.IsDisposed)
                 taskCompositeForm = new TaskCompositeForm();
 
             taskCompositeForm.Show();
+        }
+
+        public void Handle(OpenWindow openWindow)
+        {
+            if (openWindow.WindowType == WindowType.ProfileHistory)
+            {
+                if(profileHistoryForm.IsDisposed)
+                    profileHistoryForm = new ProfileHistoryForm();
+
+                profileHistoryForm.Show();
+            }
         }
     }
 }

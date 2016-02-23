@@ -27,6 +27,7 @@ namespace BussinessLogicLayer.Interfaces
         event EventHandler<EventArgs> EditProfile;
         event EventHandler<EventArgs> SaveChanges;
         event EventHandler<EventArgs> CancelChanges;
+        event EventHandler<EventArgs> ShowProfileHistory;
         event Action SkillSelected;
     }
 

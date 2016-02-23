@@ -20,26 +20,23 @@ namespace View.Controls
         }
 
         public bool CanBeFinished { get; set; }
+        public bool CanBeRemoved { set { removeButton.Visible = value; } }
+
         public bool IsVisible
         {
             set { this.Visible = value; }
         }
         public int TaskId { get; set; }
+
         public string TaskName
         {
             get { return nameTextBox.Text; }
-            set
-            {
-                nameTextBox.Text = value;
-            }
+            set { nameTextBox.Text = value; }
         }
         public string TaskDescription
         {
             get { return descriptionTextBox.Text; }
-            set
-            {
-                descriptionTextBox.Text = value;
-            }
+            set { descriptionTextBox.Text = value; }
         }
         public int Priority
         {
@@ -71,16 +68,9 @@ namespace View.Controls
         {
             set
             {
-                //if(value)
-                //    ShowActionButtons(false);
-                //else
-                //    ShowActionButtons(true);
             }
         }
-        public bool IsDirty
-        {
-            set { bool x = false; }
-        }
+
         public int? SkillToTrainId
         {
             get
@@ -145,7 +135,6 @@ namespace View.Controls
         public event EventHandler RemoveTask;
         public event EventHandler<EventArgs> CancelTaskEditing;
         public event EventHandler<EventArgs> ParentTaskChanged;
-        public ICollection WorkUnits { get; set; }
 
         public ICollection SkillsAvailable
         {
@@ -155,20 +144,13 @@ namespace View.Controls
                 FillSkillsComboBox(value);
             }
         }
-
-        public ICollection ParentTasks
+        public ICollection ParentTasksAvailable
         {
             set
             {
                 ClearParentTasksComboBox();
                 FillParentTasksComboBox(value);
             }
-        }
-
-        private void ClearParentTasksComboBox()
-        {
-            parentTaskComboBox.Items.Clear();
-
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -193,6 +175,16 @@ namespace View.Controls
         {
             if (ParentTaskChanged != null)
                 ParentTaskChanged(this, e);
+        }
+        
+        private void ClearParentTasksComboBox()
+        {
+            parentTaskComboBox.Items.Clear();
+        }
+
+        private void ClearSkillsComboBox()
+        {
+            skillToTrainComboBox.Items.Clear();
         }
 
         private void SelectPriority(int value)
@@ -261,11 +253,6 @@ namespace View.Controls
             else
                 return 0;
         }
-
-        private void ClearSkillsComboBox()
-        {
-            skillToTrainComboBox.Items.Clear();
-        }
         
         private void FillSkillsComboBox(ICollection skillRowData)
         {
@@ -287,45 +274,21 @@ namespace View.Controls
             }
         }
 
-        private void FillChildrenTasksList(ICollection childrenTasksRowData)
+        private void FillParentTasksComboBox(ICollection taskRowData)
         {
-            if (childrenTasksRowData != null && childrenTasksRowData.Count > 0)
-            {
-                foreach (var row in childrenTasksRowData)
-                {
-                    var rowData = row as string[];
-                    if (rowData != null && rowData.Any())
-                    {
-                        bool finished;
-                        if (rowData.Count() > 0 && bool.TryParse(rowData[1], out finished))
-                        {
-                            MetroCheckBox childTaskCheckBox = new MetroCheckBox();
-                            childTaskCheckBox.Text = rowData[0];
-                            childTaskCheckBox.Checked = finished;
-                            childTaskCheckBox.Theme = MetroThemeStyle.Dark;
-                            childTaskCheckBox.Dock = DockStyle.Top;
-                            childTaskCheckBox.Enabled = false;
-
-                            if (finished)
-                                childTaskCheckBox.Font = new Font(childTaskCheckBox.Font, FontStyle.Strikeout);
-
-                            //childrenTasksPanel.Controls.Add(childTaskCheckBox);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void FillParentTasksComboBox(ICollection parentTasksData)
-        {
-            if (parentTasksData != null && parentTasksData.Count > 0)
+            if (taskRowData != null && taskRowData.Count > 0)
             {
                 KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
                 parentTaskComboBox.Items.Add(emptyItem);
 
-                foreach (var parentTask in parentTasksData)
+                foreach (var row in taskRowData)
                 {
-                    parentTaskComboBox.Items.Add(parentTask);
+                    var cells = row as string[];
+                    if (cells != null)
+                    {
+                        KeyValuePair<int, string> comboItem = new KeyValuePair<int, string>(int.Parse(cells[0]), cells[1]);
+                        parentTaskComboBox.Items.Add(comboItem);
+                    }
                 }
             }
         }

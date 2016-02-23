@@ -94,10 +94,15 @@ namespace View.Controls
         {
             set { saveChangesButton.Visible = value; }
         }
+        public bool ShowCancelChangesButton
+        {
+            set { cancelChangesButton.Visible = value; }
+        }
         public bool ThoughtsTextBoxEnabled
         {
             set { thoughtsTextBox.Enabled = value; }
         }
+
         public bool SelectingControlsEnabled
         {
             set
@@ -113,6 +118,7 @@ namespace View.Controls
         public event EventHandler<EventArgs> EditDay;
         public event EventHandler<EventArgs> ShowPreviousDay;
         public event EventHandler<EventArgs> ShowNextDay;
+        public event EventHandler<EventArgs> CancelChanges;
         public event EventHandler<DateTime> DateChanged;
         public event EventHandler<int> EntrySelected;
 
@@ -158,14 +164,18 @@ namespace View.Controls
         {
             if (EditDay != null)
                 EditDay(this, e);
-
-            
         }
 
         private void saveChangesButton_Click(object sender, EventArgs e)
         {
             if (SaveDayChanges != null)
                 SaveDayChanges(this, e);
+        }
+        
+        private void cancelChangesButton_Click(object sender, EventArgs e)
+        {
+            if (CancelChanges != null)
+                CancelChanges(this, e);
         }
 
         private void selectedDayDateTime_ValueChanged(object sender, EventArgs e)
@@ -179,9 +189,9 @@ namespace View.Controls
             if (EntrySelected != null && raiseDayChangedEvent)
                 EntrySelected(this, 5);
         }
-        
-        #endregion Event handlers
 
+
+        #endregion Event handlers
 
     }
 }

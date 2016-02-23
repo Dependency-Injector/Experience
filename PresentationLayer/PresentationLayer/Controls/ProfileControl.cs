@@ -167,6 +167,7 @@ namespace View.Controls
         public event EventHandler<EventArgs> EditProfile;
         public event EventHandler<EventArgs> SaveChanges;
         public event EventHandler<EventArgs> CancelChanges;
+        public event EventHandler<EventArgs> ShowProfileHistory;
         public event Action SkillSelected;
 
         private void editButton_Click(object sender, EventArgs e)
@@ -200,6 +201,12 @@ namespace View.Controls
                 SkillSelected();
         }
 
+        private void showProfileHistoryButton_Click(object sender, EventArgs e)
+        {
+            if (ShowProfileHistory != null)
+                ShowProfileHistory(this, e);
+        }
+
         private void profileRelatedEventsGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             this.profileRelatedEventsGrid.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -212,5 +219,6 @@ namespace View.Controls
             this.skillsGrid.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             this.skillsGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
+
     }
 }
