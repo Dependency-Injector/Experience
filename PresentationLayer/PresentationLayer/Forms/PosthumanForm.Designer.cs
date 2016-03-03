@@ -2,7 +2,7 @@
 
 namespace View.Forms
 {
-    partial class PosthumanFormNew
+    partial class PosthumanForm
     {
         /// <summary>
         /// Required designer variable.

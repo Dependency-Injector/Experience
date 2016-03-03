@@ -3,7 +3,7 @@ using View.Controls;
 
 namespace View.Forms.Old
 {
-    partial class PosthumanForm
+    partial class PosthumanFormOld
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace View.Forms.Old
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PosthumanForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PosthumanFormOld));
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
             this.dayControl = new DayControl();

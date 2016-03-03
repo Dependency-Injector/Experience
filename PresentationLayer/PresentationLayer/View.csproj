@@ -77,6 +77,12 @@
     <Compile Include="Controls\HistoryControl.Designer.cs">
       <DependentUpon>HistoryControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ListsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListsControl.Designer.cs">
+      <DependentUpon>ListsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LoggedUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -133,17 +139,17 @@
       <DependentUpon>NotificationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Old\OldTaskList.cs" />
-    <Compile Include="Forms\Old\PosthumanForm.cs">
+    <Compile Include="Forms\Old\PosthumanFormOld.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Old\PosthumanForm.Designer.cs">
+    <Compile Include="Forms\Old\PosthumanFormOld.Designer.cs">
+      <DependentUpon>PosthumanFormOld.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PosthumanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PosthumanForm.Designer.cs">
       <DependentUpon>PosthumanForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\PosthumanFormNew.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PosthumanFormNew.Designer.cs">
-      <DependentUpon>PosthumanFormNew.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ProfileHistoryForm.cs">
       <SubType>Form</SubType>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\HistoryControl.resx">
       <DependentUpon>HistoryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ListsControl.resx">
+      <DependentUpon>ListsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LoggedUserControl.resx">
       <DependentUpon>LoggedUserControl.cs</DependentUpon>
@@ -199,11 +208,11 @@
     <EmbeddedResource Include="Forms\NotificationForm.resx">
       <DependentUpon>NotificationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Old\PosthumanForm.resx">
-      <DependentUpon>PosthumanForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Old\PosthumanFormOld.resx">
+      <DependentUpon>PosthumanFormOld.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PosthumanFormNew.resx">
-      <DependentUpon>PosthumanFormNew.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\PosthumanForm.resx">
+      <DependentUpon>PosthumanForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProfileHistoryForm.resx">
       <DependentUpon>ProfileHistoryForm.cs</DependentUpon>

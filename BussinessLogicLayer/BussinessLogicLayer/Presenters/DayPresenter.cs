@@ -65,10 +65,7 @@ namespace BussinessLogicLayer.Presenters
 
         private Profile GetCurrentUser()
         {
-            Profile user = null;
-            //if (ApplicationSettings.Current.CurrentUserId.HasValue)
-                user = profileRepository.Get(Globals.DmitruUserId);
-
+            Profile user = profileRepository.Get(Globals.DmitruUserId);
             return user;
         }
 
@@ -92,8 +89,6 @@ namespace BussinessLogicLayer.Presenters
                 view.ShowCancelChangesButton = true;
                 view.ThoughtsTextBoxEnabled = true;
                 view.SelectingControlsEnabled = false;
-                //ShowPreviousDayButton(false);
-                //ShowNextDayButton(false);
             }
             else if (displayMode == DisplayMode.View)
             {
@@ -102,8 +97,6 @@ namespace BussinessLogicLayer.Presenters
                 view.ShowCancelChangesButton = false;
                 view.ThoughtsTextBoxEnabled = false;
                 view.SelectingControlsEnabled = true;
-                //ShowPreviousDayButton(true);
-                //ShowNextDayButton(true);
             }
         }
 
@@ -232,9 +225,8 @@ namespace BussinessLogicLayer.Presenters
             // Diary entry for such day already exists - updating diary entry
             if (daysRepository.HasDay(currentUser.Id, dayBeingDisplayed.Date))
             {
-                Day dayBeforeEdit = daysRepository.Get(dayBeingDisplayed.Id);
-                int previousWordsCount = writtenWordsCount - dayBeforeEdit.Thoughts.Count(Char.IsWhiteSpace);
-                writtenWordsCount = previousWordsCount;
+                Day existingDiaryEntry = daysRepository.Get(dayBeingDisplayed.Id);
+                writtenWordsCount = writtenWordsCount - existingDiaryEntry.Thoughts.Count(Char.IsWhiteSpace);
 
                 dayBeingDisplayed = daysService.UpdateExistingDay(dayBeingDisplayed.Id, view.Thoughts);
                 daysRepository.Update(dayBeingDisplayed);

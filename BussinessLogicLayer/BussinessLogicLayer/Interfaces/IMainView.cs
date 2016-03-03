@@ -1,4 +1,5 @@
 ﻿using System;
+using BussinessLogicLayer.Enums;
 
 namespace BussinessLogicLayer.Interfaces
 {
@@ -9,22 +10,10 @@ namespace BussinessLogicLayer.Interfaces
         IProfileView ProfileView { get; }
         IHistoryView HistoryView { get; }
         IOptionsView OptionsView { get; }
+        IListsView ListsView { get; }
 
         SubViewType SelectedSubView { get; }
-
         
-
         event EventHandler<EventArgs> SubViewDisplayed;
-
-    }
-
-    public enum SubViewType
-    {
-        Day,
-        History,
-        Options,
-        Profile,
-        Tasks,
-        Unknown
     }
 }

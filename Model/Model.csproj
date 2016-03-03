@@ -54,6 +54,8 @@
     <Compile Include="EntitiesContext.cs" />
     <Compile Include="Entities\Day.cs" />
     <Compile Include="Entities\Improvement.cs" />
+    <Compile Include="Entities\Note.cs" />
+    <Compile Include="Entities\NotesList.cs" />
     <Compile Include="Enums\Difficulty.cs" />
     <Compile Include="Enums\DifficultyLevel.cs" />
     <Compile Include="Enums\DisplayMode.cs" />
@@ -161,6 +163,10 @@
     <Compile Include="Migrations\201512190610301_RemovedExpToNextLvl.Designer.cs">
       <DependentUpon>201512190610301_RemovedExpToNextLvl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603030753115_NotesAndNotesLists.cs" />
+    <Compile Include="Migrations\201603030753115_NotesAndNotesLists.Designer.cs">
+      <DependentUpon>201603030753115_NotesAndNotesLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Entities\Preferences.cs" />
     <Compile Include="Entities\HistoryEvent.cs" />
@@ -245,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512190610301_RemovedExpToNextLvl.resx">
       <DependentUpon>201512190610301_RemovedExpToNextLvl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603030753115_NotesAndNotesLists.resx">
+      <DependentUpon>201603030753115_NotesAndNotesLists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

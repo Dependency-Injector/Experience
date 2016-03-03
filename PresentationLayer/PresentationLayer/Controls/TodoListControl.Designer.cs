@@ -92,6 +92,7 @@ namespace View.Controls
             // 
             this.newTaskButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.newTaskButton.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.newTaskButton.FontWeight = MetroFramework.MetroButtonWeight.Regular;
             this.newTaskButton.Highlight = true;
             this.newTaskButton.Location = new System.Drawing.Point(441, 9);
             this.newTaskButton.Name = "newTaskButton";

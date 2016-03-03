@@ -40,7 +40,7 @@ namespace BussinessLogicLayer.Presenters
         
         private void New(object sender, EventArgs e)
         {
-            publisher.Publish(new OpenTaskCompositeWindow(DisplayMode.Edit, null));
+            publisher.Publish(new OpenWindowEvent(WindowType.TaskWindow, DisplayMode.Edit, null));
         }
         
         private void ShowFinishedTasks(object sender, bool showFinishedTasks)
@@ -71,8 +71,7 @@ namespace BussinessLogicLayer.Presenters
             view.ShowFinishedTasks += ShowFinishedTasks;
             view.TaskDoubleClick += ShowTaskDetails;
         }
-
-
+        
         private void GetAndDisplayTasks(bool includeFinishedTasks = false)
         {
             tasks = ObtainTasksList(includeFinishedTasks);
@@ -86,7 +85,6 @@ namespace BussinessLogicLayer.Presenters
         
         private void DisplayTasks(List<Task> tasksList)
         {
-            var tasks = tasksList.ToDictionary(k => k.Id, val => val.Name);
             view.TasksGridItems = GetTasksGridItems(tasksList);
         }
 
@@ -140,9 +138,7 @@ namespace BussinessLogicLayer.Presenters
 
         private List<Task> ObtainTasksList(bool includeFinishedTasks = false)
         {
-            List<Task> tasks = new List<Task>();
-
-            if (tasksRepository.HasTasks()) //&& ApplicationSettings.Current.IsAnyUserLoggedIn)
+            if (tasksRepository.HasTasks())
             {
                 var tasksQuery = tasksRepository.Find(t => t.Owner.Id == Globals.DmitruUserId);
 
@@ -162,11 +158,10 @@ namespace BussinessLogicLayer.Presenters
                     .ThenByDescending(t => t.Priority)
                     .ToList();
         }
-
-
+        
         private void ShowTaskDetails(object sender, int taskId)
         {
-            publisher.Publish(new OpenTaskCompositeWindow(DisplayMode.View, taskId));
+            publisher.Publish(new OpenWindowEvent(WindowType.TaskWindow, DisplayMode.View, taskId));
         }
 
         #endregion

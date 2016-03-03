@@ -2,7 +2,8 @@
 {
     public enum WindowType
     {
-        TaskViewEdit,
-        ProfileHistory
+        TaskWindow,
+        HistoryWindow,
+        Undefined
     }
 }

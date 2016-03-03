@@ -82,14 +82,14 @@ namespace View.Forms
             this.profileRelatedEventsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.profileRelatedEventsGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.profileRelatedEventsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(445, 372);
+            this.profileRelatedEventsGrid.Size = new System.Drawing.Size(811, 344);
             this.profileRelatedEventsGrid.TabIndex = 4;
             // 
             // ProfileHistoryForm
             // 
-            this.ClientSize = new System.Drawing.Size(485, 452);
+            this.ClientSize = new System.Drawing.Size(851, 424);
             this.Controls.Add(this.profileRelatedEventsGrid);
-            this.Name = "TaskCompositeForm";
+            this.Name = "ProfileHistoryForm";
             this.Text = "History";
             ((System.ComponentModel.ISupportInitialize)(this.profileRelatedEventsGrid)).EndInit();
             this.ResumeLayout(false);

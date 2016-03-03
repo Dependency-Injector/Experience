@@ -15,21 +15,20 @@ using IContainer = Autofac.IContainer;
 
 namespace View.Forms
 {
-    
-    public partial class PosthumanFormNew : MetroForm, ICanHandle<WindowClosed>, ICanHandle<OpenTaskCompositeWindow>, ICanHandle<OpenWindow>
+    public partial class PosthumanForm : MetroForm, ICanHandle<OpenWindowEvent>
     {
         private MainPresenter mainPresenter;
         private NotificationForm notificationForm = new NotificationForm();
         private TaskCompositeForm taskCompositeForm = new TaskCompositeForm();
         private ProfileHistoryForm profileHistoryForm = new ProfileHistoryForm();
 
-        EventBroker broker = new EventBroker();
-        private IPublisher Publisher;
+        private EventBroker broker = new EventBroker();
+        private IPublisher publisher;
         private ISubscriber subscriber;
 
         public static IContainer Container { get; set; }
 
-        public PosthumanFormNew()
+        public PosthumanForm()
         {
             InitializeComponent();
             GC.Collect();
@@ -57,13 +56,13 @@ namespace View.Forms
             builder.RegisterInstance(this.mainControl.TodoListView).As<ITodoListView>();
             builder.RegisterInstance(this.mainControl.HistoryView).As<IHistoryView>();
             builder.RegisterInstance(this.mainControl.OptionsView).As<IOptionsView>();
+            builder.RegisterInstance(this.mainControl.ListsView).As<IListsView>();
             builder.RegisterInstance(this.notificationForm).As<INotificationView>();
             builder.RegisterInstance(this.profileHistoryForm).As<IProfileHistoryView>();
-            
             builder.RegisterInstance(this.taskCompositeForm).As<ITaskCompositeView>();
             builder.RegisterInstance(this.taskCompositeForm.TaskEditView).As<ITaskEditView>();
             builder.RegisterInstance(this.taskCompositeForm.TaskDisplayView).As<ITaskDisplayView>();
-            
+
             builder.RegisterInstance(this.broker).As<IPublisher>();
             builder.RegisterInstance(this.broker).As<ISubscriber>();
 
@@ -105,6 +104,10 @@ namespace View.Forms
                         c.Resolve<IHistoryService>()));
 
             builder.Register(
+                c => new ListsPresenter(
+                    c.Resolve<IListsView>()));
+
+            builder.Register(
                 c =>
                     new ProfilePresenter(
                         c.Resolve<IProfileView>(),
@@ -112,7 +115,7 @@ namespace View.Forms
                         c.Resolve<IHistoryEventsRepository>(),
                         c.Resolve<ISkillsService>(),
                         c.Resolve<IImprovementsRepository>(),
-                        c.Resolve<IImprovementsService>(), 
+                        c.Resolve<IImprovementsService>(),
                         c.Resolve<IPublisher>()));
 
             builder.Register(
@@ -156,7 +159,7 @@ namespace View.Forms
                     new LoggedUserPresenter(
                         c.Resolve<ILoggedUserView>(),
                         c.Resolve<IProfileRepository>()));
-            
+
             builder.Register(
                 c => new NotificationPresenter(
                     c.Resolve<INotificationView>()));
@@ -183,7 +186,7 @@ namespace View.Forms
                     c.Resolve<ITaskCompositeView>(),
                     c.Resolve<ITaskDisplayView>(),
                     c.Resolve<ITaskEditView>(),
-                    c.Resolve<ITasksRepository>(),                    
+                    c.Resolve<ITasksRepository>(),
                     c.Resolve<IPublisher>(),
                     c.Resolve<ISubscriber>(),
                     c.Resolve<TaskDisplayPresenter>(),
@@ -191,7 +194,7 @@ namespace View.Forms
 
             builder.Register(
                 c => new MainPresenter(
-                    c.Resolve<IMainView>(), 
+                    c.Resolve<IMainView>(),
                     c.Resolve<DayPresenter>(),
                     c.Resolve<TodoListPresenter>(),
                     c.Resolve<ProfilePresenter>(),
@@ -200,8 +203,9 @@ namespace View.Forms
                     c.Resolve<NotificationPresenter>(),
                     c.Resolve<TaskCompositePresenter>(),
                     c.Resolve<ProfileHistoryPresenter>(),
+                    c.Resolve<ListsPresenter>(),
                     c.Resolve<ISubscriber>()));
-            
+
             #endregion
 
             #region Services registration
@@ -278,34 +282,30 @@ namespace View.Forms
             taskCompositeForm.Theme = this.Theme;
             taskCompositeForm.Style = this.Style;
             taskCompositeForm.StyleManager = this.StyleManager.Clone(taskCompositeForm) as MetroStyleManager;
+
+            profileHistoryForm.Theme = this.Theme;
+            profileHistoryForm.Style = this.Style;
+            profileHistoryForm.StyleManager = this.StyleManager.Clone(profileHistoryForm) as MetroStyleManager;
         }
 
-        public void Handle(WindowClosed openCompositeTaskWindowEventArgs)
+        public void Handle(OpenWindowEvent openWindowEvent)
         {
-            switch (openCompositeTaskWindowEventArgs.Type)
+            switch (openWindowEvent.WindowType)
             {
-                case WindowType.TaskViewEdit:
-                    taskCompositeForm.Hide();
+                case WindowType.HistoryWindow:
+                    if (profileHistoryForm.IsDisposed)
+                        profileHistoryForm = new ProfileHistoryForm();
+                    profileHistoryForm.Show();
                     break;
-            }
-        }
 
-        public void Handle(OpenTaskCompositeWindow openCompositeTaskWindowEventArgs)
-        {
-            if(taskCompositeForm.IsDisposed)
-                taskCompositeForm = new TaskCompositeForm();
+                case WindowType.TaskWindow:
+                    if (taskCompositeForm.IsDisposed)
+                        taskCompositeForm = new TaskCompositeForm();
+                    taskCompositeForm.Show();
+                    break;
 
-            taskCompositeForm.Show();
-        }
-
-        public void Handle(OpenWindow openWindow)
-        {
-            if (openWindow.WindowType == WindowType.ProfileHistory)
-            {
-                if(profileHistoryForm.IsDisposed)
-                    profileHistoryForm = new ProfileHistoryForm();
-
-                profileHistoryForm.Show();
+                case WindowType.Undefined:
+                    break;
             }
         }
     }

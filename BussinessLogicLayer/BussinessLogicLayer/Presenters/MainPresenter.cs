@@ -1,10 +1,11 @@
 ﻿using System;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class MainPresenter : ICanHandle<ViewHidden>
+    public class MainPresenter 
     {
         private DayPresenter dayPresenter;
         private TodoListPresenter todoListsPresenter;
@@ -16,16 +17,18 @@ namespace BussinessLogicLayer.Presenters
         private NotificationPresenter notificationPresenter;
         private TaskCompositePresenter taskCompositePresenter;
         private ProfileHistoryPresenter profileHistoryPresenter;
+        private ListsPresenter listsPresenter;
 
         private IMainView mainView;
 
         private ISubscriber subscriber;
 
-        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskCompositePresenter taskCompositePresenter, ProfileHistoryPresenter profileHistoryPresenter, ISubscriber subscriber)
+        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskCompositePresenter taskCompositePresenter, ProfileHistoryPresenter profileHistoryPresenter, ListsPresenter listsPresenter, ISubscriber subscriber)
         {
             this.mainView = mainView;
             this.dayPresenter = dayPresenter;
             this.todoListsPresenter = todoListsPresenter;
+            this.listsPresenter = listsPresenter;
             this.profilePresenter = profilePresenter;
             this.historyPresenter = historyPresenter;
             this.optionsPresenter = optionsPresenter;
@@ -47,6 +50,7 @@ namespace BussinessLogicLayer.Presenters
         {
             dayPresenter.Initialize();
             todoListsPresenter.Initialize();
+            listsPresenter.Initialize();
             profilePresenter.Initialize();
             historyPresenter.Initialize();
             optionsPresenter.Initialize();
@@ -58,17 +62,7 @@ namespace BussinessLogicLayer.Presenters
         private void AttachEvents()
         {
             mainView.SubViewDisplayed += SubViewDisplayed;
-            /*dayPresenter.NotificationAppeared += NotificationAppeared;
-            todoListsPresenter.NotificationAppeared += NotificationAppeared;
-            profilePresenter.NotificationAppeared += NotificationAppeared;
-            historyPresenter.NotificationAppeared += NotificationAppeared;
-            optionsPresenter.NotificationAppeared += NotificationAppeared;*/
         }
-        
-        /*private void NotificationAppeared(object sender, ShowNotificationEventArgs eventArgs)
-        {
-            notificationPresenter.ShowNotification(eventArgs.Title, eventArgs.Text);
-        }*/
 
         private void SubViewDisplayed(object sender, EventArgs e)
         {
@@ -98,26 +92,6 @@ namespace BussinessLogicLayer.Presenters
         {
             return this.optionsPresenter.GetStyleManager();
         }
-
-        public void Handle(ViewHidden viewHiddenEventArgs)
-        {
-            switch (viewHiddenEventArgs.ViewType)
-            {
-                case SubViewType.Day:
-                    break;
-                case SubViewType.History:
-                    break;
-                case SubViewType.Options:
-                    break;
-                case SubViewType.Profile:
-                    break;
-                case SubViewType.Tasks:
-                    break;
-                case SubViewType.Unknown:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
     }
+
 }

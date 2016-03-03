@@ -1,4 +1,5 @@
 ﻿using System;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
 
@@ -6,21 +7,18 @@ namespace View.Controls
 {
     public partial class MainControl : MetroUserControl, IMainView
     {
-        public MainControl()
-        {
-            InitializeComponent();
-        }
-
-        private void AttachEvents()
-        {
-        }
-
         public IDayView DayView { get { return dayControl; } }
         public ITodoListView TodoListView { get { return todoListControl; } }
         public IProfileView ProfileView { get { return profileControl; } }
         public IHistoryView HistoryView { get { return historyControl; } }
         public IOptionsView OptionsView { get { return optionsControl; } }
+        public IListsView ListsView { get { return listsControl; } }
 
+        public MainControl()
+        {
+            InitializeComponent();
+        }
+        
         public SubViewType SelectedSubView
         {
             get
@@ -35,6 +33,8 @@ namespace View.Controls
                     return SubViewType.Options;
                 else if (subViewsTabControl.SelectedTab == historyTabPage)
                     return SubViewType.History;
+                else if (subViewsTabControl.SelectedTab == listsTabPage)
+                    return SubViewType.Lists;
                 else return SubViewType.Unknown;
             }
         }
@@ -47,5 +47,4 @@ namespace View.Controls
                 SubViewDisplayed(this, e);
         }
     }
-
 }

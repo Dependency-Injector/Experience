@@ -16,7 +16,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace View.Forms.Old
 {
-    public partial class PosthumanForm : MetroForm
+    public partial class PosthumanFormOld : MetroForm
     {
         private TodoListPresenter todoListPresenter;
         private ProfilePresenter profilePresenter;
@@ -29,7 +29,7 @@ namespace View.Forms.Old
         private static IContainer Container { get; set; }
         
         
-        public PosthumanForm()
+        public PosthumanFormOld()
         {
             InitializeComponent();
 

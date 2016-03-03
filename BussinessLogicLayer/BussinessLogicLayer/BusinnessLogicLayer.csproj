@@ -62,19 +62,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\SubViewType.cs" />
     <Compile Include="Enums\TaskTextColor.cs" />
     <Compile Include="Enums\WindowType.cs" />
     <Compile Include="Events\EventBroker.cs" />
     <Compile Include="Events\ICanHandle.cs" />
     <Compile Include="Events\IPublisher.cs" />
     <Compile Include="Events\ISubscriber.cs" />
-    <Compile Include="Events\OpenWindow.cs" />
+    <Compile Include="Events\OpenWindowEvent.cs" />
     <Compile Include="Events\ShowNotificationEventArgs.cs" />
-    <Compile Include="Events\ViewHidden.cs" />
-    <Compile Include="Events\WindowClosed.cs" />
+    <Compile Include="GridRowTemplates\ProfileEventGridItem.cs" />
     <Compile Include="GridRowTemplates\TaskGridItem.cs" />
     <Compile Include="Interfaces\IDayView.cs" />
     <Compile Include="Interfaces\IHideable.cs" />
+    <Compile Include="Interfaces\IListsView.cs" />
     <Compile Include="Interfaces\ILoggedUserView.cs" />
     <Compile Include="Interfaces\ILoginView.cs" />
     <Compile Include="Interfaces\IMainView.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Interfaces\ITaskEditView.cs" />
     <Compile Include="Presenters\HistoryPresenter.cs" />
     <Compile Include="Presenters\IPresenter.cs" />
+    <Compile Include="Presenters\ListsPresenter.cs" />
     <Compile Include="Presenters\LoggedUserPresenter.cs" />
     <Compile Include="Presenters\LoginPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using BussinessLogicLayer.Enums;
 using BussinessLogicLayer.Events;
 using BussinessLogicLayer.Interfaces;
 using DataAccessLayer.Repositories.Interfaces;
@@ -8,7 +9,7 @@ using Model.Enums;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class TaskCompositePresenter : ICanHandle<OpenTaskCompositeWindow>
+    public class TaskCompositePresenter : ICanHandle<OpenWindowEvent>
     {
         private readonly ITaskEditView editView;
         private readonly ITaskDisplayView displayView;
@@ -104,12 +105,15 @@ namespace BussinessLogicLayer.Presenters
             }
         }
         
-        public void Handle(OpenTaskCompositeWindow openCompositeTaskWindowEventArgs)
+        public void Handle(OpenWindowEvent openWindowEventArgs)
         {
+            if (openWindowEventArgs.WindowType != WindowType.TaskWindow)
+                return;
+
             // Open window for existing task
-            if (openCompositeTaskWindowEventArgs.TaskId.HasValue)
+            if (openWindowEventArgs.EntityId.HasValue)
             {
-                int taskId = openCompositeTaskWindowEventArgs.TaskId.Value;
+                int taskId = openWindowEventArgs.EntityId.Value;
                 Task task = tasksRepository.Get(taskId);
 
                 taskDisplayPresenter.SetTask(task);
@@ -119,12 +123,12 @@ namespace BussinessLogicLayer.Presenters
                 taskEditPresenter.EditTask();
             }
             // Open window for new task
-            else if (!openCompositeTaskWindowEventArgs.TaskId.HasValue)
+            else if (!openWindowEventArgs.EntityId.HasValue)
             {
                 taskEditPresenter.NewTask();
             }
 
-            SetDisplayMode(openCompositeTaskWindowEventArgs.DisplayMode);
+            SetDisplayMode(openWindowEventArgs.DisplayMode);
         }
     }
 }

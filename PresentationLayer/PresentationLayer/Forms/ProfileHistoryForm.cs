@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+using BussinessLogicLayer.GridRowTemplates;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Forms;
 
@@ -10,8 +12,8 @@ namespace View.Forms
         {
             InitializeComponent();
         }
-
-        public BindingSource ProfileRelatedEvents
+        
+        public IList<ImprovementGridItem> ProfileEventsGridItems
         {
             set
             {

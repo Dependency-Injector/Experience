@@ -80,7 +80,7 @@ namespace BussinessLogicLayer.Presenters
 
         private void ShowProfileHistory(object sender, EventArgs e)
         {
-            publisher.Publish(new OpenWindow(WindowType.ProfileHistory));
+            publisher.Publish(new OpenWindowEvent(WindowType.HistoryWindow));
         }
 
         private void ViewOnSkillSelected()

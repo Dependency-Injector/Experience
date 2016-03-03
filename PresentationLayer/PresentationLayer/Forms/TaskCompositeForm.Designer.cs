@@ -87,10 +87,12 @@ namespace View.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(579, 510);
             this.Controls.Add(this.contentPanel);
             this.KeyPreview = true;
             this.Name = "TaskCompositeForm";
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.Text = "TaskEditForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskCompositeForm_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TaskCompositeForm_KeyDown);

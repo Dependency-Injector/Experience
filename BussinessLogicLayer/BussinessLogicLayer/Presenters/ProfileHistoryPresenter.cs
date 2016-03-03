@@ -58,10 +58,12 @@ namespace BussinessLogicLayer.Presenters
             var userImprovements = improvementsRepository.Find(i => i.Owner.Id == profile.Id).ToList();
             var userImprovementsGridItems = GetImprovementsGridItems(userImprovements).OrderByDescending(ui => ui.When).ToList(); 
 
-            view.ProfileRelatedEvents = MakeBindingSourceFromList(userImprovementsGridItems);
+            //view.ProfileRelatedEvents = MakeBindingSourceFromList(userImprovementsGridItems);
+            view.ProfileEventsGridItems = userImprovementsGridItems;
+            //view.ProfileRelatedEvents = MakeBindingSourceFromList(userImprovementsGridItems);
         }
-        
-        private List<ImprovementGridItem> GetImprovementsGridItems(List<Improvement> improvements)
+
+        private IList<ImprovementGridItem> GetImprovementsGridItems(List<Improvement> improvements)
         {
             List<ImprovementGridItem> profileRelatedEvents = new List<ImprovementGridItem>();
 
@@ -80,13 +82,6 @@ namespace BussinessLogicLayer.Presenters
         private Profile ObtainProfile(int profileId)
         {
             return profileRepository.HasProfile() ? profileRepository.First(p => p.Id == profileId) : null;
-        }
-        
-        public static BindingSource MakeBindingSourceFromList(IList list)
-        {
-            BindingSource source = new BindingSource();
-            source.DataSource = list;
-            return source;
         }
     }
 }
