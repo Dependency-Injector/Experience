@@ -148,10 +148,11 @@ namespace View.Controls
             {
                 if (true)
                 {
-                    skillsGrid.FirstDisplayedScrollingRowIndex = 0;
-                    profileRelatedEventsGrid.FirstDisplayedScrollingRowIndex =
-                        profileRelatedEventsGrid.FirstDisplayedScrollingRowIndex + 1;
-                    profileRelatedEventsGrid.HorizontalScrollingOffset = profileRelatedEventsGrid.HorizontalScrollingOffset + 10;
+                    // TODO
+                    //skillsGrid.FirstDisplayedScrollingRowIndex = 1;
+                    //profileRelatedEventsGrid.FirstDisplayedScrollingRowIndex =
+                    //    profileRelatedEventsGrid.FirstDisplayedScrollingRowIndex + 1;
+                    //profileRelatedEventsGrid.HorizontalScrollingOffset = profileRelatedEventsGrid.HorizontalScrollingOffset + 10;
                 }
             }
         }

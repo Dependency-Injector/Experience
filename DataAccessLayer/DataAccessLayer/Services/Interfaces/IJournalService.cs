@@ -4,7 +4,7 @@ using Model.Entities;
 
 namespace DataAccessLayer.Services.Interfaces
 {
-    public interface IDaysService
+    public interface IJournalService
     {
         Day CreateNewDay(int? ownerId, DateTime date);
         Day CreateNewDay(int? ownerId, DateTime date, string thoughts);

@@ -1,8 +1,11 @@
 ﻿namespace BussinessLogicLayer.Enums
 {
+    /// <summary>
+    /// Sub-views that correspond to application, menu and ui sections 
+    /// </summary>
     public enum SubViewType
     {
-        Day,
+        Journal,
         History,
         Options,
         Profile,

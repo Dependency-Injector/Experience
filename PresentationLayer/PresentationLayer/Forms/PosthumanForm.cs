@@ -15,7 +15,7 @@ using IContainer = Autofac.IContainer;
 
 namespace View.Forms
 {
-    public partial class PosthumanForm : MetroForm, ICanHandle<OpenWindowEvent>
+    public partial class PosthumanForm : MetroForm, ICanHandle<OpenWindowEvent>, ICanHandle<ShowNotificationEvent>
     {
         private MainPresenter mainPresenter;
         private NotificationForm notificationForm = new NotificationForm();
@@ -35,6 +35,7 @@ namespace View.Forms
             ApplicationSettings.Load();
             BuildAutofac();
 
+            publisher = Container.Resolve<IPublisher>();
             subscriber = Container.Resolve<ISubscriber>();
             subscriber.Subscribe(this);
 
@@ -51,7 +52,7 @@ namespace View.Forms
             #region Instance (interfaces) registration
 
             builder.RegisterInstance(this.mainControl).As<IMainView>();
-            builder.RegisterInstance(this.mainControl.DayView).As<IDayView>();
+            builder.RegisterInstance(this.mainControl.JournalView).As<IJournalView>();
             builder.RegisterInstance(this.mainControl.ProfileView).As<IProfileView>();
             builder.RegisterInstance(this.mainControl.TodoListView).As<ITodoListView>();
             builder.RegisterInstance(this.mainControl.HistoryView).As<IHistoryView>();
@@ -70,7 +71,7 @@ namespace View.Forms
 
             #region Type registration
 
-            builder.RegisterType<DaysRepository>().As<IDaysRepository>();
+            builder.RegisterType<DaysRepository>().As<IJournalRepository>();
             builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<HistoryEventsRepository>().As<IHistoryEventsRepository>();
             builder.RegisterType<PreferencesRepository>().As<IPreferencesRepository>();
@@ -79,7 +80,7 @@ namespace View.Forms
             builder.RegisterType<WorkUnitsRepository>().As<IWorkUnitsRepository>();
             builder.RegisterType<ImprovementsRepository>().As<IImprovementsRepository>();
 
-            builder.RegisterType<DaysService>().As<IDaysService>();
+            builder.RegisterType<JournalService>().As<IJournalService>();
             builder.RegisterType<TasksService>().As<ITasksService>();
             builder.RegisterType<HistoryService>().As<IHistoryService>();
             builder.RegisterType<SkillsService>().As<ISkillsService>();
@@ -94,11 +95,11 @@ namespace View.Forms
 
             builder.Register(
                 c =>
-                    new DayPresenter(
-                        c.Resolve<IDayView>(),
-                        c.Resolve<IDaysRepository>(),
+                    new JournalPresenter(
+                        c.Resolve<IJournalView>(),
+                        c.Resolve<IJournalRepository>(),
                         c.Resolve<IProfileRepository>(),
-                        c.Resolve<IDaysService>(),
+                        c.Resolve<IJournalService>(),
                         c.Resolve<IImprovementsService>(),
                         c.Resolve<IProfileService>(),
                         c.Resolve<IHistoryService>()));
@@ -138,7 +139,8 @@ namespace View.Forms
                     new TodoListPresenter(
                         c.Resolve<ITodoListView>(),
                         c.Resolve<ITasksRepository>(),
-                        c.Resolve<IPublisher>()));
+                        c.Resolve<IPublisher>(),
+                        c.Resolve<ISubscriber>()));
 
             builder.Register(
                 c =>
@@ -162,7 +164,8 @@ namespace View.Forms
 
             builder.Register(
                 c => new NotificationPresenter(
-                    c.Resolve<INotificationView>()));
+                    c.Resolve<INotificationView>(),
+                    c.Resolve<IPublisher>()));
 
             builder.Register(
                 c => new TaskDisplayPresenter(
@@ -171,7 +174,8 @@ namespace View.Forms
                     c.Resolve<IHistoryService>(),
                     c.Resolve<ITasksService>(),
                     c.Resolve<IProfileService>(),
-                    c.Resolve<IImprovementsService>()));
+                    c.Resolve<IImprovementsService>(),
+                    c.Resolve<IPublisher>()));
 
             builder.Register(
                 c => new TaskEditPresenter(
@@ -179,7 +183,8 @@ namespace View.Forms
                     c.Resolve<ITasksRepository>(),
                     c.Resolve<ISkillsRepository>(),
                     c.Resolve<IHistoryService>(),
-                    c.Resolve<ITasksService>()));
+                    c.Resolve<ITasksService>(), 
+                    c.Resolve<IPublisher>()));
 
             builder.Register(
                 c => new TaskCompositePresenter(
@@ -195,7 +200,7 @@ namespace View.Forms
             builder.Register(
                 c => new MainPresenter(
                     c.Resolve<IMainView>(),
-                    c.Resolve<DayPresenter>(),
+                    c.Resolve<JournalPresenter>(),
                     c.Resolve<TodoListPresenter>(),
                     c.Resolve<ProfilePresenter>(),
                     c.Resolve<HistoryPresenter>(),
@@ -226,12 +231,12 @@ namespace View.Forms
                         c.Resolve<ITasksRepository>(),
                         c.Resolve<IWorkUnitsRepository>(),
                         c.Resolve<ISkillsRepository>(),
-                        c.Resolve<IDaysRepository>(),
+                        c.Resolve<IJournalRepository>(),
                         c.Resolve<IProfileRepository>()));
 
             builder.Register(
-                c => new DaysService(
-                    c.Resolve<IDaysRepository>(),
+                c => new JournalService(
+                    c.Resolve<IJournalRepository>(),
                     c.Resolve<IProfileRepository>()));
 
             builder.Register(
@@ -288,7 +293,7 @@ namespace View.Forms
             profileHistoryForm.StyleManager = this.StyleManager.Clone(profileHistoryForm) as MetroStyleManager;
         }
 
-        public void Handle(OpenWindowEvent openWindowEvent)
+        void ICanHandle<OpenWindowEvent>.Handle(OpenWindowEvent openWindowEvent)
         {
             switch (openWindowEvent.WindowType)
             {
@@ -304,9 +309,22 @@ namespace View.Forms
                     taskCompositeForm.Show();
                     break;
 
+                case WindowType.NotificationWindow:
+                    if (notificationForm.IsDisposed)
+                        notificationForm = new NotificationForm();
+                    notificationForm.Show();
+                    break;
+
                 case WindowType.Undefined:
                     break;
             }
+        }
+
+        void ICanHandle<ShowNotificationEvent>.Handle(ShowNotificationEvent showNotificationEvent)
+        {
+            notificationForm.Title = showNotificationEvent.Title;
+            notificationForm.AdditionalText = showNotificationEvent.Text;
+            publisher.Publish<OpenWindowEvent>(new OpenWindowEvent(WindowType.NotificationWindow));
         }
     }
 }

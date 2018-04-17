@@ -10,6 +10,8 @@ using Model.Entities;
 using Model.Enums;
 using Utilities;
 using Task = Model.Entities.Task;
+using BussinessLogicLayer.Events;
+using BussinessLogicLayer.Enums;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -21,18 +23,20 @@ namespace BussinessLogicLayer.Presenters
         private readonly ISkillsRepository skillsRepository;
         private readonly IHistoryService historyService;
         private readonly ITasksService tasksService;
+        private readonly IPublisher publisher;
         
         private bool isTaskNew;
         private Task task;
 
         public TaskEditPresenter(ITaskEditView view, ITasksRepository tasksRepository, ISkillsRepository skillsRepository,
-            IHistoryService historyService, ITasksService tasksService)
+            IHistoryService historyService, ITasksService tasksService, IPublisher publisher)
         {
             this.view = view;
             this.tasksRepository = tasksRepository;
             this.skillsRepository = skillsRepository;
             this.tasksService = tasksService;
             this.historyService = historyService;
+            this.publisher = publisher;
         }
 
         public void Initialize()
@@ -74,11 +78,15 @@ namespace BussinessLogicLayer.Presenters
             {
                 taskToSave = tasksService.CreateNewTask(Globals.DmitruUserId, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
                 tasksService.SaveTask(taskToSave);
+
+                publisher.Publish(new TasksChangedEvent(ListChangeType.Create, taskToSave.Id));
             }
             else
             {
                 taskToSave = tasksService.UpdateExistingTask(taskToSave.Id, view.TaskName, view.TaskDescription, view.DueDate.Value, view.Priority, view.ParentTaskId, view.SkillToTrainId, view.Difficulty);
                 tasksService.UpdateTask(taskToSave);
+
+                publisher.Publish(new TasksChangedEvent(ListChangeType.Update, taskToSave.Id));
             }
 
             isTaskNew = false;

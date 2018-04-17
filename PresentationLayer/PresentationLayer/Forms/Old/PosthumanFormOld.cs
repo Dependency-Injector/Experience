@@ -22,7 +22,7 @@ namespace View.Forms.Old
         private ProfilePresenter profilePresenter;
         private OptionsPresenter optionsPresenter;
         private HistoryPresenter historyPresenter;
-        private DayPresenter dayPresenter;
+        private JournalPresenter dayPresenter;
         private LoginPresenter loginPresenter;
         private LoggedUserPresenter loggedUserPresenter;
 
@@ -102,7 +102,7 @@ namespace View.Forms.Old
                 profilePresenter = Container.Resolve<ProfilePresenter>();
                 optionsPresenter = Container.Resolve<OptionsPresenter>();
                 historyPresenter = Container.Resolve<HistoryPresenter>();
-                dayPresenter = Container.Resolve<DayPresenter>();
+                dayPresenter = Container.Resolve<JournalPresenter>();
             }
             catch (Exception e)
             {
@@ -133,7 +133,7 @@ namespace View.Forms.Old
 
             #region Instance (interfaces) registration
 
-            builder.RegisterInstance(this.dayControl).As<IDayView>();
+            builder.RegisterInstance(this.dayControl).As<IJournalView>();
             builder.RegisterInstance(this.profileControl).As<IProfileView>();
             builder.RegisterInstance(this.todoListControl).As<ITodoListView>();
             builder.RegisterInstance(this.historyControl2).As<IHistoryView>();
@@ -145,7 +145,7 @@ namespace View.Forms.Old
 
             #region Type registration
 
-            builder.RegisterType<DaysRepository>().As<IDaysRepository>();
+            builder.RegisterType<DaysRepository>().As<IJournalRepository>();
             builder.RegisterType<ProfileRepository>().As<IProfileRepository>();
             builder.RegisterType<HistoryEventsRepository>().As<IHistoryEventsRepository>();
             builder.RegisterType<PreferencesRepository>().As<IPreferencesRepository>();
@@ -154,7 +154,7 @@ namespace View.Forms.Old
             builder.RegisterType<WorkUnitsRepository>().As<IWorkUnitsRepository>();
             builder.RegisterType<ImprovementsRepository>().As<IImprovementsRepository>();
 
-            builder.RegisterType<DaysService>().As<IDaysService>();
+            builder.RegisterType<JournalService>().As<IJournalService>();
             builder.RegisterType<TasksService>().As<ITasksService>();
             builder.RegisterType<HistoryService>().As<IHistoryService>();
             builder.RegisterType<SkillsService>().As<ISkillsService>();
@@ -169,11 +169,11 @@ namespace View.Forms.Old
 
             builder.Register(
                 c =>
-                    new DayPresenter(
-                        c.Resolve<IDayView>(),
-                        c.Resolve<IDaysRepository>(),
+                    new JournalPresenter(
+                        c.Resolve<IJournalView>(),
+                        c.Resolve<IJournalRepository>(),
                         c.Resolve<IProfileRepository>(),
-                        c.Resolve<IDaysService>(),
+                        c.Resolve<IJournalService>(),
                         c.Resolve<IImprovementsService>(),
                         c.Resolve<IProfileService>(),
                         c.Resolve<IHistoryService>()));
@@ -201,7 +201,8 @@ namespace View.Forms.Old
                     new TodoListPresenter(
                         c.Resolve<ITodoListView>(),
                         c.Resolve<ITasksRepository>(),
-                        c.Resolve<IPublisher>()));
+                        c.Resolve<IPublisher>(), 
+                        c.Resolve<ISubscriber>()));
 
             builder.Register(
                 c =>
@@ -243,12 +244,12 @@ namespace View.Forms.Old
                         c.Resolve<ITasksRepository>(),
                         c.Resolve<IWorkUnitsRepository>(),
                         c.Resolve<ISkillsRepository>(),
-                        c.Resolve<IDaysRepository>(),
+                        c.Resolve<IJournalRepository>(),
                         c.Resolve<IProfileRepository>()));
 
             builder.Register(
-                c => new DaysService(
-                    c.Resolve<IDaysRepository>(),
+                c => new JournalService(
+                    c.Resolve<IJournalRepository>(),
                     c.Resolve<IProfileRepository>()));
 
             builder.Register(

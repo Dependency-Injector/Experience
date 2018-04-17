@@ -7,7 +7,7 @@ namespace BussinessLogicLayer.Presenters
 {
     public class MainPresenter 
     {
-        private DayPresenter dayPresenter;
+        private JournalPresenter journalPresenter;
         private TodoListPresenter todoListsPresenter;
         private ProfilePresenter profilePresenter;
         private HistoryPresenter historyPresenter;
@@ -23,10 +23,10 @@ namespace BussinessLogicLayer.Presenters
 
         private ISubscriber subscriber;
 
-        public MainPresenter(IMainView mainView, DayPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskCompositePresenter taskCompositePresenter, ProfileHistoryPresenter profileHistoryPresenter, ListsPresenter listsPresenter, ISubscriber subscriber)
+        public MainPresenter(IMainView mainView, JournalPresenter dayPresenter, TodoListPresenter todoListsPresenter, ProfilePresenter profilePresenter, HistoryPresenter historyPresenter, OptionsPresenter optionsPresenter, NotificationPresenter notificationPresenter, TaskCompositePresenter taskCompositePresenter, ProfileHistoryPresenter profileHistoryPresenter, ListsPresenter listsPresenter, ISubscriber subscriber)
         {
             this.mainView = mainView;
-            this.dayPresenter = dayPresenter;
+            this.journalPresenter = dayPresenter;
             this.todoListsPresenter = todoListsPresenter;
             this.listsPresenter = listsPresenter;
             this.profilePresenter = profilePresenter;
@@ -48,7 +48,7 @@ namespace BussinessLogicLayer.Presenters
 
         private void InitializeSubpresenters()
         {
-            dayPresenter.Initialize();
+            journalPresenter.Initialize();
             todoListsPresenter.Initialize();
             listsPresenter.Initialize();
             profilePresenter.Initialize();
@@ -68,8 +68,8 @@ namespace BussinessLogicLayer.Presenters
         {
             switch (mainView.SelectedSubView)
             {
-                case SubViewType.Day:
-                    dayPresenter.OnViewDisplayed();
+                case SubViewType.Journal:
+                    journalPresenter.OnViewDisplayed();
                     break;
                 case SubViewType.History:
                     historyPresenter.OnViewDisplayed();

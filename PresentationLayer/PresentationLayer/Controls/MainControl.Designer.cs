@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.subViewsTabControl = new MetroFramework.Controls.MetroTabControl();
-            this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.dayControl = new View.Controls.DayControl();
+            this.journalTabPage = new MetroFramework.Controls.MetroTabPage();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.todoListControl = new View.Controls.TodoListControl();
             this.listsTabPage = new MetroFramework.Controls.MetroTabPage();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.profileControl = new View.Controls.ProfileControl();
             this.historyTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.historyControl = new View.Controls.HistoryControl();
             this.optionsTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.optionsControl = new View.Controls.OptionsControl();
+            this.journalControl = new View.Controls.JournalControl();
+            this.todoListControl = new View.Controls.TodoListControl();
             this.listsControl = new View.Controls.ListsControl();
+            this.profileControl = new View.Controls.ProfileControl();
+            this.historyControl = new View.Controls.HistoryControl();
+            this.optionsControl = new View.Controls.OptionsControl();
             this.subViewsTabControl.SuspendLayout();
-            this.dayTabPage.SuspendLayout();
+            this.journalTabPage.SuspendLayout();
             this.tasksTabPage.SuspendLayout();
             this.listsTabPage.SuspendLayout();
             this.profileTabPage.SuspendLayout();
@@ -52,7 +52,7 @@
             // 
             // subViewsTabControl
             // 
-            this.subViewsTabControl.Controls.Add(this.dayTabPage);
+            this.subViewsTabControl.Controls.Add(this.journalTabPage);
             this.subViewsTabControl.Controls.Add(this.tasksTabPage);
             this.subViewsTabControl.Controls.Add(this.listsTabPage);
             this.subViewsTabControl.Controls.Add(this.profileTabPage);
@@ -67,37 +67,24 @@
             this.subViewsTabControl.UseSelectable = true;
             this.subViewsTabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.contentTabControl_Selected);
             // 
-            // dayTabPage
+            // journalTabPage
             // 
-            this.dayTabPage.AutoScroll = true;
-            this.dayTabPage.Controls.Add(this.dayControl);
-            this.dayTabPage.HorizontalScrollbar = true;
-            this.dayTabPage.HorizontalScrollbarBarColor = true;
-            this.dayTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.dayTabPage.HorizontalScrollbarSize = 10;
-            this.dayTabPage.Location = new System.Drawing.Point(4, 38);
-            this.dayTabPage.Name = "dayTabPage";
-            this.dayTabPage.Padding = new System.Windows.Forms.Padding(25);
-            this.dayTabPage.Size = new System.Drawing.Size(712, 558);
-            this.dayTabPage.TabIndex = 4;
-            this.dayTabPage.Text = "Memories";
-            this.dayTabPage.VerticalScrollbar = true;
-            this.dayTabPage.VerticalScrollbarBarColor = true;
-            this.dayTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.dayTabPage.VerticalScrollbarSize = 10;
-            // 
-            // dayControl
-            // 
-            this.dayControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dayControl.ChoosenEntryId = null;
-            this.dayControl.Location = new System.Drawing.Point(10, 10);
-            this.dayControl.Name = "dayControl";
-            this.dayControl.Size = new System.Drawing.Size(692, 538);
-            this.dayControl.TabIndex = 2;
-            this.dayControl.Thoughts = "[Thoughts]";
-            this.dayControl.UseSelectable = true;
+            this.journalTabPage.AutoScroll = true;
+            this.journalTabPage.Controls.Add(this.journalControl);
+            this.journalTabPage.HorizontalScrollbar = true;
+            this.journalTabPage.HorizontalScrollbarBarColor = true;
+            this.journalTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.journalTabPage.HorizontalScrollbarSize = 10;
+            this.journalTabPage.Location = new System.Drawing.Point(4, 38);
+            this.journalTabPage.Name = "journalTabPage";
+            this.journalTabPage.Padding = new System.Windows.Forms.Padding(25);
+            this.journalTabPage.Size = new System.Drawing.Size(712, 558);
+            this.journalTabPage.TabIndex = 4;
+            this.journalTabPage.Text = "Memories";
+            this.journalTabPage.VerticalScrollbar = true;
+            this.journalTabPage.VerticalScrollbarBarColor = true;
+            this.journalTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.journalTabPage.VerticalScrollbarSize = 10;
             // 
             // tasksTabPage
             // 
@@ -117,17 +104,6 @@
             this.tasksTabPage.VerticalScrollbarBarColor = true;
             this.tasksTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.tasksTabPage.VerticalScrollbarSize = 10;
-            // 
-            // todoListControl
-            // 
-            this.todoListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.todoListControl.Location = new System.Drawing.Point(10, 10);
-            this.todoListControl.Name = "todoListControl";
-            this.todoListControl.Size = new System.Drawing.Size(692, 538);
-            this.todoListControl.TabIndex = 0;
-            this.todoListControl.UseSelectable = true;
             // 
             // listsTabPage
             // 
@@ -163,25 +139,6 @@
             this.profileTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.profileTabPage.VerticalScrollbarSize = 10;
             // 
-            // profileControl
-            // 
-            this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.profileControl.BirthDate = new System.DateTime(2016, 3, 3, 8, 57, 7, 886);
-            this.profileControl.Experience = "(Experience Value)";
-            this.profileControl.History = "(History Value)";
-            this.profileControl.Level = 0;
-            this.profileControl.LevelProgress = 0;
-            this.profileControl.Location = new System.Drawing.Point(10, 10);
-            this.profileControl.Name = "profileControl";
-            this.profileControl.NewSkillName = "(New skil name)";
-            this.profileControl.PlayerName = "profileControl";
-            this.profileControl.SelectedSkill = null;
-            this.profileControl.Size = new System.Drawing.Size(692, 538);
-            this.profileControl.TabIndex = 1;
-            this.profileControl.UseSelectable = true;
-            // 
             // historyTabPage
             // 
             this.historyTabPage.Controls.Add(this.historyControl);
@@ -197,21 +154,6 @@
             this.historyTabPage.VerticalScrollbarBarColor = true;
             this.historyTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.historyTabPage.VerticalScrollbarSize = 10;
-            // 
-            // historyControl
-            // 
-            this.historyControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.historyControl.DisplayExperienceEvents = true;
-            this.historyControl.DisplayProfileAndSkillsEvents = true;
-            this.historyControl.DisplayTaskEvents = true;
-            this.historyControl.DisplayWorkUnitEvents = true;
-            this.historyControl.Location = new System.Drawing.Point(10, 10);
-            this.historyControl.Name = "historyControl";
-            this.historyControl.Size = new System.Drawing.Size(692, 538);
-            this.historyControl.TabIndex = 2;
-            this.historyControl.UseSelectable = true;
             // 
             // optionsTabPage
             // 
@@ -232,6 +174,77 @@
             this.optionsTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.optionsTabPage.VerticalScrollbarSize = 10;
             // 
+            // journalControl
+            // 
+            this.journalControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.journalControl.ChoosenEntryId = null;
+            this.journalControl.Location = new System.Drawing.Point(10, 10);
+            this.journalControl.Name = "journalControl";
+            this.journalControl.Size = new System.Drawing.Size(692, 538);
+            this.journalControl.TabIndex = 2;
+            this.journalControl.Thoughts = "[Thoughts]";
+            this.journalControl.UseSelectable = true;
+            // 
+            // todoListControl
+            // 
+            this.todoListControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.todoListControl.Location = new System.Drawing.Point(10, 10);
+            this.todoListControl.Name = "todoListControl";
+            this.todoListControl.Size = new System.Drawing.Size(692, 538);
+            this.todoListControl.SortingType = BussinessLogicLayer.Enums.SortingType.ByGoal;
+            this.todoListControl.TabIndex = 0;
+            this.todoListControl.UseSelectable = true;
+            // 
+            // listsControl
+            // 
+            this.listsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listsControl.Lists = null;
+            this.listsControl.Location = new System.Drawing.Point(10, 10);
+            this.listsControl.Name = "listsControl";
+            this.listsControl.Size = new System.Drawing.Size(692, 538);
+            this.listsControl.TabIndex = 2;
+            this.listsControl.UseSelectable = true;
+            // 
+            // profileControl
+            // 
+            this.profileControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.profileControl.BirthDate = new System.DateTime(2016, 4, 17, 1, 45, 24, 846);
+            this.profileControl.Experience = "(Experience Value)";
+            this.profileControl.History = "(History Value)";
+            this.profileControl.Level = 0;
+            this.profileControl.LevelProgress = 0;
+            this.profileControl.Location = new System.Drawing.Point(10, 10);
+            this.profileControl.Name = "profileControl";
+            this.profileControl.NewSkillName = "(New skil name)";
+            this.profileControl.PlayerName = "profileControl";
+            this.profileControl.SelectedSkill = null;
+            this.profileControl.Size = new System.Drawing.Size(692, 538);
+            this.profileControl.TabIndex = 1;
+            this.profileControl.UseSelectable = true;
+            // 
+            // historyControl
+            // 
+            this.historyControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.historyControl.DisplayExperienceEvents = true;
+            this.historyControl.DisplayProfileAndSkillsEvents = true;
+            this.historyControl.DisplayTaskEvents = true;
+            this.historyControl.DisplayWorkUnitEvents = true;
+            this.historyControl.Location = new System.Drawing.Point(10, 10);
+            this.historyControl.Name = "historyControl";
+            this.historyControl.Size = new System.Drawing.Size(692, 538);
+            this.historyControl.TabIndex = 2;
+            this.historyControl.UseSelectable = true;
+            // 
             // optionsControl
             // 
             this.optionsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -247,18 +260,6 @@
             this.optionsControl.ThemeName = "Light";
             this.optionsControl.UseSelectable = true;
             // 
-            // listsControl
-            // 
-            this.listsControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listsControl.Lists = null;
-            this.listsControl.Location = new System.Drawing.Point(10, 10);
-            this.listsControl.Name = "listsControl";
-            this.listsControl.Size = new System.Drawing.Size(692, 538);
-            this.listsControl.TabIndex = 2;
-            this.listsControl.UseSelectable = true;
-            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,7 +268,7 @@
             this.Name = "MainControl";
             this.Size = new System.Drawing.Size(720, 600);
             this.subViewsTabControl.ResumeLayout(false);
-            this.dayTabPage.ResumeLayout(false);
+            this.journalTabPage.ResumeLayout(false);
             this.tasksTabPage.ResumeLayout(false);
             this.listsTabPage.ResumeLayout(false);
             this.profileTabPage.ResumeLayout(false);
@@ -280,8 +281,8 @@
         #endregion
 
         private MetroFramework.Controls.MetroTabControl subViewsTabControl;
-        private MetroFramework.Controls.MetroTabPage dayTabPage;
-        private DayControl dayControl;
+        private MetroFramework.Controls.MetroTabPage journalTabPage;
+        private JournalControl journalControl;
         private MetroFramework.Controls.MetroTabPage tasksTabPage;
         private TodoListControl todoListControl;
         private MetroFramework.Controls.MetroTabPage profileTabPage;

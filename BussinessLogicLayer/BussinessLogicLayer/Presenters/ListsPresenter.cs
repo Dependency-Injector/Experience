@@ -29,6 +29,6 @@ namespace BussinessLogicLayer.Presenters
             //throw new NotImplementedException();
         }
 
-        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        public event EventHandler<ShowNotificationEvent> NotificationAppeared;
     }
 }

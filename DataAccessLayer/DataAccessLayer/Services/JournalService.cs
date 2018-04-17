@@ -6,12 +6,12 @@ using Model.Entities;
 
 namespace DataAccessLayer.Services
 {
-    public class DaysService : IDaysService
+    public class JournalService : IJournalService
     {
-        private IDaysRepository daysRepository;
+        private IJournalRepository daysRepository;
         private IProfileRepository profileRepository;
         
-        public DaysService(IDaysRepository daysRepository, IProfileRepository profileRepository)
+        public JournalService(IJournalRepository daysRepository, IProfileRepository profileRepository)
         {
             this.daysRepository = daysRepository;
             this.profileRepository = profileRepository;

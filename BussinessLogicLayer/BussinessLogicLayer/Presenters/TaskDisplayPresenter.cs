@@ -9,6 +9,8 @@ using Model.Entities;
 using Model.Enums;
 using Utilities;
 using Task = Model.Entities.Task;
+using BussinessLogicLayer.Events;
+using BussinessLogicLayer.Enums;
 
 namespace BussinessLogicLayer.Presenters
 {
@@ -20,11 +22,12 @@ namespace BussinessLogicLayer.Presenters
         private readonly ITasksService tasksService;
         private readonly IProfileService profilesService;
         private readonly IImprovementsService improvementsService;
+        private readonly IPublisher publisher;
 
         private Task task;
 
         public TaskDisplayPresenter(ITaskDisplayView view, ITasksRepository tasksRepository, IHistoryService historyService, 
-            ITasksService tasksService, IProfileService profilesService, IImprovementsService improvementsService)
+            ITasksService tasksService, IProfileService profilesService, IImprovementsService improvementsService, IPublisher publisher)
         {
             this.view = view;
             this.tasksRepository = tasksRepository;
@@ -32,6 +35,7 @@ namespace BussinessLogicLayer.Presenters
             this.historyService = historyService;
             this.profilesService = profilesService;
             this.improvementsService = improvementsService;
+            this.publisher = publisher;
         }
 
         public void Initialize()
@@ -106,6 +110,7 @@ namespace BussinessLogicLayer.Presenters
             // Finish task and save info about this
             tasksService.FinishTask(taskToFinish);
             historyService.AddHistoryEvent(HistoryEventType.TaskFinished, taskToFinish.Id, xpForTaskFinish);
+
             
             Improvement improvement = improvementsService.CreateNewImprovement(Globals.DmitruUserId, ImprovementType.ExperienceGained, ImprovementOrigin.TaskCompletion, xpForTaskFinish, taskToFinish.Id);
             improvementsService.SaveImprovement(improvement);
@@ -151,8 +156,15 @@ namespace BussinessLogicLayer.Presenters
                     }
                 }
             }
+
+            // Propagate task changed event
+            publisher.Publish(new TasksChangedEvent(ListChangeType.Update, taskToFinish.Id));
+
+            string notificationText = "";// NotificationCreator.GetNotificationText();
+            notificationText += $"You have finished {taskToFinish.Name} task and gained {xpForTaskFinish} XP. Congratulations!";
+            publisher.Publish(new ShowNotificationEvent("Task finished!", notificationText));
         }
-        
+
         private ICollection GetChildrenTasksRows(ICollection<Task> childrenTasks)
         {
             List<string[]> childrenTasksRows = new List<string[]>();

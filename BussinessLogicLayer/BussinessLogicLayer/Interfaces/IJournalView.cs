@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BussinessLogicLayer.Interfaces
 {
-    public interface IDayView
+    public interface IJournalView
     {
         String Thoughts { get;  set; }
         DateTime Date { set; }
@@ -13,14 +13,15 @@ namespace BussinessLogicLayer.Interfaces
         int? ChoosenEntryId { get; set; }
 
         Dictionary<int, string> Entries { set; }
-
-        bool ShowNextDayButton { set; }
-        bool ShowPreviousDayButton { set; }
+        
         bool ShowEditButton { set; }
         bool ShowSaveChangesButton { set; }
         bool ShowCancelChangesButton { set; }
         bool ThoughtsTextBoxEnabled { set; }
-        bool SelectingControlsEnabled { set; }
+
+        bool ShowNavigation { set; }
+        bool EnableNextDayButton { set; }
+        bool EnablePreviousDayButton { set; }
 
         event EventHandler<EventArgs> SaveDayChanges;
         event EventHandler<EventArgs> EditDay;

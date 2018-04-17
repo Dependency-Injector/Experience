@@ -20,7 +20,7 @@ namespace BussinessLogicLayer.Presenters
         private readonly IProfileRepository profilesRepository;
 
         private Profile currentUser;
-        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        public event EventHandler<ShowNotificationEvent> NotificationAppeared;
 
         public HistoryPresenter(IHistoryView view, IHistoryEventsRepository historyEventsRepository, IProfileRepository profilesRepository)
         {

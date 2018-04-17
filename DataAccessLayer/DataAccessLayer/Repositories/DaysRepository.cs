@@ -9,7 +9,7 @@ using Model.Entities;
 
 namespace DataAccessLayer.Repositories
 {
-    public class DaysRepository : IDaysRepository
+    public class DaysRepository : IJournalRepository
     {
         private readonly EntitiesContext context;
 

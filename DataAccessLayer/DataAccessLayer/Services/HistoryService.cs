@@ -15,7 +15,7 @@ namespace DataAccessLayer.Services
         private ITasksRepository tasksRepository;
         private IWorkUnitsRepository workUnitsRepository;
         private ISkillsRepository skillsRepository;
-        private IDaysRepository daysRepository;
+        private IJournalRepository daysRepository;
         private IProfileRepository profilesRepository;
 
         private Profile currentUser;
@@ -38,17 +38,17 @@ namespace DataAccessLayer.Services
 
         public HistoryService()
         {
-            historyRepository = new HistoryEventsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            tasksRepository = new TasksRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            workUnitsRepository = new WorkUnitsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            skillsRepository = new SkillsRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            daysRepository = new DaysRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
-            profilesRepository = new ProfileRepository(@"Data Source=DMITRUSPACE\DMITRUSERVER;Initial Catalog=EntitiesDatabase;Integrated Security=True");
+            historyRepository = new HistoryEventsRepository(@"Data Source=DMITRUSPACE;Initial Catalog=ExistenceDatabase;Integrated Security=True");
+            tasksRepository = new TasksRepository(@"Data Source=DMITRUSPACE;Initial Catalog=ExistenceDatabase;Integrated Security=True");
+            workUnitsRepository = new WorkUnitsRepository(@"Data Source=DMITRUSPACE;Initial Catalog=ExistenceDatabase;Integrated Security=True");
+            skillsRepository = new SkillsRepository(@"Data Source=DMITRUSPACE;Initial Catalog=ExistenceDatabase;Integrated Security=True");
+            daysRepository = new DaysRepository(@"Data Source=DMITRUSPACE;Initial Catalog=ExistenceDatabase;Integrated Security=True");
+            profilesRepository = new ProfileRepository(@"Data Source=DMITRUSPACE;Initial Catalog=ExistenceDatabase;Integrated Security=True");
         }
 
         public HistoryService(IHistoryEventsRepository historyEventsRepository, ITasksRepository tasksRepository,
             IWorkUnitsRepository workUnitsRepository, ISkillsRepository skillsRepository,
-            IDaysRepository daysRepository, IProfileRepository profilesRepository)
+            IJournalRepository daysRepository, IProfileRepository profilesRepository)
         {
             this.historyRepository = historyEventsRepository;
             this.tasksRepository = tasksRepository;

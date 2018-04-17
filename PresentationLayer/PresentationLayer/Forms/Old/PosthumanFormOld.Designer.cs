@@ -35,7 +35,7 @@ namespace View.Forms.Old
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PosthumanFormOld));
             this.contentTabControl = new MetroFramework.Controls.MetroTabControl();
             this.dayTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.dayControl = new DayControl();
+            this.dayControl = new JournalControl();
             this.tasksTabPage = new MetroFramework.Controls.MetroTabPage();
             this.todoListControl = new TodoListControl();
             this.profileTabPage = new MetroFramework.Controls.MetroTabPage();
@@ -90,14 +90,14 @@ namespace View.Forms.Old
             this.dayTabPage.VerticalScrollbarHighlightOnWheel = false;
             this.dayTabPage.VerticalScrollbarSize = 10;
             // 
-            // dayControl
+            // journalControl
             // 
             this.dayControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dayControl.ChoosenEntryId = null;
             this.dayControl.Location = new System.Drawing.Point(3, 3);
-            this.dayControl.Name = "dayControl";
+            this.dayControl.Name = "journalControl";
             this.dayControl.Size = new System.Drawing.Size(1182, 411);
             this.dayControl.TabIndex = 2;
             this.dayControl.Thoughts = "[Thoughts]";
@@ -334,7 +334,7 @@ namespace View.Forms.Old
         private MetroFramework.Controls.MetroTabPage historyTabPage;
         private HistoryControl historyControl1;
         private MetroFramework.Controls.MetroTabPage dayTabPage;
-        private DayControl dayControl;
+        private JournalControl dayControl;
         private HistoryControl historyControl2;
         private LoginControl loginControl;
         private LoggedUserControl loggedUserControl;

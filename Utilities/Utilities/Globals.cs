@@ -8,6 +8,6 @@ namespace Utilities
 {
     public static class Globals
     {
-        public static int DmitruUserId = 12;
+        public static int DmitruUserId = 1;
     }
 }

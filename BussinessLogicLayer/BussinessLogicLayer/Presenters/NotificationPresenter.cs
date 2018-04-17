@@ -11,14 +11,16 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class NotificationPresenter : IPresenter
+    public class NotificationPresenter : IPresenter, ICanHandle<OpenWindowEvent>
     {
         private readonly INotificationView view;
-        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        private readonly IPublisher publisher;
+        public event EventHandler<ShowNotificationEvent> NotificationAppeared;
         
-        public NotificationPresenter(INotificationView view)
+        public NotificationPresenter(INotificationView view, IPublisher publisher)
         {
             this.view = view;
+            this.publisher = publisher;
         }
         
         public void Initialize()
@@ -47,10 +49,20 @@ namespace BussinessLogicLayer.Presenters
 
             view.Type = type;
             view.IsVisible = true;
+
+            //publisher.Publish(new OpenWindowEvent(WindowType.NotificationWindow, notification))
         }
         
         public void OnViewDisplayed()
         {
+        }
+
+        public void Handle(OpenWindowEvent openNotificationEventArgs)
+        {
+            if (openNotificationEventArgs.WindowType != WindowType.NotificationWindow)
+                return;
+
+            
         }
     }
 }

@@ -12,12 +12,12 @@ using Utilities;
 
 namespace BussinessLogicLayer.Presenters
 {
-    public class DayPresenter : IPresenter
+    public class JournalPresenter : IPresenter
     {
-        private readonly IDayView view;
-        private readonly IDaysRepository daysRepository;
+        private readonly IJournalView view;
+        private readonly IJournalRepository journalRepository;
         private readonly IProfileRepository profileRepository;
-        private readonly IDaysService daysService;
+        private readonly IJournalService journalService;
         private readonly IImprovementsService improvementsService;
         private readonly IProfileService profileService;
         private readonly IHistoryService historyService;
@@ -25,14 +25,14 @@ namespace BussinessLogicLayer.Presenters
         private Day dayBeingDisplayed;
         private Profile currentUser;
 
-        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        public event EventHandler<ShowNotificationEvent> NotificationAppeared;
 
-        public DayPresenter(IDayView view, IDaysRepository daysRepository, IProfileRepository profileRepository, IDaysService daysService, IImprovementsService improvementsService, IProfileService profileService, IHistoryService historyService)
+        public JournalPresenter(IJournalView view, IJournalRepository journalRepository, IProfileRepository profileRepository, IJournalService journalService, IImprovementsService improvementsService, IProfileService profileService, IHistoryService historyService)
         {
             this.view = view;
-            this.daysRepository = daysRepository;
+            this.journalRepository = journalRepository;
             this.profileRepository = profileRepository;
-            this.daysService = daysService;
+            this.journalService = journalService;
             this.improvementsService = improvementsService;
             this.profileService = profileService;
             this.historyService = historyService;
@@ -48,10 +48,12 @@ namespace BussinessLogicLayer.Presenters
                 view.DaySelectorMinDate = currentUser.JoinDate.Date;
                 view.DaySelectorMaxDate = DateTime.Now.Date.AddDays(1).AddMilliseconds(-1);
 
-                dayBeingDisplayed = daysRepository.GetByDate(currentUser.Id, DateTime.Now);
+                dayBeingDisplayed = journalRepository.GetByDate(currentUser.Id, DateTime.Now);
                 if (dayBeingDisplayed == null)
-                    dayBeingDisplayed = daysService.CreateNewDay(currentUser.Id, DateTime.Now, view.Thoughts);
+                    dayBeingDisplayed = journalService.CreateNewDay(currentUser.Id, DateTime.Now, view.Thoughts);
 
+                LoadPreviousEntries();
+                
                 DisplayDayData(dayBeingDisplayed, currentUser.GetDaysSinceFirstDay());
 
                 SetDisplayMode(DisplayMode.View);
@@ -88,7 +90,7 @@ namespace BussinessLogicLayer.Presenters
                 view.ShowSaveChangesButton = true;
                 view.ShowCancelChangesButton = true;
                 view.ThoughtsTextBoxEnabled = true;
-                view.SelectingControlsEnabled = false;
+                view.ShowNavigation = false;
             }
             else if (displayMode == DisplayMode.View)
             {
@@ -96,31 +98,31 @@ namespace BussinessLogicLayer.Presenters
                 view.ShowSaveChangesButton = false;
                 view.ShowCancelChangesButton = false;
                 view.ThoughtsTextBoxEnabled = false;
-                view.SelectingControlsEnabled = true;
+                view.ShowNavigation = true;
             }
         }
 
         private void ShowNextPreviousDayButtons(int daysSinceFirstDay)
         {
             if (dayBeingDisplayed.Date.Date < DateTime.Now.Date)
-                ShowNextDayButton(true);
+                EnableNextDayButton(true);
             else
-                ShowNextDayButton(false);
+                EnableNextDayButton(false);
 
             if (daysSinceFirstDay >= 1)
-                ShowPreviousDayButton(true);
+                EnablePreviousDayButton(true);
             else
-                ShowPreviousDayButton(false);
+                EnablePreviousDayButton(false);
         }
 
-        private void ShowPreviousDayButton(bool show)
+        private void EnablePreviousDayButton(bool enable)
         {
-            view.ShowPreviousDayButton = show;
+            view.EnablePreviousDayButton = enable;
         }
 
-        private void ShowNextDayButton(bool show)
+        private void EnableNextDayButton(bool enable)
         {
-            view.ShowNextDayButton = show;
+            view.EnableNextDayButton = enable;
         }
 
         private void DisplayDayData(Day day, double dayNumber)
@@ -128,14 +130,13 @@ namespace BussinessLogicLayer.Presenters
             view.DayNumber = (int)dayNumber;
             view.Date = day.Date;
             view.Thoughts = day.Thoughts;
-            view.Entries = GetUserDiaryEntriesTitles(day.Owner.Id);
             view.ChoosenEntryId = day.Id;
         }
 
         private Dictionary<int, string> GetUserDiaryEntriesTitles(int userId)
         {
             // For having diary entries list
-            var userDiaryEntries = daysService.GetDaysForUser(userId);
+            var userDiaryEntries = journalService.GetDaysForUser(userId);
             var userDiaryEntriesTitles = new Dictionary<int, string>();
 
             foreach (var diaryEntry in userDiaryEntries)
@@ -147,13 +148,29 @@ namespace BussinessLogicLayer.Presenters
                         ? diaryEntry.Thoughts.Substring(0, 15) + "..."
                         : diaryEntry.Thoughts;
 
-                    // Example: "Day 3: Today i was jerki..."
+                    // Example: "Journal 3: Today i was jerki..."
                     String value = $"Day {diaryEntry.Number}: {titleAbbreviation}";
                     userDiaryEntriesTitles.Add(diaryEntry.Id, value);
                 }
             }
 
             return userDiaryEntriesTitles;
+        }
+        /// <summary>
+        /// Loads previous entries and displays navigation if any entries found
+        /// </summary>
+        private void LoadPreviousEntries()
+        {
+            var previousDiaryEntries = GetUserDiaryEntriesTitles(currentUser.Id);
+            if (previousDiaryEntries != null && previousDiaryEntries.Count > 1)
+            {
+                view.Entries = previousDiaryEntries;
+                view.ShowNavigation = true;
+            }
+            else
+            {
+                view.ShowNavigation = true;
+            }
         }
 
         private int GetDaysBetweenDates(DateTime newerDate, DateTime olderDate)
@@ -166,10 +183,10 @@ namespace BussinessLogicLayer.Presenters
         {
             Day day;
 
-            if (daysRepository.HasDay(currentUser.Id, date))
-                day = daysRepository.GetByDate(currentUser.Id, date);
+            if (journalRepository.HasDay(currentUser.Id, date))
+                day = journalRepository.GetByDate(currentUser.Id, date);
             else
-                day = daysService.CreateNewDay(currentUser.Id, date);
+                day = journalService.CreateNewDay(currentUser.Id, date);
 
             return day;
         }
@@ -210,7 +227,7 @@ namespace BussinessLogicLayer.Presenters
             if (view.ChoosenEntryId.HasValue)
             {
                 int selectedEntryId = view.ChoosenEntryId.Value;
-                dayBeingDisplayed = daysRepository.Get(selectedEntryId);
+                dayBeingDisplayed = journalRepository.Get(selectedEntryId);
                 int daysSinceDaySelected = GetDaysBetweenDates(dayBeingDisplayed.Date, currentUser.JoinDate);
 
                 DisplayDayData(dayBeingDisplayed, daysSinceDaySelected);
@@ -223,20 +240,20 @@ namespace BussinessLogicLayer.Presenters
             int writtenWordsCount = view.Thoughts.Count(Char.IsWhiteSpace);
             
             // Diary entry for such day already exists - updating diary entry
-            if (daysRepository.HasDay(currentUser.Id, dayBeingDisplayed.Date))
+            if (journalRepository.HasDay(currentUser.Id, dayBeingDisplayed.Date))
             {
-                Day existingDiaryEntry = daysRepository.Get(dayBeingDisplayed.Id);
+                Day existingDiaryEntry = journalRepository.Get(dayBeingDisplayed.Id);
                 writtenWordsCount = writtenWordsCount - existingDiaryEntry.Thoughts.Count(Char.IsWhiteSpace);
 
-                dayBeingDisplayed = daysService.UpdateExistingDay(dayBeingDisplayed.Id, view.Thoughts);
-                daysRepository.Update(dayBeingDisplayed);
+                dayBeingDisplayed = journalService.UpdateExistingDay(dayBeingDisplayed.Id, view.Thoughts);
+                journalRepository.Update(dayBeingDisplayed);
                 historyService.AddHistoryEvent(HistoryEventType.DayUpdated, dayBeingDisplayed.Id);
             }
             // Saving diary entry for the first time for such day
             else
             {
                 dayBeingDisplayed.Thoughts = view.Thoughts;
-                daysService.SaveDay(dayBeingDisplayed);
+                journalService.SaveDay(dayBeingDisplayed);
                 historyService.AddHistoryEvent(HistoryEventType.DaySaved, dayBeingDisplayed.Id);
             }
 
@@ -268,7 +285,7 @@ namespace BussinessLogicLayer.Presenters
             SetDisplayMode(DisplayMode.Edit);
 
             if (NotificationAppeared != null)
-                NotificationAppeared(this, new ShowNotificationEventArgs("Day edited", "You have edited a day!"));
+                NotificationAppeared(this, new ShowNotificationEvent("Journal edited", "You have edited a day!"));
         }
 
         public void OnViewDisplayed()

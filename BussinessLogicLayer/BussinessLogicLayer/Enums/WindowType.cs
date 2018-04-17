@@ -4,6 +4,7 @@
     {
         TaskWindow,
         HistoryWindow,
+        NotificationWindow,
         Undefined
     }
 }

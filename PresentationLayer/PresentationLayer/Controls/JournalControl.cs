@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using BussinessLogicLayer.Interfaces;
 using MetroFramework.Controls;
+using System.Globalization;
 
 namespace View.Controls
 {
-    public partial class DayControl : MetroUserControl, IDayView
+    public partial class JournalControl : MetroUserControl, IJournalView
     {
         private bool raiseDayChangedEvent = true;
 
@@ -22,7 +23,8 @@ namespace View.Controls
                 selectedDayDateTime.Value = value;
                 raiseDayChangedEvent = true;
 
-                String dayDateText = value.ToString("dddd, d MMMM");
+                CultureInfo ci = new CultureInfo("en-US");
+                String dayDateText = value.ToString("dddd, d MMMM", ci);
                 dateLabel.Text = dayDateText;
             }
         }
@@ -77,15 +79,7 @@ namespace View.Controls
         {
             set { selectedDayDateTime.MaxDate = value; }
         }
-
-        public bool ShowNextDayButton
-        {
-            set { nextDayButton.Visible = value; }
-        }
-        public bool ShowPreviousDayButton
-        {
-            set { previousDayButton.Visible = value; }
-        }
+        
         public bool ShowEditButton
         {
             set { editButton.Visible = value; }
@@ -103,14 +97,27 @@ namespace View.Controls
             set { thoughtsTextBox.Enabled = value; }
         }
 
-        public bool SelectingControlsEnabled
+        public bool ShowNavigation
+        {
+            set
+            {
+                dayEntriesNavigationPanel.Visible = value;
+            }
+        }
+
+        public bool EnableNextDayButton
+        {
+            set
+            {
+                nextDayButton.Enabled = value;
+            }
+        }
+
+        public bool EnablePreviousDayButton
         {
             set
             {
                 previousDayButton.Enabled = value;
-                nextDayButton.Enabled = value;
-                choosenDiaryEntryComboBox.Enabled = value;
-                selectedDayDateTime.Enabled = value;
             }
         }
 
@@ -122,7 +129,7 @@ namespace View.Controls
         public event EventHandler<DateTime> DateChanged;
         public event EventHandler<int> EntrySelected;
 
-        public DayControl()
+        public JournalControl()
         {
             InitializeComponent();
         }
@@ -136,7 +143,7 @@ namespace View.Controls
         {
             if (entries != null && entries.Count > 0)
             {
-                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "");
+                KeyValuePair<int, string> emptyItem = new KeyValuePair<int, string>(0, "(select)");
                 choosenDiaryEntryComboBox.Items.Add(emptyItem);
 
                 foreach (var entry in entries)

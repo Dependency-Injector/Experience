@@ -3,7 +3,7 @@ using BussinessLogicLayer.Enums;
 
 namespace BussinessLogicLayer.Events
 {
-    public class ShowNotificationEventArgs : EventArgs
+    public class ShowNotificationEvent : EventArgs
     {
         public string Title { get; }
         public string Text { get; }
@@ -12,7 +12,7 @@ namespace BussinessLogicLayer.Events
         public int? NewProgress { get; }
         public string ProgressDescription { get; }
 
-        public ShowNotificationEventArgs(string title, string text, NotificationType type = NotificationType.Text, int? oldProgress = null, int? newProgress = null, string progressDescription = null)
+        public ShowNotificationEvent(string title, string text, NotificationType type = NotificationType.Text, int? oldProgress = null, int? newProgress = null, string progressDescription = null)
         {
             this.Title = title;
             this.Text = text;

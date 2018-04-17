@@ -34,67 +34,132 @@ namespace View.Controls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonsPanel = new MetroFramework.Controls.MetroPanel();
-            this.addTaskMetroLink = new MetroFramework.Controls.MetroLink();
+            this.displayOptionsPanel = new MetroFramework.Controls.MetroPanel();
+            this.displayOptionsLabel = new MetroFramework.Controls.MetroLabel();
             this.showFinishedTasksCheckBox = new MetroFramework.Controls.MetroCheckBox();
+            this.sortingOptionsPanel = new MetroFramework.Controls.MetroPanel();
+            this.sortingOptionsLabel = new MetroFramework.Controls.MetroLabel();
+            this.sortByGoalRadioButton = new MetroFramework.Controls.MetroRadioButton();
+            this.sortByDueDateRadioButton = new MetroFramework.Controls.MetroRadioButton();
             this.newTaskButton = new MetroFramework.Controls.MetroButton();
             this.tasksPanel = new MetroFramework.Controls.MetroPanel();
             this.tasksListGrid = new MetroFramework.Controls.MetroGrid();
             this.buttonsPanel.SuspendLayout();
+            this.displayOptionsPanel.SuspendLayout();
+            this.sortingOptionsPanel.SuspendLayout();
             this.tasksPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tasksListGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonsPanel
             // 
-            this.buttonsPanel.Controls.Add(this.addTaskMetroLink);
-            this.buttonsPanel.Controls.Add(this.showFinishedTasksCheckBox);
+            this.buttonsPanel.Controls.Add(this.displayOptionsPanel);
+            this.buttonsPanel.Controls.Add(this.sortingOptionsPanel);
             this.buttonsPanel.Controls.Add(this.newTaskButton);
             this.buttonsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonsPanel.HorizontalScrollbarBarColor = true;
             this.buttonsPanel.HorizontalScrollbarHighlightOnWheel = false;
             this.buttonsPanel.HorizontalScrollbarSize = 10;
-            this.buttonsPanel.Location = new System.Drawing.Point(0, 473);
+            this.buttonsPanel.Location = new System.Drawing.Point(0, 435);
             this.buttonsPanel.Name = "buttonsPanel";
-            this.buttonsPanel.Size = new System.Drawing.Size(581, 49);
+            this.buttonsPanel.Size = new System.Drawing.Size(581, 87);
             this.buttonsPanel.TabIndex = 3;
             this.buttonsPanel.VerticalScrollbarBarColor = true;
             this.buttonsPanel.VerticalScrollbarHighlightOnWheel = false;
             this.buttonsPanel.VerticalScrollbarSize = 10;
             // 
-            // addTaskMetroLink
+            // displayOptionsPanel
             // 
-            this.addTaskMetroLink.Image = global::View.Properties.Resources.add_icon;
-            this.addTaskMetroLink.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addTaskMetroLink.Location = new System.Drawing.Point(111, 9);
-            this.addTaskMetroLink.Name = "addTaskMetroLink";
-            this.addTaskMetroLink.NoFocusImage = global::View.Properties.Resources.add_icon_hover;
-            this.addTaskMetroLink.Size = new System.Drawing.Size(91, 28);
-            this.addTaskMetroLink.TabIndex = 4;
-            this.addTaskMetroLink.Text = "Add";
-            this.addTaskMetroLink.UseSelectable = true;
-            this.addTaskMetroLink.Visible = false;
-            this.addTaskMetroLink.Click += new System.EventHandler(this.addTaskMetroLink_Click);
+            this.displayOptionsPanel.Controls.Add(this.displayOptionsLabel);
+            this.displayOptionsPanel.Controls.Add(this.showFinishedTasksCheckBox);
+            this.displayOptionsPanel.HorizontalScrollbarBarColor = true;
+            this.displayOptionsPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.displayOptionsPanel.HorizontalScrollbarSize = 10;
+            this.displayOptionsPanel.Location = new System.Drawing.Point(3, 6);
+            this.displayOptionsPanel.Name = "displayOptionsPanel";
+            this.displayOptionsPanel.Size = new System.Drawing.Size(180, 78);
+            this.displayOptionsPanel.TabIndex = 7;
+            this.displayOptionsPanel.VerticalScrollbarBarColor = true;
+            this.displayOptionsPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.displayOptionsPanel.VerticalScrollbarSize = 10;
+            // 
+            // displayOptionsLabel
+            // 
+            this.displayOptionsLabel.AutoSize = true;
+            this.displayOptionsLabel.Location = new System.Drawing.Point(3, 8);
+            this.displayOptionsLabel.Name = "displayOptionsLabel";
+            this.displayOptionsLabel.Size = new System.Drawing.Size(50, 19);
+            this.displayOptionsLabel.TabIndex = 6;
+            this.displayOptionsLabel.Text = "Display";
             // 
             // showFinishedTasksCheckBox
             // 
             this.showFinishedTasksCheckBox.AutoSize = true;
-            this.showFinishedTasksCheckBox.Location = new System.Drawing.Point(8, 22);
+            this.showFinishedTasksCheckBox.Location = new System.Drawing.Point(15, 30);
             this.showFinishedTasksCheckBox.Name = "showFinishedTasksCheckBox";
             this.showFinishedTasksCheckBox.Size = new System.Drawing.Size(97, 15);
             this.showFinishedTasksCheckBox.TabIndex = 3;
             this.showFinishedTasksCheckBox.Text = "Show finished";
             this.showFinishedTasksCheckBox.UseSelectable = true;
-            this.showFinishedTasksCheckBox.Visible = false;
             this.showFinishedTasksCheckBox.CheckedChanged += new System.EventHandler(this.showFinishedTasksCheckBox_CheckedChanged);
+            // 
+            // sortingOptionsPanel
+            // 
+            this.sortingOptionsPanel.Controls.Add(this.sortingOptionsLabel);
+            this.sortingOptionsPanel.Controls.Add(this.sortByGoalRadioButton);
+            this.sortingOptionsPanel.Controls.Add(this.sortByDueDateRadioButton);
+            this.sortingOptionsPanel.HorizontalScrollbarBarColor = true;
+            this.sortingOptionsPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.sortingOptionsPanel.HorizontalScrollbarSize = 10;
+            this.sortingOptionsPanel.Location = new System.Drawing.Point(189, 6);
+            this.sortingOptionsPanel.Name = "sortingOptionsPanel";
+            this.sortingOptionsPanel.Size = new System.Drawing.Size(246, 78);
+            this.sortingOptionsPanel.TabIndex = 6;
+            this.sortingOptionsPanel.VerticalScrollbarBarColor = true;
+            this.sortingOptionsPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.sortingOptionsPanel.VerticalScrollbarSize = 10;
+            // 
+            // sortingOptionsLabel
+            // 
+            this.sortingOptionsLabel.AutoSize = true;
+            this.sortingOptionsLabel.Location = new System.Drawing.Point(3, 8);
+            this.sortingOptionsLabel.Name = "sortingOptionsLabel";
+            this.sortingOptionsLabel.Size = new System.Drawing.Size(33, 19);
+            this.sortingOptionsLabel.TabIndex = 6;
+            this.sortingOptionsLabel.Text = "Sort";
+            // 
+            // sortByGoalRadioButton
+            // 
+            this.sortByGoalRadioButton.AutoSize = true;
+            this.sortByGoalRadioButton.Checked = true;
+            this.sortByGoalRadioButton.Location = new System.Drawing.Point(12, 51);
+            this.sortByGoalRadioButton.Name = "sortByGoalRadioButton";
+            this.sortByGoalRadioButton.Size = new System.Drawing.Size(62, 15);
+            this.sortByGoalRadioButton.TabIndex = 5;
+            this.sortByGoalRadioButton.TabStop = true;
+            this.sortByGoalRadioButton.Text = "By goal";
+            this.sortByGoalRadioButton.UseSelectable = true;
+            this.sortByGoalRadioButton.CheckedChanged += new System.EventHandler(this.sortingTypeRadioButton_CheckedChanged);
+            // 
+            // sortByDueDateRadioButton
+            // 
+            this.sortByDueDateRadioButton.AutoSize = true;
+            this.sortByDueDateRadioButton.Location = new System.Drawing.Point(12, 30);
+            this.sortByDueDateRadioButton.Name = "sortByDueDateRadioButton";
+            this.sortByDueDateRadioButton.Size = new System.Drawing.Size(85, 15);
+            this.sortByDueDateRadioButton.TabIndex = 5;
+            this.sortByDueDateRadioButton.Text = "By due date";
+            this.sortByDueDateRadioButton.UseSelectable = true;
+            this.sortByDueDateRadioButton.CheckedChanged += new System.EventHandler(this.sortingTypeRadioButton_CheckedChanged);
             // 
             // newTaskButton
             // 
             this.newTaskButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.newTaskButton.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.newTaskButton.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.newTaskButton.Highlight = true;
-            this.newTaskButton.Location = new System.Drawing.Point(441, 9);
+            this.newTaskButton.Location = new System.Drawing.Point(441, 47);
             this.newTaskButton.Name = "newTaskButton";
             this.newTaskButton.Size = new System.Drawing.Size(137, 31);
             this.newTaskButton.TabIndex = 2;
@@ -111,7 +176,7 @@ namespace View.Controls
             this.tasksPanel.HorizontalScrollbarSize = 10;
             this.tasksPanel.Location = new System.Drawing.Point(0, 0);
             this.tasksPanel.Name = "tasksPanel";
-            this.tasksPanel.Size = new System.Drawing.Size(581, 473);
+            this.tasksPanel.Size = new System.Drawing.Size(581, 435);
             this.tasksPanel.TabIndex = 4;
             this.tasksPanel.VerticalScrollbarBarColor = true;
             this.tasksPanel.VerticalScrollbarHighlightOnWheel = false;
@@ -166,8 +231,12 @@ namespace View.Controls
             this.tasksListGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.tasksListGrid.RowHeadersVisible = false;
             this.tasksListGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.tasksListGrid.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.tasksListGrid.RowTemplate.Height = 30;
             this.tasksListGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tasksListGrid.Size = new System.Drawing.Size(575, 467);
+            this.tasksListGrid.Size = new System.Drawing.Size(575, 388);
             this.tasksListGrid.TabIndex = 2;
             this.tasksListGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.tasksListGrid_DataBindingComplete);
             this.tasksListGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.tasksListGrid_RowsAdded);
@@ -183,7 +252,10 @@ namespace View.Controls
             this.Size = new System.Drawing.Size(581, 522);
             this.Load += new System.EventHandler(this.TasksControl_Load);
             this.buttonsPanel.ResumeLayout(false);
-            this.buttonsPanel.PerformLayout();
+            this.displayOptionsPanel.ResumeLayout(false);
+            this.displayOptionsPanel.PerformLayout();
+            this.sortingOptionsPanel.ResumeLayout(false);
+            this.sortingOptionsPanel.PerformLayout();
             this.tasksPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tasksListGrid)).EndInit();
             this.ResumeLayout(false);
@@ -201,6 +273,11 @@ namespace View.Controls
         private System.Windows.Forms.DataGridViewTextBoxColumn priorityDataGridViewTextBoxColumn;
         private MetroCheckBox showFinishedTasksCheckBox;
         private MetroPanel tasksPanel;
-        private MetroLink addTaskMetroLink;
+        private MetroPanel displayOptionsPanel;
+        private MetroLabel displayOptionsLabel;
+        private MetroPanel sortingOptionsPanel;
+        private MetroLabel sortingOptionsLabel;
+        private MetroRadioButton sortByGoalRadioButton;
+        private MetroRadioButton sortByDueDateRadioButton;
     }
 }

@@ -139,7 +139,7 @@
             this.parentTaskComboBox.Location = new System.Drawing.Point(253, 245);
             this.parentTaskComboBox.Name = "parentTaskComboBox";
             this.parentTaskComboBox.Size = new System.Drawing.Size(306, 29);
-            this.parentTaskComboBox.TabIndex = 15;
+            this.parentTaskComboBox.TabIndex = 5;
             this.parentTaskComboBox.UseSelectable = true;
             this.parentTaskComboBox.ValueMember = "Key";
             this.parentTaskComboBox.SelectedIndexChanged += new System.EventHandler(this.parentTaskComboBox_SelectedIndexChanged);
@@ -154,7 +154,7 @@
             this.skillToTrainComboBox.Location = new System.Drawing.Point(253, 202);
             this.skillToTrainComboBox.Name = "skillToTrainComboBox";
             this.skillToTrainComboBox.Size = new System.Drawing.Size(306, 29);
-            this.skillToTrainComboBox.TabIndex = 15;
+            this.skillToTrainComboBox.TabIndex = 4;
             this.skillToTrainComboBox.UseSelectable = true;
             this.skillToTrainComboBox.ValueMember = "Key";
             // 
@@ -164,7 +164,7 @@
             this.removeButton.Location = new System.Drawing.Point(11, 402);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(72, 29);
-            this.removeButton.TabIndex = 13;
+            this.removeButton.TabIndex = 10;
             this.removeButton.Text = "Remove";
             this.removeButton.UseSelectable = true;
             this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
@@ -175,7 +175,7 @@
             this.cancelButton.Location = new System.Drawing.Point(401, 402);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 29);
-            this.cancelButton.TabIndex = 13;
+            this.cancelButton.TabIndex = 11;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseSelectable = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -186,7 +186,7 @@
             this.saveButton.Location = new System.Drawing.Point(482, 402);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(77, 29);
-            this.saveButton.TabIndex = 13;
+            this.saveButton.TabIndex = 12;
             this.saveButton.Text = "Save";
             this.saveButton.UseSelectable = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
@@ -204,7 +204,7 @@
             this.hardnessPanel.Location = new System.Drawing.Point(337, 289);
             this.hardnessPanel.Name = "hardnessPanel";
             this.hardnessPanel.Size = new System.Drawing.Size(222, 69);
-            this.hardnessPanel.TabIndex = 11;
+            this.hardnessPanel.TabIndex = 8;
             this.hardnessPanel.VerticalScrollbarBarColor = true;
             this.hardnessPanel.VerticalScrollbarHighlightOnWheel = false;
             this.hardnessPanel.VerticalScrollbarSize = 10;
@@ -215,7 +215,7 @@
             this.hardTaskRadioButton.Location = new System.Drawing.Point(4, 46);
             this.hardTaskRadioButton.Name = "hardTaskRadioButton";
             this.hardTaskRadioButton.Size = new System.Drawing.Size(87, 15);
-            this.hardTaskRadioButton.TabIndex = 2;
+            this.hardTaskRadioButton.TabIndex = 9;
             this.hardTaskRadioButton.Text = "Hard / Long";
             this.hardTaskRadioButton.UseSelectable = true;
             // 
@@ -225,7 +225,7 @@
             this.normalTaskRadioButton.Location = new System.Drawing.Point(4, 25);
             this.normalTaskRadioButton.Name = "normalTaskRadioButton";
             this.normalTaskRadioButton.Size = new System.Drawing.Size(134, 15);
-            this.normalTaskRadioButton.TabIndex = 2;
+            this.normalTaskRadioButton.TabIndex = 9;
             this.normalTaskRadioButton.Text = "Normal / Below hour";
             this.normalTaskRadioButton.UseSelectable = true;
             // 
@@ -235,7 +235,7 @@
             this.easyTaskRadioButton.Location = new System.Drawing.Point(4, 4);
             this.easyTaskRadioButton.Name = "easyTaskRadioButton";
             this.easyTaskRadioButton.Size = new System.Drawing.Size(89, 15);
-            this.easyTaskRadioButton.TabIndex = 2;
+            this.easyTaskRadioButton.TabIndex = 9;
             this.easyTaskRadioButton.Text = "Easy / Trivial";
             this.easyTaskRadioButton.UseSelectable = true;
             // 
@@ -266,8 +266,9 @@
             this.descriptionTextBox.SelectedText = "";
             this.descriptionTextBox.SelectionLength = 0;
             this.descriptionTextBox.SelectionStart = 0;
+            this.descriptionTextBox.ShortcutsEnabled = true;
             this.descriptionTextBox.Size = new System.Drawing.Size(549, 88);
-            this.descriptionTextBox.TabIndex = 12;
+            this.descriptionTextBox.TabIndex = 2;
             this.descriptionTextBox.Text = "Description";
             this.descriptionTextBox.UseSelectable = true;
             this.descriptionTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -284,7 +285,7 @@
             this.priorityPanel.Location = new System.Drawing.Point(105, 289);
             this.priorityPanel.Name = "priorityPanel";
             this.priorityPanel.Size = new System.Drawing.Size(142, 69);
-            this.priorityPanel.TabIndex = 11;
+            this.priorityPanel.TabIndex = 6;
             this.priorityPanel.VerticalScrollbarBarColor = true;
             this.priorityPanel.VerticalScrollbarHighlightOnWheel = false;
             this.priorityPanel.VerticalScrollbarSize = 10;
@@ -295,7 +296,7 @@
             this.highPriorityRadioButton.Location = new System.Drawing.Point(4, 46);
             this.highPriorityRadioButton.Name = "highPriorityRadioButton";
             this.highPriorityRadioButton.Size = new System.Drawing.Size(49, 15);
-            this.highPriorityRadioButton.TabIndex = 2;
+            this.highPriorityRadioButton.TabIndex = 7;
             this.highPriorityRadioButton.Text = "High";
             this.highPriorityRadioButton.UseSelectable = true;
             // 
@@ -305,7 +306,7 @@
             this.mediumPriorityRadioButton.Location = new System.Drawing.Point(4, 25);
             this.mediumPriorityRadioButton.Name = "mediumPriorityRadioButton";
             this.mediumPriorityRadioButton.Size = new System.Drawing.Size(68, 15);
-            this.mediumPriorityRadioButton.TabIndex = 2;
+            this.mediumPriorityRadioButton.TabIndex = 7;
             this.mediumPriorityRadioButton.Text = "Medium";
             this.mediumPriorityRadioButton.UseSelectable = true;
             // 
@@ -315,7 +316,7 @@
             this.lowPriorityRadioButton.Location = new System.Drawing.Point(4, 4);
             this.lowPriorityRadioButton.Name = "lowPriorityRadioButton";
             this.lowPriorityRadioButton.Size = new System.Drawing.Size(45, 15);
-            this.lowPriorityRadioButton.TabIndex = 2;
+            this.lowPriorityRadioButton.TabIndex = 7;
             this.lowPriorityRadioButton.Text = "Low";
             this.lowPriorityRadioButton.UseSelectable = true;
             // 
@@ -327,7 +328,7 @@
             this.dueDateTime.MinimumSize = new System.Drawing.Size(0, 29);
             this.dueDateTime.Name = "dueDateTime";
             this.dueDateTime.Size = new System.Drawing.Size(306, 29);
-            this.dueDateTime.TabIndex = 10;
+            this.dueDateTime.TabIndex = 3;
             // 
             // nameTextBox
             // 
@@ -355,8 +356,9 @@
             this.nameTextBox.SelectedText = "";
             this.nameTextBox.SelectionLength = 0;
             this.nameTextBox.SelectionStart = 0;
+            this.nameTextBox.ShortcutsEnabled = true;
             this.nameTextBox.Size = new System.Drawing.Size(548, 22);
-            this.nameTextBox.TabIndex = 14;
+            this.nameTextBox.TabIndex = 1;
             this.nameTextBox.Text = "Name";
             this.nameTextBox.UseSelectable = true;
             this.nameTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));

@@ -7,7 +7,7 @@ namespace View.Controls
 {
     public partial class MainControl : MetroUserControl, IMainView
     {
-        public IDayView DayView { get { return dayControl; } }
+        public IJournalView JournalView { get { return journalControl; } }
         public ITodoListView TodoListView { get { return todoListControl; } }
         public IProfileView ProfileView { get { return profileControl; } }
         public IHistoryView HistoryView { get { return historyControl; } }
@@ -17,14 +17,18 @@ namespace View.Controls
         public MainControl()
         {
             InitializeComponent();
+
+            subViewsTabControl.SelectedTab = journalTabPage;
+            subViewsTabControl.TabPages.Remove(listsTabPage);
+            subViewsTabControl.TabPages.Remove(historyTabPage);
         }
         
         public SubViewType SelectedSubView
         {
             get
             {
-                if (subViewsTabControl.SelectedTab == dayTabPage)
-                    return SubViewType.Day;
+                if (subViewsTabControl.SelectedTab == journalTabPage)
+                    return SubViewType.Journal;
                 else if (subViewsTabControl.SelectedTab == tasksTabPage)
                     return SubViewType.Tasks;
                 else if (subViewsTabControl.SelectedTab == profileTabPage)

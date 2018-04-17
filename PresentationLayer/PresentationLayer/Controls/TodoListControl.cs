@@ -28,9 +28,23 @@ namespace View.Controls
                 tasksListGrid.DataSource = value;
             }
         }
+
+        public SortingType SortingType
+        {
+            get
+            {
+                return GetSelectedSortingType();
+            }
+            set
+            {
+                SetSortingType(value);
+            }
+        }
+
         public event EventHandler<EventArgs> NewTask;
         public event EventHandler<int> TaskDoubleClick;
         public event EventHandler<bool> ShowFinishedTasks;
+        public event EventHandler<SortingType> ChangeSorting;
 
         #endregion
 
@@ -59,6 +73,14 @@ namespace View.Controls
                 ShowFinishedTasks(this, showFinishedTasksCheckBox.Checked);
         }
 
+        private void sortingTypeRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((MetroRadioButton)sender).Checked)
+            {
+                ChangeSorting(this, GetSelectedSortingType());
+            }
+        }
+        
         private void tasksListGrid_DoubleClick(object sender, EventArgs e)
         {
             if (tasksListGrid.SelectedRows.Count > 0 && tasksListGrid.CurrentRow != null)
@@ -78,15 +100,23 @@ namespace View.Controls
             tasksListGrid.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tasksListGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             for (int i = e.RowIndex; i <= e.RowIndex + e.RowCount - 1; i++)
             {
                 DataGridViewRow row = tasksListGrid.Rows[i];
+                
                 if (row.DataBoundItem is TaskGridItem)
                 {
                     TaskGridItem task = row.DataBoundItem as TaskGridItem;
-                    switch (task.TaskTextColor)
+                      
+                    // TODO
+                    /*switch (task.TaskTextColor)
                     {
                         case TaskTextColor.Red:
                             row.DefaultCellStyle.ForeColor = Color.Red;
@@ -99,11 +129,39 @@ namespace View.Controls
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
-                    }
+                    }*/
                 }
             }
         }
-        
+
         #endregion Events
+
+        private void SetSortingType(SortingType value)
+        {
+            switch(value)
+            {
+                case SortingType.ByGoal:
+                    sortByGoalRadioButton.Checked = true;
+                    break;
+
+                case SortingType.ByDeadline:
+                    sortByGoalRadioButton.Checked = true;
+                    break;
+
+                case SortingType.Unknown:
+                    sortByGoalRadioButton.Checked = true;
+                    break;
+            }
+        }
+
+        private SortingType GetSelectedSortingType()
+        {
+            if (sortByGoalRadioButton.Checked)
+                return SortingType.ByGoal;
+            else if (sortByDueDateRadioButton.Checked)
+                return SortingType.ByDeadline;
+            else
+                return SortingType.Unknown;
+        }
     }
 }

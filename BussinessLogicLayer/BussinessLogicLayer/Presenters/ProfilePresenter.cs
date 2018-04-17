@@ -31,7 +31,7 @@ namespace BussinessLogicLayer.Presenters
         private List<String> newSkillsToAdd;
         private List<int> skillsIdsToRemove;
         private Profile currentUser;
-        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        public event EventHandler<ShowNotificationEvent> NotificationAppeared;
 
         public ProfilePresenter(IProfileView view, IProfileRepository profileRepository, IHistoryEventsRepository historyEventsRepository, ISkillsService skillsService, IImprovementsRepository improvementsRepository, IImprovementsService improvementsService, IPublisher publisher)
         {

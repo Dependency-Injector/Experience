@@ -5,7 +5,7 @@ using Model.Entities;
 
 namespace DataAccessLayer.Repositories.Interfaces
 {
-    public interface IDaysRepository : IRepository<Day>
+    public interface IJournalRepository : IRepository<Day>
     {
         Day First(Expression<Func<Day, bool>> where);
         Day Single(Expression<Func<Day, bool>> where);

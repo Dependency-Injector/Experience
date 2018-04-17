@@ -10,6 +10,6 @@ namespace BussinessLogicLayer.Presenters
     {
         void Initialize();
         void OnViewDisplayed();
-        event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        event EventHandler<ShowNotificationEvent> NotificationAppeared;
     }
 }

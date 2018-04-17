@@ -1,16 +1,18 @@
-using System.Data.Entity.Migrations;
-
 namespace Model.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<EntitiesContext>
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<Model.EntitiesContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "DataAccessLayer.EntitiesContext";
         }
 
-        protected override void Seed(EntitiesContext context)
+        protected override void Seed(Model.EntitiesContext context)
         {
             //  This method will be called after migrating to the latest version.
 

@@ -1,6 +1,6 @@
 ﻿namespace View.Controls
 {
-    partial class DayControl
+    partial class JournalControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -41,9 +41,9 @@
             this.choosenDiaryEntryComboBox = new MetroFramework.Controls.MetroComboBox();
             this.changesButtonsPanel = new MetroFramework.Controls.MetroPanel();
             this.cancelChangesButton = new MetroFramework.Controls.MetroButton();
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.dayEntriesNavigationPanel = new MetroFramework.Controls.MetroPanel();
             this.changesButtonsPanel.SuspendLayout();
-            this.metroPanel1.SuspendLayout();
+            this.dayEntriesNavigationPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // dayNumberLabel
@@ -63,7 +63,7 @@
             this.dateLabel.Name = "dateLabel";
             this.dateLabel.Size = new System.Drawing.Size(241, 26);
             this.dateLabel.TabIndex = 0;
-            this.dateLabel.Text = "[Day date]";
+            this.dateLabel.Text = "[Journal date]";
             this.dateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // thoughtsTextBox
@@ -75,9 +75,9 @@
             // 
             // 
             this.thoughtsTextBox.CustomButton.Image = null;
-            this.thoughtsTextBox.CustomButton.Location = new System.Drawing.Point(325, 2);
+            this.thoughtsTextBox.CustomButton.Location = new System.Drawing.Point(328, 2);
             this.thoughtsTextBox.CustomButton.Name = "";
-            this.thoughtsTextBox.CustomButton.Size = new System.Drawing.Size(259, 259);
+            this.thoughtsTextBox.CustomButton.Size = new System.Drawing.Size(271, 271);
             this.thoughtsTextBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.thoughtsTextBox.CustomButton.TabIndex = 1;
             this.thoughtsTextBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -91,10 +91,11 @@
             this.thoughtsTextBox.Multiline = true;
             this.thoughtsTextBox.Name = "thoughtsTextBox";
             this.thoughtsTextBox.PasswordChar = '\0';
-            this.thoughtsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.thoughtsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.thoughtsTextBox.SelectedText = "";
             this.thoughtsTextBox.SelectionLength = 0;
             this.thoughtsTextBox.SelectionStart = 0;
+            this.thoughtsTextBox.ShortcutsEnabled = true;
             this.thoughtsTextBox.Size = new System.Drawing.Size(602, 276);
             this.thoughtsTextBox.TabIndex = 1;
             this.thoughtsTextBox.Text = "[Thoughts]";
@@ -120,26 +121,31 @@
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(75, 31);
             this.editButton.TabIndex = 2;
+            this.editButton.TabStop = false;
             this.editButton.Text = "Edit";
             this.editButton.UseSelectable = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
             // nextDayButton
             // 
+            this.nextDayButton.DisplayFocus = true;
             this.nextDayButton.Location = new System.Drawing.Point(197, 29);
             this.nextDayButton.Name = "nextDayButton";
             this.nextDayButton.Size = new System.Drawing.Size(39, 29);
             this.nextDayButton.TabIndex = 3;
+            this.nextDayButton.TabStop = false;
             this.nextDayButton.Text = "->";
             this.nextDayButton.UseSelectable = true;
             this.nextDayButton.Click += new System.EventHandler(this.nextDayButton_Click);
             // 
             // previousDayButton
             // 
+            this.previousDayButton.DisplayFocus = true;
             this.previousDayButton.Location = new System.Drawing.Point(4, 29);
             this.previousDayButton.Name = "previousDayButton";
             this.previousDayButton.Size = new System.Drawing.Size(40, 29);
             this.previousDayButton.TabIndex = 3;
+            this.previousDayButton.TabStop = false;
             this.previousDayButton.Text = "<-";
             this.previousDayButton.UseSelectable = true;
             this.previousDayButton.Click += new System.EventHandler(this.previousDayButton_Click);
@@ -151,6 +157,7 @@
             this.selectedDayDateTime.Name = "selectedDayDateTime";
             this.selectedDayDateTime.Size = new System.Drawing.Size(141, 29);
             this.selectedDayDateTime.TabIndex = 4;
+            this.selectedDayDateTime.TabStop = false;
             this.selectedDayDateTime.ValueChanged += new System.EventHandler(this.selectedDayDateTime_ValueChanged);
             // 
             // selectDayTextLabel
@@ -182,6 +189,7 @@
             this.choosenDiaryEntryComboBox.Name = "choosenDiaryEntryComboBox";
             this.choosenDiaryEntryComboBox.Size = new System.Drawing.Size(180, 29);
             this.choosenDiaryEntryComboBox.TabIndex = 6;
+            this.choosenDiaryEntryComboBox.TabStop = false;
             this.choosenDiaryEntryComboBox.UseSelectable = true;
             this.choosenDiaryEntryComboBox.ValueMember = "Key";
             this.choosenDiaryEntryComboBox.SelectedIndexChanged += new System.EventHandler(this.choosenDiaryEntryComboBox_SelectedIndexChanged);
@@ -210,45 +218,46 @@
             this.cancelChangesButton.Name = "cancelChangesButton";
             this.cancelChangesButton.Size = new System.Drawing.Size(75, 31);
             this.cancelChangesButton.TabIndex = 2;
+            this.cancelChangesButton.TabStop = false;
             this.cancelChangesButton.Text = "Cancel";
             this.cancelChangesButton.UseSelectable = true;
             this.cancelChangesButton.Click += new System.EventHandler(this.cancelChangesButton_Click);
             // 
-            // metroPanel1
+            // dayEntriesNavigationPanel
             // 
-            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.dayEntriesNavigationPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroPanel1.Controls.Add(this.choosenDiaryEntryComboBox);
-            this.metroPanel1.Controls.Add(this.previousDayButton);
-            this.metroPanel1.Controls.Add(this.metroLabel1);
-            this.metroPanel1.Controls.Add(this.nextDayButton);
-            this.metroPanel1.Controls.Add(this.selectDayTextLabel);
-            this.metroPanel1.Controls.Add(this.selectedDayDateTime);
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(10, 324);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(433, 63);
-            this.metroPanel1.TabIndex = 8;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.dayEntriesNavigationPanel.Controls.Add(this.choosenDiaryEntryComboBox);
+            this.dayEntriesNavigationPanel.Controls.Add(this.previousDayButton);
+            this.dayEntriesNavigationPanel.Controls.Add(this.metroLabel1);
+            this.dayEntriesNavigationPanel.Controls.Add(this.nextDayButton);
+            this.dayEntriesNavigationPanel.Controls.Add(this.selectDayTextLabel);
+            this.dayEntriesNavigationPanel.Controls.Add(this.selectedDayDateTime);
+            this.dayEntriesNavigationPanel.HorizontalScrollbarBarColor = true;
+            this.dayEntriesNavigationPanel.HorizontalScrollbarHighlightOnWheel = false;
+            this.dayEntriesNavigationPanel.HorizontalScrollbarSize = 10;
+            this.dayEntriesNavigationPanel.Location = new System.Drawing.Point(10, 324);
+            this.dayEntriesNavigationPanel.Name = "dayEntriesNavigationPanel";
+            this.dayEntriesNavigationPanel.Size = new System.Drawing.Size(433, 63);
+            this.dayEntriesNavigationPanel.TabIndex = 8;
+            this.dayEntriesNavigationPanel.VerticalScrollbarBarColor = true;
+            this.dayEntriesNavigationPanel.VerticalScrollbarHighlightOnWheel = false;
+            this.dayEntriesNavigationPanel.VerticalScrollbarSize = 10;
             // 
-            // DayControl
+            // JournalControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.metroPanel1);
+            this.Controls.Add(this.dayEntriesNavigationPanel);
             this.Controls.Add(this.changesButtonsPanel);
             this.Controls.Add(this.thoughtsTextBox);
             this.Controls.Add(this.dateLabel);
             this.Controls.Add(this.dayNumberLabel);
-            this.Name = "DayControl";
+            this.Name = "JournalControl";
             this.Size = new System.Drawing.Size(618, 390);
             this.changesButtonsPanel.ResumeLayout(false);
-            this.metroPanel1.ResumeLayout(false);
-            this.metroPanel1.PerformLayout();
+            this.dayEntriesNavigationPanel.ResumeLayout(false);
+            this.dayEntriesNavigationPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -268,6 +277,6 @@
         private MetroFramework.Controls.MetroComboBox choosenDiaryEntryComboBox;
         private MetroFramework.Controls.MetroPanel changesButtonsPanel;
         private MetroFramework.Controls.MetroButton cancelChangesButton;
-        private MetroFramework.Controls.MetroPanel metroPanel1;
+        private MetroFramework.Controls.MetroPanel dayEntriesNavigationPanel;
     }
 }

@@ -18,7 +18,7 @@ namespace BussinessLogicLayer.Presenters
         private readonly IPreferencesService preferencesService;
 
         private Preferences preferences;
-        public event EventHandler<ShowNotificationEventArgs> NotificationAppeared;
+        public event EventHandler<ShowNotificationEvent> NotificationAppeared;
 
         #endregion
 
